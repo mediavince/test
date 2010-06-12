@@ -1,0 +1,975 @@
+movie 'C:\xampp\htdocs\demo_lang_export\admin\jscripts\tiny_mce\plugins\media\img\flv_player.swf' {
+// flash 8, total frames: 2, frame rate: 25 fps, 320x240 px, compressed
+
+  frame 1 {
+    Stage.scaleMode = 'noScale';
+  }
+
+  movieClip 4  {
+  }
+
+  movieClip 5  {
+  }
+
+  frame 2 {
+    function scaleGui() {
+      var v2 = Stage.width;
+      var v3 = Stage.height;
+      var v4 = (v3 - 240) / 2;
+      var v5 = (v2 - 320) / 2;
+      gui._x = Math.round(-v5);
+      if (hiddenGui) {
+        gui._y = v3 - Math.ceil(v4);
+        gui.starty = gui._y;
+      } else {
+        gui._y = v3 - gui._height - Math.ceil(v4);
+      }
+      if (showPlaylistButton) {
+        var v10 = 210;
+        if (!showScaleModes) {
+          v10 = 191;
+        }
+      } else {
+        var v10 = 189;
+        if (!showScaleModes) {
+          v10 = 170;
+        }
+      }
+      if (!showScaleModes) {
+        gui.setsize._visible = 0;
+      }
+      widthTimeline = v2 - v10;
+      gui.bg._width = v2;
+      gui.timeline._width = widthTimeline;
+      gui.time._x = gui.timeline._x + widthTimeline + 6;
+      gui.snd._x = gui.timeline._x + widthTimeline + 61;
+      if (showPlaylistButton) {
+        gui.setsize._x = gui.snd._x + gui.snd._width + 28;
+        gui.playlist._x = gui.snd._x + gui.snd._width + 8;
+      } else {
+        gui.setsize._x = gui.snd._x + gui.snd._width + 6;
+        gui.playlist._visible = 0;
+      }
+      gui.top._width = widthTimeline + 2;
+      gui.bot._width = widthTimeline + 2;
+      gui.right._x = gui.timeline._x + widthTimeline + 1;
+      sizemenu._x = Math.round(gui.setsize._x - v5 - 72);
+      sizemenu._y = Math.round(v3 - v4 - 99);
+      updateTimeline();
+      if (hiddenGui) {
+        var v1 = 0;
+      } else {
+        var v1 = gui._height;
+      }
+      if (scaleMode == 'none' && (v2 > metaWidth && v3 - v1 > metaHeight)) {
+        flv._width = metaWidth;
+        flv._height = metaHeight;
+        flv._y = Math.round(120 - metaHeight / 2 - v1 / 2);
+        flv._x = Math.round(160 - metaWidth / 2);
+        image._xscale = 100;
+        image._yscale = 100;
+        if (startImage != undefined && image.getBytesTotal() > 512) {
+          image._y = Math.round(120 - image._height / 2 - v1 / 2);
+          image._x = Math.round(160 - image._width / 2);
+        }
+      } else {
+        if (scaleMode == 'double' && (v2 > metaWidth * 2 && v3 - v1 > metaHeight * 2)) {
+          flv._width = metaWidth * 2;
+          flv._height = metaHeight * 2;
+          flv._y = Math.round(120 - metaHeight - v1 / 2);
+          flv._x = Math.round(160 - metaWidth);
+          if (startImage != undefined && image.getBytesTotal() > 512) {
+            image._y = Math.round(120 - image._height - v1 / 2);
+            image._x = Math.round(160 - image._width);
+          }
+        } else {
+          var v8 = v2 / metaWidth;
+          var v9 = (v3 - v1) / metaHeight;
+          var v7 = metaHeight / metaWidth;
+          var v6 = metaWidth / metaHeight;
+          if (v8 < v9) {
+            flv._height = v2 * v7;
+            flv._width = v2;
+          } else {
+            flv._width = (v3 - v1) * v6;
+            flv._height = v3 - v1;
+          }
+          flv._y = Math.round(120 - flv._height / 2 - v1 / 2);
+          flv._x = Math.round(160 - flv._width / 2);
+          if (startImage != undefined && image.getBytesTotal() > 512) {
+            if (scaleMode == 'none') {
+              image._xscale = 100;
+              image._yscale = 100;
+            } else {
+              if (scaleMode == 'double') {
+                image._xscale = 200;
+                image._yscale = 200;
+              } else {
+                image._height = v2;
+                image._width = v2;
+              }
+            }
+            if (image._width >= v2 || image._height >= v3 - v1) {
+              v8 = v2 / imageWidth;
+              v9 = (v3 - v1) / imageHeight;
+              v7 = imageHeight / imageWidth;
+              v6 = imageWidth / imageHeight;
+              if (v8 < v9) {
+                image._height = v2 * v7;
+                image._width = v2;
+              } else {
+                image._width = (v3 - v1) * v6;
+                image._height = v3 - v1;
+              }
+            }
+            image._y = Math.round(120 - image._height / 2 - v1 / 2);
+            image._x = Math.round(160 - image._width / 2);
+          }
+        }
+      }
+      playagain.bg._width = flv._width;
+      playagain.bg._height = flv._height;
+      playagain.symbol._x = playagain.bg._width / 2 - playagain.symbol._width / 2;
+      playagain.symbol._y = playagain.bg._height / 2 - playagain.symbol._height / 2 - v1 / 2;
+      playagain._y = Math.round(120 - playagain._height / 2 - v1 / 2);
+      playagain._x = Math.round(160 - playagain._width / 2);
+      if (startImage != undefined && image.getBytesTotal() > 512) {
+        startplaying.bg._width = image._width;
+        startplaying.bg._height = image._height;
+      } else {
+        startplaying.bg._width = v2;
+        startplaying.bg._height = v3 - v1;
+      }
+      startplaying.symbol._x = startplaying.bg._width / 2 - startplaying.symbol._width / 2;
+      startplaying.symbol._y = startplaying.bg._height / 2 - startplaying.symbol._height / 2;
+      startplaying._y = Math.round(120 - startplaying._height / 2 - v1 / 2);
+      startplaying._x = Math.round(160 - startplaying._width / 2);
+      scalePlaylist();
+    }
+
+    function updateTimeline() {
+      streamed = 100 * (ns.bytesLoaded / ns.bytesTotal);
+      played = 100 * (ns.time / duration);
+      gui.streamed._width = Math.round(streamed * (widthTimeline / 100));
+      gui.played._width = Math.round(played * (widthTimeline / 100));
+      gui.playhead._x = Math.round(gui.played._x + gui.played._width - gui.playhead._width / 2);
+      var v1 = Math.floor(ns.time / 60);
+      var v2 = Math.round(ns.time - v1 * 60);
+      if (v1 < 10) {
+        v1 = '0' + v1;
+      }
+      if (v2 < 10) {
+        v2 = '0' + v2;
+      }
+      var v4 = v1 + ':' + v2;
+      gui.time.text = v4 + '/' + totTime;
+      if (!autoStart || totTime == undefined) {
+        gui.time.text = '00:00/00:00';
+      }
+      if (Math.ceil(played) >= 100 && !isNaN(played) && !videoPaused && !waitForLoad) {
+        if (jsCallback && fileType != 'xml') {
+          getURL('javascript:flvEnd()', '');
+        }
+        if (loop && fileType != 'xml') {
+          ns.seek(0);
+        } else {
+          if (fileType == 'xml') {
+            if (playlistPlayingId < playlistArray.length - 1) {
+              waitForLoad = true;
+              clickPlaylist(playlistPlayingId + 1);
+            } else {
+              if (loop) {
+                waitForLoad = true;
+                clickPlaylist(0);
+              } else {
+                playagain._visible = 1;
+                playPauseVideo();
+                gui.playpause.onRelease = restartVideo;
+                if (jsCallback) {
+                  getURL('javascript:flvEnd()', '');
+                }
+              }
+            }
+          } else {
+            playagain._visible = 1;
+            playPauseVideo();
+            gui.playpause.onRelease = restartVideo;
+          }
+        }
+      }
+      if (playagain._visible) {
+        gui.played._width = gui.timeline._width;
+        gui.playhead._x = Math.round(gui.played._x + gui.played._width - gui.playhead._width / 2);
+      }
+      if (hiddenGui && guiActive) {
+        var v3 = getTimer();
+        if (v3 > lastMouseMove + 1500) {
+          hideGui();
+        }
+      }
+    }
+
+    function movePlayhead() {
+      gui.playpause.onRelease = playPauseVideo;
+      playagain._visible = 0;
+      var v3 = gui._xmouse - gui.streamed._x;
+      var v2 = (v3 / widthTimeline) * 100;
+      var v1 = v2 * duration / 100;
+      if (v1 >= 0 && v1 <= duration) {
+        ns.seek(v1);
+      }
+    }
+
+    function moveSoundhead() {
+      var v1 = gui.snd._xmouse - gui.snd.vol._x;
+      if (v1 <= 0 || v1 >= gui.snd.bg._width) {
+        return undefined;
+      }
+      var v2 = Math.round((v1 / gui.snd.bg._width) * 100);
+      changeVolume(v2);
+    }
+
+    function init() {
+      trace('init');
+      delete _root.onEnterFrame;
+      flv._visible = 0;
+      playagain._visible = 0;
+      startplaying._visible = 0;
+      gui.streamed._width = 0;
+      gui.played._width = 0;
+      gui._visible = 1;
+      scaleGui();
+      changeVolume(defaultVolume);
+      setupSizeMenu();
+      setSmoothing();
+      if (!autoStart) {
+        gui.playpause.onRelease = startplaying.onRelease;
+        loadImage();
+        playPauseVideo();
+        videoPaused = true;
+        return undefined;
+      }
+      loading._visible = 0;
+      videoPaused = false;
+      gui.playpause.gotoAndStop(1);
+      gui.playpause.onRelease = playPauseVideo;
+      nc = new NetConnection();
+      nc.connect(null);
+      ns = new NetStream(nc);
+      flv.attachVideo(ns);
+      ns.setBufferTime(buffer);
+      ns.play(flvToPlay);
+      ns.onMetaData = function (obj) {
+        metaWidth = obj.width;
+        metaHeight = obj.height;
+        duration = obj.duration;
+        var v2 = Math.floor(duration / 60);
+        var v3 = Math.round(duration - v2 * 60);
+        if (v2 < 10) {
+          v2 = '0' + v2;
+        }
+        if (v3 < 10) {
+          v3 = '0' + v3;
+        }
+        totTime = v2 + ':' + v3;
+        scaleGui();
+        flv._visible = 1;
+        if (jsCallback) {
+          getURL('javascript:flvStart(\'' + metaWidth + '\',\'' + metaHeight + '\')', '');
+        }
+        if (startTime != undefined && startTime != 0) {
+          startTime = Number(startTime);
+          if (startTime > duration) {
+            startTime = duration;
+          }
+          if (startTime < 0) {
+            startTime = 0;
+          }
+          ns.seek(startTime);
+        }
+        waitForLoad = false;
+        image._visible = 0;
+        if (_root.onEnterFrame == undefined) {
+          trace('setting EF');
+          _root.onEnterFrame = updateTimeline;
+        }
+      };
+
+      if (hiddenGui) {
+        guiActive = false;
+        this.gui.onMouseMove = checkGui;
+      }
+    }
+
+    function loadImage() {
+      if (startImage == undefined) {
+        loading._visible = 0;
+        startplaying._visible = 1;
+        return undefined;
+      }
+      image.loadMovie(startImage);
+      image._visible = 0;
+      this.onEnterFrame = checkImageLoading;
+    }
+
+    function checkImageLoading() {
+      var v2 = 100 * (image.getBytesLoaded() / image.getBytesTotal());
+      if (v2 >= 100 && image.getBytesTotal() > 512) {
+        imageWidth = image._width;
+        imageHeight = image._height;
+        loading._visible = 0;
+        startplaying._visible = 1;
+        scaleGui();
+        image._visible = 1;
+        delete this.onEnterFrame;
+      }
+    }
+
+    function restartVideo() {
+      if (fileType == 'xml') {
+        clickPlaylist(0);
+      } else {
+        ns.seek(0);
+        playPauseVideo();
+      }
+      playagain._visible = 0;
+      gui.playpause.onRelease = playPauseVideo;
+    }
+
+    function playPauseVideo() {
+      if (!videoPaused) {
+        gui.playpause.gotoAndStop(2);
+        videoPaused = true;
+      } else {
+        gui.playpause.gotoAndStop(1);
+        videoPaused = false;
+      }
+      if (videoPaused) {
+        ns.pause(true);
+      } else {
+        ns.pause(false);
+      }
+    }
+
+    function changeVolume(vol) {
+      var v4 = new Sound(this._root);
+      v4.setVolume(vol);
+      defaultVolume = vol;
+      var v2 = Math.round((gui.snd.bg._width / 100) * vol);
+      gui.snd.sndhead._x = gui.snd.vol._x + v2 - gui.snd.sndhead._width / 2;
+      gui.snd.vol._width = v2;
+      gui.snd.icon.gotoAndStop(Math.round(v2 / 2));
+    }
+
+    function showGui() {
+      gui.goaly = gui.starty - gui._height;
+      this.gui.onEnterFrame = guiAnim;
+      guiActive = true;
+    }
+
+    function hideGui() {
+      gui.goaly = gui.starty;
+      this.gui.onEnterFrame = guiAnim;
+      guiActive = false;
+      hideSizeMenu(false);
+      hidePlaylist();
+    }
+
+    function guiAnim() {
+      var v2 = (this.goaly - this._y) / 2;
+      this._y += v2;
+      this._y = Math.round(this._y);
+      if (Math.round(this._y) == this.goaly) {
+        this._y = this.goaly;
+        delete this.onEnterFrame;
+      }
+    }
+
+    function checkGui() {
+      lastMouseMove = getTimer();
+      if (!guiActive) {
+        showGui();
+      }
+    }
+
+    function writeError(msg) {
+      error.htmlText = msg;
+    }
+
+    function setupContextMenu() {
+      var v2 = new ContextMenu();
+      var v5 = new ContextMenuItem('Toggle Fullscreen (Flash 9,0,18,60 or higher)', toggleFullscreen, true, true, true);
+      var v4 = new ContextMenuItem('FlvPlayer v 1.0, by', gotoOOS, true, false, true);
+      var v3 = new ContextMenuItem('http://oos.moxiecode.com/', gotoOOS, false, true, true);
+      v2.customItems.push(v5, v4, v3);
+      _root.menu = v2;
+      v2.hideBuiltInItems();
+    }
+
+    function gotoOOS() {
+      getURL('http://oos.moxiecode.com/', '_blank');
+    }
+
+    function toggleFullscreen() {
+      if (Stage.displayState == 'normal') {
+        scaleGui();
+        Stage.displayState = 'fullScreen';
+        if (hiddenGui) {
+          hideGui();
+        }
+      } else {
+        Stage.displayState = 'normal';
+        scaleGui();
+      }
+    }
+
+    function addGlow(clip) {
+      var v3 = 7631989;
+      var v7 = 0.5;
+      var v5 = 4;
+      var v4 = 4;
+      var v6 = 2;
+      var v2 = 3;
+      clip.filter = new flash.filters.GlowFilter(v3, v7, v5, v4, v6, v2);
+      clip.filters = [clip.filter];
+    }
+
+    function removeGlow(clip) {
+      clip.filters = [];
+    }
+
+    function setSmoothing() {
+      flv.smoothing = smoothVideo;
+    }
+
+    function setupSizeMenu() {
+      var v3 = ['Smooth Video', 'Original Size', 'Double Size', 'Fit to Window'];
+      var v2 = 0;
+      while (v2 < 4) {
+        sizemenu['item' + v2].item_txt.text = v3[v2];
+        sizemenu['item' + v2].over._alpha = 0;
+        sizemenu['item' + v2].sel._visible = 0;
+        sizemenu['item' + v2].id = v2;
+        sizemenu['item' + v2].onRelease = function () {
+          clickSizeMenu(this.id);
+        };
+
+        sizemenu['item' + v2].onRollOver = function () {
+          this.over._alpha = 100;
+        };
+
+        sizemenu['item' + v2].onReleaseOutside = function () {
+          this.over._alpha = 0;
+        };
+
+        sizemenu['item' + v2].onRollOut = sizemenu['item' + v2].onReleaseOutside;
+        ++v2;
+      }
+      if (smoothVideo) {
+        sizemenu.item0.sel._visible = 1;
+      }
+      if (scaleMode == 'none') {
+        sizemenu.item1.sel._visible = 1;
+      }
+      if (scaleMode == 'double') {
+        sizemenu.item2.sel._visible = 1;
+      }
+      if (scaleMode == 'aspect') {
+        sizemenu.item3.sel._visible = 1;
+      }
+      sizemenu._visible = 0;
+      sizemenu.onMouseDown = function () {
+        if (!this.hitTest(_xmouse, _ymouse, true) && !this._parent.gui.setsize.hitTest(_xmouse, _ymouse, true)) {
+          hideSizeMenu(false);
+        }
+      };
+
+    }
+
+    function clickSizeMenu(id) {
+      if (id == 0) {
+        if (smoothVideo) {
+          smoothVideo = false;
+        } else {
+          smoothVideo = true;
+        }
+        setSmoothing();
+      }
+      if (id == 1) {
+        scaleMode = 'none';
+        scaleGui();
+      }
+      if (id == 2) {
+        scaleMode = 'double';
+        scaleGui();
+      }
+      if (id == 3) {
+        scaleMode = 'aspect';
+        scaleGui();
+      }
+      hideSizeMenu(true);
+    }
+
+    function showSizeMenu() {
+      sizemenu._visible = 1;
+      gui.setsize.onRelease = hideSizeMenu;
+    }
+
+    function hideSizeMenu(bool) {
+      if (bool) {
+        setupSizeMenu();
+      }
+      gui.setsize.onRelease = showSizeMenu;
+      sizemenu._visible = 0;
+    }
+
+    function loadXML(url) {
+      recXML = new XML();
+      recXML.ignoreWhite = true;
+      recXML.onLoad = parseXML;
+      recXML.load(url);
+    }
+
+    function parseXML() {
+      makeArray(recXML.firstChild);
+      delete recXML;
+      if (playlistArray.length > 1) {
+        showPlaylistButton = true;
+      }
+      playlistPlayingId = 0;
+      flvToPlay = playlistArray[playlistPlayingId][3];
+      startTime = playlistArray[playlistPlayingId][4];
+      init();
+      setupContextMenu();
+      setupPlaylist();
+      scalePlaylist();
+      playlist.con['item' + playlistPlayingId].cover._visible = 1;
+      playlist.con['item' + playlistPlayingId].enabled = false;
+    }
+
+    function makeArray(node) {
+      playlistArray = [];
+      var v2 = 0;
+      while (v2 < node.childNodes.length) {
+        var v1 = node.childNodes[v2];
+        var v3 = v1.attributes.name;
+        var v6 = v1.attributes.length;
+        var v7 = v1.attributes.url;
+        var v4 = v1.attributes.thumbnail;
+        var v5 = v1.attributes.starttime;
+        playlistArray[v2] = [v3, v6, v4, v7, v5];
+        ++v2;
+      }
+    }
+
+    function clickPlaylist(id) {
+      playlist.con['item' + playlistPlayingId].cover._visible = 0;
+      playlist.con['item' + playlistPlayingId].enabled = true;
+      playlist.con['item' + playlistPlayingId].over._alpha = 0;
+      playlistPlayingId = id;
+      flvToPlay = playlistArray[id][3];
+      startTime = playlistArray[id][4];
+      init();
+      hidePlaylist();
+      playlist.con['item' + playlistPlayingId].cover._visible = 1;
+      playlist.con['item' + playlistPlayingId].enabled = false;
+    }
+
+    function setupPlaylist() {
+      playlist.con.item._visible = 0;
+      var v3 = 0;
+      while (v3 < playlistArray.length) {
+        var v2 = playlist.con.item.duplicateMovieClip('item' + v3, v3);
+        v2._y = v3 * v2.over._height;
+        var v6 = playlistArray[v3][0];
+        v2.item_name.text = v6;
+        var v4 = playlistArray[v3][1];
+        if (v4 == undefined) {
+          v4 = '--:--';
+        }
+        v2.time.text = v4;
+        v2.url = playlistArray[v3][3];
+        v2.starttime = playlistArray[v3][4];
+        v2.id = v3;
+        v2.cover._visible = 0;
+        var v5 = playlistArray[v3][2];
+        if (v5 != undefined) {
+          v2.thumb.loadMovie(v5);
+        }
+        if (v3 == 0) {
+          v2.line._visible = 0;
+        }
+        v2.over._alpha = 0;
+        v2.onRelease = function () {
+          clickPlaylist(this.id);
+        };
+
+        v2.onRollOver = function () {
+          this.over._alpha = 100;
+        };
+
+        v2.onReleaseOutside = function () {
+          this.over._alpha = 0;
+        };
+
+        v2.onRollOut = v2.onReleaseOutside;
+        ++v3;
+      }
+      playlistHeight = v3 * v2.over._height;
+      playlist.upbut.onRelease = function () {
+        scrollPlaylist(1);
+      };
+
+      playlist.upbut.onRollOver = function () {
+        this.gotoAndStop(3);
+      };
+
+      playlist.upbut.onReleaseOutside = function () {
+        this.gotoAndStop(2);
+      };
+
+      playlist.upbut.onRollOut = playlist.upbut.onReleaseOutside;
+      playlist.downbut.onRelease = function () {
+        scrollPlaylist(-1);
+      };
+
+      playlist.downbut.onRollOver = function () {
+        this.gotoAndStop(3);
+      };
+
+      playlist.downbut.onReleaseOutside = function () {
+        this.gotoAndStop(2);
+      };
+
+      playlist.downbut.onRollOut = playlist.downbut.onReleaseOutside;
+      playlist.pos = 0;
+    }
+
+    function scrollPlaylist(dir) {
+      if (playlist.scrolling) {
+        return undefined;
+      }
+      playlist.goaly = playlist.con._y + playlist.con.item.over._height * dir;
+      playlist.pos += dir;
+      playlist.onEnterFrame = doScrollPlaylist;
+      playlist.scrolling = true;
+    }
+
+    function doScrollPlaylist() {
+      var v2 = (this.goaly - this.con._y) / 2;
+      this.con._y += v2;
+      if (Math.round(this.con._y) == Math.round(this.goaly)) {
+        playlist.scrolling = false;
+        this.con._y = this.goaly;
+        delete this.onEnterFrame;
+        scalePlaylist();
+      }
+    }
+
+    function scalePlaylist() {
+      playlist.con.setMask(playlist.msk);
+      var v1 = playlist.con.item.over._height;
+      var v4 = Math.floor((Stage.height - gui._height) / v1) - 1;
+      var v3 = Math.floor((Stage.height - gui._height) / v1 - 1) * v1;
+      if (v3 < v1) {
+        v3 = v1;
+      }
+      if (lastVisibleCount < v4) {
+        playlist.pos += 1;
+      }
+      if (playlist.pos >= 0) {
+        playlist.pos = 0;
+      }
+      playlist.msk._height = v3;
+      var v2 = v3 + 18;
+      if (v3 > playlistHeight) {
+        playlist.pos = 0;
+        v2 = playlistHeight + 18;
+      }
+      playlist.con._y = 9 + v1 * playlist.pos;
+      playlist.bg._height = v2;
+      playlist.arrow._y = v2;
+      playlist.downbut._y = v2;
+      if (playlist.pos == 0) {
+        playlist.upbut.enabled = false;
+        playlist.upbut.gotoAndStop(1);
+      } else {
+        playlist.upbut.enabled = true;
+        if (playlist.upbut._currentframe == 1) {
+          playlist.upbut.gotoAndStop(2);
+        }
+      }
+      if (v2 >= playlistHeight || v4 - playlist.pos >= playlistArray.length) {
+        playlist.downbut.enabled = false;
+        playlist.downbut.gotoAndStop(1);
+      } else {
+        playlist.downbut.enabled = true;
+        if (playlist.downbut._currentframe == 1) {
+          playlist.downbut.gotoAndStop(2);
+        }
+      }
+      var v6 = (Stage.height - 240) / 2;
+      var v5 = (Stage.width - 320) / 2;
+      if (!showScaleModes) {
+        playlist._x = Math.round(gui.setsize._x - v5 - 157);
+        playlist.arrow._x = 139;
+      } else {
+        playlist._x = Math.round(gui.setsize._x - v5 - 135);
+      }
+      playlist._y = Math.round(Stage.height - v6 - v2) - gui._height - 4;
+      lastVisibleCount = v4;
+    }
+
+    function showPlaylist() {
+      playlist._visible = 1;
+      gui.playlist.onRelease = hidePlaylist;
+      playlist.onMouseDown = function () {
+        if (!this.hitTest(_xmouse, _ymouse, true) && !this._parent.gui.playlist.hitTest(_xmouse, _ymouse, true)) {
+          hidePlaylist();
+        }
+      };
+
+    }
+
+    function hidePlaylist() {
+      gui.playlist.onRelease = showPlaylist;
+      playlist._visible = 0;
+    }
+
+    stop();
+    showPlaylistButton = false;
+    sizemenu._visible = 0;
+    playlist._visible = 0;
+    startplaying._visible = 0;
+    playagain._visible = 0;
+    gui._visible = 0;
+    if (flvToPlay == undefined) {
+      writeError('<B>Sorry!</B><BR>File: <B>' + flvToPlay + '</B> not found.');
+    }
+    if (scaleMode == undefined) {
+      scaleMode = 'aspect';
+    }
+    if (buffer == undefined) {
+      buffer = 5;
+    } else {
+      buffer = Number(buffer);
+    }
+    if (hiddenGui == 'true') {
+      hiddenGui = true;
+    } else {
+      hiddenGui = false;
+    }
+    if (loop == 'true') {
+      loop = true;
+    } else {
+      loop = false;
+    }
+    if (showScaleModes == 'false') {
+      showScaleModes = false;
+    } else {
+      showScaleModes = true;
+    }
+    if (jsCallback == 'true') {
+      jsCallback = true;
+    } else {
+      jsCallback = false;
+    }
+    if (smoothVideo == 'true') {
+      smoothVideo = true;
+    } else {
+      smoothVideo = false;
+    }
+    if (autoStart == 'false') {
+      autoStart = false;
+    } else {
+      autoStart = true;
+    }
+    if (defaultVolume != undefined) {
+      defaultVolume = Number(defaultVolume);
+      if (defaultVolume > 100) {
+        defaultVolume = 100;
+      }
+      if (defaultVolume < 0) {
+        defaultVolume = 0;
+      }
+    } else {
+      defaultVolume = 100;
+    }
+    updateScale = new Object();
+    updateScale.onResize = function () {
+      scaleGui();
+    };
+
+    Stage.addListener(updateScale);
+    gui.streamed.onPress = function () {
+      movePlayhead();
+      this.onMouseMove = movePlayhead;
+    };
+
+    gui.streamed.dragOut = function () {
+      delete this.onMouseMove;
+    };
+
+    gui.streamed.onReleaseOutside = gui.streamed.dragOut;
+    gui.streamed.onRelease = gui.streamed.dragOut;
+    gui.snd.bg.onPress = function () {
+      moveSoundhead();
+      this.onMouseMove = moveSoundhead;
+    };
+
+    gui.snd.bg.dragOut = function () {
+      delete this.onMouseMove;
+    };
+
+    gui.snd.bg.onReleaseOutside = gui.snd.bg.dragOut;
+    gui.snd.bg.onRelease = gui.snd.bg.dragOut;
+    gui.playpause.onRelease = function () {
+      playPauseVideo();
+    };
+
+    gui.playpause.onRollOver = function () {
+      addGlow(this);
+    };
+
+    gui.playpause.onReleaseOutside = function () {
+      removeGlow(this);
+    };
+
+    gui.playpause.onRollOut = gui.playpause.onReleaseOutside;
+    gui.setsize.onRelease = showSizeMenu;
+    gui.setsize.onRollOver = function () {
+      addGlow(this);
+    };
+
+    gui.setsize.onReleaseOutside = function () {
+      removeGlow(this);
+    };
+
+    gui.setsize.onRollOut = gui.setsize.onReleaseOutside;
+    gui.playlist.onRelease = showPlaylist;
+    gui.playlist.onRollOver = function () {
+      addGlow(this);
+    };
+
+    gui.playlist.onReleaseOutside = function () {
+      removeGlow(this);
+    };
+
+    gui.playlist.onRollOut = gui.playlist.onReleaseOutside;
+    playagain.onRelease = function () {
+      restartVideo();
+    };
+
+    startplaying.onRelease = function () {
+      autoStart = true;
+      init();
+    };
+
+    var fileType = (flvToPlay.substr(flvToPlay.length - 3, 3)).toLowerCase();
+    if (fileType == 'xml') {
+      loadXML(flvToPlay);
+    } else {
+      init();
+      setupContextMenu();
+    }
+  }
+
+  movieClip 6  {
+  }
+
+  movieClip 9  {
+  }
+
+  movieClip 11  {
+  }
+
+  movieClip 12  {
+  }
+
+  movieClip 14  {
+  }
+
+  movieClip 15  {
+  }
+
+  movieClip 17  {
+  }
+
+  movieClip 20  {
+  }
+
+  movieClip 22  {
+  }
+
+  movieClip 23  {
+  }
+
+  movieClip 25  {
+  }
+
+  movieClip 31  {
+  }
+
+  movieClip 34  {
+
+    frame 1 {
+      stop();
+    }
+  }
+
+  movieClip 35  {
+  }
+
+  movieClip 40  {
+
+    frame 1 {
+      stop();
+    }
+  }
+
+  movieClip 43  {
+  }
+
+  movieClip 46  {
+  }
+
+  movieClip 47  {
+  }
+
+  movieClip 50  {
+  }
+
+  movieClip 51  {
+  }
+
+  movieClip 53  {
+  }
+
+  movieClip 54  {
+  }
+
+  movieClip 55  {
+  }
+
+  movieClip 60  {
+  }
+
+  movieClip 61  {
+  }
+
+  movieClip 62  {
+  }
+
+  movieClip 64  {
+  }
+
+  movieClip 65  {
+
+    frame 1 {
+      stop();
+    }
+  }
+
+  movieClip 66  {
+  }
+}

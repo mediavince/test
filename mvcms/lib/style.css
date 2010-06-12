@@ -1,0 +1,22 @@
+#logo{background:url(../images/dynamic/logo.gif) no-repeat;}
+#key_visual{background:url(../images/dynamic/key_visual4.jpg) no-repeat;}
+#slogan{font-weight:bold;text-decoration:none;color:#444;}
+#login{}
+#root a.main_nav_active_item{background:url(../images/dynamic/buttonset2/n1activeitem.gif) no-repeat;font-size:12px;font-weight:bold;text-decoration:none;color:#ffb600;background-position:top right;}
+#root a.main_nav_item{background:url(../images/dynamic/buttonset2/n1.gif) no-repeat;font-size:12px;font-weight:bold;text-decoration:none;color:#000;background-position:top right;}
+#root a.main_nav_item:hover{background:url(../images/dynamic/buttonset2/n1hover.gif) no-repeat;font-size:12px;font-weight:bold;text-decoration:none;color:#000;background-position:top right;}
+.sub_nav_list a.sub_nav_active_item{background:url(../images/dynamic/buttonset2/subnav1active.gif) no-repeat;font-size:12px;font-weight:bold;text-decoration:none;color:#000;}
+.sub_nav_list a{background:url(../images/dynamic/buttonset2/subnav1.gif) no-repeat;font-size:12px;font-weight:bold;text-decoration:none;color:#333;}
+.sub_nav_list a:hover{background:url(../images/dynamic/buttonset2/subnav1hover.gif) no-repeat;font-size:12px;font-weight:bold;text-decoration:none;color:#333;}
+#content_container h1{font-size:32px;font-weight:normal;text-decoration:none;color:#555;}
+#content_container h2{font-size:26px;font-weight:normal;text-decoration:none;color:#666;}
+#content_container h3{font-size:20px;font-weight:normal;text-decoration:none;color:#777;}
+#flags_translation h3.uk{font-size:20px;color:#777;background:url(../images/static/UK.gif) no-repeat;}
+#flags_translation h3.fr{font-size:20px;color:#777;background:url(../images/static/France.gif) no-repeat;}
+#flags_translation h3.it{font-size:20px;color:#777;background:url(../images/static/Italy.gif) no-repeat;}
+#content_container, #content_container p{font-size:12px;font-weight:normal;text-decoration:none;color:#000;}
+#content_container a:visited{font-size:12px;text-decoration:underline;color:#dd3d06;}
+#content_container a:link{font-size:12px;text-decoration:underline;color:#dd3d06;}
+#content_container a:hover{font-size:12px;text-decoration:none;color:#dd3d06;}
+#content_container a:active{font-size:12px;text-decoration:underline;color:#dd3d06;}
+#footer_text{font-size:11px;text-decoration:none;color:#ddd;}

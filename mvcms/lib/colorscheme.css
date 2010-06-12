@@ -1,0 +1,41 @@
+#container{background:url(../images/static/contentbg.gif) repeat-y top left;}
+#header{background:url(../images/static/headerbg.jpg) no-repeat top left ;}
+#menu{background:url(../images/static/navbg.gif) repeat-y;}
+#key_visual{background:url(../images/dynamic/key_visual1.jpg) no-repeat;}
+#slogan{color:#444;background:url(../images/static/captionbg.gif) no-repeat top left ;}
+#root{}
+#root li{}
+#root a.main_nav_item{color:#000;background:url(../images/dynamic/buttonset2/n1.gif) no-repeat top right;}
+#root a.main_nav_item:hover{color:#000;background:url(../images/dynamic/buttonset2/n1hover.gif) no-repeat top right;}
+#root a.main_nav_active_item{color:#ffb600;background:url(../images/dynamic/buttonset2/n1activeitem.gif) no-repeat top right;}
+.sub_nav_list a{color:#333;background:url(../images/dynamic/buttonset2/subnav1.gif) no-repeat;}
+.sub_nav_list a:hover{background:url(../images/dynamic/buttonset2/subnav1hover.gif) no-repeat;color:#333;}
+.sub_nav_list a.sub_nav_active_item{color:#000;background:url(../images/dynamic/buttonset2/subnav1active.gif) no-repeat;}
+#footer{background:transparent url(../images/static/footerbg.gif) top left no-repeat;}
+#footer_text{color:#ddd;}
+body#main_body{color:#000;background:#aaa url(../images/static/pgbk.gif) top left;}
+#content_container p{color:#000;}
+#content_container h1{color:#555;background:url(../images/static/header1bg.gif) no-repeat;}
+#content_container h2{color:#666;background:url(../images/static/header2bg.gif) no-repeat;}
+#content_container h3{color:#777;background:url(../images/static/header3bg.gif) no-repeat;}
+#content_container a:link{color:#dd3d06;}
+#content_container a:visited{color:#dd3d06;}
+#content_container a:hover{color:#dd3d06;}
+#content_container a:active{color:#dd3d06;}
+table{}
+th{}
+tr{vertical-align:top;}
+td{color:#000;}
+#content_container table{color:#000;}
+/*#content_container th{background-color:#ffb600;color:#fff;padding:16px 2px 5px 2px;}*/
+#content_container tr.odd{color:#000;background-color:#fffaec;padding:3px 2px 3px 2px;}
+#content_container tr.even{color:#000;background-color:#fff;padding:3px 2px 3px 2px;}
+ul{}
+li{color:#000;}
+fieldset{border-color:#666;}
+legend{color:#000;}
+label{color:#000;}
+input{border-color:#666;}
+textarea{border-color:#666;}
+#extra_div1 span{background :url(../images/static/headerbg_overlay.gif) no-repeat;}
+#extra_div2 span{background :url(../images/static/logo_overlay.gif) no-repeat 18px 0px;}

@@ -1,0 +1,90 @@
+
+/* Slider/Content Container */
+#slider {
+	width: 600px;
+	height: 290px;
+	margin:0 auto;
+	left:0px;
+	top:0px;
+}
+/* Campaign items 
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;*/
+.campaign {
+/*
+	background-color:#EEEEEE;
+	border: 1px solid #CCCCCC;
+	padding:3px;
+	overflow: hidden;
+*/
+background:none;
+border:none;
+	height: 290px;
+	width: 600px;
+}
+.campaign_content {
+	width: 600px;
+	height: 290px;
+	margin: 0 auto;
+	display: block;
+/*	text-indent: -9999px; */
+	text-align:center;
+}
+.campaign_content a {text-decoration:none;}
+/* Campaign Features
+#feature_1 .campaign_content {
+	background: transparent url('images/slider/agritorello_390x228.jpg') no-repeat top left;
+}
+#feature_2 .campaign_content {
+	background: transparent url('images/slider/il-residence_390x265.jpg') no-repeat top left;
+}
+#feature_3 .campaign_content {
+	background: transparent url('images/slider/camere_390x228.jpg') no-repeat top left;
+}
+#feature_4 .campaign_content {
+	background: transparent url('images/slider/balcone_390x228.jpg') no-repeat top left;
+}
+#feature_5 .campaign_content {
+	background: transparent url('images/slider/ristorante_390x228.jpg') no-repeat top left;
+}
+#feature_6 .campaign_content {
+	background: transparent url('images/slider/conferenze_390x228.jpg') no-repeat top left;
+}
+#feature_7 .campaign_content {
+	background: transparent url('images/slider/panomara_390x228.jpg') no-repeat top left;
+}
+#feature_8 .campaign_content {
+	background: transparent url('images/slider/funghi_390x265.jpg') no-repeat top left;
+}
+#feature_9 .campaign_content {
+	background: transparent url('images/slider/a_cavallo_390x265.jpg') no-repeat top left;
+}
+#slider_controls {
+	width: 600px;
+	position: absolute;
+	margin: 0 auto;
+	height: 1px;
+}
+#slider_controls ul {
+	background: transparent url('images/slider/btn_slider_nav.png') no-repeat bottom center;
+	display:block;
+	height:32px;
+	position:absolute;
+	right:0;
+	text-indent:-9999px;
+	top:-270px;
+	width:164px;
+	z-index:998;
+	list-style:none;
+	left:10px;
+}
+#slider_controls li {
+	float: left;
+	width: 82px;
+	height: 32px;
+}
+#slider_controls li a {
+	display: block;
+	height: 32px;
+}
+ */

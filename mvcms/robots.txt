@@ -1,0 +1,12 @@
+# Ganze Site f. Spider, webcrawler etc. sperren
+#User-agent: *
+#Disallow: /
+User-agent: *
+Disallow: /SQL
+Disallow: /admin
+Disallow: /content
+Disallow: /images
+Disallow: /lib
+#Disallow: /*.php$
+Disallow: /*.*
+Disallow: /*_*

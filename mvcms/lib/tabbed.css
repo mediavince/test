@@ -1,0 +1,18 @@
+#tabsidebars{float:right;width:100%;margin-bottom:20px;}
+#tabsidebar_search{clear:both;float:right;width:98%;padding:10px 5px;}
+#tabsidebar_ext h2,#tabsidebar_int h2,#tabsidebar_search h2{width:100%;color:#FFF;font-size:1.1em;line-height:20px;margin-bottom:5px;text-align:center;}
+.tabshade{margin-left:0;margin-top:0;margin-bottom:-2px;font-style:italic;list-style-type:none;text-align:left;padding:3px 0;}
+.tabshade li{display:inline;}
+.tabshade li a{text-decoration:none;margin-right:3px;border:1px solid #778;color:#2d2b2b;padding:3px 7px;}
+.tabshade li.selected{position:relative;}
+.tabshade li.selected a{border-bottom:1px solid #F9F7ED;}
+.tabshade li.selected a:hover{text-decoration:none;color:#666;}
+.profiltabcontentstyle{border:1px solid gray;margin-bottom:1em;padding:10px;}
+.profiltabcontent{display:none;}
+.tabshade li a:hover{color:#666;}
+#tabsidebar_ext,#tabsidebar_int{float:right;padding:0 5px;}
+.tabshade{list-style-type:none;margin-bottom:-2px;margin-left:0;margin-top:0;padding:3px 0;text-align:left;}
+.tabshade li.selected{position:relative;}
+.tabshade li{display:inline;}
+.tabshade li.selected a{border-bottom:1px solid #F9F7ED;}
+.tabshade li a{background:transparent url(../images/leftmenu_bg.gif) repeat scroll center;border:1px solid #777788;color:#2D2B2B;margin-right:3px;padding:3px 7px;text-decoration:none;}

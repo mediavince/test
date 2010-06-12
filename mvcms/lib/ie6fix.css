@@ -1,0 +1,58 @@
+.toploginwrapper{position:fixed;top:0;}z-index:9999999;margin:0;width:80%;text-align:center;}
+#toplogin{position:absolute;top:0;z-index:9999999;margin:0;min-width:200px;max-width:200px;background: transparent url('../images/white_transdot.png') repeat;padding:2px;}
+#toplogin form{margin:0;padding:2px;}
+#toplogin .inputtext{width:100px;padding:2px;}
+/*
+#main{margin: 0 auto;width: 950px;
+	width: expression((document.documentElement && document.documentElement.clientHeight) ? 
+    (document.documentElement.clientWidth < 850) ? "820px" : (( document.documentElement.clientWidth > 980) ? "950px" : "auto") : 
+    (document.body.clientWidth < 850) ? "820px" : (( document.body.clientWidth > 980) ? "950px" : "auto")
+	);
+}
+#top{margin: 0 auto;width: 100%;
+	width: expression((document.documentElement && document.documentElement.clientHeight) ? 
+    (document.documentElement.clientWidth < 850) ? "820px" : (( document.documentElement.clientWidth > 980) ? "auto" : "auto") : 
+    (document.body.clientWidth < 850) ? "820px" : (( document.body.clientWidth > 980) ? "auto" : "auto")
+	);
+}
+#navcontainer ul{padding-right:100px;margin-right:-200px;}
+#lpane{margin-top:-6px;}
+.banner{width:650px;}
+.lang{margin-top:-3px;margin-bottom:-30px;padding-top:4px;}
+.inputtext{width:90%;}
+#content #leftlogin,#content #toplogin{margin:0px -5px 0px 0px;}
+#content #leftlogin form,#content #toplogin form{margin:0;}
+#content #leftlogin .inputtext,#content #toplogin .inputtext{width:120px;}
+#content #toplogin label{text-align:right;padding-right:2px;}
+hr{clear:all;}
+.bgimg-one{width:0px;height:0px;}
+.bgimg-two-bot-search{width:245px;margin-bottom:3px;}
+.wherearewe{position:absolute;margin-top:30px;margin-left:30px;}
+.generic_wrapper{width:98%;}
+.title{clear:right;max-width:650px;}
+h1{font-size:200%;}
+                            */
+
+
+/*.lock{margin:0;background:transparent url('../images/lock.gif') no-repeat;overflow:visible;}*/
+h2.title .lock{margin:0;}
+/*.lock{background:transparent url('../images/lock.gif') no-repeat scroll 0%;margin:0;padding:5px 0 0 18px;height:21px;}*/
+.leftbox,.rightbox{width:145px;}
+.leftbox .centered{margin-left:1px;}
+
+#content,.content_body{height:450px;margin-bottom:0px;}
+
+#iefix{text-align:center;}
+#top,#main{text-align:left;}
+
+.trmenu,#header .logo{z-index:2;position:absolute;}
+.trmenu,.trmenu ul{min-width:100px;}
+
+.lock{padding-top:0;}
+
+.contour-body-left{width:862px;}
+
+.lightbox .image{width:200px;float:right;}
+
+.lang a{height:30px;}
+.lang a.inverted{padding:0;background:transparent url('../images/uparrow.gif') no-repeat scroll center bottom;}

@@ -1,0 +1,32 @@
+.toploginwrapper{position:fixed;top:0;width:200px;}/*z-index:9999999;margin:0;width:80%;text-align:center;}*/
+#toplogin{position:absolute;top:0;z-index:9999999;margin:0;min-width:200px;max-width:200px;background: transparent url('../images/white_transdot.png') repeat;padding:2px;}
+#toplogin form{margin:0;padding:2px;}
+#toplogin .inputtext{width:100px;padding:2px;}
+
+body{text-align:center;}
+table{font-size:100%;}
+ul,h1,h2,h3,p,form,input,textarea,#content,#bgleft{text-align:left;}
+/*
+#main{margin: 0 auto;width: 950px;
+	width: expression((document.documentElement && document.documentElement.clientHeight) ? 
+    (document.documentElement.clientWidth < 850) ? "820px" : (( document.documentElement.clientWidth > 980) ? "950px" : "auto") : 
+    (document.body.clientWidth < 850) ? "820px" : (( document.body.clientWidth > 980) ? "950px" : "auto")
+	);
+}
+#top{margin: 0 auto;width: 100%;
+	width: expression((document.documentElement && document.documentElement.clientHeight) ? 
+    (document.documentElement.clientWidth < 850) ? "820px" : (( document.documentElement.clientWidth > 980) ? "auto" : "auto") : 
+    (document.body.clientWidth < 850) ? "820px" : (( document.body.clientWidth > 980) ? "auto" : "auto")
+	);
+}
+*/
+hr{clear:all;}
+.wherearewe{position:absolute;margin-top:30px;margin-left:30px;}
+.generic_wrapper{width:95%;min-height:480px;}
+.bgimg-one{width:0px;height:0px;}
+.bgimg-two-bot-search{width:245px;margin-bottom:3px;}
+h1{font-size:200%;}
+.title{clear:right;}
+
+.lock{margin:-5px 0 0px 0px;padding:0px 0px 0 -30px;height:16px;}/*padding:5px 0 0 18px;height:21px;overflow:hidden;}*/
+h2.title .lock{height:28px;}
