@@ -1,4 +1,4 @@
-<?PHP ## ADMIN
+<?PHP #Ûž # ADMIN
 if (stristr($_SERVER['PHP_SELF'],'_login.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();
@@ -59,7 +59,7 @@ if (!isset($login)) {
 	$admin_name = strip_tags(html_encode($adminName));
 	$admin_password = strip_tags(html_encode($passWord));
 	$admin_password_md5 = md5($admin_password);
-	if ( (!$admin_name == '') || (!$admin_password == '')	) {// || !preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $admin_name)
+	if ( (!$admin_name == '') || (!$admin_password == '')	) {// || !preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $admin_name)
 		if (!$connection) {
 			$loginform = gen_form($lg).$form_login.$form_error;
 			$logged_in = false;

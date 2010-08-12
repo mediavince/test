@@ -1,4 +1,4 @@
-<?PHP
+<?PHP #۞ #
 //> <b>'.$coordsString.'</b><br />
 $content .= '
 <script>

@@ -1,4 +1,4 @@
-<?PHP
+<?PHP #Ûž #
 
   $form_mod = '';
 	session_start();
@@ -49,27 +49,27 @@ if ( !isset($send) ) {
 	$name = stripslashes(strip_tags($name));
 	$email = is_valid_email(strip_tags($email));
 	$subject = strip_tags($subject);
-	if (!$name || ($name == '') || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $name) || 
+	if (!$name || ($name == '') || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $name) || 
 		!$email || ($email == '') || !is_email($email) ||
-		preg_match("/^[~%*#§|}{°]+\$/", $organisation) ||
-		preg_match("/^[~%*#§|}{°]+\$/", $message) || !$message || ($message == '') || (strlen($message) > 500) ||
+		preg_match("/^[~%*#Â§|}{Â°]+\$/", $organisation) ||
+		preg_match("/^[~%*#Â§|}{Â°]+\$/", $message) || !$message || ($message == '') || (strlen($message) > 500) ||
 		((md5($_POST['code']) !== $_SESSION['antispam_key']))
 	) {
 		if ($lg == 'it') $form_mod .= '<p>Per favore compila la scheda a seguire:<ul>';
 		else $form_mod .= '<p>Please check the following errors :<ul>';
-		if (!$name || ($name == '') || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $name) )
+		if (!$name || ($name == '') || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $name) )
 		$form_mod .= '<li>'.$nomString.' > '.$error_invmiss.$name.'</li>'	;
     	if (!$email || ($email == '') || !is_email($email) )
 		$form_mod .= '<li>'.$emailString.' > '.$error_invmiss.$email.'</li>'	;
-		if ( preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $organisation) )
+		if ( preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $organisation) )
 		$form_mod .= '<li>'.$organisationString.' > '.$error_inv.'<br /> <br /></li>'	;
-		if ( !$message || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $message) )
+		if ( !$message || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $message) )
 		$form_mod .= '<li>'.$messageString.' > '.$error_invmiss.'<br /> <br /></li>'	;
 		if (  (strlen($message) > 500) )
 		$form_mod .= '<li>'.$messageString.' > '.$error_inv.' :: max. length 500 chars.<br /> <br /></li>'	;
 		if ( (md5($_POST['code']) !== $_SESSION['antispam_key']) )
 		$form_mod .= '<li>Code > '.$error_invmiss.'<br /> <br /></li>'	;
-		if (preg_match("/^[~%*#§|}{°]+\$/", $message))
+		if (preg_match("/^[~%*#Â§|}{Â°]+\$/", $message))
 		$form_mod .= '<li>'.$messageString.' > '.$error_invmiss.'</li>'	;
 		$form_mod .= '</ul><br /> <br /><p><a href="javascript:history.back()//">'.$retourString.'</a></p>';
 	} else {

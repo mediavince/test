@@ -1,5 +1,5 @@
-<?PHP
-if (stristr($_SERVER['PHP_SELF'],'_mod_contact.php')) {
+<?PHP #۞ #
+if (stristr($_SERVER['PHP_SELF'],'_moderator_captcha.php')) {
 	include '_security.php';
 	Header("Location: $redirect");Die();
 }

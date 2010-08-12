@@ -1,4 +1,4 @@
-<?PHP ## VISITORS
+<?PHP #Ûž # VISITORS
 if (stristr($_SERVER["PHP_SELF"], "_incerror.php")) {
 	include '_security.php';
 	Header("Location: $redirect");Die();
@@ -78,6 +78,36 @@ return $price;
 }
 
 //
+
+
+function check_module_content($value_mod_array,$this_content) {
+	global $array_modules,$array_fixed_modules,$error_inv;
+		$array_modules = array_unique(array_merge($array_modules,$array_fixed_modules));
+    $pattern = "[[".$value_mod_array."[a-zA-Z0-9,|]{0,}[:]{0,1}[a-zA-Z0-9,\-_=|]{0,}"."]]";
+    preg_match($pattern,$this_content,$matches);
+    if (isset($matches[0])) {
+			$matches[0] = substr($matches[0],1,-1);
+	    if (!in_array($matches[0],$array_modules)) {
+				$log = "Possible error in module <b>[".$matches[0]."] $error_inv => ".$value_mod_array."</b><br />";
+				if (isset($matches[0])&&strstr($matches[0],":")) {
+					$log = '';
+		      $passed_parameters = explode(":",$matches[0]);
+		      if (isset($passed_parameters[1])) {
+		        $dbtables = explode(",",$passed_parameters[0]);
+				    if (!in_array((isset($dbtables[0])?$dbtables[0]:$value_mod_array),$array_modules)) {
+							$log .= "Possible error in module <b>[".$matches[0]."] => <u>".$dbtables[0]."</u> $error_inv </b><br />";
+						}
+		        if (isset($dbtables[1])) {
+							if (!in_array($dbtables[1],$array_modules))
+							$log .= "Possible error in module <b>[".$matches[0]."] => <u>".$dbtables[1]."</u> $error_inv </b><br />";
+						}
+					}
+				}
+			}
+	return $log;
+		}
+}
+
 
 function img_size($image,$bigori=NULL) {
 	$img = explode(".",strrev($image),2);
@@ -180,7 +210,6 @@ function db_date($this){
   $output = $year.'-'.$month.'-'.$day.($time!=$null_time?' '.$time:'');
 return $output;
 }
-
 
 // for flash sites
 function html_entity_decode_utf8($string) {
@@ -472,18 +501,68 @@ global $trace,$error,$notice;
   }
 }
 
+function get_types($this) {
+global $trace,$notice,$redirect,${"tbl".$this},$dbtime,$curdate,$array_compare_by_exacttime,$this_is,$that_is,$lg;
+	if (!isset($array_compare_by_exacttime)) $array_compare_by_exacttime = array();
+global $array_fields,$that_array_fields;
+global $array_fields_type,$mediumtext_array,$longtext_array,$enumYN_array,$enumtype_array,$int3_array,$datetime_array;
+	  $dbtable = ${"tbl".$this};
+		$this_array_fields = sql_fields($dbtable,'array');
+		if (!isset($array_fields_type))
+    $array_fields_type = array();//lists all types for a given table
+		if (!isset($mediumtext_array))
+    $mediumtext_array = array(); // textarea no formatting: eg meta desc & keyw
+		if (!isset($longtext_array))
+    $longtext_array = array(); // textarea with tinyMCE: word style UI
+		if (!isset($enumYN_array))
+    $enumYN_array = array(); // either Y or NO: produces selectable option code
+		if (!isset($enumtype_array))
+    $enumtype_array = array(); // int(11) unsigned, produces selectable code for all possibilities taken from enum and assign string, then allows creation of new type, further options apply like - for deleting the selected item
+		if (!isset($int3_array))
+    $int3_array = array(); // int(3) unsigned, flag for fetching items from referenced table
+		if (!isset($datetime_array))
+    $datetime_array = array(); // datetime, flag for showing calendar
+    $result = @mysql_query("SHOW FIELDS FROM $dbtable");
+    if (!$result) {Header("Location: $redirect");Die();} // no table or no connection...
+    while($row=@mysql_fetch_array($result)) {
+      $array_fields_type[$row['Field']] = $row['Type'];
+      if ($row['Type'] == 'mediumtext')
+      $mediumtext_array[] = $row['Field'];
+      if ($row['Type'] == 'longtext')
+      $longtext_array[] = $row['Field'];
+      if ($row['Type'] == "enum('N','Y')")
+      $enumYN_array[] = $row['Field'];
+      if ($row['Type'] == 'int(11) unsigned')
+      $enumtype_array[] = $row['Field'];
+      if ($row['Type'] == 'int(3) unsigned')
+      $int3_array[] = $row['Field'];
+      if ($row['Type'] == 'datetime')
+      $datetime_array[] = $row['Field'];
+    }
+    @mysql_free_result($result);
+    $array_fields_type = array_unique($array_fields_type);
+    $mediumtext_array = array_unique($mediumtext_array);
+    $longtext_array = array_unique($longtext_array);
+    $enumYN_array = array_unique($enumYN_array);
+    $enumtype_array = array_unique($enumtype_array);
+    $int3_array = array_unique($int3_array);
+    $datetime_array = array_unique($datetime_array);
+}
 
 function filter_sql_q($this) {
-global $trace,$notice,$redirect,${"tbl".$this},$dbtime,$this_is,$that_is;
+global $trace,$notice,$redirect,${"tbl".$this},$dbtime,$curdate,$array_compare_by_exacttime,$this_is,$that_is,$lg;
+	if (!isset($array_compare_by_exacttime)) $array_compare_by_exacttime = array();
 global $array_fields,$that_array_fields;
 global $filter_future,$filter_past,$filter_archive,$filter_search,$filter_searchfield,$q;
   if (!isset($sql_q)) $sql_q = '';
-  $dbtable = ${"tbl".$this};
+	  $dbtable = ${"tbl".$this};
+/*
   if (($this == $this_is) || (isset($that_is) && ($this == $that_is))) {
+		$this_array_fields = sql_fields($dbtable,'array');
     $array_fields_type = array();//lists all types for a given table
     $mediumtext_array = array(); // textarea no formatting: eg meta desc & keyw
     $longtext_array = array(); // textarea with tinyMCE: word style UI
-    $enumYN_array = array(); // either Y or NO: produces selectable option code 
+    $enumYN_array = array(); // either Y or NO: produces selectable option code
     $enumtype_array = array(); // int(11) unsigned, produces selectable code for all possibilities taken from enum and assign string, then allows creation of new type, further options apply like - for deleting the selected item
     $int3_array = array(); // int(3) unsigned, flag for fetching items from referenced table
     $datetime_array = array(); // datetime, flag for showing calendar
@@ -507,7 +586,39 @@ global $filter_future,$filter_past,$filter_archive,$filter_search,$filter_search
     @mysql_free_result($result);
   } else
 global $array_fields_type,$mediumtext_array,$longtext_array,$enumYN_array,$enumtype_array,$int3_array,$datetime_array;
-
+*/
+  if (($this == $this_is) || (isset($that_is) && ($this == $that_is))) {
+global $array_fields_type,$mediumtext_array,$longtext_array,$enumYN_array,$enumtype_array,$int3_array,$datetime_array;
+  } else {
+		$this_array_fields = sql_fields($dbtable,'array');
+    $array_fields_type = array();//lists all types for a given table
+    $mediumtext_array = array(); // textarea no formatting: eg meta desc & keyw
+    $longtext_array = array(); // textarea with tinyMCE: word style UI
+    $enumYN_array = array(); // either Y or NO: produces selectable option code
+    $enumtype_array = array(); // int(11) unsigned, produces selectable code for all possibilities taken from enum and assign string, then allows creation of new type, further options apply like - for deleting the selected item
+    $int3_array = array(); // int(3) unsigned, flag for fetching items from referenced table
+    $datetime_array = array(); // datetime, flag for showing calendar
+    $result = @mysql_query("SHOW FIELDS FROM $dbtable");
+    if (!$result) {Header("Location: $redirect");Die();} // no table or no connection...
+    while($row=@mysql_fetch_array($result)) {
+      $array_fields_type[$row['Field']] = $row['Type'];
+      if ($row['Type'] == 'mediumtext')
+      $mediumtext_array[] = $row['Field'];
+      if ($row['Type'] == 'longtext')
+      $longtext_array[] = $row['Field'];
+      if ($row['Type'] == "enum('N','Y')")
+      $enumYN_array[] = $row['Field'];
+      if ($row['Type'] == 'int(11) unsigned')
+      $enumtype_array[] = $row['Field'];
+      if ($row['Type'] == 'int(3) unsigned')
+      $int3_array[] = $row['Field'];
+      if ($row['Type'] == 'datetime')
+      $datetime_array[] = $row['Field'];
+    }
+    @mysql_free_result($result);
+	}
+	if (isset($this_array_fields) && in_array($this."lang",$this_array_fields))
+    $sql_q .= " AND ".$this."lang='$lg' ";
   if (isset($q) && ($q != ''))
   if (isset($filter_search) && isset($filter_searchfield) && (in_array($this_is.$filter_searchfield,$array_fields) || (isset($that_is) && in_array($that_is.$filter_searchfield,$that_array_fields)))) {
     if (isset($that_is) && in_array($that_is.$filter_searchfield,$that_array_fields)) {// && ($this == $that_is)
@@ -553,6 +664,10 @@ global $array_fields_type,$mediumtext_array,$longtext_array,$enumYN_array,$enumt
     
     */
   }
+
+	if (!isset($curdate))
+	$curdate = str_replace("NOW()","CURDATE()",$dbtime);
+
   foreach(sql_fields($dbtable,'array') as $key_filter) {
     $key_filter = substr($key_filter,strlen($this));
 global ${"filter_".$key_filter};
@@ -564,16 +679,16 @@ global ${"filter_".$key_filter};
     } else {
       if (isset($filter_archive))
         if (is_bool($filter_archive))
-        $check = " AND ".$this."date".($filter_archive===true?' <':' >=')." $dbtime ";
+        $check = " AND ".$this."date".($filter_archive===true?' <':' >=').(in_array($this.'date',$array_compare_by_exacttime)?" $dbtime ":" $curdate ");
         else {
           if (in_array($filter_archive,array($key_filter,"-$key_filter")))
-          $check = " AND ".$this.($key_filter==$filter_archive?$filter_archive.' <':substr($filter_archive,1).' >=')." $dbtime ";
+          $check = " AND ".$this.($key_filter==$filter_archive?$filter_archive.' <':substr($filter_archive,1).' >=').(in_array($this.($key_filter==$filter_archive?$filter_archive:substr($filter_archive,1)),$array_compare_by_exacttime)?" $dbtime ":" $curdate ");
         }
       else {
         if (isset($filter_future) && ($filter_future == $key_filter) && in_array($this.$filter_future,$datetime_array))
-        $check = " AND ".$this.$key_filter." >= $dbtime ";
+        $check = " AND ".$this.$key_filter." >= ".(in_array($this.$key_filter,$array_compare_by_exacttime)?" $dbtime ":"$curdate ");
         if (isset($filter_past) && ($filter_past == $key_filter) && in_array($this.$filter_past,$datetime_array))
-        $check = " AND ".$this.$key_filter." < $dbtime ";
+        $check = " AND ".$this.$key_filter." < ".(in_array($this.$key_filter,$array_compare_by_exacttime)?" $dbtime ":"$curdate ");
       }
       if (isset($check)&&!strstr($sql_q,$check)) $sql_q .= $check;
     }
@@ -653,8 +768,8 @@ function html_encode($str) {
 	$table3["@"] = '&#064;';
 	$table3["'"] = '&acute;';
 	$table3["`"] = '&acute;';
-	$table3["’"] = '&acute;';
-	$table3["…"] = '...';
+	$table3["â€™"] = '&acute;';
+	$table3["â€¦"] = '...';
 	$table3["<"] = '<';
 	$table3[">"] = '>';
 	$table3["&"] = '&';
@@ -1064,7 +1179,7 @@ function gen_selectoption($table,$selected,$type,$what,$show_count=NULL) {
 	global $dbtable, $trace, $lg, $optionselected, $tblenum, $tblstring, $this_is, $nRowsThis_is, $nRowsThis_isy, $nRowsThis_isn, $fieldis, $toutString, $achoisirString;
 	$selectoptions = '';
 	if (is_array($table)) {
-		if (($selected == 'ajout') || ($selected == ''))
+		if (in_array($selected,array('ajout','0','',NULL)))
 			$selectoptions = '<option value=""> >> '.$achoisirString.' &nbsp;</option>';
     foreach($table as $key) {
       $key = html_encode($key);
@@ -1085,7 +1200,7 @@ function gen_selectoption($table,$selected,$type,$what,$show_count=NULL) {
 							AND enumtype LIKE '%$type%'
 							AND enumwhat LIKE '%$what%'
 							");
-		if (($selected == 'ajout') || ($selected == '')) {
+		if (in_array($selected,array('ajout','0','',NULL))) {
 			$selectoptions = '<option value=""> >> '.$achoisirString.' &nbsp;</option>';
 			for ($i=0;$i<$nRows;$i++) {
 				$row = mysql_fetch_array($read);
@@ -1122,10 +1237,11 @@ function gen_selectoption($table,$selected,$type,$what,$show_count=NULL) {
 		}
 	} else {
 		$selectoptions = '';
-		if ($selected == '')	$selectoptions = '<option value=""> >> '.$achoisirString.' &nbsp;</option>'	;
-		$whereq = " WHERE ".$what."statut='Y' $type ";
-		$read = @mysql_query(" SELECT * FROM $table $whereq ");
+		if (in_array($selected,array('ajout','0','',NULL)))
+			$selectoptions = '<option value=""> >> '.$achoisirString.' &nbsp;</option>'	;
 		$rid = (in_array($what."rid",sql_fields($table,'array'))?'r':'')."id";
+		$whereq = " WHERE ".$what."statut='Y' ".($rid=='rid'?" AND ".$what."lang='$lg' ":'')." $type ";
+		$read = @mysql_query(" SELECT * FROM $table $whereq ");
 		$nRows = sql_nrows($table,$whereq);
 		for ($i=0;$i<$nRows;$i++) {
 			$row = mysql_fetch_array($read);
@@ -1164,7 +1280,7 @@ function gen_fullselectoption($table,$selected,$type,$what,$str_type=NULL) {
 	if (!$str_type) $str_type = 'general';
 	$selectoptions = '<select class="text" name="'.$what.'">';
 	if (is_array($table)) {
-		if (($selected == 'ajout') || ($selected == ''))
+		if (in_array($selected,array('ajout','0','',NULL)))
 			$selectoptions .= '<option value=""> >> '.$achoisirString.' &nbsp;</option>';
     foreach($table as $key) {
       $key = html_encode($key);
@@ -1184,7 +1300,7 @@ function gen_fullselectoption($table,$selected,$type,$what,$str_type=NULL) {
 							AND enumtype LIKE '%$type%'
 							AND enumwhat LIKE '%$what%'
 							");
-		if (($selected == 'ajout') || ($selected == '')) {
+		if (in_array($selected,array('ajout','0','',NULL))) {
 			$selectoptions .= '<option value=""> >> '.$achoisirString.' &nbsp;</option>';
 			for ($i=0;$i<$nRows;$i++) {
 				$row = mysql_fetch_array($read);
@@ -1218,7 +1334,8 @@ function gen_fullselectoption($table,$selected,$type,$what,$str_type=NULL) {
 		}
 	} else if ($table == $tblcont) {
 		$selectoptions .= '';
-		if ($selected == '')	$selectoptions .= '<option value=""> >> '.$achoisirString.' &nbsp;</option>'	;
+		if (in_array($selected,array('ajout','0','',NULL)))
+			$selectoptions .= '<option value=""> >> '.$achoisirString.' &nbsp;</option>'	;
 		$whereq = " WHERE ".$what."statut='Y' $type ";
 		$read = @mysql_query(" SELECT * FROM $table "); // $whereq
 		$nRows = sql_nrows($table,$whereq);
@@ -1250,10 +1367,11 @@ function gen_fullselectoption($table,$selected,$type,$what,$str_type=NULL) {
 		}
 	} else {
 		$selectoptions .= '';
-		if ($selected == '')	$selectoptions .= '<option value=""> >> '.$achoisirString.' &nbsp;</option>'	;
-		$whereq = " WHERE ".$what."statut='Y' $type ";
-		$read = @mysql_query(" SELECT * FROM $table $whereq ");
+		if (in_array($selected,array('ajout','0','',NULL)))
+			$selectoptions .= '<option value=""> >> '.$achoisirString.' &nbsp;</option>'	;
 		$rid = (in_array($what."rid",sql_fields($table,'array'))?'r':'')."id";
+		$whereq = " WHERE ".$what."statut='Y' ".($rid=='rid'?" AND ".$what."lang='$lg' ":'')." $type ";
+		$read = @mysql_query(" SELECT * FROM $table $whereq ");
 		$nRows = sql_nrows($table,$whereq);
 		for ($i=0;$i<$nRows;$i++) {
 			$row = mysql_fetch_array($read);

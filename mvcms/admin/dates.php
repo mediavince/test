@@ -1,4 +1,4 @@
-<?PHP
+<?PHP #Ûž #
 
 /* SOURCE FILE: date.js */
 
@@ -107,7 +107,7 @@ if ($_GET['lg']) {
   echo "
   var today_txt = 'Aujourd`hui';
   var MONTH_NAMES=new Array(
-    'Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'
+    'Janvier','FÃ©vrier','Mars','Avril','Mai','Juin','Juillet','AoÃ»t','Septembre','Octobre','Novembre','DÃ©cembre'
     );//,
   var MONTH_ABBRVS=new Array(
     'Jan','Fev','Mar','Avr','Mai','Jui','Jul','Aou','Sep','Oct','Nov','Dec'
@@ -130,7 +130,7 @@ if ($_GET['lg']) {
   var MONTH_ABBRVS=new Array(
     'Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic');
   var DAY_NAMES=new Array(
-    'Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'
+    'Domenica','LunedÃ¬','MartedÃ¬','MercoledÃ¬','GiovedÃ¬','VenerdÃ¬','Sabato'
     );//,
   var DAY_ABBRVS=new Array(
     'Dom','Lun','Mar','Mer','Gio','Ven','Sab'

@@ -1,4 +1,4 @@
-<?PHP ## ADMIN
+<?PHP #Ûž # ADMIN
 if (stristr($_SERVER['PHP_SELF'],'newslettersend.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();
@@ -94,12 +94,12 @@ if ($nRowsUser == '0') {
 			}
 		}
 		$nrowsnewsletter = sql_nrows($tblnewsletter, " WHERE newslettersujet='$sql_newsletterSujet' ");
-		if ( (!isset($newsletterSujet)) || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $newsletterSujet) || ($newsletterSujet == "") || (strlen($newsletterSujet) > 60) || (!isset($newsletterMessage)) || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $newsletterMessage) || ($newsletterMessage == "") || ($nrowsnewsletter > '0')
+		if ( (!isset($newsletterSujet)) || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $newsletterSujet) || ($newsletterSujet == "") || (strlen($newsletterSujet) > 60) || (!isset($newsletterMessage)) || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $newsletterMessage) || ($newsletterMessage == "") || ($nrowsnewsletter > '0')
 		   ) {
   $error .= '<font color="Red"><b>'.$erreurString.'!</b></font> '.$listecorrectionString.'<ul>';
-			if ( !$newsletterSujet  ||  preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $newsletterSujet) || (strlen($newsletterSujet) > 60) )  
+			if ( !$newsletterSujet  ||  preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $newsletterSujet) || (strlen($newsletterSujet) > 60) )  
   $error .= '<li>'.$sujetString.' > '.$error_invmiss.' (max: 60 c.)</li>'  ;
-			if ( !$newsletterMessage  ||  preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $newsletterMessage) )  
+			if ( !$newsletterMessage  ||  preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $newsletterMessage) )  
   $error .= '<li>'.$messageString.' > '.$error_invmiss.'</li>'  ;
 			if ($nrowsnewsletter > '0')  
   $error .= '<li>'.$sujetString.' > '.$error_exists.'</li>'  ;

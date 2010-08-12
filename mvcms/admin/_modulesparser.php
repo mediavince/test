@@ -1,4 +1,4 @@
-<?PHP ## ADMIN
+<?PHP #۞ # ADMIN
 if (stristr($_SERVER['PHP_SELF'],'_modulesparser.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();
@@ -6,10 +6,6 @@ if (stristr($_SERVER['PHP_SELF'],'_modulesparser.php')) {
 $admin_viewing = false;
 if (stristr($_SERVER['REQUEST_URI'],$urladmin) && ($logged_in === true) && isset($admin_name))
 $admin_viewing = true;
-
-if (!isset($array_fixed_modules)) $array_fixed_modules = array();
-if (!isset($array_unmanaged_modules)) $array_unmanaged_modules = array("contact","profil");
-$mod_array = array_unique(array_merge($array_fixed_modules,$array_modules));//,"catalog","inscrire");
 
 foreach(array("content","leftlinksentry","toplinksentry","scrollerentry") as $this_content)
 foreach($mod_array as $key_mod_array => $value_mod_array) {
@@ -32,8 +28,7 @@ foreach($mod_array as $key_mod_array => $value_mod_array) {
     preg_match($pattern,${$this_content},$matches);
     if (isset($matches[0])) $matches[0] = substr($matches[0],1,-1);
   //  $notice .= "<br />".$matches[0]."<br />";
-        
-    $this_is = $value_mod_array;
+	  $this_is = $value_mod_array;
     if (in_array($matches[0],$array_modules)) { // params are passed, should be in array_modules
       if (@file_exists($getcwd.$up.$safedir.'_tpl_basic_modules.php'))
         include $getcwd.$up.$safedir.'_tpl_basic_modules.php';
@@ -41,7 +36,7 @@ foreach($mod_array as $key_mod_array => $value_mod_array) {
         include $getcwd.$up.$urladmin.'defaults/_tpl_basic_modules.php';
       $mod_url = $getcwd.$up.(in_array($this_is,$array_fixed_modules)?'lib/mods/_mod_'.$value_mod_array:$urladmin.'_mod_'.'generic').'.php';
       if (@file_exists($mod_url)) {
-        if (($protected_show === true) && ($logged_in === false) && (!in_array($this_priv,array("","1")) || (($this_priv != '') && (!in_array("1",explode("|",$this_priv))))))
+        if (($this_content == 'content') && (($protected_show === true) && ($logged_in === false) && (!in_array($this_priv,array("","1")) || (($this_priv != '') && (!in_array("1",explode("|",$this_priv)))))))
         ${$this_content} = str_replace("[".$value_mod_array."]",${$this_is."String"}.' > '.$error_accesspriv,${$this_content});
         else {
          	require($mod_url);
@@ -59,9 +54,19 @@ foreach($mod_array as $key_mod_array => $value_mod_array) {
         } else
         $array_passed_tables = array();
         $dbtables = explode(",",$passed_parameters[0]);
+		    if (!in_array((isset($dbtables[0])?$dbtables[0]:$value_mod_array),$array_modules)) {
+					if (($admin_viewing === true) && ($_SERVER['REQUEST_METHOD'] != 'POST'))
+					$notice .= "Possible error in module <b>[".$matches[0]."] => ".$dbtables[0]." $error_inv </b><br />";
+					break; // check name used and breaks if does not exist showing raw code in case it is styled
+				}
         $this_is = $dbtables[0];
         if (isset($dbtables[1]))
-        $that_is = $dbtables[1];
+				if (in_array($dbtables[1],$array_modules)) {
+	        $that_is = $dbtables[1];
+				} else {
+					if (($admin_viewing === true) && ($_SERVER['REQUEST_METHOD'] != 'POST'))
+					$notice .= "Possible error in module <b>[".$matches[0]."] => ".$dbtables[1]." $error_inv </b><br />";
+				}
         $array_passed_parameters = explode("|",$passed_parameters[1]);
         foreach($array_passed_parameters as $new_param) {
           $new_param = explode("=",$new_param);
@@ -95,7 +100,7 @@ foreach($mod_array as $key_mod_array => $value_mod_array) {
         }
       }
       if (@file_exists($mod_url)) {
-        if (($protected_show === true) && ($logged_in === false) && (!in_array($this_priv,array("","1")) || (($this_priv != '') && (!in_array("1",explode("|",$this_priv))))))
+        if (($this_content == 'content') && (($protected_show === true) && ($logged_in === false) && (!in_array($this_priv,array("","1")) || (($this_priv != '') && (!in_array("1",explode("|",$this_priv)))))))
         ${$this_content} = str_replace("[".$matches[0]."]",${$this_is."String"}.' > '.$error_accesspriv,${$this_content});
         else {
           if (isset($array_passed_tables[1])) {
@@ -111,5 +116,4 @@ foreach($mod_array as $key_mod_array => $value_mod_array) {
     }
   }
 }
-	
 ?>

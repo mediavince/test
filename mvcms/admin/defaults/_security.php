@@ -1,4 +1,4 @@
-<?PHP ## ADMIN
+<?PHP #۞ # ADMIN
 
 if (stristr($_SERVER["HTTP_HOST"], "localhost")) {
 	$redirect = 'http://www.localhost.com/mvcms/';//index.php on IIS only

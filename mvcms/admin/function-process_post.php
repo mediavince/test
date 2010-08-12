@@ -1,51 +1,14 @@
-<?php
+<?PHP #۞ #
 if (stristr($_SERVER['PHP_SELF'],'_function-process_post.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();
 }
 //          $notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
 
-/* tried but too much vars, especially errors with conjugaison class
-function process_post() {
-  global $GLOBALS,$_POST,$_FILES,$lg,$send,$dbtime,$local_url,$getcwd;//,$class_conjugaison
-  global $adminUtil,$adminName,$adminPass,$array_admin_priv;
-  global $envoyerString,$sauverString,$erreurString,$enregistrementString,$listecorrectionString,$error_exists,$error_invmiss,$error_request;
-  global $tblenum,$tblstring,$tblcontphoto,$tblcontdoc;
-  global $basic_array,$array_modules,$fixed_array_modules,$editthis,$this_is,$dbtable,$array_fields,$list_array_fields,$old_this,$old_dbtable,$editthat,$that_is,$that_dbtable,$that_array_fields,$error,$notice;
-  global $nof,$mediumtext_array,$longtext_array,$enumYN_array,$enumtype_array,$int3_array,$array_mandatory_fields;
-  global $max_filesize;
-  
-  //$class_conjugaison = new Conjugaison;
-  
-  include $getcwd.'../SQL/_full_strings_'.$lg.'.php';
-  
-$error_delete = '<font color="Red"> * '.$enregistrementString.' '.$nonString.' '.$effaceString.' ! * </font>';
-$error_exists = '<font color="Red"> * '.$enregistrementString.' '.($lg=='en'?$dejaString.' exists':$dejaexistantString).' ! * </font>';
-$error_invmiss = '<font color="Red"> * '.$enregistrementString.' '.$invalideString.' '.$ouString.' '.$manquantString.' ! * </font>';
-$error_inv = '<font color="Red"> * '.$enregistrementString.' '.$invalideString.' ! * </font>';
-$error_request = '<font color="Red"> * '.$erreurString.' '.$derequeteString.' ! * </font>';
-$error_update = '<font color="Red"> * '.$enregistrementString.' '.$nonString.' '.$modifieString.' ! * </font>';
-
-// private
-$idString = (isset($numidString)?$numidString:"id");
-$titleString = (isset($titreString)?$titreString:"title");
-$entryString = (isset($descriptionString)?$descriptionString:"entry");
-$descString = $entryString;
-$utilString = (isset($nomutilString)?$nomutilString:"util");
-$userString = (isset($nomutilString)?$nomutilString:"user");
-$respString = (isset($responsablescientifiqueString)?$responsablescientifiqueString:"resp");
-$privString = (isset($privilegeString)?$privilegeString:"priv");
-$passString = (isset($motdepasseString)?$motdepasseString:"pass");
-$langString = (isset($langueString)?$langueString:"lang");
-$lgString = (isset($langString)?$langString:"lg");
-$documentString = (isset($docString)?$docString:"document");
-$stringString = (isset($texteString)?$texteString:"string");
-//
-*/
     if (!isset($array_modules_as_form)) $array_modules_as_form = array();
     if (!isset($old_this)) $old_this = $this_is;
     if (isset($that_is))
-    if (!isset($old_that)) $old_that = $that_is;
+    	if (!isset($old_that)) $old_that = $that_is;
     if (!isset($old_dbtable)) $old_dbtable = $dbtable;
     if (!isset($error_report)) $error_report = '';
     if (!isset($error)) $error = '';
@@ -53,6 +16,7 @@ $stringString = (isset($texteString)?$texteString:"string");
     if (!isset($error_img)) $error_img = '';
     if (!isset($notice_img)) $notice_img = '';
     if (!isset($now_time)) $now_time = time();
+
     $key_loop = '';
 
     if (($send == 'new') || ($send == $envoyerString)) {
@@ -75,7 +39,7 @@ $stringString = (isset($texteString)?$texteString:"string");
       if ($send == $sauverString) {
         $loop_array_lang = array($default_lg);
         $this_identifier = (in_array($this_is.'gendre',$array_fields)?$this_is.'date':(in_array($this_is."title",$array_fields)?$this_is."title":(in_array($this_is."titre",$array_fields)?$this_is."titre":(in_array($this_is."util",$array_fields)?$this_is."util":(in_array($this_is."title",$array_fields)?$this_is."title":$array_fields[count($basic_array)])))));
-        foreach(sql_array($dbtable,"WHERE ".$this_is."lang!='$default_lg' AND ".$this_identifier."='".sql_getone($dbtable,"WHERE ".$this_is."lang='$default_lg' AND ".$this_is.(in_array($this_is."rid",$array_fields)?'r':'')."id='".${$this_is."Id"}."'",$this_identifier)."'",$this_is."lang") as $k)
+        foreach(sql_array($dbtable,"WHERE ".$this_is."lang!='$default_lg' AND ".$this_identifier."='".sql_getone($dbtable,"WHERE ".$this_is."lang='$default_lg' AND ".$this_is.($this_id_rid===true?'r':'')."id='".${$this_is."Id"}."'",$this_identifier)."'",$this_is."lang") as $k)
           if (in_array($k,$array_lang))
           $loop_array_lang[] = $k;
       }// else $loop_array_lang = $array_lang;
@@ -141,9 +105,9 @@ $stringString = (isset($texteString)?$texteString:"string");
           $countread = sql_nrows($dbtable,"WHERE ".$this_is.$key."='".$this_titre."' ".(in_array("lang",$basic_array)?" AND ".$this_is."lang='$loop_lg' ":''));
         	if ($send == $sauverString)
             if (stristr($this_titre,$editthis[$i]))
-            $countread -= (in_array($this_is."rid",$array_fields)?count($array_lang):1);// 1
+            $countread -= ($this_id_rid===true?count($array_lang):1);// 1
          	if ($countread > 0)
-          $error_report .= ($lg==$loop_lg?'<li>'.$titreString.': '.$this_titre.' > '.$error_exists.'<span style="display:none;">@#146</span></li>':'');
+          $error_report .= ($lg==$loop_lg?'<li>'.$titreString.': '.$this_titre.' > '.$error_exists.'<span style="display:none;"><br />'.mvtrace(__FILE__,__LINE__).'</span></li>':'');
         } else if ($key == 'util') {
           ${$this_is.ucfirst($key)} = strip_tags(html_encode(${$this_is.ucfirst($key)}));
         	if (in_array($key,$array_mandatory_fields) && (${$this_is.ucfirst($key)} != '')) {
@@ -152,7 +116,7 @@ $stringString = (isset($texteString)?$texteString:"string");
             $countread = sql_nrows($dbtable,"WHERE ".$this_is.$key."='".${$this_is.ucfirst($key)}."' ");
           	if ($send == $sauverString) {
               if ($editthis[$i] == ${$this_is.ucfirst($key)})
-              $countread -= (in_array($this_is."rid",$array_fields)?count($array_lang):1);// 1
+              $countread -= ($this_id_rid===true?count($array_lang):1);// 1
             }
            	if ($countread > 0)
             $error_report .= ($lg==$loop_lg?'<li>'.${$key."String"}.': '.${$this_is.ucfirst($key)}.' > '.$error_exists.'</li>':'');
@@ -167,7 +131,7 @@ $stringString = (isset($texteString)?$texteString:"string");
             $countread = sql_nrows($dbtable,"WHERE ".$this_is.$key."='".${$this_is.ucfirst($key)}."' ");
           	if ($send == $sauverString) {
               if ($editthis[$i] == ${$this_is.ucfirst($key)})
-              $countread -= (in_array($this_is."rid",$array_fields)?count($array_lang):1);// 1
+              $countread -= ($this_id_rid===true?count($array_lang):1);// 1
             }
            	if ($countread > 0)
             $error_report .= ($lg==$loop_lg?'<li>'.${$key."String"}.': '.${$this_is.ucfirst($key)}.' > '.$error_exists.'</li>':'');
@@ -304,7 +268,7 @@ $stringString = (isset($texteString)?$texteString:"string");
           		    ${$this_is."Desc"} = space2underscore((isset($this_titre)?$this_titre:(isset(${$this_is."Util"})?${$this_is."Util"}:$_POST[$this_is."Id"]))).($ii>0?"_$ii":'');
           		  }
         		  } else {
-          			${$this_is."Desc"} = stripslashes(str_replace("'","�",html_encode($_POST[$this_is."Desc"][$ii]))).($ii>0?"_$ii":'');
+          			${$this_is."Desc"} = stripslashes(str_replace("'","´",html_encode($_POST[$this_is."Desc"][$ii]))).($ii>0?"_$ii":'');
           		}
         			$userfile_size = $_FILES[$this_is.ucfirst($key)]["size"][$ii];
         			$userfile_type = $_FILES[$this_is.ucfirst($key)]["type"][$ii];
@@ -552,9 +516,9 @@ $stringString = (isset($texteString)?$texteString:"string");
       if ($send == $sauverString) {
         $update_dbtable = $dbtable;
         $sql_Instruction = '';
-        $docimg_where = $this_is.(in_array($this_is."rid",$array_fields)?'r':'')."id='".${$this_is."Id"}."' ";
+        $docimg_where = $this_is.($this_id_rid===true?'r':'')."id='".${$this_is."Id"}."' ";
         if (isset($that_is)) {
-          $docimg_where .= " AND ".$that_is.(in_array($that_is."rid",$that_array_fields)?'r':'')."id='".${$this_is."Id"}."' ";
+          $docimg_where .= " AND ".$that_is.($that_id_rid===true?'r':'')."id='".${$this_is."Id"}."' ";
         }
         $where = $docimg_where.(in_array($this_is."lang",$array_fields)?" AND ".$this_is."lang='$loop_lg' ":'');
         $setdate = $this_is."date=$dbtime";
@@ -623,7 +587,7 @@ $stringString = (isset($texteString)?$texteString:"string");
     			$updatequery = sql_update($update_dbtable,"SET $sql_Instruction $setdate "," WHERE ".(count($array_lang)>1?$docimg_where:$where)." ",$list_array_fields);
 					//$notice .= "$update_dbtable,\"SET $sql_Instruction $setdate \",\" WHERE ".(count($array_lang)>1?$docimg_where:$where)." \",$list_array_fields<br />*<br />";
     			if ($updatequery[0] == '.')
-          $error .= $error_request.' [u] '.$loop_lg.'<span style="display:none;">@#622</span><br />';//.'<p><a href="javascript:history.back()//">'.$retourString.'</a></p>'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
+          $error .= $error_request.' [u] '.$loop_lg.'<span style="display:none;"><br />'.mvtrace(__FILE__,__LINE__).'</span><br />';//.'<p><a href="javascript:history.back()//">'.$retourString.'</a></p>'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
     			else {
     			    if (!isset($sent_email)) // so it send only one email
               if (in_array($this_is,$array_email_conf) && (isset($_POST["email"]) && ($_POST["email"]=='on'))) {
@@ -686,13 +650,13 @@ $stringString = (isset($texteString)?$texteString:"string");
           }
         }
         if (isset($tblhtaccess) && in_array($this_is,$array_modules)) {
-          $row_date = $dbtime;
+          $row_date = (isset($array_rss_dateindex[$this_is])?"'${$this_is.ucfirst($array_rss_dateindex[$this_is])}'":$dbtime);// already filtered as date with db_date()
           $row_statut = ${$this_is."Statut"};
           $keylg = ($lg==$default_lg?$loop_lg:$lg);
           $row_lang = $keylg;
           $row_type = $this_is;
-        //  $row_entry = (isset($_POST[$this_is."Id"])?$_POST[$this_is."Id"]:sql_getone($dbtable,"WHERE ".$this_is.(in_array($this_is."rid",$array_fields)?'r':'')."id='$this_id' AND ".$this_is."lang='$keylg' ",$this_is."id"));
-          $row_entry = sql_getone($dbtable,"WHERE ".$this_is.(in_array($this_is."rid",$array_fields)?'r':'')."id='$this_id' AND ".$this_is."lang='$keylg' ",$this_is."id");
+        //  $row_entry = (isset($_POST[$this_is."Id"])?$_POST[$this_is."Id"]:sql_getone($dbtable,"WHERE ".$this_is.($this_id_rid===true?'r':'')."id='$this_id' AND ".$this_is."lang='$keylg' ",$this_is."id"));
+          $row_entry = sql_getone($dbtable,"WHERE ".$this_is.($this_id_rid===true?'r':'')."id='$this_id' AND ".$this_is."lang='$keylg' ",$this_is."id");
         //  $row_item = $master_item;
           $row_item = $this_id;
           if (isset(${$this_is."Gendre"})) $row_title = ${$this_is."Prenom"}." ".${$this_is."Nom"};// sql_stringit('gendre',${$this_is."Gendre"})." ".
@@ -736,7 +700,7 @@ $stringString = (isset($texteString)?$texteString:"string");
 					  if ((isset($default_lg_metadesc)&&($default_lg_metadesc == $getthis[5])) || (!isset($default_lg_metadesc) && (($row_metadesc != $getthis[5]) || ($row_metadesc != $default_desc_keyw[0])))) $setq .= "htaccessmetadesc='$row_metadesc', ";
 					  if ((isset($default_lg_metakeyw)&&($default_lg_metakeyw == $getthis[6])) || (!isset($default_lg_metadesc) && (($row_metakeyw != $getthis[6]) || ($row_metakeyw != $default_desc_keyw[1])))) $setq .= "htaccessmetakeyw='$row_metakeyw', ";
 					  if ($setq != '')
- 						$notice .= $effectueString." [u] ".$loop_lg." htaccess > <b>$row_type</b> : <i>".sql_updateone($tblhtaccess,"SET htaccessdate=$row_date, $setq htaccessid='".$getthis[0]."' ","WHERE htaccessid='".$getthis[0]."' ","htaccesstitle")."</i><br />";//."$tblhtaccess,\"SET htaccessdate=$row_date, $setq htaccessid='".$getthis[0]."' \",\"WHERE htaccessid='".$getthis[0]."' \",\"htaccesstitle\"<br />";
+ 						$notice .= $effectueString." [u] ".$loop_lg." htaccess > <b>$row_type</b> : <i>".sql_updateone($tblhtaccess,"SET htaccessdate=$row_date, $setq htaccessid='".$getthis[0]."' ","WHERE htaccessid='".$getthis[0]."' ","htaccesstitle")."</i><br />";//."$tblhtaccess,\"SET htaccessdate=$row_date, $setq htaccessid='".$getthis[0]."' \",\"WHERE htaccessid='".$getthis[0]."' \",\"htaccesstitle\"<br />".(isset($array_rss_dateindex[$this_is])?'true':'false')." $this_is<br />".db_date(${$this_is.ucfirst($array_rss_dateindex[$this_is])})."<hr />";
           }
         }
       } else { //////////////////////////// END SAVE
@@ -748,20 +712,22 @@ $stringString = (isset($texteString)?$texteString:"string");
         //  continue;
           if (substr($array_fields[$i],0,strlen($dbtable)-1) != $this_is) {
           //  if (($this_is != "user") || (($this_is == "user") && ($loop_lg == $default_lg)))
-            $insertquery = @mysql_query("INSERT INTO $dbtable ".sql_fields($dbtable,'list')." VALUES ( $values ) ");
+          // perf // $insertquery = @mysql_query("INSERT INTO $dbtable ".sql_fields($dbtable,'list')." VALUES ( $values ) "); // faster with imploding instead of calling again sql_fields
+            $insertquery = @mysql_query("INSERT INTO $dbtable ".implode(",",$array_fields)." VALUES ( $values ) ");
           //  else $insertquery = TRUE;
       			if (!$insertquery) {
-              $error .= $error_request.' [i] '.$loop_lg.'<span style="display:none;">@#732</span>';//.'<p><a href="javascript:history.back()//">'.$retourString.'</a></p>'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
+              $error .= $error_request.' [i] '.$loop_lg.'<span style="display:none;"><br />'.mvtrace(__FILE__,__LINE__).'</span>';//.'<p><a href="javascript:history.back()//">'.$retourString.'</a></p>'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
               break;
             } else {
             	if (!isset($newly_inserted_id))
               if ($loop_lg == $default_lg) {
-                $new_id = sql_getone($dbtable,$where,$this_is."id");
+              // perf //  $new_id = sql_getone($dbtable,$where,$this_is."id");
+                $new_id = mysql_insert_id();
                 if (!preg_match("/^[0-9]+\$/",$new_id)) {
                   $error .= $error_request.' [i] '.$loop_lg.' table 2<br />';//.'<p><a href="javascript:history.back()//">'.$retourString.'</a></p>'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
                   break;
                 } else {
-                  $update_rid = sql_updateone($dbtable,"SET ".$this_is.(in_array($this_is."rid",$array_fields)?"lang='$default_lg', ".$this_is."r":'')."id='$new_id' ","WHERE ".$this_is."id='$new_id' ",$this_is.(in_array($this_is."rid",$array_fields)?'r':'')."id");
+                  $update_rid = sql_updateone($dbtable,"SET ".$this_is.($this_id_rid===true?"lang='$default_lg', ".$this_is."r":'')."id='$new_id' ","WHERE ".$this_is."id='$new_id' ",$this_is.($this_id_rid===true?'r':'')."id");
                   if ($update_rid != $new_id) {
                     $error .= $error_request.' [i] '.$loop_lg.' table 3<br />';
                     break;
@@ -769,7 +735,8 @@ $stringString = (isset($texteString)?$texteString:"string");
                   $newly_inserted_id = $new_id;
                 }
               } else {
-                $newly_inserted_id = sql_getone($dbtable,$where,$this_is."id");
+              // perf //  $newly_inserted_id = sql_getone($dbtable,$where,$this_is."id");
+                $newly_inserted_id = mysql_insert_id();
               }
             }
             $this_is = $that_is;
@@ -836,9 +803,9 @@ $stringString = (isset($texteString)?$texteString:"string");
     		else $insertquery = TRUE;
     		
     		if (!$insertquery)
-        $error .= $error_request.' [i] '.$loop_lg.'<span style="display:none;">@#817</span><br />';//." @INSERT INTO $dbtable ".sql_fields($dbtable,'list')." VALUES ( $values ) <br />";//.'<p><a href="javascript:history.back()//">'.$retourString.'</a></p>'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
+        $error .= $error_request.' [i] '.$loop_lg.'<span style="display:none;"><br />'.mvtrace(__FILE__,__LINE__).'</span><br />';//." @INSERT INTO $dbtable ".sql_fields($dbtable,'list')." VALUES ( $values ) <br />";//.'<p><a href="javascript:history.back()//">'.$retourString.'</a></p>'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
   			else {
-        $notice .= ' [i] '.$loop_lg.'<span style="display:none;">@#819</span><br />';//." INSERT INTO $dbtable ".sql_fields($dbtable,'list')." VALUES ( $values ) <br />";
+        $notice .= ' [i] '.$loop_lg.'<span style="display:none;"><br />'.mvtrace(__FILE__,__LINE__).'</span><br />';//." INSERT INTO $dbtable ".sql_fields($dbtable,'list')." VALUES ( $values ) <br />";
             	if (!isset($newly_inserted_id))
               if ($loop_lg == $default_lg) {
                 $new_id = sql_getone($dbtable,$where,$this_is."id");
@@ -846,7 +813,7 @@ $stringString = (isset($texteString)?$texteString:"string");
                   $error .= $error_request.' [i] '.$loop_lg.' table 2<br />';//.'<p><a href="javascript:history.back()//">'.$retourString.'</a></p>'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
                   break;
                 } else {
-                  $update_rid = sql_updateone($dbtable,"SET ".$this_is.(in_array($this_is."rid",$array_fields)?'r':'')."id='$new_id' ","WHERE ".$this_is."id='$new_id' ",$this_is.(in_array($this_is."rid",$array_fields)?'r':'')."id");
+                  $update_rid = sql_updateone($dbtable,"SET ".$this_is.($this_id_rid===true?'r':'')."id='$new_id' ","WHERE ".$this_is."id='$new_id' ",$this_is.($this_id_rid===true?'r':'')."id");
                   if ($update_rid != $new_id) {
                     $error .= $error_request.' [i] '.$loop_lg.' table 3<br />';
                     break;
@@ -956,7 +923,7 @@ $stringString = (isset($texteString)?$texteString:"string");
     				      $htaccess_k = substr($htaccess_k,strlen('htaccess'));
     				      if (in_array($htaccess_k,$basic_array)) {
     				        if ($htaccess_k == 'id') $htaccess_values .= "''";
-    				        if ($htaccess_k == 'date') $htaccess_values .= ",$dbtime";
+    				        if ($htaccess_k == 'date') $htaccess_values .= (isset($array_rss_dateindex)&&in_array($this_is,$array_rss_dateindex)?",'${$this_is.ucfirst($array_rss_dateindex[$this_is])}'":",$dbtime");
     				        if ($htaccess_k == 'statut') $htaccess_values .= ",'".(!preg_match("/^[YN]\$/",${$this_is.ucfirst($htaccess_k)})?'Y':${$this_is.ucfirst($htaccess_k)})."'";
     				        if ($htaccess_k == 'lang') $htaccess_values .= ",'$loop_lg'";
     				      } else {

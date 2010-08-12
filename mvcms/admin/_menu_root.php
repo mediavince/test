@@ -1,4 +1,4 @@
-<?PHP ##VISITORS
+<?PHP #۞ #VISITORS
 if (stristr($_SERVER['PHP_SELF'],"_menu_root.php")) {
 	include '_security.php';
 	Header("Location: $redirect");Die();
@@ -264,19 +264,18 @@ $this_type = $pgcontent[4];
 $this_priv = $pgcontent[5];
 //if (($x == "") || ($x == '.'))
 foreach($array_modules as $key) {
-  // need to add contytype selection for institute and members !!!
   ################################################################
 	if (isset(${$key."Id"}) && preg_match("/^[0-9]+\$/",${$key."Id"}) && (!isset($potential_x) || (isset($potential_x) && ($potential_x === false))) && (($this_type != $key) || (isset($tblhtaccess) && isset($check_type_for_identification)) || (($htaccess4sef===true) && stristr($_SERVER['QUERY_STRING'],${$key."Id"}))))// && (isset($tblhtaccess) && (stristr($_SERVER['QUERY_STRING'],${$key."Id"}) || isset($check_type_for_identification)) || (!isset($tblhtaccess) && ($this_type != $key))) )//)
     {
     if (($htaccess4sef === false) && isset(${$key."Id"}) && preg_match("/^[0-9]+\$/",${$key."Id"})) {
-      $id_type = sql_getone(${"tbl".$key},"WHERE ".$key."id='".${$key."Id"}."' ",$key."type");
-      $id_archive = sql_getone(${"tbl".$key},"WHERE ".$key."id='".${$key."Id"}."' ",$key."archive");
+      $id_type = sql_getone(${"tbl".$key},"WHERE ".$key.(in_array($key.'rid',sql_fields(${"tbl".$key},'array'))?'r':'')."id='".${$key."Id"}."' ",$key."type");
+      $id_archive = sql_getone(${"tbl".$key},"WHERE ".$key.(in_array($key.'rid',sql_fields(${"tbl".$key},'array'))?'r':'')."id='".${$key."Id"}."' ",$key."archive");
       if ($id_type != '')
       $id_type_url = sql_getone($tblcont,"WHERE contstatut='Y' AND contpg='$x' AND conturl LIKE '%".space2underscore(sql_stringit($key.'type',$id_type))."_$lg."."%' ","conturl");
     }
     if (!isset($id_type_url) || (isset($id_type_url) && ($id_type_url != ''))) {
       $x_of_type = sql_getone($tblcont,"WHERE $where_statut_lang conttype='$key' ","contpg");
-      $header_loca = str_replace("?&","?",lgx2readable($lg,(in_array($x_of_type,array("","."))?"1":$x_of_type)).($htaccess4sef===true?"/".(isset($tblhtaccess)&&preg_match("/^[0-9]+\$/",${$key."Id"})?sql_getone($tblhtaccess,"WHERE htaccesslang='$lg' AND htaccessitem='".${$key."Id"}."' AND htaccesstype='$key' ORDER BY htaccessdate DESC ","htaccessurl"):((${$key."Id"}=='new')&&($logged_in===true)?'?send=':'').${$key."Id"}):'?'.$key.'Id='.${$key."Id"}).(isset($send)?'?'.str_replace($key."Id=".${$key."Id"},"",$_SERVER['QUERY_STRING']):''));
+      $header_loca = str_replace("?&","?",lgx2readable($lg,(in_array($x_of_type,array("","."))?"1":$x_of_type)).($htaccess4sef===true?(isset($tblhtaccess)&&preg_match("/^[0-9]+\$/",${$key."Id"})?sql_getone($tblhtaccess,"WHERE htaccesslang='$lg' AND htaccessitem='".${$key."Id"}."' AND htaccesstype='$key' ORDER BY htaccessdate DESC ","htaccessurl"):((${$key."Id"}=='new')&&($logged_in===true)?'?send=':'').${$key."Id"}):'?'.$key.'Id='.${$key."Id"}).(isset($send)?'?'.str_replace($key."Id=".${$key."Id"},"",$_SERVER['QUERY_STRING']):''));
       //  echo 'header_loca > '.$header_loca;
       if (!in_array($x_of_type,array("",".")))
       {Header("Location: $mainurl".$header_loca);Die();}

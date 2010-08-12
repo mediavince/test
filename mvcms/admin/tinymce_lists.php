@@ -1,4 +1,4 @@
-<?PHP
+<?PHP #۞ #
 
 ###########################!!! ADMIN !!!
 
@@ -230,6 +230,6 @@ echo '
 	$tinyMCE_docs .= $loop_tinyMCE_docs.');';
 	echo $tinyMCE_docs;
 } else {
-	Header("Location: $redirect;");Die();
+	Header("Location: $redirect");Die();
 }
 ?>

@@ -1,4 +1,4 @@
-<?PHP
+<?PHP #۞ #
 if (!get_magic_quotes_gpc()) {
         $in = array(&$_GET, &$_POST, &$_COOKIE);
         while (list($k,$v) = each($in)) {
@@ -112,6 +112,7 @@ if (!$connection) {
 #######################################################################################################
 
 #########
+session_id();// ensures we are using the right session
 session_start();
 if (isset($_SESSION['mv_error']) || isset($_SESSION['mv_notice'])) {
   if (isset($_SESSION['mv_error']) && ($_SESSION['mv_error'] != '')) {
@@ -128,8 +129,8 @@ if (isset($_SESSION['mv_error']) || isset($_SESSION['mv_notice'])) {
 	$mainurl = $domain;
 	$mainurljs = addslashes($mainurl);
 	$local = $domain;
-	if (stristr($_SERVER['PHP_SELF'], $urladmin))	$local = $domain.$urladmin	;
-	if (stristr($_SERVER['PHP_SELF'], $urlintro))	$local = $mainurl.$urlintro	;
+	if (stristr($_SERVER['PHP_SELF'],$urladmin))	$local = $domain.$urladmin	;
+	if (stristr($_SERVER['PHP_SELF'],$urlintro))	$local = $mainurl.$urlintro	;
   $extractfromphpself = strlen($url_mirror);
 
   if (!isset($coinfo))
@@ -178,7 +179,13 @@ $stylesheet = '
   <link rel="icon" type="image/png" href="'.$mainurl.(@file_exists($up."favicon.png")?'':'images/').'favicon.png" />').'
 	<!--[if lte IE 8]><link rel="stylesheet" type="text/css" title="IE8 Fixes" href="'.$mainurl.($active_template!=''&&@file_exists($up.$url_active_template."ie8fix.css")?$url_active_template:'lib/').'ie8fix.css" /><![endif]-->
 	<!--[if lte IE 7]><link rel="stylesheet" type="text/css" title="IE7 Fixes" href="'.$mainurl.($active_template!=''&&@file_exists($up.$url_active_template."ie7fix.css")?$url_active_template:'lib/').'ie7fix.css" /><![endif]-->
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" title="IE5/6 Fixes" href="'.$mainurl.($active_template!=''&&@file_exists($up.$url_active_template."ie6fix.css")?$url_active_template:'lib/').'ie6fix.css" /><![endif]-->
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" title="IE5/6 Fixes" href="'.$mainurl.($active_template!=''&&@file_exists($up.$url_active_template."ie6fix.css")?$url_active_template:'lib/').'ie6fix.css" />
+ <script type="text/javascript" src="'.$mainurl.'lib/iepngfix_tilebg.js"></script>
+ <style type="text/css">
+#header .logo,.contour .top-left,.contour .top-center,.contour .top-right,.contour-body-left,.contour-body-middle,.contour .bottom-left,.contour .bottom-center,.contour .bottom-right,#toplogin{behavior:url("'.$mainurl.'lib/iepngfix.htc");}
+ </style>
+
+	<![endif]-->
 	<!--[if IE 5]><link rel="stylesheet" type="text/css" title="IE5.5 Fixes" href="'.$mainurl.($active_template!=''&&@file_exists($up.$url_active_template."ie5fix.css")?$url_active_template:'lib/').'ie5fix.css" /><![endif]-->
 	<!--[if gt IE 6]><link rel="shortcut icon" type="image/x-icon" href="'.$mainurl.(@file_exists($up."favicon.ico")?'':'images/').'favicon.ico" /><![endif]-->'	;
 	//<!--[if gt IE 7]><link rel="stylesheet" type="text/css" title="IE8 Fixes" href="'.$mainurl.'lib/ie8fix.css" /><![endif]-->
@@ -260,7 +267,7 @@ if (isset($tblhtaccess))
 	$array_swf_ext = array("swf", "flv", "wmv", "avi", "mp3", "mov", "rm", "mpeg", "mpg", "asf");
 	$array_media_ext = array_unique(array_merge($array_img_ext,$array_swf_ext));
   if (!isset($array_doc_ext))
-	$array_doc_ext = array("doc", "xls", "ppt", "pps", "pdf");
+	$array_doc_ext = array("doc", "xls", "ppt", "pps", "pdf", "xml");
 	if (!isset($tiny_mp3_inflash))
 	$tiny_mp3_inflash = false;
 	if (!isset($mp3_logo))
@@ -283,15 +290,13 @@ foreach($getvars_pg_array as $key) {
 	if (isset($_REQUEST[$key])) {
     ${$key} = trim($_REQUEST[$key]);
     if ($key == 'send') ${$key} = html_encode(${$key})	; // reason why _incerror.php is included here
-    ${$key} = stripslashes(str_replace("'", "�", ${$key}))	;
+    ${$key} = stripslashes(str_replace("'", "&acute;", ${$key}))	;//´
     if (${$key} == "<p></p>")	${$key} = ""	;
     if (${$key} == "<p>&nbsp;</p>")	${$key} = ""	;
   }
   // debug echo "$key<br />";
 }
 
-if (!isset($alaune))
-$alaune = ""	;
 if (!isset($s))
 $s = "s"	; // used for plurals on condition of quantity > 1
 if (!isset($y_menu))
@@ -314,7 +319,7 @@ if (!isset($array_lang[0]) || ($array_lang[0] == "")) {
 
 // strip http://{http_host} from rqst_uri
 if (substr($_SERVER['REQUEST_URI'],0,strlen("http://".$_SERVER['HTTP_HOST'])) == "http://".$_SERVER['HTTP_HOST']) {
-  $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'],(strlen($_SERVER['HTTP_HOST'])+7));//,strlen("http://".$_SERVER['HTTP_HOST'])
+  $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'],(strlen($_SERVER['HTTP_HOST'])+7));// http:// = 7 ,strlen("http://".$_SERVER['HTTP_HOST'])
 }
 
 // prevents repetition of slash in URL
@@ -388,7 +393,7 @@ if (!isset($lg)) {
           $get_x = sql_get($tblhtaccess,"WHERE htaccessstatut='Y' AND htaccesslang='$lg' AND htaccessurl='$url_from_php' ORDER BY htaccessdate DESC ","htaccessitem,htaccesstype");
           if ($get_x[0] != '.') {
             ${$get_x[1]."Id"} = $get_x[0];
-            Header("Location: ".$mainurl."?".$get_x[1]."Id=".$get_x[0].($_SERVER['QUERY_STRING']!=""?'&amp;'.$_SERVER['QUERY_STRING']:''));Die("Location: ".$mainurl."?".$get_x[1]."Id=".$get_x[0].($_SERVER['QUERY_STRING']!=""?'&amp;'.$_SERVER['QUERY_STRING']:''));
+            Header("Location: ".$mainurl."?".$get_x[1]."Id=".$get_x[0].($_SERVER['QUERY_STRING']!=""?'&amp;'.$_SERVER['QUERY_STRING']:''));Die();
           }
         }
       }
@@ -495,6 +500,8 @@ if (!isset($array_modules_as_form)) $array_modules_as_form = array();
 if (!isset($array_preferred_fields)) $array_preferred_fields = array('title','titre','name','nom','util','id');
 if (!isset($forum_commenting)) $forum_commenting = false;
 if (!isset($array_galleries)) $array_galleries = array();
-if (!isset($array_unmanaged_modules)) $array_unmanaged_modules = array();
+if (!isset($array_fixed_modules)) $array_fixed_modules = array();
+if (!isset($array_unmanaged_modules)) $array_unmanaged_modules = array("contact","profil");
+$mod_array = array_unique(array_merge($array_fixed_modules,$array_modules));//,"catalog","inscrire");
 
 ?>

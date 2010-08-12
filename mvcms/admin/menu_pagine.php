@@ -1,4 +1,4 @@
-<?PHP
+<?PHP #۞ #
 
 if (stristr($_SERVER["PHP_SELF"], "menu_pagine.php")) {
 	include '_security.php';
@@ -9,7 +9,7 @@ global $trace, $mainurl, $tblcont, $tblblog, $font_family, $font_size, $default_
 
 $html_js = '
 /*
- $Name  : menu_pagine.js, 20070227 � 1996-2007 pf;
+ $Name  : menu_pagine.js, 20070227 © 1996-2007 pf;
  $Date  : Tue, 27 Feb 2007 10:00:00 GMT;
  $Exp   : Mon, 31 Dec 2007 23:59:59 GMT;
  $Lang  : html_js;

@@ -1,3 +1,6 @@
+/*
+#header .logo,.contour .top-left,.contour .top-center,.contour .top-right,.contour-body-left,.contour-body-middle,.contour .bottom-left,.contour .bottom-center,.contour .bottom-right,#toplogin{behavior:url('iepngfix.htc');}
+*/
 .toploginwrapper{position:fixed;top:0;}z-index:9999999;margin:0;width:80%;text-align:center;}
 #toplogin{position:absolute;top:0;z-index:9999999;margin:0;min-width:200px;max-width:200px;background: transparent url('../images/white_transdot.png') repeat;padding:2px;}
 #toplogin form{margin:0;padding:2px;}

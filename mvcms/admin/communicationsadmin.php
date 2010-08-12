@@ -1,4 +1,4 @@
-<?PHP ## ADMIN
+<?PHP #Ûž # ADMIN
 if (stristr($_SERVER['PHP_SELF'],'communicationsadmin.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();
@@ -61,16 +61,16 @@ if ($nRows == '0') {
       $communications2who[] = "1";
     }
 		$communicationsMessage = nl2br(strip_tags(html_encode(stripslashes($_POST['communicationsMessage']))));
-		if (!isset($communicationsSender) || !is_email($communicationsSender) || (!isset($communicationsSujet)) || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $communicationsSujet) || ($communicationsSujet == "") || (strlen($communicationsSujet) > 60) || !isset($communications2who) || ($communications2who[0] == "1") || (!isset($communicationsMessage)) || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $communicationsMessage) || ($communicationsMessage == "")
+		if (!isset($communicationsSender) || !is_email($communicationsSender) || (!isset($communicationsSujet)) || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $communicationsSujet) || ($communicationsSujet == "") || (strlen($communicationsSujet) > 60) || !isset($communications2who) || ($communications2who[0] == "1") || (!isset($communicationsMessage)) || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $communicationsMessage) || ($communicationsMessage == "")
 		   ) {
   $error .= '<font color="Red"><b>'.$erreurString.'!</b></font><br />'.$listecorrectionString.'<ul>';
 			if ( !$communicationsSender || !is_email($communicationsSender) )  
   $error .= '<li>'.$fromString.' > '.$error_invmiss.'</li>'  ;
-			if ( !$communicationsSujet  ||  preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $communicationsSujet) || (strlen($communicationsSujet) > 60) )  
+			if ( !$communicationsSujet  ||  preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $communicationsSujet) || (strlen($communicationsSujet) > 60) )  
   $error .= '<li>'.$sujetString.' > '.$error_invmiss.' (max: 60 c.)</li>'  ;
 			if ( !$communications2who || ($communications2who[0] == "1") )  
   $error .= '<li>'.$typeString.' > '.$error_invmiss.'</li>'  ;
-			if ( !$communicationsMessage  ||  preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $communicationsMessage) )  
+			if ( !$communicationsMessage  ||  preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $communicationsMessage) )  
   $error .= '<li>'.$messageString.' > '.$error_invmiss.'</li>'  ;
   $error .= '</ul>';//<a href="javascript:history.back()//">'.$retourString.'</a>';
 		} else {

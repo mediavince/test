@@ -1,4 +1,4 @@
-<?PHP ## ADMIN
+<?PHP #۞ # ADMIN
 if (stristr($_SERVER["PHP_SELF"],'mediaadmin.php')) {
   include '_security.php';
 	Header("Location: $redirect");Die();
@@ -129,18 +129,14 @@ if ($logged_in === true) {
 	//	if ($send == 'edit') {
 
 
-
-
     if ($x == 'z')
     $content .= $photoListe.$docListe.$delete_media;
     
     
     // template upload
-    
-    
-  $content .= '<b>Sending a complete template in ZIP</b><br />'.gen_form($lg,$x,$y).'<input type="file" name="myzip" value="" /><br /><input type="submit" name="send" value="'.ucfirst($envoyerString).' ZIP" /> (This can take some time, maximum of '.ini_get('max_execution_time').' seconds)</form><hr /><br />';
-		
-		
+    if (sql_getone($tbladmin,"WHERE adminpriv LIKE '%0%' LIMIT 1 ","adminutil") == $admin_name)
+  $content .= '<b>Sending a complete template in ZIP</b><br />'.gen_form($lg,$x,$y).'<input type="file" name="myzip" value="" /><br /><input type="submit" name="send" value="'.ucfirst($envoyerString).' ZIP" /><br />(This can take some time, maximum of '.ini_get('max_execution_time').' seconds)</form><hr /><br />';
+
 		
 #######################################################FORME DE TELECHARGE PHOTO
 #######################################################PIC UPLOAD FORM
@@ -148,16 +144,18 @@ if ($logged_in === true) {
     $content .= gen_form($lg,$x,$y);
 		if (isset($logo))	
     $content .= '<input type="hidden" name="logo" value="" /><b>'.$ajoutString.' '.$logoString.'</b><br /> <br />'	;
-		for ($j=1;$j<=$nof;$j++) {
-      $content .= '<label for="contphotoDesc[]">'.$descriptionString.' '.$photoString.'</label><br /><input type="text" name="contphotoDesc[]" size="60" /><br /><!--( a-z A-Z 0-9_- , " " > _ )<br />-->';
+		for ($j=0;$j<$nof;$j++) {
+      $content .= '<label for="contphotoDesc[]">'.$descriptionString.' '.$photoString.'</label><br /><input type="text" name="contphotoDesc[]" size="60" value="'.(isset($_SESSION["contphotoDesc_$j"])?$_SESSION["contphotoDesc_$j"]:'').'" /><br /><!--( a-z A-Z 0-9_- , " " > _ )<br />-->';
       $content .= '<input type="file" name="contphoto[]" /> ( .'.implode(" , .",$array_img_ext).' )<br />'.$multimediaString.' ( .'.implode(" , .",$array_swf_ext).' )<br />('.$max_filesizeString.$max_filesideString.')<br />';
+			$_SESSION["contphotoDesc_$j"] = NULL;
 		}
-    $content .= '<br /> <br /><input type="submit" name="send" value="'.$envoiphotoString.'"> | <a href="javascript:history.back()//">'.$retourString.'</a></form>';
+    $content .= '<br /> <br /><input type="submit" name="send" value="'.$envoiphotoString.'" /> | <a href="javascript:history.back()//">'.$retourString.'</a></form>';
 #######################################################ENVOI PHOTO
 #######################################################SEND PIC
 	} else if ($send == $envoiphotoString) {
 		for ($i=0;$i<$nof;$i++) {
 			$contphotoDesc = stripslashes(str_replace("'", "´",html_encode($_POST["contphotoDesc"][$i])));
+      $_SESSION["contphotoDesc_$i"] = $contphotoDesc;
 			if ($contphotoDesc != '') {
   			$userfile_name = $_FILES["contphoto"]["name"][$i];
   			$userfile_tmp = $_FILES["contphoto"]["tmp_name"][$i];
@@ -182,7 +180,7 @@ if ($logged_in === true) {
     $error_img .= '<li>'.$fichierString.' > '.$error_inv.' ('.$max_filesizeString.')</li>'	;
   				if ($check > '0')	
     $error_img .= '<li>'.$error_exists.'</li>'	;
-    $error_img .= '</ul><a href="javascript:history.back()//">'.$retourString.'</a><br />';
+    $error_img .= '</ul><br />';//<a href="javascript:history.back()//">'.$retourString.'</a><br />';
   			} else {
           if (in_array($ext,$array_img_ext)) {
           	$filename = $filedir.space2underscore($contphotoDesc);
@@ -194,11 +192,11 @@ if ($logged_in === true) {
           	move_uploaded_file($userfile_tmp,$getcwd.$up.$movelocation);
           }
   				if ($location == "error-too_small") {
-    $error_img .= $erreurString.' > '.$max_filesizeString.' | <a href="'.$local_url.($x=='z'?'':'&amp;send=edit').'">'.$retourString.'</a><br />';
+    $error_img .= $erreurString.' > '.$max_filesizeString.'<br />';// | <a href="'.$local_url.($x=='z'?'':'&amp;send=edit').'">'.$retourString.'</a><br />';
   				} else if ($location == "error-sqrt") {
-    $error_img .= $erreurString.' > '.$max_filesizeString.' (max sqrt <= '.$max_sqrt.') | <a href="'.$local_url.($x=='z'?'':'&amp;send=edit').'">'.$retourString.'</a><br />';
+    $error_img .= $erreurString.' > '.$max_filesizeString.' (max sqrt <= '.$max_sqrt.')<br />';// | <a href="'.$local_url.($x=='z'?'':'&amp;send=edit').'">'.$retourString.'</a><br />';
   				} else if (!$location || ($location == "")) {
-    $error_img .= $erreurString.' > '.$error_inv.' <a href="javascript:history.back()//">'.$retourString.'</a><br />';
+    $error_img .= $erreurString.' > '.$error_inv.'<br />';// <a href="javascript:history.back()//">'.$retourString.'</a><br />';
   				} else {
   					$contphotoimg = $location;
   					$insertquery = @mysql_query("
@@ -208,7 +206,7 @@ if ($logged_in === true) {
                   											(NULL, 'Y', $dbtime, '', '', '$admin_name', '$x', '$contphotoDesc', '$contphotoimg')
                   											");
   					if (!$insertquery) {
-    $error_img .= $error_request.'<br /><a href="'.$local_url.($x=='z'?'':'&amp;send=edit').'">'.$retourString.'</a>';
+    $error_img .= $error_request.'<br />';//<br /><a href="'.$local_url.($x=='z'?'':'&amp;send=edit').'">'.$retourString.'</a>';
   					} else {
     					$insertread = sql_get($tblcontphoto, " WHERE contphotoimg='$contphotoimg' ", "contphotoid, contphotoutil, contphotocontid, contphotoimg, contphotodesc");
     					$values = "";
@@ -251,10 +249,18 @@ if ($logged_in === true) {
   					}
   				}
   			}
-  		}
+  		} else {
+		    $error_img .= $erreurString.' > '.$descriptionString.' '.($nof>1?'('.$i.')':'').' '.$error_invmiss.'<br />';// | <a href="'.$local_url.($x=='z'?'':'&amp;send=upldphoto').'">'.$retourString.'</a>
+			}
 		}
 		$notice .= $notice_img;
 		$error .= $error_img;
+    if ($error !== '') {// && stristr($_SERVER['REQUEST_URI'],$urladmin)) {
+      $_SESSION['mv_error'] = $error;
+      Header("Cache-Control: no-cache");
+      Header("Pragma: no-cache");
+      Header("Location: ".html_entity_decode($local_url.'&amp;send=upldphoto'));Die();
+    }
 #######################################################EFFACER PHOTO
 #######################################################DELETE PIC
 	} else if ($send == "delphoto") {
@@ -309,16 +315,18 @@ if ($logged_in === true) {
 #######################################################PIC UPLOAD FORM
 	} else if ($send == "uplddoc") {
     $content .= gen_form($lg,$x,$y);
-		for ($j=1;$j<=$nof;$j++) {
-      $content .= '> '.$descriptionString.' '.$docString.' :<br /><input type="text" name="contdocDesc[]" size="60"><br /><!--( a-z A-Z 0-9_- , " " > _ )<br />-->';
-      $content .= '<input type="file" name="contdoc[]"><br />(.'.implode(", .",$array_doc_ext).' &amp; '.$max_filesizeString.')<br />';
+		for ($j=0;$j<$nof;$j++) {
+      $content .= '> '.$descriptionString.' '.$docString.' :<br /><input type="text" name="contdocDesc[]" size="60" value="'.(isset($_SESSION["contdocDesc_$j"])?$_SESSION["contdocDesc_$j"]:'').'" /><br /><!--( a-z A-Z 0-9_- , " " > _ )<br />-->';
+      $content .= '<input type="file" name="contdoc[]" /><br />(.'.implode(", .",$array_doc_ext).' &amp; '.$max_filesizeString.')<br />';
+			$_SESSION["contdocDesc_$j"] = NULL;
 		}
-    $content .= '<br /> <br /><input type="submit" name="send" value="'.$envoidocString.'"> | <a href="javascript:history.back()//">'.$retourString.'</a></form>';
+    $content .= '<br /> <br /><input type="submit" name="send" value="'.$envoidocString.'" /> | <a href="javascript:history.back()//">'.$retourString.'</a></form>';
 #######################################################ENVOI doc
 #######################################################SEND PIC
 	} else if ($send == $envoidocString) {
 		for ($i=0;$i<$nof;$i++) {
 			$contdocDesc = stripslashes(str_replace("'", "´",html_encode($_POST["contdocDesc"][$i])));
+			$_SESSION["contdocDesc_$i"] = $contdocDesc;
 			if ($contdocDesc != '') {
   			$userfile_name = $_FILES["contdoc"]["name"][$i];
   			$userfile_tmp = $_FILES["contdoc"]["tmp_name"][$i];
@@ -340,12 +348,12 @@ if ($logged_in === true) {
   				if (!$contdocDesc || !preg_match("/^[a-zA-Z0-9_-]+\$/",space2underscore($contdocDesc)) || ($contdocDesc == ''))
     $error_img .= '<li>'.$nomString.' > '.$error_invmiss.'</li>'	;
   				if (($userfile_name == '') || (!$valid_ext == 'true') || ($valid_ext == 'false'))	
-    $error_img .= '<li>'.$fichierString.$contdocDesc.' > '.$error_invmiss.'</li>'	;
+    $error_img .= '<li>'.$fichierString.': '.$contdocDesc.' > '.$error_invmiss.'</li>'	;
   				if ($userfile_size > $max_filesize)
     $error_img .= '<li>'.$fichierString.' > '.$error_inv.' ('.$max_filesizeString.')</li>'	;
   				if ($check > '0')
     $error_img .= '<li>'.$error_exists.'</li>'	;
-    $error_img .= '</ul><a href="javascript:history.back()//">'.$retourString.'</a></p>';
+    $error_img .= '</ul><br />';//<a href="javascript:history.back()//">'.$retourString.'</a></p>';
   			} else {
   				$userfile_name = $filedir.space2underscore($contdocDesc).'.'.$ext;
   				$location = "$userfile_name";
@@ -359,7 +367,7 @@ if ($logged_in === true) {
                   										(NULL, 'Y', $dbtime, '', '', '$admin_name', '$x', '$contdocDesc', '$contdoc')
                   										");
   				if (!$insertquery) {
-    $error_img .= $error_request.'<br /><a href="'.$local_url.($x=='z'?'':'&amp;send=edit').'">'.$retourString.'</a><br />';
+    $error_img .= $error_request.'<br />';//<br /><a href="'.$local_url.($x=='z'?'':'&amp;send=edit').'">'.$retourString.'</a><br />';
   				} else {
     				$insertread = sql_get($tblcontdoc, " WHERE contdoc='$contdoc' ", "contdocid, contdocutil, contdoccontid, contdoc, contdocdesc");
     				$values = "";
@@ -382,13 +390,21 @@ if ($logged_in === true) {
   					$insert_read_3 = $insertread[3];
     $notice_img .= $enregistrementString.' '.$effectueString.'<!-- <br />pour le doc : "<i>'.$insertread[4].'</i>"<br />post&eacute; par '.$insertread[1].' --></b></font><br /> <br /><a href="'.$mainurl.$insert_read_3.'" target="_blank" title="'.$insertread[4].'" alt="'.$insertread[4].'"><img src="'.$mainurl.'images/'.$ext.'logo.gif" width="16" height="16" vspace="5" hspace="5" title="'.$insertread[4].'" alt="'.$insertread[4].'" border="0" /> '.$insertread[4].'</a>';
     if (!isset($notice))
-    $notice_img .= '<br /> <br /><a href="'.$local_url.'&amp;send=uplddoc">'.$ajouterString.' 1 '.$docString.'</a><br /> <br /><div style="border:1px solid green;padding:10px;text-align:left;"><h1>'.$rapportString.'</h1><a href="'.$mainurl.$insert_read_3.'" target="_blank">'.$insert_read_3.'</a></div><br /><a href="'.$local_url.($x=='z'?'':'&amp;send=edit').'">'.$retourString.'</a><br />';
+    $notice_img .= '<br /> <br /><a href="'.$local_url.'&amp;send=uplddoc">'.$ajouterString.' 1 '.$docString.'</a><br /> <br /><div style="border:1px solid green;padding:10px;text-align:left;"><h1>'.$rapportString.'</h1><a href="'.$mainurl.$insert_read_3.'" target="_blank">'.$insert_read_3.'</a></div><br />';//<br /><a href="'.$local_url.($x=='z'?'':'&amp;send=edit').'">'.$retourString.'</a><br />';
   				}
   			}
-  		}
+  		} else {
+		    $error_img .= $erreurString.' > '.$descriptionString.' '.($nof>1?'('.$i.')':'').' '.$error_invmiss.'<br />';// | <a href="'.$local_url.($x=='z'?'':'&amp;send=uplddoc').'">'.$retourString.'</a>
+			}
 		}
 		$notice .= $notice_img;
 		$error .= $error_img;
+    if ($error !== '') {// && stristr($_SERVER['REQUEST_URI'],$urladmin)) {
+      $_SESSION['mv_error'] = $error;
+      Header("Cache-Control: no-cache");
+      Header("Pragma: no-cache");
+      Header("Location: ".html_entity_decode($local_url.'&amp;send=uplddoc'));Die();
+    }
 #######################################################EFFACER doc
 #######################################################DELETE PIC
 	} else if ($send == "deldoc") {
@@ -415,7 +431,8 @@ if ($logged_in === true) {
       Header("Pragma: no-cache");
       Header("Location: ".html_entity_decode($local_url));Die();
     }
-    
+#######################################################ENVOYER ZIP
+#######################################################SEND ZIP
   } else if ($send == ucfirst($envoyerString).' ZIP') {
     $templatesdir = $getcwd.$up.$libdir."templates/";
     if ($_FILES) {

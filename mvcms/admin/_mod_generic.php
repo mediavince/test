@@ -1,4 +1,4 @@
-<?PHP
+<?PHP #۞ #
 if (stristr($_SERVER["PHP_SELF"],"_mod_generic.php")) {
 	include '_security.php';
 	Header("Location: $redirect");Die();
@@ -33,40 +33,54 @@ $q = '';
 
 $dbtable = ${"tbl".$this_is};
 $array_fields = sql_fields($dbtable,'array');
-if (isset($array_fields[0]))
-foreach($array_fields as $key) {
-  if (!isset($filter_searchfield))
-  // search only on this
-  if (isset($q) && ($q != '')) {
-    if (($key != $this_is."id") && ($key != $this_is."date") && ($key != $this_is."statut")) {
-      $array_q = explode(" ",$q);
-      if (!isset($array_q[1])) $array_q = ($sql_q!=''?" OR ":'').$key." LIKE '%".$q."%' ";
-      else $array_q = implode("%' OR ".$key." LIKE '%",$array_q);
-      if ($array_q != '') $sql_q .= $array_q;
-    }
-    $q = $q;
-  }
-  // end of search
-  $empty_array_fields[] = ($key=='statut'?'Y':'');
-  $list_array_fields = isset($list_array_fields)?$list_array_fields.','.$key:$key;
-  if (isset(${"filter_".$key}))
-    if (is_bool(${"filter_".$key}))
-    $this_isSQL = "$this_is$key='".(${"filter_".$key}===true?'Y':'N')."' AND ";
-    else
-    $this_isSQL = "$this_is$key='".${"filter_".$key}."' AND ";
+if (isset($array_fields[0])) {
+	$this_id_rid = (in_array( $this_is."rid" , $array_fields ));
+	foreach($array_fields as $key) {
+	  if (!isset($filter_searchfield))
+	  // search only on this
+	  if (isset($q) && ($q != '')) {
+	    if (($key != $this_is."id") && ($key != $this_is."date") && ($key != $this_is."statut")) {
+	      $array_q = explode(" ",$q);
+	      if (!isset($array_q[1])) $array_q = ($sql_q!=''?" OR ":'').$key." LIKE '%".$q."%' ";
+	      else $array_q = implode("%' OR ".$key." LIKE '%",$array_q);
+	      if ($array_q != '') $sql_q .= $array_q;
+	    }
+	    $q = $q;
+	  }
+	  // end of search
+	  $empty_array_fields[] = ($key=='statut'?'Y':'');
+	  $list_array_fields = isset($list_array_fields)?$list_array_fields.','.$key:$key;
+	  if (isset(${"filter_".$key}))
+	    if (is_bool(${"filter_".$key}))
+	    $this_isSQL = "$this_is$key='".(${"filter_".$key}===true?'Y':'N')."' AND ";
+	    else
+	    $this_isSQL = "$this_is$key='".${"filter_".$key}."' AND ";
+	}
 }
 if (isset($that_is)) {
   $that_dbtable = ${"tbl".$that_is};
   $that_array_fields = sql_fields($that_dbtable,'array');
-  foreach($that_array_fields as $key) {
-    $that_empty_array_fields[] = ($key=='statut'?'Y':'');
-    $that_list_array_fields = isset($that_list_array_fields)?$that_list_array_fields.','.$key:$key;
-    if (isset(${"filter_".$key}))
-      if (is_bool(${"filter_".$key}))
-      $that_isSQL = "$that_is$key='".(${"filter_".$key}===true?'Y':'N')."' AND ";
-      else
-      $that_isSQL = "$that_is$key='".${"filter_".$key}."' AND ";
-  }
+	if (isset($that_array_fields[0])) {
+		$that_id_rid = (in_array( $that_is."rid" , $that_array_fields ));
+	  foreach($that_array_fields as $key) {
+	    $that_empty_array_fields[] = ($key=='statut'?'Y':'');
+	    $that_list_array_fields = isset($that_list_array_fields)?$that_list_array_fields.','.$key:$key;
+	    if (isset(${"filter_".$key}))
+	      if (is_bool(${"filter_".$key}))
+	      $that_isSQL = "$that_is$key='".(${"filter_".$key}===true?'Y':'N')."' AND ";
+	      else
+	      $that_isSQL = "$that_is$key='".${"filter_".$key}."' AND ";
+	  }
+	}
+}
+
+if ($sql_q != '') $sql_q = " AND ( ".$sql_q." ) ";
+
+$local_url = $local.substr($local_uri,1).(isset($q)?'?q='.$q:'?');
+if ($admin_viewing === true) {
+  $full_url = false;
+  $local_url = $local.'?lg='.$lg.'&amp;x='.$x;//.'&amp;y='.$this_is;
+  $local_url .= (isset($q)&&($q!='')?'&amp;q='.$q:'');
 }
 
 //if (!isset($mediumtext_array)) {// check if needed elsewhere, was deleted because of index filter loop
@@ -78,7 +92,14 @@ if (isset($that_is)) {
   $int3_array = array(); // int(3) unsigned, flag for fetching items from referenced table
   $datetime_array = array(); // datetime, flag for showing calendar
   $result = @mysql_query("SHOW FIELDS FROM $dbtable");
-  if (!$result) {Header("Location: $redirect");Die();} // no table or no connection...
+  if (!$result) {
+		if ($admin_viewing === true) {
+			$_SESSION['mv_error'] = $error_inv." module ".$this_is;
+			Header("Location: ".html_entity_decode($local_url)."&send=edit");Die();
+		} else {
+			Header("Location: $redirect");Die();
+		}
+	} // no table or no connection...
   while($row=@mysql_fetch_array($result)) {
     $array_fields_type[$row['Field']] = $row['Type'];
     if ($row['Type'] == 'mediumtext')
@@ -116,15 +137,6 @@ if (isset($that_is)) {
   }
 //}// see above
 
-if ($sql_q != '') $sql_q = " AND ( ".$sql_q." ) ";
-
-$local_url = $local.substr($local_uri,1).(isset($q)?'?q='.$q:'?');
-if ($admin_viewing === true) {
-  $full_url = false;
-  $local_url = $local.'?lg='.$lg.'&amp;x='.$x;//.'&amp;y='.$this_is;
-  $local_url .= (isset($q)&&($q!='')?'&amp;q='.$q:'');
-}
-
 $_mod_content = '';
 if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_membre) && (lgx2readable($lg,$x) == lgx2readable($lg,'',$this_is)) && ($admin_viewing === false)) {
   $edit_text = true;
@@ -158,9 +170,9 @@ if ((isset($rqst) || isset($toggle)) && isset(${$this_is."Id"})) {
         }
       }
       if (!isset($found_check_for_toggle))
-   	  $notice .= '<b>'.$enregistrementString.' '.$pourString.' '.$this_is.' '.$class_conjugaison->plural((mv_toggle($dbtable,$this_is.($toggle!=''?$toggle:"statut")," ".$this_is.(in_array($this_is."rid",$array_fields)?'r':'')."id='".${$this_is."Id"}."' ")=='Y'?$confirmeString:$enattenteString),'M',1).'</b>';
+   	  $notice .= '<b>'.$enregistrementString.' '.$pourString.' '.$this_is.' '.$class_conjugaison->plural((mv_toggle($dbtable,$this_is.($toggle!=''?$toggle:"statut")," ".$this_is.($this_id_rid===true?'r':'')."id='".${$this_is."Id"}."' ")=='Y'?$confirmeString:$enattenteString),'M',1).'</b>';
    	  if (isset($that_is) && isset(${"connected_byid_".$this_is."_".$that_is}))
-   	  $notice .= '<br /><b>'.$enregistrementString.' '.$pourString.' '.$that_is.' '.$class_conjugaison->plural((mv_toggle($that_dbtable,$that_is.($toggle!=''?$toggle:"statut")," ".$that_is.(in_array($that_is."rid",$that_array_fields)?'r':'')."id='".${$that_is."Id"}."' ")=='Y'?$confirmeString:$enattenteString),'M',1).'</b>';
+   	  $notice .= '<br /><b>'.$enregistrementString.' '.$pourString.' '.$that_is.' '.$class_conjugaison->plural((mv_toggle($that_dbtable,$that_is.($toggle!=''?$toggle:"statut")," ".$that_is.($that_id_rid===true?'r':'')."id='".${$that_is."Id"}."' ")=='Y'?$confirmeString:$enattenteString),'M',1).'</b>';
       $_SESSION['mv_notice'] = $notice;
       /*
   		${"nRows".ucfirst($this_is)} = sql_nrows($dbtable,"");
@@ -181,7 +193,7 @@ if ((isset($rqst) || isset($toggle)) && isset(${$this_is."Id"})) {
   //echo ${$this_is."Id"}." $dbtable,"."WHERE ".$this_is."id='".${$this_is."Id"}."' ";
   
   
-  	if (sql_nrows($dbtable,"WHERE ".$this_is."id='".${$this_is."Id"}."' ") == 0)//(in_array($this_is."rid",$array_fields)?'r':'').
+  	if (sql_nrows($dbtable,"WHERE ".$this_is."id='".${$this_is."Id"}."' ") == 0)//($this_id_rid===true?'r':'').
     {Header("Location: $redirect");die();}
 
     if (!isset($array_sortable))
@@ -192,7 +204,7 @@ if ((isset($rqst) || isset($toggle)) && isset(${$this_is."Id"})) {
     }
 
     $show_id = ${$this_is."Id"};
-    if (($lg != $default_lg) && in_array($this_is."rid",$array_fields))
+    if (($lg != $default_lg) && $this_id_rid===true)
     $show_id = sql_getone(${"tbl".$this_is},"WHERE ".$this_is."id='$show_id' ",$this_is."rid");
     $get_metas = sql_get($tblhtaccess,"WHERE htaccesstype='$this_is' AND htaccessitem='$show_id' AND htaccesslang='$lg' ORDER BY htaccessdate DESC ","htaccessmetadesc,htaccessmetakeyw");
     if ($get_metas[0]!='.') {
@@ -316,10 +328,11 @@ if ((isset($rqst) || isset($toggle)) && isset(${$this_is."Id"})) {
               if (($value == '') || ($value == NULL) || ($value == 0)) {
                 $sql_q = '';
                 $sql_q .= filter_sql_q($key);
-                $get_all = sql_array(${"tbl".$key}," WHERE ".$key.$this_is."='".${$this_is."Id"}."' $sql_q ",$key."rid");
+                $get_all = sql_array(${"tbl".$key}," WHERE ".$key.$this_is."='".${$this_is."Id"}."' $sql_q ".(isset(${$key."_ordered_by"})?"ORDER BY ".$key.${$key."_ordered_by"}.(isset(${$key."_ordre"})?" ".${$key."_ordre"}:''):(isset(${$key."_ordre"})?"ORDER BY ".$key."date ".${$key."_ordre"}." ":'')),$key."rid");
               } else {
                 $get_all = array($value);
               }
+							get_types($key);
               $loop_linked_content = '';
               foreach($get_all as $newvalue) {
                 ${$key."_getitem"} = sql_get(${"tbl".$key}," WHERE ".$key."rid='$newvalue' AND ".$key."lang='$lg' ","*");
@@ -352,7 +365,7 @@ if ((isset($rqst) || isset($toggle)) && isset(${$this_is."Id"})) {
                             ${"link_".$row} .= '';
                           }
                         }
-                      } else if ($row == 'type') {
+                      } else if (($row == 'type') || in_array("$key$row",$enumtype_array)) {
                         ${"link_".$row} = sql_stringit($key.$row,${$key."_getitem"}[$key.$row]);
                       } else if ($key == "coords") {
                         ${"link_".$row} = ${$key."_getitem"}[$key.$row];
@@ -515,17 +528,17 @@ if ((isset($rqst) || isset($toggle)) && isset(${$this_is."Id"})) {
   
   
   //  $_mod_content .= '<hr /><div style="width:100%;float:left;"><div style="width:648px;margin:0 auto;">';
-  
+
     if (isset(${$this_is."Type"}))
     $sql_q .= " AND ".$this_is."type='".${$this_is."Type"}."' ";
     
     if ((count($array_lang)>1) && in_array($this_is."lang",$array_fields))
     $sql_q .= " AND ".$this_is."lang='$lg' ";
-    
+
     $_linked_content = '';
     $_ordered_mod_content = '';
     $sql_q .= filter_sql_q($this_is);
-    
+
     if	(!isset($par) || (isset($par) && !in_array($this_is.$par,$array_fields)))
     $par = (isset($select_array)?$select_array[0]:'date');
     if ((isset($par) && ($par == 'date')) && !isset($ordre))

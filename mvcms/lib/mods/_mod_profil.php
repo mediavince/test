@@ -1,9 +1,10 @@
-<?PHP ## VISITEURS
+<?PHP #۞ # VISITEURS
 if	(stristr($_SERVER["PHP_SELF"],"_mod_profil.php"))	{
 	include '_security.php';
 	Header("Location: $redirect");Die();
 }
 //          $notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
+
 
 if ($admin_viewing === true) {
   $_mod_content = ${$this_is."String"}.' > '.$error_accesspriv;
@@ -71,6 +72,7 @@ if ($admin_viewing === true) {
   }
   mysql_free_result($result);
   $array_fields = sql_fields($dbtable,'array');
+	$this_id_rid = (in_array( $this_is."rid" , $array_fields ));
   foreach($array_fields as $key) {
     // search only on this
     if (isset($q) && ($q != '')) {
@@ -88,6 +90,7 @@ if ($admin_viewing === true) {
   if (isset($that_is)) {
     $that_dbtable = ${"tbl".$that_is};
     $that_array_fields = sql_fields($that_dbtable,'array');
+		$that_id_rid = (in_array( $that_is."rid" , $that_array_fields ));
     foreach($that_array_fields as $key) {
       $that_empty_array_fields[] = ($key=='statut'?'Y':'');
       $that_list_array_fields = isset($that_list_array_fields)?$that_list_array_fields.','.$key:$key;
@@ -129,11 +132,12 @@ if ($admin_viewing === true) {
     $pwdtochange = true;
   //  $content = '';
     $_mod_content .= '<div class="error">'.strtoupper($modifierString.' '.$motdepasseString).'</div>';
+		$do = 'tabcontent0';// resets to show user tabs
   }
   
-  $editthis = sql_get($dbtable,"WHERE ".$this_is.(in_array($this_is."rid",$array_fields)?'r':'')."id='$user_id' ",$list_array_fields);
+  $editthis = sql_get($dbtable,"WHERE ".$this_is.(in_array($this_is."rid",$array_fields)?"lang='$lg' AND ".$this_is.'r':'')."id='$user_id' ",$list_array_fields);
   if (isset($that_is))
-  $editthat = sql_get($that_dbtable,"WHERE ".$that_is.(in_array($that_is."rid",$that_array_fields)?'r':'')."id='$user_id' ",$that_list_array_fields);
+  $editthat = sql_get($that_dbtable,"WHERE ".$that_is.(in_array($that_is."rid",$that_array_fields)?"lang='$lg' AND ".$that_is.'r':'')."id='$user_id' ",$that_list_array_fields);
    
   if (isset($send) && ($send == 'delete')) {
     if (isset(${$this_is."Img"}) || isset(${$this_is."Doc"}) ||
@@ -227,7 +231,7 @@ if ($admin_viewing === true) {
     if ($_SERVER['REQUEST_METHOD'] != "POST") {
       //echo("Unauthorized attempt to access page.");
       Header("Location: $redirect");
-      exit;
+      Die();
     }
   	$error_report = "";
     if (($tabbing === false) || (($tabbing === true) && ($array_tabs[substr($do,-1)]=="user"))) {// && ($do == 'tabcontent0')
@@ -273,7 +277,7 @@ if ($admin_viewing === true) {
       if ($send == $sauverString) {
         if (($tabbing === false) || (($tabbing === true) && ($array_tabs[substr($do,-1)]=="membre"))) {// && ($do == 'tabcontent1')
           $membre_id = $user_id;
-  		    $whereq = "WHERE membre".(in_array($that_is."rid",$that_array_fields)?'r':'')."id='$membre_id' ";
+  		    $whereq = "WHERE membre".(in_array($that_is."rid",$that_array_fields)?"lang='$lg' AND membrer":'')."id='$membre_id' ";
           $updateq[0] = '';
   			//	$updateq = sql_update($tblmembre,"SET membreid='$membre_id' $setq ",$whereq,"membrestatut");
   			//	$notice .= $tblmembre.",SET membreid='$membre_id' $setq ,".$whereq;
@@ -290,7 +294,7 @@ if ($admin_viewing === true) {
   				  if ($pass !== "") $setq .= ", userpass='".md5($pass)."' ";
   				  $update_user = sql_update($tbluser,$setq,$whereq,"userutil");
   				  if ($update_user[0] == '.') {
-              $error .= '<font color="Red">'.$erreurString.'</font><br />'.$emailString.', '.$motdepasseString.': '.$modificationString.' '.$nonString.' '.$class_conjugaison->plural($effectueString,'F','1').' !<br /> <br /><a href="'.$mainurl.'?lg='.$lg.'&x='.sql_getone($tblcont,"WHERE contlang='$lg' AND conturl='contact' ","contpg").'">'.sql_getone($tblcont,"WHERE contlang='$lg' AND conturl='contact' ","conttitle").'</a> !<br />';
+              $error .= '<font color="Red">'.$erreurString.'</font><br />'.$emailString.', '.$motdepasseString.': '.$modificationString.' '.$nonString.' '.$class_conjugaison->plural($effectueString,'F','1').' !<br /> <br /><a href="'.$mainurl.'?lg='.$lg.'&amp;x='.sql_getone($tblcont,"WHERE contlang='$lg' AND conturl='contact' ","contpg").'">'.sql_getone($tblcont,"WHERE contlang='$lg' AND conturl='contact' ","conttitle").'</a> !<br />';
             } else {
             //  if  {
             //  }
@@ -368,7 +372,7 @@ if ($admin_viewing === true) {
     if (!isset($_SESSION['mail_count'])) $_SESSION['mail_count'] = 0;
     if (isset($that_is))
   	if ($logged_in === true) {
-  		$edit_profil = sql_get($tblmembre,"WHERE membre".(in_array($that_is."rid",$that_array_fields)?'r':'')."id='$membre_id' AND membrelang='$lg' ",$that_list_array_fields);
+  		$edit_profil = sql_get($tblmembre,"WHERE membre".(in_array($that_is."rid",$that_array_fields)?"lang='$lg' AND membrer":'')."id='$membre_id' AND membrelang='$lg' ",$that_list_array_fields);
   	} else {
   		$edit_profil = $that_empty_array_fields;
   	}
@@ -427,7 +431,7 @@ if ($admin_viewing === true) {
             $this_count_of_N_items = sql_nrows(${"tbl".$key},"WHERE $key".$that_is."='".$membre_id."' AND ".$key."statut='N' ".(in_array($key."rid",sql_fields(${"tbl$key"},'array'))?" AND ".$key."lang='$lg' ":''));
             ${"tab_".$key} .= '"><img src="'.$mainurl.'images/folder_add_f2.png" align="left" border="0" title="'.$ajoutString.' '.$key.'" alt="'.$ajoutString.' '.$key.'"/> &nbsp; '.$ajoutString.' '.$key.'</a> | <a href="'.($full_url===true?$mainurl.lgx2readable($lg,'',$key):$local_url).'">'.($this_count_of_Y_items>0?$this_count_of_Y_items:'').' '.$class_conjugaison->plural(${$key."String"},'',$this_count_of_Y_items).'</a>'.($this_count_of_N_items>0?" ($this_count_of_N_items $enattenteString)":'').'<hr /><br />';
             foreach(sql_array(${"tbl".$key},"WHERE $key".$that_is."='".$membre_id."' AND ".$key."statut='Y' ".(in_array($key."rid",sql_fields(${"tbl$key"},'array'))?" AND ".$key."lang='$lg' ":'')." ORDER BY ".$key."date ASC ",$key.(in_array($key."rid",sql_fields(${"tbl$key"},'array'))?'r':'')."id") as $keytab) {
-              $get_tab = sql_get(${"tbl".$key},"WHERE ".$key.(in_array($key."rid",sql_fields(${"tbl$key"},'array'))?"lang='$lg'  AND ".$key.'r':'')."id='$keytab' ","*");
+              $get_tab = sql_get(${"tbl".$key},"WHERE ".$key.(in_array($key."rid",sql_fields(${"tbl$key"},'array'))?"lang='$lg' AND ".$key.'r':'')."id='$keytab' ","*");
               if ($get_tab[0]!='.') {
                 ${"tab_".$key} .= '<div style="border:1px solid gray;float:left;padding:5px;width:47%;margin-left:5px;"><h3>'.(isset($get_tab[$key."type"])?'<b><i>'.strtoupper(sql_stringit($key.'type',$get_tab[$key."type"])).'</i></b>: ':'').'<a href="'.lgx2readable($lg,$x,$key,$keytab).'">'.$get_tab[$key."title"].'</a></h3>';
                 if (isset($get_tab[$key."doc"]) && ($get_tab[$key."doc"]!='')) {
@@ -445,7 +449,7 @@ if ($admin_viewing === true) {
             if (@file_exists($getcwd.$up.$safedir.'_extra_routines.php'))
             include $getcwd.$up.$safedir.'_extra_routines.php';
             if (!isset(${"show_".$key}))
-            ${"show_".$key} = '<div class="clear">&nbsp;</div><label for="'.$that_is.ucfirst($key).'">> '.${$key."String"}.'</label> <!--<br />--><select name="'.$that_is.ucfirst($key).'">'.gen_selectoption(${"tbl".$key},$value,(sql_getone(${"tbl".$key},"WHERE ".$key.(in_array($key."rid",sql_fields(${"tbl$key"},'array'))?'r':'')."id='$value' ",$key."statut")=='Y'?'':" OR ".$key."statut='N' "),$key).'</select><br />';
+            ${"show_".$key} = '<div class="clear">&nbsp;</div><label for="'.$that_is.ucfirst($key).'">> '.${$key."String"}.'</label> <!--<br />--><select name="'.$that_is.ucfirst($key).'">'.gen_selectoption(${"tbl".$key},$value,(sql_getone(${"tbl".$key},"WHERE ".$key.(in_array($key."rid",sql_fields(${"tbl$key"},'array'))?"lang='$lg' AND ".$key.'r':'')."id='$value' ",$key."statut")=='Y'?'':" OR ".$key."statut='N' "),$key).'</select><br />';
           }
       	} else {
           if (in_array("$that_is$key",$longtext_array)) {

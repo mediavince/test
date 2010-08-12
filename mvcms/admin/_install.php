@@ -1,4 +1,4 @@
-<?PHP
+<?PHP #۞ #
 
 include '_incdb.php';
 
@@ -6,9 +6,8 @@ if (isset($connection) && !(!$connection))
 {Header("Location: $redirect");Die();}
 
 //include '_strings.php';
-$content = '<html><head><style type="text/css">.notice{}.box{width:32%;min-width:200px;float:left;padding:2px;}</style><link rel="stylesheet" type="text/css" media="screen" href="../lib/main.css" />
-  <link rel="stylesheet" type="text/css" media="screen" href="../lib/top.css" />
-</head><body><div style="width:100%;height:100%;min-width:768px;">';
+$content = '<html><head><link rel="stylesheet" type="text/css" media="screen" href="../lib/main.css" /><style type="text/css">.notice{}.box{width:32%;min-width:200px;float:left;padding:2px;}br{height:1px;}</style>
+</head><body><div style="margin:0 auto;width:90%;height:100%;min-width:650px;text-align:center;">';
 if (!isset($envoyerString)) $envoyerString = 'send';
 if (!isset($upldbString)) $upldbString = "SQL";
 if (!isset($paramsString)) $paramsString = "params";
@@ -18,8 +17,10 @@ if (!isset($error_inv)) $error_inv = "error";
 
 $update_rapport = '';
 
-$deduced_urlclient = explode("/",$_SERVER['REQUEST_URI']);// http_host + rqsturi = www + /client/admin/script.php
-$deduced_urlclient = ($deduced_urlclient[1]=='admin'?$deduced_urlclient[0]:$deduced_urlclient[1]);
+//$deduced_urlclient = explode("/",$_SERVER['REQUEST_URI']);// http_host + rqsturi = www + /client/admin/script.php
+//$deduced_urlclient = ($deduced_urlclient[1]=='admin'?$deduced_urlclient[0]:$deduced_urlclient[1]);
+
+$deduced_urlclient = str_replace("/".$urladmin.(stristr($_SERVER['REQUEST_URI'],"_install.php")?"_install.php":''),"",$_SERVER['REQUEST_URI']);
 
 if (isset($_POST['send'])) $send = $envoyerString;
 
@@ -78,7 +79,7 @@ $array_supported_lg = array('en','ar','de','es','fr','it','jp','ru','zh');
 					$do = 'mysqladmin '.($dbhost==''?'':"-h$dbhost")." -u$dbuser -p$dbpass CREATE $dbname --default-character-set=utf8 ";
         	
         	$content .= exec($do,$output,$result);
-        //	echo "$do<hr />".exec($do,$output,$result)."<hr />$result = result<hr /><hr />";
+        //	echo "$do<br />".exec($do,$output,$result)."<br />$result = result<br /><br />";
         //	die($content);
         	if ($result == 0) {
         		$content .= '<div class="notice">Database creation '.$class_conjugaison->plural($effectueString,'F','1').'</div>';
@@ -98,7 +99,7 @@ $array_supported_lg = array('en','ar','de','es','fr','it','jp','ru','zh');
         // install default mysql
         $movelocation = 'defaults/_fullinstall.sql';//$_SERVER['DOCUMENT_ROOT']."/".$deduced_urlclient.$urladmin.
         $do = 'mysql '.($dbhost==''?'':"-h$dbhost")." -u$dbuser -p$dbpass $dbname < $movelocation";
-        $content .= "<hr />".exec($do,$output,$result).($result=='0'?'<div class="notice">'.$class_conjugaison->plural($effectueString,'F','1').'</div>':'<div class="error"> '.$error_inv.' full install<br />'.$do.'</div>');//.' copier et envoyer au webmaster ce qui suit :<br />=> '.$result.' == '.$do.'</div>');
+        $content .= "<br />".exec($do,$output,$result).($result=='0'?'<div class="notice">'.$class_conjugaison->plural($effectueString,'F','1').'</div>':'<div class="error"> '.$error_inv.' full install<br />'.$do.'</div>');//.' copier et envoyer au webmaster ce qui suit :<br />=> '.$result.' == '.$do.'</div>');
         //
         
 				@mysql_close($connection);
@@ -123,28 +124,29 @@ $array_supported_lg = array('en','ar','de','es','fr','it','jp','ru','zh');
             $userfile_tmp = $_FILES["sqlupload"]["tmp_name"];
             $content .= (move_uploaded_file($userfile_tmp,$movelocation)?'moved':'not moved');
             $do = 'mysql -s '.($dbhost==''?'':"-h$dbhost")." -u$dbuser -p$dbpass $dbname < $movelocation";
-            $content .= "<hr />".exec($do,$output,$result).($result=='0'?'<div class="notice">'.$class_conjugaison->plural($effectueString,'F','1').'</div>':'<div class="error">'.$error_inv.' sql upload</div>');// copier et envoyer au webmaster ce qui suit :<br />=> '.$result.' == '.$do.'
+            $content .= "<br />".exec($do,$output,$result).($result=='0'?'<div class="notice">'.$class_conjugaison->plural($effectueString,'F','1').'</div>':'<div class="error">'.$error_inv.' sql upload</div>');// copier et envoyer au webmaster ce qui suit :<br />=> '.$result.' == '.$do.'
           }
           
-          $content .= "<hr />Langs<br />";
+          $content .= "<br />Langs<br />";
           $chosen_lang = array();
           $sql_updates = array();  
-          foreach($array_supported_lg as $keylg)
+          foreach($array_supported_lg as $keylg) {
             if (isset($_POST['lang_'.$keylg]) && ($_POST['lang_'.$keylg] == 'on')) {
             	// install lang strings in mysql
 			        $movelocation = 'defaults/_insert_'.$keylg.'.sql';//$_SERVER['DOCUMENT_ROOT']."/".$deduced_urlclient.$urladmin.
 			        $do = 'mysql -s '.($dbhost==''?'':"-h$dbhost")." -u$dbuser -p$dbpass $dbname < $movelocation";
-			        $content .= "<hr />".exec($do,$output,$result).($result=='0'?'<div class="notice">'.$keylg.' '.$class_conjugaison->plural($effectueString,'F','1').'</div>':'<div class="error">'.$keylg.' '.$error_inv.'</div>');
+			        $content .= "<br />".exec($do,$output,$result).($result=='0'?'<div class="notice">'.$keylg.' '.$class_conjugaison->plural($effectueString,'F','1').'</div>':'<div class="error">'.$keylg.' '.$error_inv.'</div>');
 			        //
               if ($result=='0') {
                 $chosen_lang[] = $keylg;
-                $sql_updates[] = array("SET enumstatut='Y' ","WHERE enumwhat='lang' AND enumtype='$keylg' ");
+                $sql_updates[] = array("SET enumstatut='Y' ","WHERE enumwhat='lang' AND enumtype='$keylg' ",$keylg);
               } else {
-                $sql_updates[] = array("SET enumstatut='N' ","WHERE enumwhat='lang' AND enumtype='$keylg' ");
+                $sql_updates[] = array("SET enumstatut='N' ","WHERE enumwhat='lang' AND enumtype='$keylg' ",$keylg);
               }
             } else { 
-              $sql_updates[] = array("SET enumstatut='N' ","WHERE enumwhat='lang' AND enumtype='$keylg' ");
+              $sql_updates[] = array("SET enumstatut='N' ","WHERE enumwhat='lang' AND enumtype='$keylg' ",$keylg);
             }
+					}
           if (count($chosen_lang)>0) {
             connect();// needs to connect again after using the command line
             foreach($chosen_lang as $keylg) {
@@ -152,15 +154,15 @@ $array_supported_lg = array('en','ar','de','es','fr','it','jp','ru','zh');
 	            if ($root_writable === true)
   						copy('_tpl_.php',$up.'index_'.$keylg.'.php');
 	          }
-            $content .= "<hr /><h1>default content in all languages</h1>";
+            $content .= "<br /><h1>default content in all languages</h1>| ";
+						/*
             $sql = "UPDATE $tblenum SET enumstatut='Y' WHERE enumwhat='lang' AND enumtype IN ('".implode("','",$chosen_lang)."')";
             $update_langs = @mysql_query($sql);
-            $content .= "<hr />".$sql;
-            /*not working
+            $content .= "<br />".$sql;
+						*/
             foreach($sql_updates as $s) {
-              $content .= sql_updateone($tblenum,addslashes($s[0]),addslashes($s[1]),'enumstatut')." => ".$s[0].$s[1]."<br />";
+              $content .= '<span style="'.(in_array($s[2],$chosen_lang)?'color:green;font-weight:bold;text-decoration:underline;':'color:red;').'">'.$s[2]." > ".sql_updateone($tblenum,$s[0],$s[1],'enumstatut')."</span> | ";
             }
-            */
           }
           $content .= "<br /> <br />";
                
@@ -168,7 +170,7 @@ $array_supported_lg = array('en','ar','de','es','fr','it','jp','ru','zh');
       	  $Fnm = $getcwd.$up.$safedir.'_security.php';
       		$inF = fopen($Fnm,"w+");
       		$security = '<'.'?PHP ## ADMIN
-$redirect = \"http:\/\/\".$_SERVER[\"HTTP_HOST\"].\"\/'.$deduced_urlclient.'\";
+$redirect = \"http:\/\/\".$_SERVER[\"HTTP_HOST\"].\"'.$deduced_urlclient.'\";
 if (stristr($_SERVER[\'PHP_SELF\'],\'_security.php\'))
 {Header(\"Location: $redirect\");Die();}
 ?'.'>';
@@ -177,7 +179,7 @@ if (stristr($_SERVER[\'PHP_SELF\'],\'_security.php\'))
           $content .= '<br /><p style="text-align: center"><font color="Green"><b>security: '.$enregistrementString.' '.$effectueString.'</b></font></p>';
           //
           
-          // write .htaccess in root
+          // write .htaccess to root
       	  $Fnm = $getcwd.$up.'.htaccess';
       		$inF = fopen($Fnm,"w+");
       		$htaccess = '
@@ -189,7 +191,7 @@ RewriteEngine On
 # RewriteBase /mvcms
 
 ############### localhost
-RewriteBase /'.$deduced_urlclient.'
+RewriteBase '.($deduced_urlclient==''||($deduced_urlclient[0]!="/")?"/":'').$deduced_urlclient.'
 
 ############### prevents recursive access to .svn folders,, 
 ############### replacing "index.php" with "- [F]" will act as forbidden
@@ -208,7 +210,7 @@ RewriteRule index.php(.*) /index.php? [L]
 
 ########## Begin - Rewrite rules to block out some common exploits
 ## If you experience problems on your site block out the operations listed below
-## This attempts to block the most common type of exploit `attempts` to Joomla!
+## This attempts to block the most common type of exploit
 #
 # Block out any script trying to set a mosConfig value through the URL
 RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]

@@ -76,6 +76,7 @@ $array_csv_list = array("user", "membre");// offers to download excel list of gi
 
 /*
 $array_rss = array('event','gallery'); // defines the modules to show
+$array_rss_dateindex = array('event'=>'from'); // listing by date (eventfrom) of item instead of last update
 $rss_limit = 25; // default:100, defines the amount of entries
 $rss_days = 7; // default:no limit, defines the date limit
 $rss_cont = true; // default:none, shows or not the pages

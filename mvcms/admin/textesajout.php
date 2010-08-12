@@ -1,4 +1,4 @@
-<?PHP ## ADMIN
+<?PHP #Ûž # ADMIN
 
 include '_security.php';
 
@@ -26,9 +26,9 @@ if (!isset($send)) {
 	$check = sql_nrows($dbtable, " WHERE stringtype='$stringType' AND stringtitle='$stringTitre' AND stringentry='$stringDesc' ");
 
 	if ( !$stringType || (!$stringType == "general") || (!$stringType == "menu") || (!$stringType == "zone") || 
-		!$stringTitre || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $stringTitre) || 
+		!$stringTitre || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $stringTitre) || 
 		(strlen($stringTitre) > 60) || 
-		!$stringDesc || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $stringDesc) || 
+		!$stringDesc || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $stringDesc) || 
 		($check > '0')
 		) {
 
@@ -36,9 +36,9 @@ if (!isset($send)) {
 
 		if ( !$stringType || (!$stringType == "general") || (!$stringType == "menu") || (!$stringType == "zone") ) {
   $content .= '<li>'.$typeString.' > '.$error_invmiss.'<br /> <br /></li>'; }
-		if ( !$stringTitre || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $stringTitre) || (strlen($stringTitre) > 60) ) {
+		if ( !$stringTitre || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $stringTitre) || (strlen($stringTitre) > 60) ) {
   $content .= '<li>'.$titreString.' > '.$error_invmiss.'<br /> <br /></li>'; }
-		if ( !$stringDesc || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $stringDesc) ) {
+		if ( !$stringDesc || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $stringDesc) ) {
   $content .= '<li>'.$descriptionString.' > '.$error_invmiss.' <br /> <br /></li>'; }
 		if ($check > '0') {
   $content .= '<li>'.$enregistrementString.' '.$dejaexistantString.' !<br /> <br /></li>'; }

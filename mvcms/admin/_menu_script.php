@@ -1,4 +1,4 @@
-<?PHP
+<?PHP #۞ #
 
 if (stristr($_SERVER["PHP_SELF"], "_menu_script.php")) {
 	include '_security.php';

@@ -16,6 +16,7 @@ dd{margin-bottom:1em;}
 .trmenu{float:right;margin:0 auto;}
 .trmenu ul{list-style-type:none;margin-top:0px;}
 .trmenu ul li{font-size:80%;float:right;margin-top:0px;padding:0 5px;}
+form{float:left;width:99%;}
 form label{display:inline;float:none;text-align:left;vertical-align:top;width:inherit;font-weight:bold;}
 form input,form select,form textarea{border:1px solid #CCC;margin:2px 0pt 0pt 10px;width:auto;font-size:13px;padding:1px;}
 form input.text{width:97%;min-width:250px;}
@@ -36,9 +37,9 @@ form br{clear:none;}
 
 #toplogo{position:absolute;height:88px;}
 .toploginwrapper{position:fixed;margin:0 auto;width:100%;text-align:center;z-index:9998;}
-#toplogin{margin:0 auto;min-width:50px;max-width:200px;padding:0;font-size:x-small;}
+#toplogin{margin:0 auto;min-width:200px;max-width:600px;padding:0;font-size:x-small;min-height:20px;display:inline-table;}
 #toplogin form{margin:0;padding:0;}
-#toplogin{background:transparent url('../images/white_transdot.png') repeat;}
+#toplogin{background:url('../images/white_transdot.png') repeat scroll 0 0 transparent;}
 /* needed if form is over logo or color ...#toplogin label{background-color:#FFFF99;}*/
 #navcontainer{border-top:1px solid #AAA;border-bottom:1px solid #AAA;}
 #navcontainer ul{overflow:hidden;padding:5px 0px;list-style-type:none;text-align:left;margin:0px 0px 0px 0px;}
@@ -249,9 +250,17 @@ body{background:url('../images/gray_bg.png') #DDD repeat;}
 .contour .bottom-center{float:left;background:transparent url('../images/borderBottomCenter_lng.png') repeat-x center bottom;height:51px;width:863px;}
 .contour .bottom-right{float:left;background:transparent url('../images/borderBottomRight_lng.png') no-repeat right top;height:51px;width:51px;}
 
+
+.contour-body-middle{margin:0;padding-left:0;padding-right:0;width:877px;position:relative;}
+.contour .bottom-left,.contour .bottom-center,.contour .bottom-right{position:relative;}
+.contour-body-left{padding-left:44px;}
+
+
 .gallery .show_array{width:inherit;text-align:center;}
 
 .content_body a,.content_body a:visited,.content_body a:hover{position:relative;}
 
 #sortable ul{list-style-type:none;margin:0;padding:0;}
 #sortable li{float:left;}
+
+.mceEditor table.mceLayout{margin-left:12px;}

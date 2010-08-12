@@ -1,4 +1,4 @@
-<?PHP
+<?PHP #Ûž #
 if (stristr($_SERVER["PHP_SELF"],'_strings.php')) {
 	include '_security.php';
 	Header("Location: $redirect");Die();
@@ -91,7 +91,7 @@ if (($lg == $default_lg) || in_array($lg,$array_lang)) {
 	}
 	if ($lg == 'es') {
     if (!$array_months) $array_months = array('Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre');
-    if (!$array_days) $array_days = array('Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato');
+    if (!$array_days) $array_days = array('Domenica','LunedÃ¬','MartedÃ¬','MercoledÃ¬','GiovedÃ¬','VenerdÃ¬','Sabato');
     $meta_desc = "Media Vince imporre il tuo contenuto su internet con uno stile multi linguale usando snelli processi di qualit&agrave; nei campi della realizzazione e dello sviluppo di siti web con immagine, audio e video.";
     $meta_keyw = "italia, roma, media, web, design, sviluppo, webdesigner, developer, flash, php, mysql, ruby, rails, ror, multimedia, pubblicazione, qualit&agrave;, servizio, traduzione, multilingue, inglese, francese, italiano, immagine, audio, video";
 		$lang = "Espa&ntilde;ol";
@@ -111,7 +111,7 @@ if (($lg == $default_lg) || in_array($lg,$array_lang)) {
 	}
 	if ($lg == 'it') {
     if (!$array_months) $array_months = array('Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre');
-    if (!$array_days) $array_days = array('Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato');
+    if (!$array_days) $array_days = array('Domenica','LunedÃ¬','MartedÃ¬','MercoledÃ¬','GiovedÃ¬','VenerdÃ¬','Sabato');
     $meta_desc = "Media Vince imporre il tuo contenuto su internet con uno stile multi linguale usando snelli processi di qualit&agrave; nei campi della realizzazione e dello sviluppo di siti web con immagine, audio e video.";
     $meta_keyw = "italia, roma, media, web, design, sviluppo, webdesigner, developer, flash, php, mysql, ruby, rails, ror, multimedia, pubblicazione, qualit&agrave;, servizio, traduzione, multilingue, inglese, francese, italiano, immagine, audio, video";
 		$lang = "Italiano";
@@ -130,13 +130,13 @@ if (($lg == $default_lg) || in_array($lg,$array_lang)) {
     $max_filesideString = ', l&#039;immagine sar&agrave; ridimenzionta a '.$max_width.'px di lato.';
 	}
 	if ($lg == 'fr') {
-    if (!$array_months) $array_months = array('Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre');
+    if (!$array_months) $array_months = array('Janvier','FÃ©vrier','Mars','Avril','Mai','Juin','Juillet','AoÃ»t','Septembre','Octobre','Novembre','DÃ©cembre');
     if (!$array_days) $array_days = array('Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi');
     $meta_desc = "Media Vince impose votre activit&eacute; sur le WEB dans un style multilingue avec des standards de qualit&eacute; s&ucirc;rs du domaine multimedia tels que audio, vid&eacute; et imagerie.";
     $meta_keyw = "media, web, design, d&egrave;veloppement, webdesigner, d&eacute;veloppeur, flash, php, ruby, rails, ror, imagerie, multimedia, publication, qualit&eacute;, service, traduction, multilingue, anglais, fran&ccedil;ais, italien, audio, vid&eacute;o";
   	$lang = "Fran&ccedil;ais";
   	if (!isset($array_subject))
-  	$array_subject = array("Mon prochain projet","Développement WEB","Marketing WEB","Traduction","Autre"); // !!do not htmlencode will be done upon call
+  	$array_subject = array("Mon prochain projet","DÃ©veloppement WEB","Marketing WEB","Traduction","Autre"); // !!do not htmlencode will be done upon call
   	$pgver = 'Cette page est en '.$lang.$n;
     $text_styleB = '<a class="button" href="javascript:void(0);" title="texte Gras" onclick="insertTag(\'g\')"><b>Gras</b></a>';
     $text_styleI = '<a class="button" href="javascript:void(0);" title="texte Italique" onclick="insertTag(\'i\')"><i>Italique</i></a>';

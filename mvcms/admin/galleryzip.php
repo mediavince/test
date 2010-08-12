@@ -1,4 +1,4 @@
-<?php
+<?PHP #۞ #
 if (strstr($_SERVER["PHP_SELF"],'galleryzip.php')) {
   include '_security.php';
 	Header("Location: $redirect");Die();

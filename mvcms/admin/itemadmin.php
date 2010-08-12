@@ -1,4 +1,4 @@
-<?PHP
+<?PHP #Ûž #
 if (strstr($_SERVER["PHP_SELF"],'itemadmin.php') || !isset($this_is)) {
   include '_security.php';
 	Header("Location: $redirect");Die();
@@ -6,7 +6,7 @@ if (strstr($_SERVER["PHP_SELF"],'itemadmin.php') || !isset($this_is)) {
 //          $notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
 
 if (stristr($_SERVER['REQUEST_URI'],$urladmin))
-$content .= $admin_menu.'<div style="float:left;width:98%;">';
+$content .= $admin_menu.'<div style="float:left;width:99%;">';
 
 if (!isset($local_url))
 $local_url = $local.'?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y;
@@ -18,6 +18,7 @@ if (!isset($admin_priv)) $admin_priv = array();
 if (isset($that_is)) {
   $that_dbtable = ${"tbl".$that_is};
   $that_array_fields = sql_fields($that_dbtable,'array');
+	$that_id_rid = (in_array( $that_is."rid" , $that_array_fields ));
   if (!isset($that_array_fields[1])) {
   //  unset($that_is);
     $that_is = NULL;// better than unset
@@ -79,6 +80,7 @@ if (isset($that_is)) {
 }
 
 $array_fields = sql_fields($dbtable,'array');
+$this_id_rid = (in_array( $this_is."rid" , $array_fields ));
 if (!isset(${$this_is.'_referrerfield'})) {
   foreach($array_preferred_fields as $k)
     if (!isset(${$this_is.'_referrerfield'}))
@@ -98,7 +100,7 @@ if (in_array($this_is,$editable_by_membre) && !stristr($_SERVER['REQUEST_URI'],$
     if (in_array($ebmnp,$array_interconnected_byid))
     ${$this_is.ucfirst($ebmnp)} = $user_id;
     else {
-      ${$this_is.ucfirst($ebmnp)} = sql_getone($tblmembre,"WHERE membreid='$user_id' ","membre".$ebmnp);
+      ${$this_is.ucfirst($ebmnp)} = sql_getone($tblmembre,"WHERE membrerid='$user_id' ","membre".$ebmnp);
       ${$ebmnp."Id"} = ${$this_is.ucfirst($ebmnp)};
     }
   }
@@ -160,8 +162,9 @@ if (isset(${$this_is."Id"})) {
     if (!preg_match("/^[0-9]+\$/",${$this_is."Id"}))
     {Header("Location: $redirect");Die();}
     else {
+		//!check
       if ($lg != $default_lg)
-      ${$this_is."Id"} = sql_getone(${"tbl".$this_is},"WHERE ".$this_is."id='".${$this_is."Id"}."' ",$this_is.(in_array($this_is."rid",$array_fields)?'r':'')."id");
+      ${$this_is."Id"} = sql_getone(${"tbl".$this_is},"WHERE ".$this_is."id='".${$this_is."Id"}."' ",$this_is.($this_id_rid===true?'r':'')."id");
       $this_id = ${$this_is."Id"};
     }
   }
@@ -169,8 +172,6 @@ if (isset(${$this_is."Id"})) {
   
 if (isset($that_is)) {
   if (isset(${$that_is."Id"}) && preg_match("/^[0-9]+\$/",${$that_is."Id"})) {
-  //  if ($lg != $default_lg)
-  //  ${$that_is."Id"} = sql_getone(${"tbl".$that_is},"WHERE ".$that_is."id='".${$that_is."Id"}."' ",$that_is.(in_array($that_is."rid",$that_array_fields)?'r':'')."id");
     ${$this_is."Id"} = ${$that_is."Id"};
     $this_id = ${$that_is."Id"};
   }
@@ -199,9 +200,9 @@ if ((isset($rqst) || isset($toggle)) && isset(${$this_is."Id"})) {
         }
       }
       if (!isset($found_check_for_toggle))
-   	  $notice .= '<b>'.$enregistrementString.' '.$pourString.' '.$this_is.' '.$class_conjugaison->plural((mv_toggle($dbtable,$this_is.(in_array($this_is.$toggle,$array_fields)?$toggle:"statut")," ".$this_is.(in_array($this_is."rid",$array_fields)?'r':'')."id='".${$this_is."Id"}."' ")=='Y'?$confirmeString:$enattenteString),'M',1).'</b>';
+   	  $notice .= '<b>'.$enregistrementString.' '.$pourString.' '.$this_is.' '.$class_conjugaison->plural((mv_toggle($dbtable,$this_is.(in_array($this_is.$toggle,$array_fields)?$toggle:"statut")," ".$this_is.($this_id_rid===true?'r':'')."id='".${$this_is."Id"}."' ")=='Y'?$confirmeString:$enattenteString),'M',1).'</b>';
    	  if (isset($that_is) && isset(${"connected_byid_".$this_is."_".$that_is}))
-   	  $notice .= '<br /><b>'.$enregistrementString.' '.$pourString.' '.$that_is.' '.$class_conjugaison->plural((mv_toggle($that_dbtable,$that_is.(in_array($that_is.$toggle,$that_array_fields)?$toggle:"statut")," ".$that_is.(in_array($that_is."rid",$that_array_fields)?'r':'')."id='".${$that_is."Id"}."' ")=='Y'?$confirmeString:$enattenteString),'M',1).'</b>';
+   	  $notice .= '<br /><b>'.$enregistrementString.' '.$pourString.' '.$that_is.' '.$class_conjugaison->plural((mv_toggle($that_dbtable,$that_is.(in_array($that_is.$toggle,$that_array_fields)?$toggle:"statut")," ".$that_is.($that_id_rid===true?'r':'')."id='".${$that_is."Id"}."' ")=='Y'?$confirmeString:$enattenteString),'M',1).'</b>';
       $_SESSION['mv_notice'] = $notice;
       ${"nRows".ucfirst($this_is)} = sql_nrows($dbtable,"".(in_array($this_is."lang",$array_fields)?" WHERE ".$this_is."lang='$lg' ":''));
       ${"nRows".ucfirst($this_is)."y"} = sql_nrows($dbtable," WHERE ".$this_is."statut='Y' ".(in_array($this_is."lang",$array_fields)?" AND ".$this_is."lang='$lg' ":''));
@@ -280,9 +281,9 @@ if (isset($send)) {
   	if (!isset(${$this_is."Id"}))
     {Header("Location: $redirect");Die();}
   	${$this_is."Id"} = strip_tags(${$this_is."Id"});
-  	$editthis = sql_get($dbtable,"WHERE ".(in_array($this_is."lang",$array_fields)?" ".$this_is.(in_array($this_is."rid",$array_fields)?'r':'')."id='".${$this_is."Id"}."' AND ".$this_is."lang='$lg' ":$this_is."id='".${$this_is."Id"}."' "),$list_array_fields);
+  	$editthis = sql_get($dbtable,"WHERE ".(in_array($this_is."lang",$array_fields)?" ".$this_is.($this_id_rid===true?'r':'')."id='".${$this_is."Id"}."' AND ".$this_is."lang='$lg' ":$this_is."id='".${$this_is."Id"}."' "),$list_array_fields);
   	if (isset($that_is))
-  	$editthat = sql_get($that_dbtable,"WHERE ".(in_array($that_is."lang",$that_array_fields)?" ".$that_is.(in_array($that_is."rid",$that_array_fields)?'r':'')."id='".${$this_is."Id"}."' AND ".$that_is."lang='$lg' ":$that_is.(in_array($that_is."rid",$that_array_fields)?'r':'')."id='".${$this_is."Id"}."' "),$that_list_array_fields);
+  	$editthat = sql_get($that_dbtable,"WHERE ".(in_array($that_is."lang",$that_array_fields)?" ".$that_is.($that_id_rid===true?'r':'')."id='".${$this_is."Id"}."' AND ".$that_is."lang='$lg' ":$that_is.($that_id_rid===true?'r':'')."id='".${$this_is."Id"}."' "),$that_list_array_fields);
   	if (!preg_match("/^[YN]\$/",$editthis[1]))
     {Header("Location: $redirect");Die();}
   } else { // send == envoyer or new !!
@@ -463,7 +464,7 @@ if (isset($send)) {
             if (isset($this_id)) {
               $whereq = "WHERE $key$this_is='$this_id' AND ".$key."lang='$lg' ";
               $sql = @mysql_query("SELECT * FROM ".${"tbl".$key}." $whereq ");
-              $content .= '<b>> '.${$key."String"}.'</b>: '.@mysql_num_rows($sql).' '.$class_conjugaison->plural($enregistrementString,'',@mysql_num_rows($sql)).'<br />'; 
+              $content .= '<b>> '.${$key."String"}.'</b>: '.@mysql_num_rows($sql).' '.$class_conjugaison->plural($enregistrementString,'',@mysql_num_rows($sql)).'<br />';
               while($row = @mysql_fetch_array($sql)) {
                 $content .= $row[$key."title"].' <a href="'.$mainurl.(stristr($_SERVER['REQUEST_URI'],$urladmin)?"$urladmin?lg=$lg&amp;send=edit&amp;x=z&amp;y=$key&amp;".$key."Id=".$row[$key.(isset($row[$key."rid"])?'r':'')."id"]:lgx2readable($lg,'',$key,$row[$key.(isset($row[$key."rid"])?'r':'')."id"])).'">'.$modifierString.'</a><br />';
               }
@@ -593,7 +594,7 @@ if (isset($send)) {
                   }
                 }
             		if ($array_fields_type[$key] == 'text') {
-                  $updatequery = sql_update(${"tbl".$this_is},"SET $key='$newvalue_imgdoc' ","WHERE ".$this_is."rid='".${$this_is."Id"}."' ","$key");
+                  $updatequery = sql_update(${"tbl".$this_is},"SET $key='$newvalue_imgdoc' ","WHERE ".$this_is.($this_id_rid===true?'r':'')."id='".${$this_is."Id"}."' ","$key");
               		if ($updatequery[0]!='.') {
               		  $notice_img .= ($key==$this_is."img"?$photoString:$documentString).' '.$modifieString.' [u]<br />';
                 	} else {
@@ -615,14 +616,14 @@ if (isset($send)) {
         Die();
       } else {
       	if (sql_del($dbtable,"WHERE ".$old_this.(in_array($old_this."rid",$array_fields)?"r":'')."id='".${$this_is."Id"}."' ") > 0)
-        $error .= $error_request.' 1';//.'<p><a href="javascript:history.back()//">'.$retourString.'</a></p>'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
+        $error .= $error_request.' 1'.'<span style="display:none;"><br />'.mvtrace(__FILE__,__LINE__).'</span>';//.'<p><a href="javascript:history.back()//">'.$retourString.'</a></p>'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
       	else {
           $notice .= '<b>'.${$old_this."String"}.': '.$enregistrementString.' '.$effaceString.'</b>';//<br /><a href="'.$local_url.'">'.$verslisteString.' '.${$this_is."String"}.'</a><br />'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
           if (isset($tblhtaccess) && in_array($this_is,$array_modules))
           if (sql_del($tblhtaccess,"WHERE htaccessitem='".${$this_is."Id"}."' AND htaccesstype='$this_is'  ")==0)
           $notice .= ' | <b>htaccess: '.$enregistrementString.' '.$effaceString.'</b>';
         	if (isset($that_is)) {
-            if (sql_del($that_dbtable,"WHERE ".$that_is.(in_array($that_is."rid",$that_array_fields)?"r":'')."id='".${$this_is."Id"}."' ") > 0)
+            if (sql_del($that_dbtable,"WHERE ".$that_is.($that_id_rid===true?"r":'')."id='".${$this_is."Id"}."' ") > 0)
             $error .= $error_request.' 2';//.'<p><a href="javascript:history.back()//">'.$retourString.'</a></p>'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
             else
             $notice .= ' | <b>'.${$this_is."String"}.': '.$enregistrementString.' '.$effaceString.'</b><br />';
@@ -685,7 +686,7 @@ if (isset($send)) {
       $tableHead .= '</td><td>';
       if (!in_array($key,$basic_array) && in_array($key,$params_array)) {
         if (isset($key) && ($key != 'lang') && ($key != '')) {
-          $tableHead .= (in_array($key,$array_mandatory_fields)?'<b>'.${$key."String"}.'</b>':'<a href="'.$local_url.'&amp;statut='.$statut.'&amp;par='.$key.'&ordre='.$nextordre.'">'.${$key."String"}.'</a>');//.'<br />';
+          $tableHead .= (in_array($key,$array_mandatory_fields)?'<b>'.${$key."String"}.'</b>':'<a href="'.$local_url.'&amp;statut='.$statut.'&amp;par='.$key.'&amp;ordre='.$nextordre.'">'.${$key."String"}.'</a>');//.'<br />';
           if (!in_array($key,array("gendre","prenom")))
           $tableHead .= '<br />';
           else
@@ -704,10 +705,10 @@ if (isset($send)) {
     $statutList = "";
   	if	($statut != $toutString)	$statutList = " WHERE ".$this_is."statut='$statut' "	;
 		if	(isset($q))	$q = strip_tags(stripslashes(html_encode($q)))	;
-		if	(($q != '') && !preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/",$q))	$statutList .= ($statutList==''?"WHERE ":" AND ").${$this_is.'_referrerfield'}." LIKE '%$q%' ";
+		if	(($q != '') && !preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/",$q))	$statutList .= ($statutList==''?"WHERE ":" AND ").${$this_is.'_referrerfield'}." LIKE '%$q%' ";
 		$statutList .= (in_array($this_is."lang",$array_fields)?($statutList==''?"WHERE ":" AND ")." ".$this_is."lang='$lg' ":'');
     if (isset($that_is))
-    $statutList .= ($statutList==''?"WHERE ":" AND ").(in_array($that_is."lang",$that_array_fields)?$this_is.(in_array($this_is."rid",$array_fields)?'r':'')."id=".$that_is.(in_array($that_is."rid",$that_array_fields)?'r':'')."id AND ".$that_is."lang='$lg' ":$this_is."id=".$that_is."id ")." ";
+    $statutList .= ($statutList==''?"WHERE ":" AND ").(in_array($that_is."lang",$that_array_fields)?$this_is.($this_id_rid===true?'r':'')."id=".$that_is.($that_id_rid===true?'r':'')."id AND ".$that_is."lang='$lg' ":$this_is."id=".$that_is."id ")." ";
   	$fullread = @mysql_query("
   						SELECT * FROM $dbtable
   						$statutList
@@ -730,20 +731,20 @@ if (isset($send)) {
   		}
   	}
   	if (!isset(${"nRows".ucfirst($this_is)}) || (${"nRows".ucfirst($this_is)} == 0)) {
-  $content .= '<p style="text-align:left;">&nbsp;0 '.$enregistrementString.' '.$surString.' '.${$this_is."String"}.'.</p>';
+  $content .= '<p style="text-align:left;float:left;">&nbsp;0 '.$enregistrementString.' '.$surString.' '.${$this_is."String"}.'.</p>';
   	} else if (in_array('1',$admin_priv)) {
   $content .= '<p style="text-align:left;">&nbsp;</p>';
   	} else {
       $content .= $selectHead;
   	  $count_content = '';
   		if (${"nRows".ucfirst($this_is)} == '1') {
-        $count_content .= '<p style="text-align:left;">&nbsp;'.${"nRows".ucfirst($this_is)}.' '.$class_conjugaison->plural($enregistrementString,'M',${"nRows".ucfirst($this_is)}).' '.$surString.' '.${$this_is."String"}.' '.(${"nRows".ucfirst($this_is)."y"} == '1'?$confirmeString:$enattenteString).'</p>';
+        $count_content .= '<p style="text-align:left;float:left;">&nbsp;'.${"nRows".ucfirst($this_is)}.' '.$class_conjugaison->plural($enregistrementString,'M',${"nRows".ucfirst($this_is)}).' '.$surString.' '.${$this_is."String"}.' '.(${"nRows".ucfirst($this_is)."y"} == '1'?$confirmeString:$enattenteString).'</p>';
   		} else {
-        $count_content .= '<p style="text-align:left;">&nbsp;<a href="'.$local_url.'&amp;statut='.$toutString.'&amp;par='.$par.'&amp;ordre='.$ordre.'">'.${"nRows".ucfirst($this_is)}.' '.$class_conjugaison->plural(${$this_is."String"},'M',${"nRows".ucfirst($this_is)}).' '.$class_conjugaison->plural($enregistreString,'M',${"nRows".ucfirst($this_is)}).'</a>, <a href="'.$local_url.'&amp;statut=Y&par='.$par.'&amp;ordre='.$ordre.'">'.${"nRows".ucfirst($this_is)."y"}.' '.$class_conjugaison->plural($confirmeString,'M',${"nRows".ucfirst($this_is)."y"}).'</a>, <a href="'.$local_url.'&amp;statut=N&amp;par='.$par.'&amp;ordre='.$ordre.'">'.${"nRows".ucfirst($this_is)."n"}.' '.$class_conjugaison->plural($enattenteString,'M',${"nRows".ucfirst($this_is)."n"}).'</a></p>';
+        $count_content .= '<p style="text-align:left;float:left;">&nbsp;<a href="'.$local_url.'&amp;statut='.$toutString.'&amp;par='.$par.'&amp;ordre='.$ordre.'">'.${"nRows".ucfirst($this_is)}.' '.$class_conjugaison->plural(${$this_is."String"},'M',${"nRows".ucfirst($this_is)}).' '.$class_conjugaison->plural($enregistreString,'M',${"nRows".ucfirst($this_is)}).'</a>, <a href="'.$local_url.'&amp;statut=Y&par='.$par.'&amp;ordre='.$ordre.'">'.${"nRows".ucfirst($this_is)."y"}.' '.$class_conjugaison->plural($confirmeString,'M',${"nRows".ucfirst($this_is)."y"}).'</a>, <a href="'.$local_url.'&amp;statut=N&amp;par='.$par.'&amp;ordre='.$ordre.'">'.${"nRows".ucfirst($this_is)."n"}.' '.$class_conjugaison->plural($enattenteString,'M',${"nRows".ucfirst($this_is)."n"}).'</a></p>';
   		}
     $content .= $count_content;
-    if	(isset($q) && ($q != '') && !preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/",$q))
-    $content .= '<p style="text-align:left;">&nbsp;'.$fullnRows.' '.$class_conjugaison->plural($enregistrementString,'M',$fullnRows).' '.$surString.' '.${$this_is."String"}.' ('.${substr(${$this_is.'_referrerfield'},strlen($this_is))."String"}.') '.$pourString.': <i>"'.$q.'"</i></p>';
+    if	(isset($q) && ($q != '') && !preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/",$q))
+    $content .= '<p style="text-align:left;float:left;">&nbsp;'.$fullnRows.' '.$class_conjugaison->plural($enregistrementString,'M',$fullnRows).' '.$surString.' '.${$this_is."String"}.' ('.${substr(${$this_is.'_referrerfield'},strlen($this_is))."String"}.') '.$pourString.': <i>"'.$q.'"</i></p>';
   	if	($listPerpg < $fullnRows)
     $content .= $pages.' << &nbsp;</p>'	;
     if ($nRows > 0)
@@ -756,7 +757,7 @@ if (isset($send)) {
           $that_is = $old_that;
           $that_dbtable = $old_thatdbtable;
         }
-    $content .= '<tr><td>'.$row[$old_this.$params_array[1]].'<br />'.$row[$old_this.$params_array[0]].'<br />'.sql_stringit('statut',$row[$old_this.$params_array[2]]).'</td><td>';
+    $content .= '<tr><td>'.$row[$old_this.$params_array[0]].'<br />'.$row[$old_this.$params_array[1]].'<br />'.sql_stringit('statut',$row[$old_this.$params_array[2]]).($this_id_rid===true?'<br />'.$row[$old_this.$params_array[4]]:'').'</td><td>';
         for($i=0;$i<count($array_fields);$i++) {
           if (substr($array_fields[$i],0,strlen($dbtable)-1) != $this_is) {
             if ($this_is == $old_this)
@@ -778,8 +779,8 @@ if (isset($send)) {
           //  } else if (($key == 'resp') && isset(${$key."_con"})) {
             } else if ($key == 'entry') {
               $content .= strip_tags(substr($row[$this_is.$key],0,100));
-            } else if ($key == 'type') {
-              $content .= '<b>'.sql_stringit($this_is.'type',$row[$this_is.$key]).'</b><br />';
+            } else if (($key == 'type') || in_array($this_is.$key,$enumtype_array)) {
+              $content .= '<b>'.sql_stringit($this_is.$key,$row[$this_is.$key]).'</b><br />';
             } else if (in_array($key,$array_modules) || in_array($key,array("gendre","prenom","nom"))) {// && isset(${$key."_con"})) {
               if (in_array($key,$array_modules)) {
                 $content .= '<a href="'.$local.'?lg='.$lg.'&amp;send=edit&amp;x='.$x.'&amp;y='.(isset(${$key."_con_y"})?${$key."_con_y"}:$key).'&amp;'.$key."Id".'='.$row[$this_is.$key].'" target="_self">';
@@ -792,10 +793,11 @@ if (isset($send)) {
                 }
                 $content .= '</a><br />';
               } else {
-              //  $content .= '<a href="'.$local.'?lg='.$lg.'&amp;send=edit&amp;x='.$x.'&amp;y='.$this_is.'&amp;'.$this_is."Id".'='.$row[$this_is.(in_array($this_is."rid",$array_fields)?'r':'')."id"].'" target="_self">';
-                $content .= '<a href="'.$local.'?lg='.$lg.'&amp;x='.sql_getone($tblcont,"WHERE $where_statut_lang conttype='$this_is' ","contpg").'&amp;y='.$this_is.'&amp;'.$this_is."Id".'='.$row[$this_is.(in_array($this_is."rid",$array_fields)?'r':'')."id"].'" target="_self">';
-                if (($key=="gendre") || (!isset($row[$this_is."gendre"]) && in_array($key,array("prenom","nom"))))
-                $content .= (isset($row[$this_is."gendre"])?sql_stringit('gendre',$row[$this_is."gendre"]):'').(isset($row[$this_is."prenom"])?' '.$row[$this_is."prenom"]:'').(isset($row[$this_is."nom"])?' '.$row[$this_is."nom"]:'').'</a><br />';
+              //  $content .= '<a href="'.$local.'?lg='.$lg.'&amp;send=edit&amp;x='.$x.'&amp;y='.$this_is.'&amp;'.$this_is."Id".'='.$row[$this_is.($this_id_rid===true?'r':'')."id"].'" target="_self">';
+                if (($key=="gendre") || (!isset($row[$this_is."gendre"]) && in_array($key,array("prenom","nom")))) {
+	                $content .= '<a href="'.$local.'?lg='.$lg.'&amp;x='.sql_getone($tblcont,"WHERE $where_statut_lang conttype='$this_is' ","contpg").'&amp;y='.$this_is.'&amp;'.$this_is."Id".'='.$row[$this_is.($this_id_rid===true?'r':'')."id"].'" target="_self">';
+	                $content .= (isset($row[$this_is."gendre"])?sql_stringit('gendre',$row[$this_is."gendre"]):'').(isset($row[$this_is."prenom"])?' '.$row[$this_is."prenom"]:'').(isset($row[$this_is."nom"])?' '.$row[$this_is."nom"]:'').'</a><br />';
+								}
               }
             } else {
               if (in_array($this_is.$key,$datetime_array))

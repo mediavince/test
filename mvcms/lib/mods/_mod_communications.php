@@ -1,4 +1,4 @@
-<?PHP ## VISITEURS
+<?PHP #۞ # VISITEURS
 if	(stristr($_SERVER["PHP_SELF"],"_mod_communications.php"))	{
 	include '_security.php';
 	Header("Location: $redirect");Die();

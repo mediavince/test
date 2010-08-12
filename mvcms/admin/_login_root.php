@@ -1,21 +1,21 @@
-<?PHP ## USER
+<?PHP #Ûž # USER
 if (stristr($_SERVER['PHP_SELF'],'_login_root.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();
 }
 //          $notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
 function user_logout() {
-  global $COOKIE,$cookie_codename,$redirect,$loginform,$logged_in,$lg,$form_error,$form_login,$error,$notice,$redirURL,$sortirString,$class_conjugaison,$effectueString,$login;
+  global $COOKIE,$cookie_codename,$redirect,$loginform,$logged_in,$lg,$form_error,$form_login,$error,$notice,$redirURL,$sortirString,$class_conjugaison,$effectueString,$login,$url_profil,$entrerString;
 	if (isset($_COOKIE[$cookie_codename."user"])) {
 		setcookie($cookie_codename."user", false);
 		$_COOKIE[$cookie_codename."user"] = "";
 		$_COOKIE[$cookie_codename."user"] = NULL;
 		unset($_COOKIE[$cookie_codename."user"]);
 	}
-		$loginform = gen_form($lg).$notice.$form_login;//.$form_error
-		$logged_in = false;
-	$_SESSION['mv_notice'] = $sortirString.' '.$class_conjugaison->plural($effectueString,'M','1');//.' '.$loginform;
-		  Header("Location: $redirect".(isset($redirURL)?$redirURL:''));Die();
+	$loginform = gen_form($lg).$notice.$form_login;//.$form_error
+	$logged_in = false;
+	$_SESSION['mv_notice'] = $sortirString.' '.$class_conjugaison->plural($effectueString,'M','1').' ! <a href="'.$url_profil.'">'.ucfirst($entrerString).'</a>';//.' '.$loginform;
+	Header("Location: $redirect".(isset($redirURL)?$redirURL:''));Die();
 	//	$error .= $form_error;
 //	Header("Location: $redirect");
 //	Die();
@@ -122,7 +122,7 @@ if (!isset($login)) {
                   $mail_message = $_tpl_mail_credentials;
                 }
               //  contains_bad_str($mail_message);// uncomment if not using multi-part which contains content-type info
-                wordwrap($mail_message,70);
+                $mail_message = wordwrap($mail_message,70,$CRLF,true);
               	$codename = html_entity_decode($codename);
         				if (stristr($_SERVER["HTTP_HOST"], "localhost") || stristr($_SERVER["HTTP_HOST"], "192.168.3.")) {
         				$sent_email = 0;
@@ -138,7 +138,7 @@ if (!isset($login)) {
   		$error .= $form_error;
     }
 		// SEND RESET PASSWORD
-  } else if (($user_name != '') && ($pass_word != '')) {// || !preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $user_name)
+  } else if (($user_name != '') && ($pass_word != '')) {// || !preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $user_name)
 		if (!$connection) {
 			$loginform = gen_form($lg).$form_login;//.$form_error
 			$logged_in = false;
@@ -181,8 +181,8 @@ if (!isset($login)) {
 		$loginform = gen_form($lg).$form_login;//.$form_error
 		$logged_in = false;
 		$error .= $form_error;
-		  $_SESSION['mv_error'] = $error;
-		  Header("Location: $redirect".(isset($redirURL)?$redirURL:''));Die();
+		$_SESSION['mv_error'] = $error;
+		Header("Location: $redirect".(isset($redirURL)?$redirURL:''));Die();
 	}
 #####################################
 } else if ($login == $sortirString) {

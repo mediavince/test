@@ -1,4 +1,4 @@
-<?PHP ## ADMIN
+<?PHP #۞ # ADMIN
 if (stristr($_SERVER["PHP_SELF"],'extraoptions.php')) {
 	include '_security.php';
 	Header("Location: $redirect");Die();
@@ -28,12 +28,14 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
       $do = "mysql ".($dbhost==''?'':"-h$dbhost")." -u$dbuser -p$dbpass $dbname < $movelocation";
   $content .= "<hr />".exec($do,$output,$result).($result=='0'?'<div class="notice" style="text-align:left;">'.$class_conjugaison->plural($effectueString,'F','1').'</div>':'<div class="error" style="text-align:left;"> '.$error_inv.'<br />=> '.$result.' == '.$do.'</div>');
     }
-    if (@file_exists('.svn')) {
-    $content .= '</div><hr /><br /><div style="min-height:50px;">';
+    if (@file_exists('.svn')||@file_exists('../.git')||@file_exists('../../.git')) {
+    	if (@file_exists('../../.git')) $up_instruction = "git pull"; // git in root or in subsub
+    	else $up_instruction = "svn up";
+    	$content .= '</div><hr /><br /><div style="min-height:50px;">';
       $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/reload_f2.png" align="left" title="'.$svnupString.'" alt="'.$svnupString.'" width="32" height="32px" border="0" style="padding:8px;" /><input type="submit" name="send" value="'.$svnupString.'" /></form>';
       if (isset($send) && ($send == $svnupString)) {
-        $do = "svn up ../";
-        $content .= "<hr />SVN UP: ".exec($do,$output,$result).($result!=='0'?'<div class="notice" style="text-align:left;">'.$class_conjugaison->plural($effectueString,'F','1').': '.$result.'</div>':'<div class="error" style="text-align:left;"> '.$error_inv.'<br />=> '.$result.' == '.$do.'</div>');
+        $do = "$up_instruction ../";
+        $content .= "<hr />$up_instruction: ".exec($do,$output,$result).($result!=='0'?'<div class="notice" style="text-align:left;">'.$class_conjugaison->plural($effectueString,'F','1').': '.$result.'</div>':'<div class="error" style="text-align:left;"> '.$error_inv.'<br />=> '.$result.' == '.$do.'</div>');
       }
     }
   $content .= '</div><hr /><br /><div style="min-height:50px;">';

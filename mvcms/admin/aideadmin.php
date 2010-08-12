@@ -1,4 +1,4 @@
-<?PHP ## ADMIN
+<?PHP #Ûž # ADMIN
 
 include '_security.php';
 
@@ -103,8 +103,8 @@ if (!isset($send)) {
 
 	$count_exist = sql_nrows($dbtable, " WHERE helppg='$helpPg' AND helplang='$helpLang' ");
 
-	if ( !isset($helpTitle) || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $helpTitle) || 
-		!isset($helpEntry) || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $helpEntry) || 
+	if ( !isset($helpTitle) || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $helpTitle) || 
+		!isset($helpEntry) || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $helpEntry) || 
 		!isset($helpPg) || !preg_match("/^[0-2]+\$/", $helpPg) || 
 		!isset($helpLang) || !preg_match("/^[a-z]{2}\$/", $helpLang) || 
 		($count_exist > '0')
@@ -112,9 +112,9 @@ if (!isset($send)) {
 
   $content .= '<p style="text-align: center"><font color="Red"><b>'.$erreurString.'!</b></font><br /> <br />'.$listecorrectionString.'Check and correct the following:</p><table border=0 cellspacing=0 cellpadding=0><tr><td align=left><ul>';
 
-		if ( !$helpTitle || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $helpTitle) ) {
+		if ( !$helpTitle || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $helpTitle) ) {
   $content .= '<li>'.$titreString.' > '.$error_invmiss.'<br /> <br /></li>'; }
-		if ( !$helpEntry || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $helpEntry) ) {
+		if ( !$helpEntry || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $helpEntry) ) {
   $content .= '<li>'.$descriptionString.' > '.$error_invmiss.'<br /> <br /></li>'; }
 		if ( !$helpPg||!preg_match("/^[0-2]+\$/", $helpPg) ) {
   $content .= '<li>'.$pageString.' > '.$error_invmiss.'<br /> <br /></li>'; }
@@ -168,17 +168,17 @@ if (!isset($send)) {
 
 } else if ($send == $sauverString) {
 
-	if ( !isset($newhelpTitle) || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $newhelpTitle) || 
-		!isset($newhelpEntry) || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $newhelpEntry) || 
+	if ( !isset($newhelpTitle) || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $newhelpTitle) || 
+		!isset($newhelpEntry) || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $newhelpEntry) || 
 		!isset($newhelpPg) || !preg_match("/^[0-2]+\$/", $newhelpPg) || 
 		!isset($newhelpLang) || !preg_match("/^[a-z]{2}\$/", $newhelpLang)
 		) {
 
   $content .= '<p style="text-align: center"><font color="Red"><b>'.$erreurString.'!</b></font><br /> <br />'.$listecorrectionString.'Check and correct the following:</p><table border=0 cellspacing=0 cellpadding=0><tr><td align=left><ul>';
 
-		if ( !$newhelpTitle || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $newhelpTitle) ) {
+		if ( !$newhelpTitle || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $newhelpTitle) ) {
   $content .= '<li>'.$titreString.' > '.$error_invmiss.'<br /> <br /></li>'; }
-		if ( !$newhelpEntry || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $newhelpEntry) ) {
+		if ( !$newhelpEntry || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $newhelpEntry) ) {
   $content .= '<li>'.$descriptionString.' > '.$error_invmiss.'<br /> <br /></li>'; }
 		if ( !$newhelpPg||!preg_match("/^[0-2]+\$/", $newhelpPg) ) {
   $content .= '<li>'.$pageString.' > '.$error_invmiss.'<br /> <br /></li>'; }

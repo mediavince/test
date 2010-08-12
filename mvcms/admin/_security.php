@@ -1,4 +1,4 @@
-<?PHP ## ADMIN
+<?PHP #۞ # ADMIN
 
 if (!isset($urladmin))
 $urladmin = 'admin/';

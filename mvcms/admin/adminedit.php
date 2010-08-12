@@ -1,4 +1,4 @@
-<?PHP ## ADMIN
+<?PHP #Ûž # ADMIN
 if (stristr($_SERVER["PHP_SELF"],'adminedit.php')) {
   include '_security.php';
 	Header("Location: $redirect");Die();
@@ -48,8 +48,6 @@ $x_array = array($x,(($x*10)+1),(($x*100)+11),(($x*1000)+111));
 $xplus1_array = array(($x+1),((($x+1)*10)+1),((($x+1)*100)+11),((($x+1)*1000)+111));
 
 if ($logged_in === true) {
-  $error = '';
-  $notice = '';
   $error_img = '';
   $notice_img = '';
 	$contGet = sql_get($dbtable," WHERE contpg='$x' AND contlang='$lg' ","conttitle,contentry,contstatut,contlogo,contmenu,conturl,conttype,contorient,contmetadesc,contmetakeyw");
@@ -361,7 +359,11 @@ if ($logged_in === true) {
 			$contEntry = nl2br($contEntry);
 			$contEntry = format_edit($contEntry,"show");
 		}
-		
+		//checking module integrity
+		foreach($mod_array as $key_mod_array => $value_mod_array) {
+			if (strstr($contEntry,"[".$value_mod_array))
+			$notice .= check_module_content($value_mod_array,$contEntry);
+		}
     if (in_array('1',$admin_priv)) {
       $contTitle = $contGet[0];
   		$contStatut	= $contGet[2];
@@ -410,20 +412,20 @@ if ($logged_in === true) {
   		if	(!isset($valid_pg))	$valid_pg = true	; // linked to $-cont
   		if	(!isset($valid_url))	$valid_url = true	; // on hold
   	}
-		if ((in_array('1',$admin_priv) && (!$contEntry || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $contEntry))) || (!in_array('1',$admin_priv) && (
-      (!$contTitle || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $contTitle) || 
+		if ((in_array('1',$admin_priv) && (!$contEntry || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $contEntry))) || (!in_array('1',$admin_priv) && (
+      (!$contTitle || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $contTitle) || 
 		  is_dir($getcwd."../$clean_contTitle") ||
-			!$contEntry || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $contEntry) ||
+			!$contEntry || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $contEntry) ||
 			!$contOrient || !in_array($contOrient, $array_orient) || 
 			($valid_url === false) || (!$valid_url === true) ||
 			((!$contStatut || ($valid_pg === false)) && (($send == $sauverString) || ($send == $sauverString.' Intro'))))) )
 			) {
   $error .= '<b>'.$erreurString.'!</b><br />'.$listecorrectionString.'<ul>';
-			if ( !$contTitle || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $contTitle) )	
+			if ( !$contTitle || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $contTitle) )	
   $error .= '<li>'.$titreString.' > '.$error_invmiss.'</li>'	;
 			if ( is_dir($getcwd."../$clean_contTitle") )	
   $error .= '<li>'.$titreString.' > '.$error_inv.' ('.$dejaString.' '.$existantString.' <a href="'.$mainurl.$clean_contTitle.'" target="_blank">'.$clean_contTitle.'</a>)</li>'	;
-			if ( !$contEntry || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $contEntry) )	
+			if ( !$contEntry || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $contEntry) )	
   $error .= '<li>'.$descriptionString.' > '.$error_invmiss.'</li>'	;
 			if ( !$contOrient || !in_array($contOrient, $array_orient) )	
   $error .= '<li>'.$menuString.' position > '.$error_invmiss.'</li>'	;

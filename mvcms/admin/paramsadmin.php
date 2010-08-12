@@ -1,4 +1,4 @@
-<?PHP ## ADMIN
+<?PHP #۞ # ADMIN
 if (stristr($_SERVER['PHP_SELF'],'paramsadmin.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();
@@ -14,10 +14,10 @@ $update_rapport = '';
 
 	$array_params_form = array(
 		array("name"=>"domain",
-		"value"=>(isset($deduced_urlclient)&&$deduced_urlclient==""?"http://www.localhost.com/mvcms/":'http://'.$_SERVER["HTTP_HOST"].'/'.$deduced_urlclient."/"),
+		"value"=>(isset($deduced_urlclient)&&$deduced_urlclient==""?"http://www.localhost.com/mvcms/":'http://'.$_SERVER["HTTP_HOST"].$deduced_urlclient."/"),
 		"help"=>"Indicate the url of the domain with sub folder if any (correct it, if the deduced one is wrong)"),
 		array("name"=>"url_mirror",
-		"value"=>(isset($deduced_urlclient)&&$deduced_urlclient!==""?"/$deduced_urlclient/":'/'),
+		"value"=>(isset($deduced_urlclient)&&$deduced_urlclient!==""?"$deduced_urlclient/":'/'),
 		"help"=>"Deduced automatically: it is the folder with slashes or just a slash whether the site is at the root or not"),
 		array("name"=>"dbhost",
 		"value"=>"localhost",
@@ -35,7 +35,7 @@ $update_rapport = '';
 		"value"=>"NOW()",
 		"help"=>"Time for the database dynamic stamp, Default is NOW() but you may also use DATE_ADD(NOW(), INTERVAL 6 HOUR) if the server is located in a 6 hours away timezone"),
 		array("name"=>"cosite",
-		"value"=>(isset($deduced_urlclient)&&$deduced_urlclient==""?"www.localhost.com/mvcms":$_SERVER["HTTP_HOST"].'/'.$deduced_urlclient),
+		"value"=>(isset($deduced_urlclient)&&$deduced_urlclient==""?"www.localhost.com/mvcms":$_SERVER["HTTP_HOST"].$deduced_urlclient),
 		"help"=>"URL the way you wish to present it to your vistors or members, e.g. url without http:// "),
 		array("name"=>"comail",
 		"value"=>"@mvcms.tld",
@@ -112,6 +112,8 @@ if (!isset($send)) {
   if (!stristr($_SERVER['PHP_SELF'],'_install.php'))
   $content .= '<br /><p style="text-align:center"><font color="green"><b>'.$enregistrementString.' '.$nonString.' '.$modifieString.'</b></font><br /> <br />'.$update_rapport.'<br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
 	} else {
+		if (!is_dir($getcwd.$up.$safedir))
+		mkdir($getcwd.$up.$safedir);
 	  $Fnm = $getcwd.$up.$safedir.'_params.php';
 		$inF = fopen($Fnm,"w+");
 		$params = $first_line.

@@ -42,7 +42,7 @@ $nl_copiercollerString :
   $clientemail
 -->
 <html><body><table bgcolor='#FFFFFF' align='center' width='650' border='0' cellpadding='0' cellspacing='0'><tr><td align='center'>
-".(isset($nlid)?"<a href='$mainurl?nlid=$nlid' target='_blank'>$cologo_img</a>":$cologo)."
+<a href='$mainurl".(isset($nlid)?"?nlid=$nlid":'')."' target='_blank'>$cologo_img</a>
 </td></tr><tr><td>
   <br /> <br />
   

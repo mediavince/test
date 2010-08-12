@@ -1,4 +1,4 @@
-<?PHP
+<?PHP #۞ #
 if (stristr($_SERVER['PHP_SELF'],'_mod_newsletter.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();

@@ -1,4 +1,4 @@
-<?PHP ## LIB/
+<?PHP #۞ # LIB/
 
 if (!isset($urladmin))
 $urladmin = 'admin/';

@@ -1,3 +1,3 @@
-<?PHP
+<?PHP #۞ #
 require('admin/index.php');
 ?>

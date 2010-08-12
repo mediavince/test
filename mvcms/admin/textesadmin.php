@@ -1,4 +1,4 @@
-<?PHP ## ADMIN
+<?PHP #Ûž # ADMIN
 if (stristr($_SERVER['PHP_SELF'],'textesadmin.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();
@@ -60,7 +60,7 @@ if (!isset($send)) {
 		$row_title = $row["".fieldis('title').""];
 		$row_entry = $row["".fieldis('entry').""];
 		if (isset($_POST[$row_id])) {
-			$_POST[$row_id] = html_encode(strip_tags(stripslashes(str_replace("'","´",$_POST[$row_id])),"<a><i><b><u><br><h2><span>"));
+			$_POST[$row_id] = html_encode(strip_tags(stripslashes(str_replace("'","&acute;",$_POST[$row_id])),"<a><i><b><u><br><h2><span>"));//Â´
 		//	if (in_array($row_type,array("general","jour","mois")))
 			if ($row_type == "general")
 			if (isset($_POST['import'])) {
@@ -112,7 +112,7 @@ if (!isset($send)) {
       $stringTitle = strip_tags(html_encode($_POST['new'.fieldis('title')]));
       $stringType = strip_tags($_POST[fieldis('type')]);
       if (sql_nrows($dbtable,"WHERE ".fieldis('title')."='$stringTitle' AND ".fieldis('type')."='$stringType' ")==0) {
-        $stringDesc = html_encode(strip_tags(stripslashes(str_replace("'","´",$_POST['new'.fieldis('entry')])),"<a><i><b><u><br><h2><span>"));
+        $stringDesc = html_encode(strip_tags(stripslashes(str_replace("'","&acute;",$_POST['new'.fieldis('entry')])),"<a><i><b><u><br><h2><span>"));//Â´
         foreach($array_lang as $k) {
           $insertquery = @mysql_query("
   									INSERT INTO $dbtable 

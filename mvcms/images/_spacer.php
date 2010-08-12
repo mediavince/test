@@ -1,4 +1,4 @@
-<?PHP
+<?PHP #۞ #
 
 if	(!$_SERVER["HTTP_REFERER"])	
 	include '../admin/_security.php';

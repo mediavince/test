@@ -1,4 +1,4 @@
-<?PHP
+<?PHP #۞ #
 if (stristr($_SERVER['PHP_SELF'],"_menu_pagine_root.php")) {
 	include '_security.php';
 	Header("Location: $redirect");Die();
@@ -8,7 +8,7 @@ $dbtable = $tblcont;
 if	(stristr($_SERVER['REQUEST_URI'],$urlintro))	$dbtable = $tblintro	;
 $menu_javascript = '<script type="text/javascript"><!-- //
 /*
- $Name  : menu_pagine.js, 20070227 � 1996-2007 pf;
+ $Name  : menu_pagine.js, 20070227 © 1996-2007 pf;
  $Date  : Tue, 27 Feb 2007 10:00:00 GMT;
  $Exp   : Mon, 31 Dec 2007 23:59:59 GMT;
  $Lang  : javascript;

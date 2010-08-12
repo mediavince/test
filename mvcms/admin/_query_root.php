@@ -1,4 +1,4 @@
-<?PHP ## VISITORS
+<?PHP #۞ # VISITORS
 
 if (stristr($_SERVER['PHP_SELF'],'_query_root.php')) {
   include '_security.php';

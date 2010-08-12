@@ -1,4 +1,4 @@
-<?PHP
+<?PHP #Ûž #
 if (stristr($_SERVER['PHP_SELF'],'commentmanager.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();
@@ -22,16 +22,16 @@ if (stristr($_SERVER['PHP_SELF'],'commentmanager.php')) {
 		$valid_Entry = true;
 		if	(sql_nrows($tblcomment,"WHERE commentforum='$commentForum' AND commententry='$commentEntry' AND commentlang='$lg' ") > 0)
 		$valid_Entry = false;
-		if (!$commentMembre || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $commentMembre) ||
-			!$commentEntry || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $commentEntry) || (strlen($commentEntry) > 3000) ||
+		if (!$commentMembre || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $commentMembre) ||
+			!$commentEntry || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $commentEntry) || (strlen($commentEntry) > 3000) ||
 			($valid_Entry === false) ||
 			(($send == $sauverString) && (!$commentStatut || !preg_match("/^[0-9]+\$/", $commentId))) ||
 			(($moderate_forum === true) && (md5($_POST['code']) !== $_SESSION['antispam_key']))
 			) {
   $error .= '<b>'.$erreurString.'!</b>, '.$listecorrectionString.'<ul>';
-			if ( !$commentMembre || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $commentMembre) )
+			if ( !$commentMembre || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $commentMembre) )
   $error .= '<li>'.$nomString.' > '.$error_invmiss.'<br /> <br /></li>'	;
-			if ( !$commentEntry || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $commentEntry) )
+			if ( !$commentEntry || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $commentEntry) )
   $error .= '<li>'.$commentString.' > '.$error_invmiss.'<br /> <br /></li>'	;
 			if (  (strlen($commentEntry) > 3000) )
   $error .= '<li>'.$commentString.' > '.$error_inv.' :: max. 3000 chrs.<br /> <br /></li>'	;
