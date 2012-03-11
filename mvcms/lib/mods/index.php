@@ -1,7 +1,7 @@
 <?PHP #۞ #
 /**
  * redirects to root if called directly
- * FIRST LEVEL
+ * SECOND LEVEL
  */
 
 if (!isset($urladmin))
@@ -10,7 +10,7 @@ $urladmin = 'admin/';
 if (!isset($safedir))
 $safedir = "SQL/"	;
 
-  $up = "../"	;
+  $up = "../../"	;
 
 if (@file_exists($up.$safedir.'_security.php')) {
   include $up.$safedir.'_security.php';

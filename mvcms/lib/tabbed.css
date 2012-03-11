@@ -7,12 +7,13 @@
 .tabshade li.selected{position:relative;}
 .tabshade li.selected a{border-bottom:1px solid #F9F7ED;}
 .tabshade li.selected a:hover{text-decoration:none;color:#666;}
-.profiltabcontentstyle{border:1px solid gray;margin-bottom:1em;padding:10px;}
+.profiltabcontentstyle{border:1px solid gray;margin-bottom:0;padding:10px;display:inline-block;width:100%;min-width:450px;max-width:660px;}
 .profiltabcontent{display:none;}
 .tabshade li a:hover{color:#666;}
 #tabsidebar_ext,#tabsidebar_int{float:right;padding:0 5px;}
-.tabshade{list-style-type:none;margin-bottom:-2px;margin-left:0;margin-top:0;padding:3px 0;text-align:left;}
+.tabshade{list-style-type:none;margin-bottom:0px;margin-left:0;margin-top:0;padding:0;text-align:left;}
 .tabshade li.selected{position:relative;}
 .tabshade li{display:inline;}
 .tabshade li.selected a{border-bottom:1px solid #F9F7ED;}
+.tabshade li:first-child.selected a{margin-left:0px;}
 .tabshade li a{background:transparent url(../images/leftmenu_bg.gif) repeat scroll center;border:1px solid #777788;color:#2D2B2B;margin-right:3px;padding:3px 7px;text-decoration:none;}

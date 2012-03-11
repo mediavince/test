@@ -1,4 +1,8 @@
-<?PHP if (stristr($_SERVER['PHP_SELF'],'_mod_profil.php')) {include '_security.php';Header("Location: $redirect");Die();}
+<?PHP #۞ # VISITEURS
+if	(stristr($_SERVER["PHP_SELF"],"_mod_profil.php"))	{
+	include '_security.php';
+	Header("Location: $redirect");Die();
+}
 //          $notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
 
 
@@ -11,26 +15,30 @@ if ($admin_viewing === true) {
   $array_tabs = array("user");//,"membre","jobs","methods","communications");
   if (!isset($default_do))
   $default_do = 'tabcontent0';
-
+  
   $array_tabs_processed = array();
   foreach($array_tabs as $key=>$value)
   $array_tabs_processed[] = "tabcontent$key";
-
+  
   if (!isset($do)) {
     $do = $default_do;
   } else {
   	if (isset($do)&&in_array($do,$array_tabs_processed))//
     $_SESSION['do'] = $do;
   }
-
+  
   if (!isset($this_is) || ($this_is=='profil'))
   $this_is = 'user';
+  if (!isset($user_id))
+  $user_id = sql_getone($tbluser,"WHERE userutil='$user_name' ","user".(in_array($this_is."rid",$array_fields)?'r':'')."id");
+  $this_id = $user_id;
   if (!isset($that_is) && isset($tblmembre))
   $that_is = 'membre';
+  $membre_id = $user_id;
 
   if (in_array("communications",$array_tabs))
   include $getcwd.$up.$urladmin.'communicationsadmin.php';
-
+  
   if (!isset($basic_array))
   $basic_array = array('id','date','statut','lang','rid');
   if (isset($params_array))
@@ -39,7 +47,7 @@ if ($admin_viewing === true) {
 
   $mediumtext_array = array(); // textarea no formatting: eg meta desc & keyw
   $longtext_array = array(); // textarea with tinyMCE: word style UI
-  $enumYN_array = array(); // either Y or NO: produces selectable option code
+  $enumYN_array = array(); // either Y or NO: produces selectable option code 
   $enumtype_array = array(); // int(11), produces selectable code for all possibilities taken from enum and assign string, then allows creation of new type, further options apply like - for deleting the selected item
   $int3_array = array(); // int(3), flag for fetching items from referenced table
   $datetime_array = array(); // datetime, flag for showing calendar
@@ -64,14 +72,7 @@ if ($admin_viewing === true) {
   }
   mysql_free_result($result);
   $array_fields = sql_fields($dbtable,'array');
-
-  if (!isset($user_id))
-  $user_id = sql_getone($tbluser,"WHERE userutil='$user_name' ","user".(in_array($this_is."rid",$array_fields)?'r':'')."id");
-  $this_id = $user_id;
-  $membre_id = $user_id;
-
-  $this_id_rid = (in_array( $this_is."rid" , $array_fields ));
-
+	$this_id_rid = (in_array( $this_is."rid" , $array_fields ));
   foreach($array_fields as $key) {
     // search only on this
     if (isset($q) && ($q != '')) {
@@ -114,13 +115,13 @@ if ($admin_viewing === true) {
   }
   if (isset($longtext_array[0]))
   $edit_text = true;
-
+  
   $local_url = $local.substr($local_uri,1).'?'.(isset($q)?'&amp;q='.$q:'');//.(isset($do)&&($do!='')?"&amp;do=$do":'')
   $_mod_content = '';
-
+  
   $max_session_mail_count = 99;
   if (!isset($max_session_mail_count)) $max_session_mail_count = '3';
-
+  
   if (isset($_SESSION['pwdtochange']) && ($_SESSION['pwdtochange'] === true)) {
   	$pwdtochange = true;
     $_SESSION['pwdtochange'] = '';
@@ -133,11 +134,11 @@ if ($admin_viewing === true) {
     $_mod_content .= '<div class="error">'.strtoupper($modifierString.' '.$motdepasseString).'</div>';
 		$do = 'tabcontent0';// resets to show user tabs
   }
-
+  
   $editthis = sql_get($dbtable,"WHERE ".$this_is.(in_array($this_is."rid",$array_fields)?"lang='$lg' AND ".$this_is.'r':'')."id='$user_id' ",$list_array_fields);
   if (isset($that_is))
   $editthat = sql_get($that_dbtable,"WHERE ".$that_is.(in_array($that_is."rid",$that_array_fields)?"lang='$lg' AND ".$that_is.'r':'')."id='$user_id' ",$that_list_array_fields);
-
+   
   if (isset($send) && ($send == 'delete')) {
     if (isset(${$this_is."Img"}) || isset(${$this_is."Doc"}) ||
        (isset($that_is) && (isset(${$that_is."Img"}) || isset(${$that_is."Doc"})))) {
@@ -162,7 +163,7 @@ if ($admin_viewing === true) {
      	$error_img = '';
      	$notice_img = '';
      	foreach($editthis as $key => $value) {
-        if (($key != '0') &&
+        if (($key != '0') && 
            (($key == $this_is."doc") || (isset($that_is) && ($key == $that_is."doc")) ||
             ($key == $this_is."img") || (isset($that_is) && ($key == $that_is."img")))
            ) {
@@ -224,7 +225,7 @@ if ($admin_viewing === true) {
         Die();
       }
     }
-
+  
   #####################################
   if ( isset($send) && (($send == $sauverString) || ($send == $envoyerString)) && isset($_SESSION['mail_count']) && isset($_SESSION['profil_key']) ) {// ($send == 'delete') || ($send == $vousinscrireString) ||
     if ($_SERVER['REQUEST_METHOD'] != "POST") {
@@ -363,7 +364,7 @@ if ($admin_viewing === true) {
       $_mod_content .= gen_form($lg,$x);
     } else
     $_mod_content .= gen_form($lg,$x);
-
+  	
     $send = 'edit'; //set to enable tinyMCE
     $md5 = md5(microtime() * mktime());
     $string = substr($md5,0,rand(5,8));
@@ -376,7 +377,7 @@ if ($admin_viewing === true) {
   		$edit_profil = $that_empty_array_fields;
   	}
   	$_mod_content .= gen_form($lg,$x);
-
+  	
   	if ($logged_in === true) {
   	  $_mod_content .= $modificationString.' '.$pourString.' '.$user_name.' ('.$privilegeString.': ';
       foreach($user_priv as $key)
@@ -390,9 +391,9 @@ if ($admin_viewing === true) {
       $_mod_content .= '<div class="anti-spam"><label for="code"><b>> '.$recopiercodeString.'</b> </label><br /><img src="'.$mainurl.'images/_captcha.php?string='.base64_encode($string).'" style="padding: 1px 16px 0px 16px;" /> <input name="code" type="text" /></div><br />';
       $_mod_content .= '<label for="email"><b>> '.ucfirst($emailString).'</b> </label><input name="email" value="'.sql_getone($tbluser,"WHERE userutil='$user_name' ","useremail").'" /><br />';
     }
-
+    
   	$_mod_content .= '</div></div>';
-
+  	
   	if ($tabbing === true) {
     	$_mod_content .= '<input name="send" type="submit" value="'.($logged_in===true?$sauverString:$vousinscrireString).'" /><input type="hidden" name="do" value="tabcontent'.array_search("user",$array_tabs).'" /></form>';
     	$_mod_content .= '</div>';
@@ -400,7 +401,7 @@ if ($admin_viewing === true) {
     	$_mod_content .= '<div id="tcontent'.array_search("membre",$array_tabs).'" class="profiltabcontent">'.gen_form($lg,$x);
   	} else
     $_mod_content .= '<hr />';
-
+  	
   	$_mod_content .= '<div style="margin:0 auto;width:550px;text-align:left;">';
     $show_mod_content = '';
     if (isset($that_is) && in_array($that_is,$array_tabs)) {
@@ -464,10 +465,10 @@ if ($admin_viewing === true) {
             ${"show_".$key} = (in_array($key,array('address','adresse'))?'<div class="clear">&nbsp;</div><div style="float:left;width:50%;">':'').'<div style="float:left;"><label for="'.$that_is.ucfirst($key).'">'.ucfirst(${$key."String"}).'</label><br /><input class="text" name="'.$that_is.ucfirst($key).'" type="text" value="'.$value.'" /><br /></div>'.(in_array($key,array('ville'))||(($key=='nom')&&in_array($that_is.'gendre',$that_array_fields))?'</div>':'');//<div class="clear">&nbsp;
           }
         }
-
+        
         if (!isset($array_tpl))
         $show_mod_content .= ${"show_".$key};
-
+        
       }
       if (isset($array_tpl)) {
         foreach($array_tpl as $tpl) //  by id
@@ -480,10 +481,10 @@ if ($admin_viewing === true) {
       foreach($array_tabs as $key=>$value)
         if (!in_array($value,array("user")))
           if ($value == "membre") {
-  	        $_mod_content .= '<input name="send" type="submit" value="'.($logged_in===true?$sauverString:$vousinscrireString).'" /><input type="hidden" name="do" value="tabcontent'.$key.'" /></form></div>';
+  	        $_mod_content .= '<input name="send" type="submit" value="'.($logged_in===true?$sauverString:$vousinscrireString).'" /><input type="hidden" name="do" value="tabcontent'.$key.'" /></form></div>';      
           } else if ($value == "communications") {
             $_mod_content .= '<div id="tcontent'.$key.'" class="profiltabcontent">'.$communications_content.'</div>';
-          } else
+          } else 
           $_mod_content .= '<div id="tcontent'.$key.'" class="profiltabcontent">'.${"tab_".$array_tabs[$key]}.'</div>';
       /*
     	if (isset($array_tabs[2])) {
@@ -526,3 +527,4 @@ if ($admin_viewing === true) {
   }
 ####################################### CREATE NEW ENTRY WITH VALIDATION
 $_mod_profil = ($logged_in===true?$_mod_content:'');
+?>
