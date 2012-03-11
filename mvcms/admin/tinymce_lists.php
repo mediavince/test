@@ -1,35 +1,5 @@
 <?PHP #۞ #
-
-###########################!!! ADMIN !!!
-
 include '_incdb.php';
-//include '_incerror.php';// included in _incdb.php
-//include '_strings.php';
-
-/*************************************************************** PHP 5
-function scanDirectories($rootDir, $allData=array()) {
-    // set filenames invisible if you want
-    $invisibleFileNames = array(".", "..", ".htaccess", ".htpasswd");
-    // run through content of root directory
-    $dirContent = scandir($rootDir);
-    foreach($dirContent as $key => $content) {
-        // filter all files not accessible
-        $path = $rootDir.'/'.$content;
-        if(!in_array($content, $invisibleFileNames)) {
-            // if content is file & readable, add to array
-            if(is_file($path) && is_readable($path)) {
-                // save file name with path
-                $allData[] = $path;
-            // if content is a directory and readable, add path and name
-            }elseif(is_dir($path) && is_readable($path)) {
-                // recursive callback to open new directory
-                $allData = scanDirectories($path, $allData);
-            }
-        }
-    }
-    return $allData;
-}
-***************************************************************/
 
 if (!isset($array_img_ext))
 	$array_img_ext = array("jpg","jpeg","gif","png");
@@ -48,41 +18,6 @@ if (!isset($mp3_params))
 if (!isset($array_vars_mp3_player))
 	$array_vars_mp3_player = array("playlist","autostart","vol","artist","title","url");
 
-function scanDirectories($rootDir,$allData=array()) {
-  // set filenames invisible if you want
-  global $invisibleFileNames;
-	// Open a known directory, and proceed to read its contents
-	$dirContent = '';
-	if (is_dir($rootDir)) {
-	    if ($dh = opendir($rootDir)) {
-	        while (($file = readdir($dh)) !== false) {
-				if	($dirContent !== '')	$dirContent .= '|'	;
-	            $dirContent .= $file;
-	        }
-	        closedir($dh);
-	    }
-	}
-//ok	echo $dirContent." = dirContent ... \n\r";
-	$dirContent = explode("|",$dirContent);
-	if	(!is_array($dirContent))	$dirContent = array()	;
-	
-    foreach($dirContent as $key => $content) {
-        // filter all files not accessible
-        $path = $rootDir.'/'.$content;
-        if(!in_array($content, $invisibleFileNames) && !stristr($content,"_backup_")) {
-            // if content is file & readable, add to array
-            if(is_file($path) && is_readable($path)) {
-                // save file name with path
-                $allData[] = $path;
-            // if content is a directory and readable, add path and name
-            }elseif(is_dir($path) && is_readable($path)) {
-                // recursive callback to open new directory
-                $allData = scanDirectories($path, $allData);
-            }
-        }
-    }
-	return $allData;
-}
 ###########################!!! ADMIN !!!
 
 $tmcels = $_REQUEST["tmcels"];
@@ -125,7 +60,7 @@ if (($tmcels == "img") || ($tmcels == "swf")) {
           $loop_tinyMCE_flashs .= $filedir.'mvmp3_player.swf?playlist=empty_playlist.xml&title='.$title.(isset($artist)?'&artist='.$artist:'').$mp3_params.'&url=';
         }
       }
-			$loop_tinyMCE_flashs .= ($ext=='mp3'?'':$up).$filedir;
+			$loop_tinyMCE_flashs .= ($ext=='mp3'?'':$up);
 			$loop_tinyMCE_flashs .= $row["contphotoimg"].'"]';
 		//	$loop_tinyMCE_flashs .= str_replace("_", " ", $row["contphotoimg"]).' ('.$ext.')"]';
 		} else {

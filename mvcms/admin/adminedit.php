@@ -125,12 +125,12 @@ if ($logged_in === true) {
 #######################################################
 #######################################################
 	} else if (($send == "edit") || ($send == 'editemintro')) {
-	
-	
+
+
 	/*
 		$delete_media = "";
 // ########################## PICS ###############################
-		$contPhotocount = sql_nrows($tblcontphoto, ""); // WHERE contphotocontid='$x' 
+		$contPhotocount = sql_nrows($tblcontphoto, ""); // WHERE contphotocontid='$x'
 		if ($tinyMCE === false) {
 			if ($contPhotocount > '0') {
 				$photoListe = '<a href="?lg='.$lg.'&amp;x='.$x.'&amp;send=upldphoto">'.$ajouterString.' 1 '.$photoString.'</a><hr />';
@@ -166,12 +166,12 @@ if ($logged_in === true) {
 				if (in_array($ext,$array_swf_ext)) {
 					$loop_tinyMCE_flashs .= '<a href="?lg='.$lg.'&amp;x='.$x.'&amp;send=delphoto&amp;contphotoId='.$row["contphotoid"].'" onclick="return confirm(\''.$confirmationeffacementString.'\');"><img src="'.$mainurl.'images/delete.gif" width="10" height="10" title="'.$effacerString.'" alt="'.$effacerString.'" border="0" /></a> | '.str_replace("_", " ", $row["contphotodesc"]).' ('.$ext.')<br />';
 				} else { // ($ext == "gif") || ($ext == "jpg") || ($ext == "jpeg") || ($ext == "png") || //
-					if ($loop_tinyMCE_photos !== "")	$loop_tinyMCE_photos .= '</td><td align="center" style="border:none;">'; // '</div><div style="float:right;text-align:center;">'; // 
+					if ($loop_tinyMCE_photos !== "")	$loop_tinyMCE_photos .= '</td><td align="center" style="border:none;">'; // '</div><div style="float:right;text-align:center;">'; //
 					$loop_tinyMCE_photos .= '<img src="'.$mainurl.$row["contphotoimg"].'" width="50" height="50" hspace="5" vspace="5" border="0" alt="'.$row["contphotodesc"].'" /><br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;send=delphoto&amp;contphotoId='.$row["contphotoid"].'" onclick="return confirm(\''.$confirmationeffacementString.'\');"><img src="'.$mainurl.'images/delete.gif" width="10" height="10" title="'.$effacerString.'" alt="'.$effacerString.'" border="0" /></a>';
 				}
 			}
 			if ($loop_tinyMCE_photos != '')
-			$tinyMCE_photos .= $loop_tinyMCE_photos.'</td><tr></table></div>'; //'</div></div>'; // 
+			$tinyMCE_photos .= $loop_tinyMCE_photos.'</td><tr></table></div>'; //'</div></div>'; //
 			else
 			$tinyMCE_photos = '';
 			if ($loop_tinyMCE_flashs != '')
@@ -182,7 +182,7 @@ if ($logged_in === true) {
 		}
 // end photo list
 // ########################## DOC ###############################
-		$contDoccount = sql_nrows($tblcontdoc, ""); // WHERE contdoccontid='$x' 
+		$contDoccount = sql_nrows($tblcontdoc, ""); // WHERE contdoccontid='$x'
 		if ($tinyMCE === false) {
 			$docListe = '<hr /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;send=uplddoc">'.$ajouterString.' 1 '.$docString.'</a>';
 	// List docs from other pages only
@@ -221,16 +221,16 @@ if ($logged_in === true) {
 
 
 		if ((!is_array($contGet)) || ($contGet[0] == '.')) { // new
-		
+
       if (!in_array('1',$admin_priv)) {
   $content .= $form_method.'<input type="submit" name="send" value="'.$ajouterString;
   			if ($send == 'editemintro')
   $content .= ' Intro';
   $content .= '" onclick="ajaxSave();" /> | <a href="javascript:history.back()//">'.$retourString.'</a>';
-				if ($tinyMCE === false) 
+				if ($tinyMCE === false)
   $content .= ' | <a href="javascript: alert(\''.$helpEdit.'\')" title="Help" alt="Help">'.$aideString.'</a>';
   $content .= '<br /><label for="contStatut"> <b>'.$statutString.'</b></label> <select name="contStatut">'.gen_selectoption($tblenum,$contGet[2],'','statut').'</select> | <label for="contOrient"> <b>'.$menuString.' position </b></label> <select name="contOrient">'.gen_selectoption($array_orient,'center','','').'</select><br />';
-  			if ($send == 'editemintro') 
+  			if ($send == 'editemintro')
   $content .= '<label for="contType"> <b>'.$typeString.' (default replace)</b></label><select name="contType"><option value="1"> (replace) </option><option value="2"> < (before) </option><option value="3"> > (after) </option></select>';
   			else
   $content .= '<label for="contType"> <b>'.$pageString.' (empty = default '.$titreString.')</b></label> <select name="contType"'.($tinyMCE===true?' onchange="typeArray=[0,\'scroller\',1,\'leftlinks\',2,\'toplinks\'];tinyMCE.execCommand(\'mceInsertContent\',false,(typeArray.indexOf(this.options[this.selectedIndex].value)==-1?\'[\'+this.options[this.selectedIndex].value+\']\':\'\'));"':'').'>'.gen_selectoption($array_conttypes,(isset($contType)?$contType:$contGet[6]),'','').'</select>';//<!-- <option value=""></option><option value="">>> '.$achoisirString.' </option><option value="scroller">scroller</option><option value="leftlinks">leftlinks</option><option value="toplinks">toplinks</option><option value="profil">profil</option> <option value="contact">contact</option><option value="login">login</option><option value="map">map</option><option value="partner">partner</option><option value="search">search</option> -->
@@ -244,35 +244,35 @@ if ($logged_in === true) {
   $content .= '<br /><label for="contTitle"> <b>'.$titreString.'</b> <!-- ('.$saufString.' '.$accueilString.')  --></label> <input type="text" name="contTitle" value="'.(isset($contType)?$contType:'').'" style="width: 97%" /><br />';
   $content .= '<hr />META DESCRIPTION & KEYWORDS (1 line)<br /><label for="contMetadesc"> <b>'.$descriptionString.'</b> </label><br /><textarea name="contMetadesc" rows="3" cols="40" style="width: 97%; height: 50px; min-height: 50px;">'.($contGet[8]==""?$desc:$contGet[8]).'</textarea><br /><label for="contMetakeyw"> <b>keywords</b> </label><br /><textarea name="contMetakeyw" rows="3" cols="40" style="width: 97%; height: 50px; min-height: 50px;">'.($contGet[9]==""?$keyw:$contGet[9]).'</textarea><hr />';
   $content .= '<label for="contEntry"> <b>'.$descriptionString.'</b> '.(isset($contType)&&($contType=='toplinks')?'<i> !! edit with HTML !! </i>':'').'</label><br />'.$text_style.'<textarea id="'.($tinyMCE===false?'uldescription':'elm1').'" name="contEntry" rows="20" cols="40" style="width: 97%; height: 300px; min-height: 300px;">'.(isset($contType)&&($contType=='toplinks')?'<div style="float:left;overflow:hidden;width:110px;margin-left:-25px;"><ul><li><a title="MediaVince" href="http://www.mediavince.com/" target="_blank">MediaVince</a></li></ul></div> <ul><li><a title="MediaVince" href="http://www.mediavince.com/" target="_blank">MediaVince</a> <br /></li><li><span class="current"> '.$codename.' </span> &rsaquo;</li></ul>':'').'</textarea><p>'.$text_style.'</p>';
-  			if ($tinyMCE === false) 
+  			if ($tinyMCE === false)
   $content .= $text_style_js;
   $content .= '<br /> <br /><!-- <div class="clear"></div> --><input type="submit" name="send" value="'.$ajouterString;
   			if ($send == 'editemintro')
   $content .= ' Intro';
   $content .= '" onclick="ajaxSave();" /> | <a href="javascript:history.back()//">'.$retourString.'</a>';
-				if ($tinyMCE === false)	
+				if ($tinyMCE === false)
   $content .= ' | <A href="javascript: alert(\''.$helpEdit.'\')" alt="Help">'.$aideString.'</a>';
   $content .= '<br /> <br /></form>';
   		} else {
   $content = '<div style="background-color: #FA5;width: 90%;border: 1px solid red;padding: 5px;margin: 5px;text-align:center;">'.ucfirst($accesString.' '.$refuseString).' >> '.$privilegeString.' || <a href="javascript:history.back()//">'.$retourString.'</a></div>';
       }
-      
-      
-      
-      
-      
+
+
+
+
+
 		} else { // update
-		
-		
-		
-		
-		
+
+
+
+
+
 				$contGet[0] = strip_tags($contGet[0]);
   $content .= $form_method.'<input type="submit" name="send" value="'.$sauverString;
   			if ($send == 'editemintro')
   $content .= ' Intro';
   $content .= '" onclick="ajaxSave();" /> | <a href="javascript:history.back()//">'.$retourString.'</a>';
-				if ($tinyMCE === false)	
+				if ($tinyMCE === false)
   $content .= ' | <a href="javascript: alert(\''.addslashes($helpEdit).'\')" title="Help" alt="Help">'.$aideString.'</a>';
   $content .= '<br />';
 /************************************ // DISABLED FOR THIS SITE
@@ -307,10 +307,10 @@ if ($logged_in === true) {
 				if ($tinyMCE === false)
   $content .= '<div style="float:left;min-width:500px;width:80%;">';//<table width="100%" border="2" cellspacing="0" cellpadding="0"><tr><td width="100%" valign="top">';
   $content .= '<textarea id="'.($tinyMCE===false?'uldescription':'elm1').'" name="contEntry" rows="20" cols="40" style="width: 97%; height: 300px; min-height: 300px;">'.format_edit($contGet[1],"edit").'</textarea><p>'.$text_style.'</p>';
-  
-  
 
-/*  
+
+
+/*
 				if ($tinyMCE === false)
   $content .= '</div><div style="float:left;min-width:100px;width:18%;" class="admineditnotiny">'.$photoListe.''.$docListe.'&nbsp;</div>';
 //  $content .= '</td><td rowspan="2" align="center" valign="top">'.$photoListe.''.$docListe.'&nbsp;</td></tr><tr><td valign="top">';
@@ -327,13 +327,13 @@ if ($logged_in === true) {
   			if ($send == 'editemintro')
   $content .= ' Intro';
   $content .= '" onclick="ajaxSave();" /> | <a href="javascript:history.back()//">'.$retourString.'</a>';
-				if ($tinyMCE === false)	
-  $content .= ' | <a href="javascript: alert(\''.addslashes($helpEdit).'\')" title="Help" alt="Help">'.$aideString.'</a><br /> <br />';//</td></tr></table>';	
+				if ($tinyMCE === false)
+  $content .= ' | <a href="javascript: alert(\''.addslashes($helpEdit).'\')" title="Help" alt="Help">'.$aideString.'</a><br /> <br />';//</td></tr></table>';
   $content .= '</div></form>';
 		}
-		
-		
-		
+
+
+
 #######################################################
 #######################################################
 	} else if (	(!in_array('1',$admin_priv) && (($send == $ajouterString) || ($send == $ajouterString.' Intro'))) ||
@@ -351,7 +351,7 @@ if ($logged_in === true) {
 			Header("Location: ".$local."?lg=".$lg."&amp;x=10999&amp;y=".$y."&amp;send=edit&amp;redirected");
 			die();
 		}
-		
+
 		if	($contEntry == "<p></p>")	$contEntry = ""	;
 		if	($contEntry == "<p>&nbsp;</p>")	$contEntry = ""	;
 	//	$contEntry = html_encode($contEntry);
@@ -375,9 +375,9 @@ if ($logged_in === true) {
   		$contMetakeyw = $contGet[9];
     } else {
   		$contTitle = strip_tags($contTitle);
-  		
+
   		$clean_contTitle = space2underscore($contTitle);
-  		
+
   		$contTitle = html_encode($contTitle);
   		$contMetadesc = html_encode(strip_tags($contMetadesc));
   		if (($contMetadesc == "") && ($x == '1')) $contMetadesc = $meta_desc;
@@ -413,25 +413,25 @@ if ($logged_in === true) {
   		if	(!isset($valid_url))	$valid_url = true	; // on hold
   	}
 		if ((in_array('1',$admin_priv) && (!$contEntry || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $contEntry))) || (!in_array('1',$admin_priv) && (
-      (!$contTitle || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $contTitle) || 
-		  is_dir($getcwd."../$clean_contTitle") ||
+      (!$contTitle || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $contTitle) ||
+		  is_dir($getcwd.$up."$clean_contTitle") ||
 			!$contEntry || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $contEntry) ||
-			!$contOrient || !in_array($contOrient, $array_orient) || 
+			!$contOrient || !in_array($contOrient, $array_orient) ||
 			($valid_url === false) || (!$valid_url === true) ||
 			((!$contStatut || ($valid_pg === false)) && (($send == $sauverString) || ($send == $sauverString.' Intro'))))) )
 			) {
   $error .= '<b>'.$erreurString.'!</b><br />'.$listecorrectionString.'<ul>';
-			if ( !$contTitle || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $contTitle) )	
+			if ( !$contTitle || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $contTitle) )
   $error .= '<li>'.$titreString.' > '.$error_invmiss.'</li>'	;
-			if ( is_dir($getcwd."../$clean_contTitle") )	
+			if ( is_dir($getcwd.$up."$clean_contTitle") )
   $error .= '<li>'.$titreString.' > '.$error_inv.' ('.$dejaString.' '.$existantString.' <a href="'.$mainurl.$clean_contTitle.'" target="_blank">'.$clean_contTitle.'</a>)</li>'	;
-			if ( !$contEntry || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $contEntry) )	
+			if ( !$contEntry || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $contEntry) )
   $error .= '<li>'.$descriptionString.' > '.$error_invmiss.'</li>'	;
-			if ( !$contOrient || !in_array($contOrient, $array_orient) )	
+			if ( !$contOrient || !in_array($contOrient, $array_orient) )
   $error .= '<li>'.$menuString.' position > '.$error_invmiss.'</li>'	;
-			if ( ($valid_url === false) || (!$valid_url === true) )	
+			if ( ($valid_url === false) || (!$valid_url === true) )
   $error .= '<li>'.$urlString.' > '.$error_inv.' ('.$dejaString.' '.$existantString.' <a href="'.$mainurl.$clean_contTitle.($htaccess4sef===true?'':"_$default_lg.php").'" target="_blank">'.$clean_contTitle.($htaccess4sef===true?'':"_$default_lg.php").'</a>)</li>'	;
-			if (!$contStatut && (($send == $sauverString) || ($send == $sauverString.' Intro')))	
+			if (!$contStatut && (($send == $sauverString) || ($send == $sauverString.' Intro')))
   $error .= '<li>'.$statutString.' > '.$error_invmiss.'</li>'	;
 			if (($valid_pg === false) && (($send == $sauverString) || ($send == $sauverString.' Intro')))
   $error .= '<li>'.$menuString.' > '.$error_inv.'</li>'	;
@@ -462,9 +462,9 @@ if ($logged_in === true) {
 			}
 			$values = ""; // new
 			$editrapport = "";
-			
-			include 'menu_pagine.php';
-			include 'html_index.php';
+
+			include $getcwd.$up.$urladmin.'menu_pagine.php';
+			include $getcwd.$up.$urladmin.'html_index.php';
 			foreach($array_lang as $keylg) {
 				if (($send == $sauverString) || ($send == $sauverString.' Intro')) {
 				  /*
@@ -485,14 +485,14 @@ if ($logged_in === true) {
 						$conturl = $default_lg_pg_htm.'_'.$keylg.'.php'	;
 					}
 					if ($lg == $default_lg) {
-						if (($contTitle !== $contGet[0])) {//($x !== '1') && 
+						if (($contTitle !== $contGet[0])) {//($x !== '1') &&
 						  if (($root_writable === true) && @file_exists($getcwd.$up.$dir_urlintro.($htaccess4sef===true?$contGet[5]:substr($contGet[5],0,-7)).'_'.$keylg.'.php'))
-  							if	(rename($getcwd.$up.$dir_urlintro.($htaccess4sef===true?$contGet[5]:substr($contGet[5],0,-7)).'_'.$keylg.'.php',$getcwd.$up.$dir_urlintro.$conturl))	
+  							if	(rename($getcwd.$up.$dir_urlintro.($htaccess4sef===true?$contGet[5]:substr($contGet[5],0,-7)).'_'.$keylg.'.php',$getcwd.$up.$dir_urlintro.$conturl))
   							$editrapport .= '<br />'.$dir_urlintro.($htaccess4sef===true?$contGet[5]:substr($contGet[5],0,-7)).'_'.$keylg.'.php <font color="Red">> RENAME ></font> <a href="'.$mainurl.$dir_urlintro.$conturl.'" target="_blank">'.$dir_urlintro.$conturl.'</a> ,<br /> <br />'	;
 							if ($send == $sauverString) {
   						  if ($root_writable === true)
-  								if	($html_site === true)	
-  									if	(rename($getcwd.$up.$dir_urlintro.($htaccess4sef===true?$contGet[5]:substr($contGet[5],0,-7)).'_'.$keylg.'.htm',$getcwd.$up.$dir_urlintro.$conturlhtm))	
+  								if	($html_site === true)
+  									if	(rename($getcwd.$up.$dir_urlintro.($htaccess4sef===true?$contGet[5]:substr($contGet[5],0,-7)).'_'.$keylg.'.htm',$getcwd.$up.$dir_urlintro.$conturlhtm))
   									$editrapport .= '<br />'.$dir_urlintro.($htaccess4sef===true?$contGet[5]:substr($contGet[5],0,-7)).'_'.$keylg.'.htm <font color="Red">> RENAME ></font> <a href="'.$mainurl.$dir_urlintro.$conturlhtm.'" target="_blank">'.$dir_urlintro.$conturlhtm.'</a> ,<br /> <br />'	;
 							}
 						}
@@ -587,10 +587,10 @@ if ($logged_in === true) {
 						$default_lg_pg_htm = 'index';
 						$conturl = $default_lg_pg_htm.'_'.$keylg.'.php';
             if ($root_writable === true)
-						if (copy($getcwd.'_tpl_.php',$getcwd.$up.$dir_urlintro.$conturl)) {
+						if (copy($getcwd.$up.$urladmin.'_tpl_.php',$getcwd.$up.$dir_urlintro.$conturl)) {
 						  chmod($getcwd.$up.$dir_urlintro.$conturl, 0755);
               $editrapport .= $ajoutString.' <a href="'.$mainurl.$dir_urlintro.$conturl.'" target="_blank">'.$dir_urlintro.$conturl.'</a><br />';
-              if (copy($getcwd.'_tpl_.php',$getcwd.$up.$dir_urlintro.$clean_contTitle.'_'.$keylg.'.php'))
+              if (copy($getcwd.$up.$urladmin.'_tpl_.php',$getcwd.$up.$dir_urlintro.$clean_contTitle.'_'.$keylg.'.php'))
               $editrapport .= '<a href="'.$mainurl.$dir_urlintro.$conturl.'" target="_blank">'.$dir_urlintro.$conturl.'</a><br />';
             }
 						$values = "('', 'Y', $dbtime, '$admin_name', $dbtime, '$admin_name', '$x', '".$keylg."', '$contTitle', '$contEntry', '".($htaccess4sef===true?$clean_contTitle:$conturl)."', '$contPriv', '$contmenu', '$contType', '$contOrient', '$contMetadesc', '$contMetakeyw')";
@@ -633,8 +633,8 @@ if ($logged_in === true) {
 						if	($lg == $default_lg)	$default_lg_pg_htm = $clean_contTitle	;
 						$conturl = $default_lg_pg_htm.'_'.$keylg.'.php';
             if ($root_writable === true)
-						if (copy($getcwd.'_tpl_.php',$getcwd.$up.$dir_urlintro.$conturl)) {
-						  chmod($getcwd.$up.$dir_urlintro.$conturl, 0755);	
+						if (copy($getcwd.$up.$urladmin.'_tpl_.php',$getcwd.$up.$dir_urlintro.$conturl)) {
+						  chmod($getcwd.$up.$dir_urlintro.$conturl, 0755);
               $editrapport .= $ajoutString.' <a href="'.$mainurl.$dir_urlintro.$conturl.'" target="_blank">'.$dir_urlintro.$conturl.'</a><br />';
             }
 						$values = "('', 'Y', $dbtime, '$admin_name', $dbtime, '$admin_name', '$x', '".$keylg."', '$contTitle', '$contEntry', '".($htaccess4sef===true?$clean_contTitle:$conturl)."', '$contPriv' ,'$contmenu' ,'$contType', '$contOrient', '$contMetadesc', '$contMetakeyw')";
@@ -680,7 +680,7 @@ if ($logged_in === true) {
 			$contGet = sql_get($dbtable," WHERE contpg='$x' AND contlang='$lg' ","contupdate,contupdateby,conttitle,contentry");
 			$title = $contGet[2];
 			$editInfo = '<!-- <div class="clear"></div> --><div style="float:right;text-align:right;">'.$derniereString.' '.$modificationString.' '.$parString.' <b>'.$contGet[1].'</b> ('.$dateString.' <b>'.$contGet[0].'</b>) <font color="Red">|</font> <a href="?lg='.$lg.'&amp;x='.$x.'&amp;send=edit';
-			if	(strstr($send, " Intro"))	
+			if	(strstr($send, " Intro"))
 			$editInfo .= 'emintro'	;
 			$editInfo .= '">'.$modifierString.' '.$cettepageString.'</a></div>';
   $content .= $editInfo;
@@ -701,8 +701,8 @@ if ($logged_in === true) {
 		$editrapport = "";
 		$read = @mysql_query("SELECT * FROM $dbtable WHERE contpg='$x' ");
 		$nrows = @mysql_num_rows($read);
-		include 'menu_pagine.php';
-		include 'html_index.php';
+		include $getcwd.$up.$urladmin.'menu_pagine.php';
+		include $getcwd.$up.$urladmin.'html_index.php';
   $content .= '<br />';
     $default_url = sql_getone($tblcont,"WHERE contpg='$x' AND contlang='$default_lg' ","conturl");
 		for ($i=0;$i<$nrows;$i++) {
@@ -805,4 +805,5 @@ if ($logged_in === true) {
 } else { // logged_in = false;
 	Header("Location: $redirect");Die();
 }
+
 ?>

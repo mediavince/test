@@ -10,7 +10,7 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Database: `eninet20090917`
+-- Database: `mvcms`
 --
 -- --------------------------------------------------------
 

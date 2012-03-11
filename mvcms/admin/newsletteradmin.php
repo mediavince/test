@@ -82,8 +82,7 @@ if (!isset($send) || (isset($send) && ($send == 'delnl'))) {
 		}
 ######################################################################################################
 } else if (($send == "new") || ($send == $envoyerString)) {
-  include'newslettersend.php';
+  include $getcwd.$up.$urladmin.'newslettersend.php';
 } else {
   Header("Location: $redirect");Die();
 }
-?>

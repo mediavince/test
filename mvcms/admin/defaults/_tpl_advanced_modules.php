@@ -2,9 +2,52 @@
 
       if ($this_is == 'event') {
         if (isset($filter_index)) {
+					/*
+					 * example for the case where we want to show either the future events or the archive
+					 * if there are no events in the future
+					 * >synchronise the modification in the page as such and in this order:
+					 * [event:index|future=from]
+					 * [event:index]
+					 *
+					 * >in _extra_routines, after having added the bogus field at the end of the table
+					 *
+        if (($this_is=='event')&&($key == 'bogus')) {
+					if (isset($filter_index)) {
+						if (isset($filter_future)) {
+							$future_events_oked = true;//will get set only if there are events in future
+							//
+							// using the var bypass_this as true and an array with only bogus and an empty tpl
+							// the next event module will be ignored, here we check first for the future and then
+							// if it is empty, we fall back on the archive if future_events_oked is never set
+							//
+						}
+						// example of css refactoring, this is needed if any of the tags around the list/article
+						// are set, update also the templates main.css
+						if (!isset($looping_through_items_of_events)) {
+							if (count($array_getitems)==1)
+							$stylesheet .= '<style type="text/css">#hsep_top_events{margin-top:-5px;}</style>';
+						} else {
+							$looping_through_items_of_events = true;
+						}
+					}
+					 * in _tpl_advanced_modules, call only the bogus field to eval the situation
+					if (isset($future_events_oked)) {
+					//
+					// by using this var, we bypass the loop to avoid presenting any events when we already
+					// checked for the future module, if it is set then bypass it...
+					// this has to be implemented in _extra_routines with the bogus field, where we introduce
+					// the condition in order to be able to set future_events_oked if it evals to true
+					//
+						$bypass_this = true;
+	          $show_array = array("bogus");
+	          $array_tpl = array('');
+					} else {
+						// place the following block here
+					}
+
+					 */
           $show_array = array("type", "title", "from", "location");
           $array_tpl = array('<hr style="clear:right;" /><a href="', "\$local_url", '&amp;', "\$this_is", 'Id=', "\$show_id", '" target="_self"><b>', "\$show_from", ': ', "\$show_type", ', <i>', "\$show_location", '</i></b><br />', "\$show_title", '</a><br />');
-        //  $array_tpl = array('<hr style="clear:right;" /><a href="', "\$local_url", '&amp;', "\$this_is", 'Id=', "\$show_id", '" target="_self"><b>', "\$show_type", ', <i>', "\$show_location", ' ', "\$show_from", '</i></b><br />', "\$show_title", '</a><br />');
           
         } else {
         //  $select_array = array("type", "from");

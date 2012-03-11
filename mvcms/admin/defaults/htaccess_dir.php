@@ -4,10 +4,15 @@
 RewriteEngine On
 
 ############### localhost/folder
-RewriteBase /eninet
+RewriteBase /folder
 
 ############### localhost
-# RewriteBase / 
+# RewriteBase /
+
+## ENABLE ONE OR DISABLE TWO OR ALL ACCORDING TO SERVER SETTINGS, PHP5 HAS TO BE INSTALLED TO WORK
+# AddHandler php5-script .php
+# AddHandler application/x-httpd-php5 .php
+AddType x-mapp-php5 .php
 
 ############### prevents recursive access to .svn folders,, 
 ############### replacing "index.php" with "- [F]" will act as forbidden

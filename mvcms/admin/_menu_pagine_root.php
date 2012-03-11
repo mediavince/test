@@ -5,7 +5,7 @@ if (stristr($_SERVER['PHP_SELF'],"_menu_pagine_root.php")) {
 }
 
 $dbtable = $tblcont;
-if	(stristr($_SERVER['REQUEST_URI'],$urlintro))	$dbtable = $tblintro	;
+if	(stristr($_SERVER['PHP_SELF'],$urlintro))	$dbtable = $tblintro	;
 $menu_javascript = '<script type="text/javascript"><!-- //
 /*
  $Name  : menu_pagine.js, 20070227 © 1996-2007 pf;
@@ -60,7 +60,7 @@ for ($i=0;$i<$nrows;$i++) {
 	$row_conttitle = $row["conttitle"];
   $row_contpg = $row["contpg"];
   $contlogo_lock = ((!stristr($row["contlogo"],"1") && ($row["contlogo"] !== ""))?'lock':'');
-  if	(!strstr($_SERVER['REQUEST_URI'],$urladmin) || !stristr($_SERVER['REQUEST_URI'],$urlintro)) {
+  if	(!stristr($_SERVER['PHP_SELF'],$urladmin) || !stristr($_SERVER['PHP_SELF'],$urlintro)) {
   	$clean_title = space2underscore($row_conttitle);
   	if ($htaccess4sef === true) {
     	$row_conturl = (count($array_lang)>1?$lg."/":"");//$mainurl;
@@ -74,7 +74,7 @@ for ($i=0;$i<$nrows;$i++) {
     }
   }
 	$row_conttitle = str_replace(" ","&nbsp;",$row["conttitle"]);
-	if	(strstr($_SERVER['REQUEST_URI'],$urladmin) || stristr($_SERVER['REQUEST_URI'],$urlintro))	$row_conturl = '?lg='.$lg.'&x='.$row["contpg"]	; // strstr($_SERVER['PHP_SELF'],$urlclient) || 
+	if	(stristr($_SERVER['PHP_SELF'],$urladmin) || stristr($_SERVER['PHP_SELF'],$urlintro))	$row_conturl = '?lg='.$lg.'&x='.$row["contpg"]	; // strstr($_SERVER['PHP_SELF'],$urlclient) ||
 	if ($row["contstatut"] == 'N') $row_conttitle = '<font color=\'Red\'><span class=\'sub'.$contlogo_lock.'\'>*'.$row["conttitle"].'*</span></font>' ;
 	if	(strlen($row["contpg"]) == '3')		$jsvar_3 .= 'var m'.$row["contpg"].' = "<span class=\'sub'.$contlogo_lock.'\'>'.$row_conttitle.'</span>";'.'var l'.$row["contpg"].' = "'.$row_conturl.'";'."\n"	;
 	else if	(strlen($row["contpg"]) == '2')		$jsvar_2 .= 'var m'.$row["contpg"].' = "<span class=\'sub'.$contlogo_lock.'\'>'.$row_conttitle.'</span>";'.'var l'.$row["contpg"].' = "'.$row_conturl.'";'."\n"	;

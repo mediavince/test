@@ -9,14 +9,6 @@ if (strstr($_SERVER["PHP_SELF"],'galleryzip.php')) {
   if (!isset($user_name)) $user_name = $admin_name;
   if (!isset($helpUploadimg)) $helpUploadimg = "Help upload image";
   if (!isset($gallery_from_zip)) $gallery_from_zip = true;
-  function scan_a_dir($dir) {
-    $dh  = opendir($dir);
-    $array_files = array();
-    while (false !== ($file_name = readdir($dh)))
-      $array_files[] = $file_name;
-    closedir($dh);
-    return $array_files;
-  }
       //  $ARCHIVE->extractZip($userfile_tmp,$nowtime); //
       /* in _incerror.php
   class zip {
@@ -59,7 +51,7 @@ if (strstr($_SERVER["PHP_SELF"],'galleryzip.php')) {
     $invisibleFile_names = array(".", "..", ".htaccess", ".htpasswd");
     $dir = $getcwd.$dir;
     if (is_dir($dir)) {
-      $lst = scan_a_dir($dir);//getcwd()."/".
+      $lst = scandir($dir);//getcwd()."/".
       if (is_array($lst)) {
         if (!isset($gid)||($gid==NULL)) {
           if (array_search("_description.txt",$lst)) {

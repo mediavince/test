@@ -47,7 +47,7 @@ for ($i=0;$i<$nrows;$i++) {
   }
 	$base_pg = substr($row_contpg,0,(strlen($base_x)));
   
-  if (stristr($_SERVER['REQUEST_URI'],$urladmin) && ($logged_in === true)) {
+  if (stristr($_SERVER['PHP_SELF'],$urladmin) && ($logged_in === true)) {
     $a_href = $local.'?lg='.$lg.'&amp;x='.$row_contpg.'" alt=" ';
     if ($row["contorient"] == 'left')
       $row_conttitle = '<span style=\'color:red;\'>&deg;</span>'.$row_conttitle;

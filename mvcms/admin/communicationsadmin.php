@@ -10,11 +10,11 @@ $priv_for_admin = '4';
 $typeString = ucfirst($destinataireString);
 
 if (!isset($sender)) {
-  if (stristr($_SERVER['REQUEST_URI'],$urladmin)) {
+  if (stristr($_SERVER['PHP_SELF'],$urladmin)) {
     $sender = $admin_name;
   } else {
     if (isset($user_id)) {
-      $read = sql_get($tblmembre,"WHERE membreid='$user_id' ","membregendre,membreprenom,membrenom");
+      $read = sql_get($tblmembre,"WHERE membrerid='$user_id' AND membrelang='$lg' ","membregendre,membreprenom,membrenom");
       $sender = sql_stringit("gendre",$read[0])." ".$read[1]." ".$read[2];
     } else
     $sender = $user_name;
@@ -74,7 +74,7 @@ if ($nRows == '0') {
   $error .= '<li>'.$messageString.' > '.$error_invmiss.'</li>'  ;
   $error .= '</ul>';//<a href="javascript:history.back()//">'.$retourString.'</a>';
 		} else {
-    	$nonhtml_content_generated = $communicationsMessage;
+    	$nonhtml_content_generated = html_entity_decode(strip_tags(str_replace("<br />",$CRLF,$communicationsMessage)));
     	$html_content_generated = $communicationsMessage;
     	$footer = "$communicationsString ".$class_conjugaison->plural($envoyeString,'F',1).", $parString <a href=\"$mainurl\">$slogan</a><br /><sup>$copyrightnoticeString</sup><br /> <br />";
       ################################## IMPORT TEMPLATE
@@ -92,13 +92,18 @@ if ($nRows == '0') {
 			*/
 			if (in_array($priv_for_admin,$communications2who))
 			$communicationsXmails = array_unique(array_merge(sql_array($tbladmin,"WHERE adminpriv='0' ","adminemail"),$communicationsXmails));
+
+		//	$communicationsXmails = array_map('is_valid_email',$communicationsXmails);// not needed
+			$communicationsXmails = is_valid_email($communicationsXmails);
+
   //  echo "WHERE userpriv LIKE '%".(isset($sql_communications2who)?$sql_communications2who:$communications2who)."%' ";Die();
 			$countemails = count($communicationsXmails);
       $codename = html_entity_decode($codename);
-			$communications_msg = wordwrap($communications_msg,70,true);
+			$communications_msg = wordwrap($communications_msg,70,$CRLF,true);
     //  contains_bad_str($communications_msg);// uncomment if not using multi-part which contains content-type info
       contains_bad_str($communicationsSujet);
       contains_newlines($communicationsSujet);
+      html_entity_decode($communicationsSujet);
       if (!isset($bcc_max))
       $bcc_max = '20';
       if (($communicationsXmails != '') && ($countemails > $bcc_max)) {
@@ -114,11 +119,11 @@ if ($nRows == '0') {
             if (stristr($_SERVER['HTTP_HOST'],"localhost"))
             $mail_conf = true;
             else
-            $mail_conf = mail($communicationsSender, $communicationsSujet, $communications_msg, "From: $sender <$communicationsSender>" . "\r\n" . "Bcc: $mail_this".$mail_headers);
+            $mail_conf = mail($communicationsSender, $communicationsSujet, $communications_msg, "From: $sender <$communicationsSender>" . $CRLF . "Bcc: $mail_this".$mail_headers);
             if ($mail_conf === true) {
-              $notice .= '<font color="Green"><b>'.$messageString.' <!--g&eacute;n&eacute;rique--> '.$class_conjugaison->plural($envoyeString,'M',1).' > </b></font> '.$communicationsSender.' + extra '.$emailString.' : '.$mail_this.'<br />'.(stristr($_SERVER['HTTP_HOST'],"localhost")?" #119<br />$communicationsSender, $communicationsSujet, $communications_msg, \"From: $sender &lt;$communicationsSender&gt;\"" . "<br />\r\n" . "Bcc: $mail_this".$mail_headers.'<hr /><br />':'');
+              $notice .= '<font color="Green"><b>'.$messageString.' <!--g&eacute;n&eacute;rique--> '.$class_conjugaison->plural($envoyeString,'M',1).' > </b></font> '.$communicationsSender.' + extra '.$emailString.' : '.$mail_this.'<br />'.(stristr($_SERVER['HTTP_HOST'],"localhost")?" #122<br />$communicationsSender, $communicationsSujet, $communications_msg, \"From: $sender &lt;$communicationsSender&gt;\"" . "<br />\r\n" . "Bcc: $mail_this".$mail_headers.'<hr /><br />':'');
             } else {
-              $error .= '<font color="Red"><b>'.strtoupper($erreurString).' ! : </b></font><b>'.$messageString.' <!--g&eacute;n&eacute;rique--> '.$nonString.' '.$class_conjugaison->plural($envoyeString,'M',1).' > </b></font> '.$communicationsSender.' + extra '.$emailString.' : '.$mail_this.'<br />';//." #121<br />$communicationsSender, $communicationsSujet, $communications_msg, \"From: $sender &lt;$communicationsSender&gt;\"" . "<br />\r\n" . "Bcc: $mail_this".$mail_headers.'<hr /><br />';
+              $error .= '<font color="Red"><b>'.strtoupper($erreurString).' ! : </b></font><b>'.$messageString.' <!--g&eacute;n&eacute;rique--> '.$nonString.' '.$class_conjugaison->plural($envoyeString,'M',1).' > </b></font> '.$communicationsSender.' + extra '.$emailString.' : '.$mail_this.'<br />'.(stristr($_SERVER['HTTP_HOST'],"localhost")?" #126<br />$communicationsSender, $communicationsSujet, $communications_msg, \"From: $sender &lt;$communicationsSender&gt;\"" . "<br />\r\n" . "Bcc: $mail_this".$mail_headers.'<hr /><br />':'');
             }
             $i=0;
             $batchemails = array();
@@ -129,11 +134,11 @@ if ($nRows == '0') {
         if (stristr($_SERVER['HTTP_HOST'],"localhost"))
         $mail_conf = true;
         else
-        $mail_conf = mail($communicationsSender, $communicationsSujet, $communications_msg, "From: $sender <$communicationsSender>" . "\r\n" . "Bcc: $mail_this".$mail_headers);
+        $mail_conf = mail($communicationsSender, $communicationsSujet, $communications_msg, "From: $sender <$communicationsSender>" . $CRLF . "Bcc: $mail_this".$mail_headers);
         if ($mail_conf === true) {
           $notice .= '<font color="Green"><b>'.$messageString.' <!--g&eacute;n&eacute;rique--> '.$class_conjugaison->plural($envoyeString,'M',1).' > </b></font> '.$communicationsSender.' + extra '.$emailString.' : '.$mail_this.'<br />'.(stristr($_SERVER['HTTP_HOST'],"localhost")?"<br />$communicationsSender, $communicationsSujet, $communications_msg, \"From: $sender &lt;$communicationsSender&gt;\"" . "<br />\r\n" . "Bcc: $mail_this".$mail_headers.'<hr /><br />':'');
         } else {
-          $error .= '<font color="Red"><b>'.strtoupper($erreurString).' ! : </b></font><b>'.$messageString.' <!--g&eacute;n&eacute;rique--> '.$nonString.' '.$class_conjugaison->plural($envoyeString,'M',1).' > </b></font> '.$communicationsSender.' + extra '.$emailString.' : '.$mail_this.'<br />';//."#136<br />$communicationsSender, $communicationsSujet, $communications_msg, \"From: $sender &lt;$communicationsSender&gt;\"" . "<br />\r\n" . "Bcc: $mail_this".$mail_headers.'<hr /><br />';
+          $error .= '<font color="Red"><b>'.strtoupper($erreurString).' ! : </b></font><b>'.$messageString.' <!--g&eacute;n&eacute;rique--> '.$nonString.' '.$class_conjugaison->plural($envoyeString,'M',1).' > </b></font> '.$communicationsSender.' + extra '.$emailString.' : '.$mail_this.'<br />'.(stristr($_SERVER['HTTP_HOST'],"localhost")?"#141<br />$communicationsSender, $communicationsSujet, $communications_msg, \"From: $sender &lt;$communicationsSender&gt;\"" . "<br />\r\n" . "Bcc: $mail_this".$mail_headers.'<hr /><br />':'');
         }
       }
     }
@@ -151,9 +156,10 @@ if ($nRows == '0') {
       if (isset($communications2who[0]))
       foreach($communications2who as $k)
       $new_communications2who[] = $k;
-      $communicationsMessage = nl2br($communicationsMessage);
+      $communicationsMessage = trim(stripslashes(str_replace("'","&acute;",$_POST['communicationsMessage'])));// same routine as what is in incdb
+			$send = 'new';// reinitializes tinymce
     }
-    $communications_content .= (stristr($_SERVER['REQUEST_URI'],$urladmin)?gen_form($lg,$x,$y):gen_form($lg,$x).'<input type="hidden" name="do" value="tabcontent4" />').'
+    $communications_content .= (stristr($_SERVER['PHP_SELF'],$urladmin)?gen_form($lg,$x,$y):gen_form($lg,$x).'<input type="hidden" name="do" value="tabcontent4" />').'
   <label for="communicationsSender"><b> '.$fromString.' </b></label> 
   <input type="hidden" name="communicationsSender" value="'.(isset($admin_email)?$admin_email:(isset($user_email)?$user_email:'')).'" /><u>'.$sender.' &lt;'.(isset($admin_email)?$admin_email:(isset($user_email)?$user_email:'')).'&gt;</u>
   <br />
@@ -175,6 +181,6 @@ if ($nRows == '0') {
 ########################################################### ENVOYER
 ########################################################### ENVOYER
 }
-if (stristr($_SERVER['REQUEST_URI'],$urladmin))
+if (stristr($_SERVER['PHP_SELF'],$urladmin))
 $content .= $admin_menu.$communications_content;
 ?>

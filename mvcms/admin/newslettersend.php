@@ -7,7 +7,7 @@ if (stristr($_SERVER['PHP_SELF'],'newslettersend.php')) {
 if (!isset($personalized_newsletter))
 $personalized_newsletter = false;
 
-include 'function-gen_newsletter.php';
+include $getcwd.$up.$urladmin.'function-gen_newsletter.php';
 
 $dbtable = $tblnewsletter;
 
@@ -97,13 +97,13 @@ if ($nRowsUser == '0') {
 		if ( (!isset($newsletterSujet)) || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $newsletterSujet) || ($newsletterSujet == "") || (strlen($newsletterSujet) > 60) || (!isset($newsletterMessage)) || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $newsletterMessage) || ($newsletterMessage == "") || ($nrowsnewsletter > '0')
 		   ) {
   $error .= '<font color="Red"><b>'.$erreurString.'!</b></font> '.$listecorrectionString.'<ul>';
-			if ( !$newsletterSujet  ||  preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $newsletterSujet) || (strlen($newsletterSujet) > 60) )  
+			if ( !$newsletterSujet  ||  preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $newsletterSujet) || (strlen($newsletterSujet) > 60) )
   $error .= '<li>'.$sujetString.' > '.$error_invmiss.' (max: 60 c.)</li>'  ;
-			if ( !$newsletterMessage  ||  preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $newsletterMessage) )  
+			if ( !$newsletterMessage  ||  preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $newsletterMessage) )
   $error .= '<li>'.$messageString.' > '.$error_invmiss.'</li>'  ;
-			if ($nrowsnewsletter > '0')  
+			if ($nrowsnewsletter > '0')
   $error .= '<li>'.$sujetString.' > '.$error_exists.'</li>'  ;
-			if ($checkmail != '')  
+			if ($checkmail != '')
   $error .= '<li>'.$erreurString.' '.$emailString.''.$checkmail.'</li>'  ;
   $error .= '</ul><a href="javascript:history.back()//">'.$retourString.'</a><br />';
 		$send = "new";
@@ -114,9 +114,9 @@ if ($nRowsUser == '0') {
                                           .gen_activite($nlid)
                                           .gen_galerie($nlid);
 			$insertquery = @mysql_query("
-										 INSERT INTO $tblnewsletter 
+										 INSERT INTO $tblnewsletter
 										 (`newsletterid`, `newsletterstatut`, `newsletterdate`, `newslettersujet`, `newslettercontent`, `newslettersent`, `newslettererror`, `newsletterread`)
-										 VALUES 
+										 VALUES
 										 ('', 'Y', $dbtime, '$sql_newsletterSujet', '$newsletterContent', '', '', '')
 										");
 			if (!$insertquery) {
@@ -201,25 +201,25 @@ if ($nRowsUser == '0') {
   $error .= '<font color="Red"><b>'.strtoupper($erreurString).' ! : </b></font><b>'.$messageString.' <!--g&eacute;n&eacute;rique--> '.$nonString.' '.$class_conjugaison->plural($envoyeString,'M',1).' > </b></font> '.$coinfo.'<br />';
 					}
 				}
-				
-				
-				
-				
-				
-				
-				
-				
-				
+
+
+
+
+
+
+
+
+
 				$emailsent = "";
 				$emailsent_count = 0;
 				$emailerror = "";
 				$emailerror_count = 0;
   $content .= $rapportString.' > '.$newsletterString.' !<hr /><br />';
-  
-  
-  
-  
-  
+
+
+
+
+
   if ($personalized_newsletter === true)
 				while($row = mysql_fetch_array($membreread)) {
 					$membreId = $row["userid"];
@@ -238,7 +238,7 @@ if ($nRowsUser == '0') {
         		$membrePriv_astext .= ($membrePriv_astext==''?'':",").sql_stringit('privilege',$k_priv);
           } else {
             $membrePriv == "1";
-            $membrePriv_astext = sql_stringit('privilege',$membrePriv); 
+            $membrePriv_astext = sql_stringit('privilege',$membrePriv);
           }
 					$nlid = $newsletterid.'-'.$membreId;
 					$newsletter_msg = gen_newsletter($send,$nlid);
@@ -282,4 +282,4 @@ if ($nRowsUser == '0') {
 		Header("Location: $redirect");Die();
 	}
 }
-?>
+

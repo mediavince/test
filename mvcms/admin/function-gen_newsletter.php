@@ -45,9 +45,9 @@ function gen_activite($nlid) {
 			$generalnews .= '<tr><td><hr /><a href="'.$mainurl.'?generalnewsId='.$generalnewsrow["generalnewsid"].'&amp;nlid='.$nlid.'"><b>'.$generalnewsrow["generalnewstitle"].'</b></a></td></tr>';//'.$mini_generalnews.'<br />
 		}
 	}
-	if  (!isset($content_generalnews))  
+	if  (!isset($content_generalnews))
 	$content_generalnews = '<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0"><h2><i>'.$generalnewsString.'</i></h2>'.$generalnews.'</table><br />'  ;
-	 	
+
 	$eventsRead = @mysql_query("
 		                           SELECT * FROM $tblevents
 		                           WHERE eventsstatut='Y'
@@ -66,9 +66,9 @@ function gen_activite($nlid) {
 			$events .= '<tr><td><hr /><a href="'.$mainurl.'?eventsId='.$eventsrow["eventsid"].'&amp;nlid='.$nlid.'"><b>'.human_date($eventsrow["eventsfrom"],NULL,'nl').' <i>'.sql_stringit('eventslocation',$eventsrow["eventslocation"]).' </i><br />'.$eventsrow["eventstitle"].'</b></a><br /></td></tr>';//'.$mini_events.'<br />
 		}
 	}
-	if  (!isset($content_events))  
+	if  (!isset($content_events))
 	$content_events = '<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0"><h2><i>Upcoming '.$eventsString.'</i></h2>'.$events.'</table>'  ;
-	 	
+
 return $content_generalnews.$content_events.'<br /> <br />';
 }
 // ########## generate list of activities to come
@@ -103,7 +103,7 @@ function gen_galerie($nlid) {
 			$s = "s";
 		}
 	}
-	if  (!isset($content_galerie))  
+	if  (!isset($content_galerie))
 		$content_galerie = '<br /><i>Les derni&egrave;res Galeries Photos</i><hr />'.$galerie  ;
 return $content_galerie;
 */
@@ -121,7 +121,7 @@ function gen_newsletter($send,$nlid) {
   global $newsletterSujet,$newsletterMessage,$nlid,$membreId,$membreGendre,$membreUtil,$membrePass,$membreEmail_md5,$membreEmail,$membreStatut,$membrePriv,$membrePriv_astext,$membreTitle,$content_membre;
   // nl_strings
   global $nl_adhesionpreteString,$nl_copiercollerString,$nl_ouvrirsursiteString,$nl_messagepreviewString,$nl_sepadressesemailString;
-  
+
   if (!isset($nl_adhesionpreteString))
   $nl_adhesionpreteString = "Your request for registration is ready, please use the following credentials";
   $procedure_adhesion = '';
@@ -157,7 +157,7 @@ function gen_newsletter($send,$nlid) {
                               .gen_docpdfdl($nlid)
                               .gen_activite($nlid)
                               .gen_galerie($nlid);
-  	$footer = "$newsletterString 
+  	$footer = "$newsletterString
 ".$class_conjugaison->plural($envoyeString,'F',1)."
 , $parString <a href=\"$mainurl?nlid=$nlid\">$slogan</a><br /><sup>$copyrightnoticeString
 <br /> <br />
@@ -178,15 +178,15 @@ $nl_copiercollerString : <a href=\"$mainurl?nlid=$nlid\">$mainurl?nlid=$nlid</a>
                               .gen_activite($nlid)
                               .gen_galerie($nlid);
       ################################## IMPORT TEMPLATE
-      if (file_exists($getcwd.$up.'SQL/_tpl_mail_credentials.php'))
-        include($getcwd.$up.'SQL/_tpl_mail_credentials.php');
+      if (file_exists($getcwd.$up.$safedir.'_tpl_mail_credentials.php'))
+        include($getcwd.$up.$safedir.'_tpl_mail_credentials.php');
       else
         include($getcwd.$up.$urladmin.'defaults/_tpl_mail_credentials.php');
   		$newsletter_msg = $_tpl_mail_credentials;
     } else {
       ################################## IMPORT TEMPLATE
-      if (file_exists($getcwd.$up.'SQL/_tpl_mail_newsletter.php'))
-        include($getcwd.$up.'SQL/_tpl_mail_newsletter.php');
+      if (file_exists($getcwd.$up.$safedir.'_tpl_mail_newsletter.php'))
+        include($getcwd.$up.$safedir.'_tpl_mail_newsletter.php');
       else
         include($getcwd.$up.$urladmin.'defaults/_tpl_mail_newsletter.php');
   		$newsletter_msg = $_tpl_mail_newsletter;
@@ -194,7 +194,7 @@ $nl_copiercollerString : <a href=\"$mainurl?nlid=$nlid\">$mainurl?nlid=$nlid</a>
 	} else { // show or new
 	  $newsletter_msg = $nl_messagepreviewString.' :<br /> <br />';
 	  $newsletter_msg .= gen_form($lg,$x,$y).($personalized_newsletter===false?'
-<label for="newsletterCredentials"><b>Include credential informations?</b></label> 
+<label for="newsletterCredentials"><b>Include credential informations?</b></label>
 <input type="checkbox" name="newsletterCredentials" '.(isset($_POST['newsletterCredentials'])&&($_POST['newsletterCredentials']=='on')?$optionselected:'').'" />
 <br /> <br />':'').'
 <label for="newsletterSujet"><b>'.$sujetString.'</b></label><br />
@@ -214,4 +214,3 @@ $nl_copiercollerString : <a href=\"$mainurl?nlid=$nlid\">$mainurl?nlid=$nlid</a>
 	}
 return $newsletter_msg;
 }
-?>

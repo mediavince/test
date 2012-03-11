@@ -12,6 +12,14 @@ $root_writable = true; // enables writing of files on root, from adminedit upon 
 $CRLF = true;
 //$CRLF = false;// will become \\n :: if newsletter is not sent ok > uncomment, default is $CRLF = true or \\r\\n
 
+/*----JQUERY-------*/
+// jquery is unabled by default with the latest and min version from branch 1
+// 1 is the latest at the top but cache is set to revalidate more often,
+// to avoid select the exact version you wish, check out jquery.org
+$google_jquery_ver = '1.4.2';// at date of edit 1.4.4 // produces '!' error
+// google_jquery enabled by default
+// $google_jquery = true;
+
 /*----MENUFUNC-----*/
 $htaccess4sef = true; // this builds links as SEF, special htaccess needed
 $x1subok = true; // this allows menus under 1 and prevent top menu to go over 9
@@ -33,9 +41,11 @@ $array_safedir = array();
 
 /*----ADMIN-----*/
 $array_modules_admin = array("event", "gallery", "forum");
-  if (stristr($_SERVER['REQUEST_URI'],$urladmin)) {
+  if (stristr($_SERVER['PHP_SELF'],$urladmin)) {
     //  $_<module>_params_array = array('<field>'); // shows in admin table header
     //  $_<module>_array_mandatory_fields = array('<field>'); // if empty will error out
+      $_admin_params_array = array('util','priv','email'); // shows in admin table header
+      $_admin_array_mandatory_fields = array('','privilege','util','email'); // if empty will error out
       $_user_params_array = array('util','priv','email'); // shows in admin table header
       $_user_array_mandatory_fields = array('','privilege','util','email'); // if empty will error out
       $_membre_params_array = array('util','gendre','nom','prenom'); // shows in admin table header
@@ -187,6 +197,43 @@ $jquery_sort_js = '
 	</script>
 ';
 
+$javascript .= '
+<script type="text/javascript" src="'.$up.'lib/vendors/jquery/jquery.hint.min.js"></script>
+<script type="text/javascript">
+jQuery.noConflict();
+// Put all your code in your document ready area
+jQuery(document).ready(function($){
+	jQuery(\'input[title!=""]\').hint();
+	$.fn.captchaRefresh = function (conf) {
+		var config = $.extend({
+			src:   \'/captcha.png\', 
+			title: \'Can`t see what it says? Click me to get a new string.\'
+		}, conf);
+		return this.each(function (x) {
+			$(\'img[src^="\' + config.src + \'"]\', this)
+				.attr(\'title\', config.title)
+				.attr(\'alt\', config.title);
+			// to use same image: uncomment this block and comment the following
+		//	$(this).click(function (event) {// self click image for captcha
+		//		var clicked = $(event.target);// self click image for captcha		
+			$(".refreshcaptcha").click(function (event) {// class of img containing captcha
+				var clicked = $(".imgspam");// class that gets clicked to update captcha
+				if (clicked.attr(\'src\') && clicked.attr(\'src\').indexOf(config.src) === 0) {
+					var now       = new Date();
+					var separator = config.src.indexOf(\'?\') == -1 ? \'?\' : \'&\';
+					clicked.attr(\'src\', config.src + separator + now.getTime());
+				}
+			});
+		});
+	};
+});
+</script>
+';
+/* put this in template where mainurl is set !!
+	jQuery(\'#jquery-captcha-refresh-example\').captchaRefresh(
+		{src: \''.$mainurl.'images/_captcha.php\'}
+	);
+ */
 
 $this_annee = date('Y');
 

@@ -14,9 +14,9 @@ $content = $admin_menu;
 $content .= '<div style="float:left;width:100%;">';
 $content .= '<div style="min-height:50px;">';
 $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align="left" title="'.$bakdbString.'" alt="'.$bakdbString.'" width="48" height="48px" border="0" /><input type="hidden" name="x" value="'.$x.'" /><input type="submit" name="bakdb" value="'.$bakdbString.'" /></form>';
-  
-  if (isset($_POST['bakdb'])) include '_bakdb.php';
-  
+
+  if (isset($_POST['bakdb'])) include $getcwd.$up.$urladmin.'_bakdb.php';
+
   $content .= '</div><hr /><br /><div style="min-height:50px;">';
   if (sql_getone($tbladmin,"WHERE adminpriv LIKE '%0%' LIMIT 1 ","adminutil") == $admin_name) {
     $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/dbrestore.png" align="left" title="'.$upldbString.'" alt="'.$upldbString.'" width="48" height="48px" border="0" /><input type="file" name="sql" /><br /><input type="submit" name="send" value="'.$upldbString.'" /></form>';
@@ -58,9 +58,9 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
       }
       $editrapport .= '<div class="clear"></div>';
       if ($root_writable === true) { #### IF NOT WRITABLE ROOT
-  			include'zip.lib.php';
-  			include'menu_pagine.php';
-  			include'html_index.php';
+  			include $getcwd.$up.$urladmin.'zip.lib.php';
+  			include $getcwd.$up.$urladmin.'menu_pagine.php';
+  			include $getcwd.$up.$urladmin.'html_index.php';
   			$values = "";
         $pgext = ($html_site === true?'.htm':'.php');
         $editrapport .= '<h1 class="clear">'.strtoupper($pgext).'</h1>';
@@ -84,20 +84,20 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
   				if	($contType == 'toplinks')	$x = '10999'	;
   				if	($contPg == '0')	$contTitle = $accueilString	;
   				if ($contPg == '1') {
-  					if ($html_site === false) 
+  					if ($html_site === false)
             $default_lg_pg_htm = 'index';
   					else
             $default_lg_pg_htm = $clean_contTitle;
   					$Fnm = $getcwd.$up.$default_lg_pg_htm.'_'.$contLang.$pgext;
   					if ($html_site === false) {
-              $editrapport .= "index.php".(@file_exists($getcwd.$up.'index'.$pgext)?' exists ':(copy($getcwd.'_tpl_'.$pgext,$getcwd.$up.'index'.$pgext)?' copied ':' not copied! '));
-              $editrapport .= $Fnm.(@file_exists($Fnm)?' exists ':(copy($getcwd.'_tpl_'.$pgext,$Fnm)?' copied ':' not copied! '));
-              $editrapport .= $getcwd.$up.$clean_contTitle.'_'.$contLang.$pgext.(@file_exists($getcwd.$up.$clean_contTitle.'_'.$contLang.$pgext)?' exists ':(copy($getcwd.'_tpl_'.$pgext,$getcwd.$up.$clean_contTitle.'_'.$contLang.$pgext)?' copied ':' not copied! '));
+              $editrapport .= "index.php".(@file_exists($getcwd.$up.'index'.$pgext)?' exists ':(copy($getcwd.$up.$urladmin.'_tpl_'.$pgext,$getcwd.$up.'index'.$pgext)?' copied ':' not copied! '));
+              $editrapport .= $Fnm.(@file_exists($Fnm)?' exists ':(copy($getcwd.$up.$urladmin.'_tpl_'.$pgext,$Fnm)?' copied ':' not copied! '));
+              $editrapport .= $getcwd.$up.$clean_contTitle.'_'.$contLang.$pgext.(@file_exists($getcwd.$up.$clean_contTitle.'_'.$contLang.$pgext)?' exists ':(copy($getcwd.$up.$urladmin.'_tpl_'.$pgext,$getcwd.$up.$clean_contTitle.'_'.$contLang.$pgext)?' copied ':' not copied! '));
             } else {
     					$inF = fopen($Fnm,"w+");
     					fwrite($inF,html_index($contLang));
     					fclose($inF);
-    					if	(($contLang == $default_lg) && copy($Fnm,$getcwd.$up.'index'.$pgext))	
+    					if	(($contLang == $default_lg) && copy($Fnm,$getcwd.$up.'index'.$pgext))
               $editrapport .= '<a href="'.$mainurl.'index'.$pgext.'" target="_blank">index'.$pgext.'</a><br />';
     				}
   					$editrapport .= '<a href="'.$mainurl.$default_lg_pg_htm.'_'.$contLang.$pgext.'" target="_blank">'.$default_lg_pg_htm.'_'.$contLang.$pgext.'</a><br />';
@@ -114,7 +114,7 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
   					if	($contLang == $default_lg)
             $Fnm = $getcwd.$up.$default_lg_pg_htm.'_'.$contLang.$pgext;
   					if ($html_site === false) {
-              $editrapport .= (@file_exists($Fnm)?' exists ':(copy($getcwd.'_tpl_'.$pgext,$Fnm)?' copied ':' not copied! '));
+              $editrapport .= (@file_exists($Fnm)?' exists ':(copy($getcwd.$up.$urladmin.'_tpl_'.$pgext,$Fnm)?' copied ':' not copied! '));
             } else {
     					$inF = fopen($Fnm,"w+");
     					fwrite($inF,html_index($contLang));
@@ -251,7 +251,7 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
 						  if ($getthis[0] == '.') {
 						    $insertq = "INSERT INTO $tblhtaccess ".sql_fields($tblhtaccess,'list')." VALUES ('','$row_date','$row_statut','$row_lang','$row_item','$row_title','$row_entry','$row_url','$row_type','$row_metadesc','$row_metakeyw') ";
 						    $insertquery = @mysql_query($insertq);
-  							$editrapport .= (!$insertquery?$error_request."<br />$insertq<br />":$effectueString." [i]")." > <b>$row_type</b> : <i>$row_title</i> $row_lang <br />$insertq<br />";
+  							$editrapport .= (!$insertquery?$error_request."<br />$insertq<br />":$effectueString." [i]")." > <b>$row_type</b> : <i>$row_title</i> $row_lang <br />";
   						} else {
       					if (sql_nrows($tblhtaccess,"WHERE htaccesslang='$row_lang' AND htaccessurl='$row_url' AND htaccesstype='$row_type' ")>1)
       					sql_del($tblhtaccess,"WHERE htaccessid!='".$getthis[0]."' AND htaccesslang='$row_lang' AND htaccessurl='$row_url' AND htaccesstype='$row_type' ");
@@ -296,12 +296,14 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
 **************************************** check php.ini */
   $content .= '<hr />';
   if ($root_writable === true)
-  $content .= 'zips with files in respective folders:<br /> <br /> - <a href="'.$mainurl.$urladmin.'_download.php?file='.base64_encode($safedir.'zip'.$pgext.'js.zip').'" target="_blank">'.$pgext.' & js files in root directory</a>,<br />';
-  $content .= ' - <a href="'.substr($filedir,0,-1).'.php" target="_blank">files in '.$filedir.' directory</a><br />';
-  $content .= ' - <a href="'.substr($safedir,0,-1).'.php" target="_blank">files in '.$safedir.' directory</a><br />';
+  $content .= 'zips with files in respective folders:<br /> <br /> - <a href="'.$mainurl.$urladmin.'_download.php?file='.base64_encode($safedir.'zip'.$pgext.'js.zip').'" target="_blank">'.$pgext.' & js files in root directory</a><br />';
   $notice = $enregistrementString.' '.$effectueString;
 #######################################################
     }
+	  $content .= '<div style="float:right;">';
+	  $content .= ' - <a href="'.substr($filedir,0,-1).'.php" target="_blank">files in '.$filedir.' directory</a><br />';
+	  $content .= ' - <a href="'.substr($safedir,0,-1).'.php" target="_blank">files in '.$safedir.' directory</a><br />';
+	  $content .= ' - <a href="'.substr(str_replace("/","-",$tpldir),0,-1).'.php" target="_blank">files in '.$tpldir.' directory</a></div>';
   }
 $content .= '</div></div>';
-?>
+

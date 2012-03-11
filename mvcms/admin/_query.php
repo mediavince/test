@@ -23,7 +23,7 @@ if ($logged_in === true) { // ###### else include ../query.php ######
   	$helpUploadimg = $helpUploadimg[0].$helpUploadimg[1];
   	$helpUploaddoc = sql_get("$tblhelp"," WHERE helppg='2' AND helplang='$lg' ","helptitle, helpentry");
   	$helpUploaddoc = $helpUploaddoc[0].$helpUploaddoc[1];
-  
+
   	$nRowsHelp = sql_nrows($tblhelp,"");
   }
 ########################################## S T A R T	C O N D I T I O N ###########################################
@@ -61,7 +61,7 @@ if ($logged_in === true) { // ###### else include ../query.php ######
 		$nRowsCommenty = sql_nrows($tblbibliocomment," WHERE commentstatut='Y' ");
 		$nRowsCommentn = sql_nrows($tblbibliocomment," WHERE commentstatut='N' ");
 	}
-	
+
   if	($y == '8') {
 		$nRowsReunion = sql_nrows($tblreunion,"");
 		$nRowsReuniony = sql_nrows($tblreunion," WHERE reunionstatut='Y' ");
@@ -70,7 +70,7 @@ if ($logged_in === true) { // ###### else include ../query.php ######
 		$nRowsCommenty = sql_nrows($tblreunioncomment," WHERE commentstatut='Y' ");
 		$nRowsCommentn = sql_nrows($tblreunioncomment," WHERE commentstatut='N' ");
 	}
-	
+
   if	($y == '9') {
 		$nRowsInstitute = sql_nrows($tblinstitute,"");
 		$nRowsInstitutey = sql_nrows($tblinstitute," WHERE institutestatut='Y' ");
@@ -92,6 +92,5 @@ if ($logged_in === true) { // ###### else include ../query.php ######
 		*/
 
 } else {
-	include '_query_root.php';
+	include $getcwd.$up.$urladmin.'_query_root.php';
 }
-?>

@@ -29,16 +29,16 @@ if (stristr($_SERVER['PHP_SELF'],'commentmanager.php')) {
 			(($moderate_forum === true) && (md5($_POST['code']) !== $_SESSION['antispam_key']))
 			) {
   $error .= '<b>'.$erreurString.'!</b>, '.$listecorrectionString.'<ul>';
-			if ( !$commentMembre || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $commentMembre) )
-  $error .= '<li>'.$nomString.' > '.$error_invmiss.'<br /> <br /></li>'	;
-			if ( !$commentEntry || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $commentEntry) )
-  $error .= '<li>'.$commentString.' > '.$error_invmiss.'<br /> <br /></li>'	;
-			if (  (strlen($commentEntry) > 3000) )
-  $error .= '<li>'.$commentString.' > '.$error_inv.' :: max. 3000 chrs.<br /> <br /></li>'	;
 			if ( ($moderate_forum === true) && (md5($_POST['code']) !== $_SESSION['antispam_key']) )
-  $error .= '<li>Code > '.$error_invmiss.'<br /> <br /></li>'	;
+  $error .= '<ul><li>Anti-Sp@m > '.$error_invmiss.'</li></ul>'	;
+			if ( !$commentMembre || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $commentMembre) )
+  $error .= '<li>'.$nomString.' > '.$error_invmiss.'</li>'	;
+			if ( !$commentEntry || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $commentEntry) )
+  $error .= '<li>'.$commentString.' > '.$error_invmiss.'</li>'	;
+			if (  (strlen($commentEntry) > 3000) )
+  $error .= '<li>'.$commentString.' > '.$error_inv.' :: max. 3000 chrs.</li>'	;
 			if ($valid_Entry === false)
-  $error .= '<li>'.$commentString.' > '.$error_inv.' (<a href="'.$local_url.'&amp;forumId='.sql_getone($tblcomment,"WHERE commententry='$commentEntry' ","commentforum").'#c'.sql_getone($tblcomment,"WHERE commententry='$commentEntry' ","commentrid").'">'.$dejaString.' '.$existantString.'</a>)<br /> <br /></li>'	;
+  $error .= '<li>'.$commentString.' > '.$error_inv.' (<a href="'.$local_url.'&amp;forumId='.sql_getone($tblcomment,"WHERE commententry='$commentEntry' ","commentforum").'#c'.sql_getone($tblcomment,"WHERE commententry='$commentEntry' ","commentrid").'">'.$dejaString.' '.$existantString.'</a>)</li>'	;
       session_unregister('key');
       $md5 = md5(microtime() * mktime());
       $string = substr($md5,0,rand(5,8));
@@ -46,12 +46,14 @@ if (stristr($_SERVER['PHP_SELF'],'commentmanager.php')) {
       if (!isset($_SESSION['mail_count'])) $_SESSION['mail_count'] = 0;
       
       /*
-      $_SESSION['mv_error'] = $error;
-      $_SESSION['mv_notice'] = $notice;
-      Header("Cache-Control: no-cache");
-      Header("Pragma: no-cache");
-      Header("Location: ".html_entity_decode($local_url));Die();
       */
+      $_SESSION['mv_error'] = $error;
+//	  if ($error == '') { // gives again the text in form // to check because adds errors upon
+	      $_SESSION['mv_notice'] = $notice;
+	      Header("Cache-Control: no-cache");
+	      Header("Pragma: no-cache");
+	      Header("Location: ".html_entity_decode($local_url));Die();
+//		}
       
     } else {
     
@@ -161,7 +163,7 @@ if (stristr($_SERVER['PHP_SELF'],'commentmanager.php')) {
 				}
 			}
     }
-    if ($error == '') {// && stristr($_SERVER['REQUEST_URI'],$urladmin)) {
+    if ($error == '') {// && stristr($_SERVER['PHP_SELF'],$urladmin)) {
       $_SESSION['mv_notice'] = $notice;
       Header("Cache-Control: no-cache");
       Header("Pragma: no-cache");
@@ -178,7 +180,7 @@ if (stristr($_SERVER['PHP_SELF'],'commentmanager.php')) {
 		$error .= $erreurString.' : '.$commentString.' '.$nonString.' '.$class_conjugaison->plural($effaceString,'M','1').'<br />';
 		else
 		$notice .= $commentString.' '.$class_conjugaison->plural($effaceString,'M','1').'<br />';
-//    if ($error == '') {// && stristr($_SERVER['REQUEST_URI'],$urladmin)) {
+//    if ($error == '') {// && stristr($_SERVER['PHP_SELF'],$urladmin)) {
       $_SESSION['mv_error'] = $error;
       $_SESSION['mv_notice'] = $notice;
       Header("Cache-Control: no-cache");
@@ -192,12 +194,14 @@ if (stristr($_SERVER['PHP_SELF'],'commentmanager.php')) {
     } else {
        Die("Unauthorized attempt to access page.");
     }
+
+		$commentResponse = nl2br(strip_tags(html_encode($commentResponse)));
 		$updatequery = sql_update($tblcomment," SET commentresponse='$commentResponse' ","WHERE commentrid='$commentId' AND commentforum='$forumId' ","commentresponse");// AND commentmembre='".(isset($user_id)?$user_id:'0')."'
 		if (in_array($updatequery[0],array('','.')))
 		$error .= $erreurString.' : '.$reponseString.' '.$nonString.' '.$class_conjugaison->plural($enregistreString,'F','1').'<br />'." SET commentresponse='$commentResponse' , WHERE commentrid='$commentId' AND commentforum='$forumId' ";
 		else
 		$notice .= $reponseString.' '.$class_conjugaison->plural($enregistreString,'F','1').'<br />';
-  //  if ($error == '') {// && stristr($_SERVER['REQUEST_URI'],$urladmin)) {
+  //  if ($error == '') {// && stristr($_SERVER['PHP_SELF'],$urladmin)) {
       $_SESSION['mv_error'] = $error;
       $_SESSION['mv_notice'] = $notice;
       Header("Cache-Control: no-cache");
@@ -243,7 +247,7 @@ if (stristr($_SERVER['PHP_SELF'],'commentmanager.php')) {
                     $md5 = md5(microtime() * mktime());
                     $string = substr($md5,0,rand(5,8));
                     $_SESSION['antispam_key'] = md5($string);
-                    $comment_offer_top = '<div id="addcommenttop" style="text-align:center;display:block;"><a class="toggle" onclick="javascript:getelbyid(\'commentformtop\').style.display=\'block\';getelbyid(\'addcommenttop\').style.display=\'none\';">'.$ajouterString.' '.$commentString.'</a> | <a href="'.lgx2readable($lg,'',$this_is,'?send=new').'">'.$ajoutString.' '.$forumString.'</a></div><div id="commentformtop" style="display:none;"><form enctype="multipart/form-data" action="'.lgx2readable($lg,$x,$this_is,$show_id).'" method="'.$postgetmethod.'"><input type="hidden" name="'.$this_is.'Id" value="'.$show_id.'" /><label for="commentMembre"> <b>'.$nomString.'</b> *</label> <input type="hidden" name="commentMembre" value="'.(isset($user_id)&&$user_id>0?$user_id:'0').'" style="width: 97%" />'.(isset($user_name)?$user_name:(isset($admin_name)?$admin_name:$anonymeString)).'<br /><label for="commentEntry"> <b>'.$commentString.'</b> *</label><br /><textarea id="elm1" name="commentEntry" rows="30" cols="40" style="width: 97%; height: 100px; min-height: 100px;">'.(isset($commentEntry)?format_edit($commentEntry,'edit'):'').'</textarea>';
+                    $comment_offer_top = '<div id="addcommenttop" style="text-align:center;display:block;"><a class="toggle" onclick="javascript:getelbyid(\'commentformtop\').style.display=\'block\';getelbyid(\'addcommenttop\').style.display=\'none\';">'.$ajouterString.' '.$commentString.'</a>'.($admin_viewing===true?' | <a href="'.lgx2readable($lg,'',$this_is,'?send=new').'">'.$ajoutString.' '.$forumString.'</a>':'').'</div><div id="commentformtop" style="display:none;"><form enctype="multipart/form-data" action="'.lgx2readable($lg,$x,$this_is,$show_id).'" method="'.$postgetmethod.'"><input type="hidden" name="'.$this_is.'Id" value="'.$show_id.'" /><label for="commentMembre"> <b>'.$nomString.'</b> *</label> <input type="hidden" name="commentMembre" value="'.(isset($user_id)&&$user_id>0?$user_id:'0').'" style="width: 97%" />'.(isset($user_name)?$user_name:(isset($admin_name)?$admin_name:$anonymeString)).'<br /><label for="commentEntry"> <b>'.$commentString.'</b> *</label><br /><textarea id="elm1" name="commentEntry" rows="30" cols="40" style="width: 97%; height: 100px; min-height: 100px;">'.(isset($commentEntry)?format_edit($commentEntry,'edit'):'').'</textarea>';
                     if ($moderate_forum === true)
                     $comment_offer_top .= '<br /><label for="code"> <b>'.$recopiercodeString.'</b> </label><br /><img src="'.$mainurl.'images/_captcha.php?string='.base64_encode($string).'" border="0" /> <input type="text" name="code" value="" /><br /> <br /><i>'.$moderateurverifString.'</i>';
                     $comment_offer_top .= '<br /><b>'.$accordusageString.'</b><br /><input type="submit" name="send" value="'.$ajouterString.' '.$commentString.'" /><br /></form></div>';

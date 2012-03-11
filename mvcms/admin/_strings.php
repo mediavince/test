@@ -191,6 +191,8 @@ $entryString = (isset($descriptionString)?$descriptionString:"entry");
 $descString = $entryString;
 $utilString = (isset($nomutilString)?$nomutilString:"util");
 $userString = (isset($nomutilString)?$nomutilString:"user");
+// membreHelpString inherits userHelpString unless specified
+$membreHelpString = (isset($membreHelpString)?$membreHelpString:$userHelpString);
 $respString = (isset($responsablescientifiqueString)?$responsablescientifiqueString:"resp");
 $privString = (isset($privilegeString)?$privilegeString:"priv");
 $passString = (isset($motdepasseString)?$motdepasseString:"pass");

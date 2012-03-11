@@ -1,4 +1,3 @@
-# Ganze Site f. Spider, webcrawler etc. sperren
 #User-agent: *
 #Disallow: /
 User-agent: *
