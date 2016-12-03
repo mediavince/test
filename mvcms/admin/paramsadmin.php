@@ -1,4 +1,4 @@
-<?PHP #۞ # ADMIN
+<?php #۞ # ADMIN
 if (stristr($_SERVER['PHP_SELF'],'paramsadmin.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();
@@ -71,6 +71,8 @@ if (!isset($send)) {
 
 	if (isset($array_params_form)) {
   	foreach($array_params_form as $apf) {
+  		if (isset($_POST[$apf["name"]]))
+  			${$apf["name"]} = $_POST[$apf["name"]];
     	if (isset(${$apf["name"]}) && ($apf["name"] == 'now_time')) {
         $this_value = ceil(${$apf["name"]}-time());
         ${$apf["name"]} = "time()";
@@ -126,4 +128,3 @@ if (!isset($send)) {
 } else {
 	Header("Location: $redirect");Die();
 }
-?>
