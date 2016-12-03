@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 if (strstr($_SERVER["PHP_SELF"],'_zipadir.php')) {
   include '_security.php';
 	Header("Location: $redirect");Die();

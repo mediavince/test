@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 /**
  * redirects to root if called directly
  * FIRST LEVEL
@@ -23,5 +23,3 @@ if (!isset($redirect))
 $redirect = "http://".$_SERVER['HTTP_HOST']."/";
 
 Header("Location: $redirect");Die();
-
-?>

@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 
 /* SOURCE FILE: date.js */
 
@@ -159,4 +159,3 @@ if ($_GET['lg']) {
     }
   }
 }
-?>

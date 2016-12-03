@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 include '_incdb.php';
 //include '_incerror.php';// included in _incdb.php
 include '_strings.php';
@@ -41,4 +41,3 @@ if ($logged_in === true) {
 } else {
 	Header("Location: $redirect");Die();
 }
-?>

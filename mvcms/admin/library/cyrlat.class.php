@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 ############################################################################
 #CyrLat class v. 1.0.1 by Yaroslav Shapoval
 #en: Class for converting Cyrillic to Latin characters in both directions.
@@ -51,5 +51,3 @@ class CyrLat {
 #echo "!: $out <br>";
 #$out2=$cyrlat->lat2cyr($out);
 #echo "!: $out2 <br>";
-
-?>

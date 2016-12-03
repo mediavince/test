@@ -1,4 +1,4 @@
-<?PHP #۞ # ADMIN
+<?php #۞ # ADMIN
 if (stristr($_SERVER['PHP_SELF'],'_login.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();
@@ -122,4 +122,3 @@ if (!isset($login)) {
 	Header("Location: $redirect");
 	Die();
 }
-?>

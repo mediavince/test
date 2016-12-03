@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 ###########################!!! ADMIN !!!
 
 include '_incdb.php';
@@ -31,5 +31,3 @@ index_generate();
 
 clearstatcache();
 @mysql_close($connection);
-
-?>

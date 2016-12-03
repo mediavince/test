@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 /* $Id: zip.lib.php 6461 2004-11-03 13:56:52Z garvinhicking $ */
 // vim: expandtab sw=4 ts=4 sts=4:
 
@@ -185,4 +185,3 @@ class zipfile
     } // end of the 'file()' method
 
 } // end of the 'zipfile' class
-?>

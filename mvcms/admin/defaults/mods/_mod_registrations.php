@@ -1,4 +1,4 @@
-<?PHP #۞ # VISITEURS
+<?php #۞ # VISITEURS
 if	(stristr($_SERVER["PHP_SELF"],"_mod_registrations.php"))	{
 	include '_security.php';
 	Header("Location: $redirect");Die();
@@ -114,6 +114,4 @@ if (in_array($this_is,$array_modules_as_form)) {
   }
 
   include $getcwd.$up.$urladmin.'itemadmin.php';
-} else {
 }
-?>

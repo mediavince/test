@@ -1,4 +1,4 @@
-<?PHP #۞ # ADMIN
+<?php #۞ # ADMIN
 if (stristr($_SERVER['PHP_SELF'],'configadmin.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();
@@ -7,7 +7,7 @@ if (stristr($_SERVER['PHP_SELF'],'configadmin.php')) {
 if (!stristr($_SERVER['PHP_SELF'],'_install.php'))
 $content .= $admin_menu;
 
-$first_line = '<'.'?PHP if (stristr($_SERVER[\'PHP_SELF\'],\'_config.php\')){include\'_security.php\';Header("Location: $redirect");Die();}';
+$first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'],\'_config.php\')){include\'_security.php\';Header("Location: $redirect");Die();}';
 $last_line = '?'.'>';
 
 // lists all the texts strings appearing on site
@@ -42,4 +42,3 @@ if (!isset($send)) {
 } else {
 	Header("Location: $redirect");Die();
 }
-?>

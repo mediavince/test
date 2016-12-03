@@ -1,4 +1,4 @@
-<?PHP if (stristr($_SERVER['PHP_SELF'],'_tpl_mail_communications.php')){include'_security.php';Header("Location: $redirect");Die();}$_tpl_mail_communications = "$mail_headers_text
+<?php if (stristr($_SERVER['PHP_SELF'],'_tpl_mail_communications.php')){include'_security.php';Header("Location: $redirect");Die();}$_tpl_mail_communications = "$mail_headers_text
 
 $nl_copiercollerString :
 
@@ -29,4 +29,4 @@ $html_content_generated
 <hr />
 $footer
 <br /> <br /></td></tr></table></body></html>
-"; ?>
+";

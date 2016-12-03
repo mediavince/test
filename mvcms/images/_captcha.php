@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 
 if (!isset($urladmin))
 $urladmin = 'admin/';
@@ -111,5 +111,3 @@ Header("Pragma: no-cache");
 imagepng($captcha);
 
 imagedestroy($captcha);
-
-?>

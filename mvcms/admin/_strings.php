@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 if (stristr($_SERVER["PHP_SELF"],'_strings.php')) {
 	include '_security.php';
 	Header("Location: $redirect");Die();
@@ -202,4 +202,3 @@ $documentString = (isset($docString)?$docString:"document");
 $stringString = (isset($texteString)?$texteString:"string");
 //
 
-?>

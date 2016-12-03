@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 if (stristr($_SERVER['PHP_SELF'],"_menu_pagine_root.php")) {
 	include '_security.php';
 	Header("Location: $redirect");Die();
@@ -253,5 +253,3 @@ if ($menu_pagine === false) {
 }
 
 $javascript = (isset($javascript)?$javascript:'').$menu_javascript;
-
-?>

@@ -1,4 +1,4 @@
-<?PHP #۞ # ADMIN
+<?php #۞ # ADMIN
 if (stristr($_SERVER['PHP_SELF'],'moduleadmin.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();
@@ -61,4 +61,3 @@ if (!isset($send)) {
 } else {
 	Header("Location: $redirect");Die();
 }
-?>

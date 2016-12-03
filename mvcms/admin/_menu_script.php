@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 
 if (stristr($_SERVER["PHP_SELF"], "_menu_script.php")) {
 	include '_security.php';
@@ -125,5 +125,3 @@ if	($menuhori !== '')	$menuhori = '<ul class="level1" id="root">'.$menuhori.'</u
 //if	($menuhori !== '')	$menuhori = '<ul id="main_nav_list">'.$menuhori.'</ul>'	;
 if	($menuleft !== '')	$menuleft = '<ul>'.$menuleft.'</ul>'	;
 if	($menuright !== '')	$menuright = '<ul>'.$menuright.'</ul>'	;
-
-?>

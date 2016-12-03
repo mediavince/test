@@ -1,4 +1,4 @@
-<?PHP
+<?php
       if (!stristr($_SERVER['PHP_SELF'],$urladmin)) {
           
           if (isset($_GET['item']) && is_int($_GET['item']+0)) $cartitem = $_GET['item'];
@@ -29,7 +29,7 @@
           if (isset($_SESSION['cart-item']))
           $numberitems = count($_SESSION['cart-item']);
           if (isset($numberitems))  
-          $previewcart = '<div style="text-align:center;" class="previewcart">You have '.$numberitems.' item(s)<br />in your cart!<br /> <br /><span style="font-size:x-large;">Total: €'.$_SESSION['cart-price'].'</span><br /> <br /><a href="'.lgx2readable($lg,'','cart').'"><img src="'.$mainurl.'images/icon_cart.gif" title="View" alt="View" border="0" /></a> | <a href="'.$local_url.'empty-cart">Empty</a></div><br />';
+          $previewcart = '<div style="text-align:center;" class="previewcart">You have '.$numberitems.' item(s)<br />in your cart!<br /> <br /><span style="font-size:x-large;">Total: â‚¬'.$_SESSION['cart-price'].'</span><br /> <br /><a href="'.lgx2readable($lg,'','cart').'"><img src="'.$mainurl.'images/icon_cart.gif" title="View" alt="View" border="0" /></a> | <a href="'.$local_url.'empty-cart">Empty</a></div><br />';
           else 
           $previewcart = '<div style="text-align:center;" class="previewcart">You have no item(s) in your cart!</div><br />';
         
@@ -42,10 +42,9 @@
             $what_kind = $what_item[0];
             $what_id = $what_item[1];
             $get_item_for_cart = sql_get(${"tbl".$what_kind},"WHERE ".$what_kind."rid='".$what_id."' ","{$what_kind}title,{$what_kind}price");
-            $content .= '<div style="width:350px;margin:0 auto;">=> '.$get_item_for_cart[0].' <div style="float:right;text-align:right"> '.$array_count_values[$cartitems].' * €'.price(round($get_item_for_cart[1],2)).' = €'.round(($array_count_values[$cartitems]*$get_item_for_cart[1]),2).'</div><br /></div>';// '.sql_stringit('general',$what_kind).'
+            $content .= '<div style="width:350px;margin:0 auto;">=> '.$get_item_for_cart[0].' <div style="float:right;text-align:right"> '.$array_count_values[$cartitems].' * â‚¬'.price(round($get_item_for_cart[1],2)).' = â‚¬'.round(($array_count_values[$cartitems]*$get_item_for_cart[1]),2).'</div><br /></div>';// '.sql_stringit('general',$what_kind).'
           }
-          $content .= '<h2 style="text-align:center;"><br />Total: €'.price(round($_SESSION['cart-price'],2)).'</h2>';
+          $content .= '<h2 style="text-align:center;"><br />Total: â‚¬'.price(round($_SESSION['cart-price'],2)).'</h2>';
         } else
         $leftlinksentry .= $previewcart;  
       }
-?>

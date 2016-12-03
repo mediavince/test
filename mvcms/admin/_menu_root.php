@@ -1,4 +1,4 @@
-<?PHP #۞ #VISITORS
+<?php #۞ #VISITORS
 if (stristr($_SERVER['PHP_SELF'],"_menu_root.php")) {
 	include '_security.php';
 	Header("Location: $redirect");Die();
@@ -420,4 +420,3 @@ if	($content == "")
 	{Header("Location: $redirect");Die();}
 
 $login = $loginform	;
-

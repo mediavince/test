@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 if (stristr($_SERVER['PHP_SELF'],'_mod_newsletter.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();
@@ -28,4 +28,3 @@ if ($nl_newsletterid[0] == $nldata[0]) {
 } else {
   Header("Location: $redirect");Die();
 }
-?>

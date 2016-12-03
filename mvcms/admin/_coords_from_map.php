@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 //> <b>'.$coordsString.'</b><br />
 $content .= '
 <script>
@@ -63,4 +63,3 @@ function showarr(){
 /*
 <input type="button" value="Show Contents of Array" onclick="showarr()" /><br />
 */
-?>

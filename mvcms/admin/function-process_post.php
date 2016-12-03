@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 if (stristr($_SERVER['PHP_SELF'],'_function-process_post.php')) {
 	include '_security.php';
 	Header("Location: $redirect");Die();

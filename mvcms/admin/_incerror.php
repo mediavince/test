@@ -1,4 +1,4 @@
-<?PHP #۞ # VISITORS
+<?php #۞ # VISITORS
 if (stristr($_SERVER["PHP_SELF"], "_incerror.php")) {
     include '_security.php';
     Header("Location: $redirect");Die();
@@ -863,13 +863,13 @@ function is_valid_email($email)
 function contains_bad_str($str_to_test)
 {
     $bad_strings = array(
-                        "content-type:",
-                        "mime-version:",
-                        "multipart/mixed",
-        		            "Content-Transfer-Encoding:",
-                        "bcc:",
-        		            "cc:",
-        		            "to:"
+        "content-type:",
+        "mime-version:",
+        "multipart/mixed",
+        "Content-Transfer-Encoding:",
+        "bcc:",
+        "cc:",
+        "to:",
     );
     if ($str_to_test != '')
     foreach($bad_strings as $bad_string) {

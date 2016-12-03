@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 if (stristr($_SERVER['PHP_SELF'],'commentmanager.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();
@@ -262,4 +262,3 @@ if (stristr($_SERVER['PHP_SELF'],'commentmanager.php')) {
                 }
               }
               
-?>

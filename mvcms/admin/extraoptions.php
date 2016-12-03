@@ -1,4 +1,4 @@
-<?PHP #۞ # ADMIN
+<?php #۞ # ADMIN
 if (stristr($_SERVER["PHP_SELF"],'extraoptions.php')) {
 	include '_security.php';
 	Header("Location: $redirect");Die();
@@ -306,4 +306,3 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
 	  $content .= ' - <a href="'.substr(str_replace("/","-",$tpldir),0,-1).'.php" target="_blank">files in '.$tpldir.' directory</a></div>';
   }
 $content .= '</div></div>';
-

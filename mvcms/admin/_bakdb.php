@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 if (strstr($_SERVER["PHP_SELF"],'_bakdb.php')) {
   include '_security.php';
 	Header("Location: $redirect");Die();
@@ -10,4 +10,3 @@ if ($logged_in === true) {
 } else {
 	Header("Location: $redirect");Die();
 }
-?>

@@ -1,4 +1,4 @@
-<?PHP #۞ # ADMIN
+<?php #۞ # ADMIN
 if (stristr($_SERVER['PHP_SELF'],'communicationsadmin.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();
@@ -183,4 +183,3 @@ if ($nRows == '0') {
 }
 if (stristr($_SERVER['PHP_SELF'],$urladmin))
 $content .= $admin_menu.$communications_content;
-?>

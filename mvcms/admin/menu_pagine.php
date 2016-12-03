@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 
 if (stristr($_SERVER["PHP_SELF"], "menu_pagine.php")) {
 	include '_security.php';
@@ -312,5 +312,3 @@ global $trace, $mainurl, $tblcont;
 
 return $scroller_js;
 }
-
-?>

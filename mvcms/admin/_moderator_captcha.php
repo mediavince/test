@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 if (stristr($_SERVER['PHP_SELF'],'_moderator_captcha.php')) {
 	include '_security.php';
 	Header("Location: $redirect");Die();
@@ -53,5 +53,3 @@ if (isset($send) && in_array($send,array($envoyerString,$sauverString))
 	session_unregister('antispam_key');
 	$content .= $form_content['code'];
 }
-
-?>

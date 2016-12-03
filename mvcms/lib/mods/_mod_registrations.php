@@ -1,9 +1,8 @@
-<?PHP #۞ # VISITEURS
-if	(stristr($_SERVER["PHP_SELF"],"_mod_registrations.php"))	{
-	include '_security.php';
-	Header("Location: $redirect");Die();
+<?php #۞ # VISITEURS
+if (stristr($_SERVER["PHP_SELF"],"_mod_registrations.php"))	{
+    include '_security.php';
+    Header("Location: $redirect");Die();
 }
-//          $notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
 
 $this_is = 'registrations';
 $dbtable = ${"tbl".$this_is};
@@ -11,7 +10,6 @@ $dbtable = ${"tbl".$this_is};
 $local_url = $local.substr($local_uri,1).(isset($q)?'?q='.$q:'?');
 
 if (in_array($this_is,$array_modules_as_form)) {
-
   if (isset($filter_registrationsType))
   $array_hidden[] = 'type';
   if (isset($filter_registrationsEvents))
@@ -114,6 +112,4 @@ if (in_array($this_is,$array_modules_as_form)) {
   }
 
   include $getcwd.$up.$urladmin.'itemadmin.php';
-} else {
 }
-?>

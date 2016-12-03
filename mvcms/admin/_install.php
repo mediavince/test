@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 
 include '_incdb.php';
 
@@ -227,7 +227,7 @@ if (!isset($_POST['send'])
 				//	write _security.php in SQL (safe dir)
 				$Fnm = $getcwd.$up.$safedir.'_security.php';
 				$inF = fopen($Fnm,"w+");
-				$security = '<'.'?PHP #۞ # ADMIN
+				$security = '<'.'?php #۞ # ADMIN
 $redirect = \"http:\/\/\".$_SERVER[\"HTTP_HOST\"].\"'.$deduced_urlclient.'\";
 if (stristr($_SERVER[\'PHP_SELF\'],\'_security.php\'))
 {Header(\"Location: $redirect\");Die();}
@@ -272,7 +272,7 @@ RewriteRule index.php(.*) /index.php? [L]
 
 ########## Begin - Rewrite rules to block out some common exploits
 ## If you experience problems on your site block out the operations listed below
-## This attempts to block the most common type of exploit
+## This attempts to block the most common types of exploit
 #
 # Block out any script trying to set a mosConfig value through the URL
 RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]

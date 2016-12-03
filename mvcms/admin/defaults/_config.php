@@ -1,4 +1,4 @@
-<?PHP if (stristr($_SERVER['PHP_SELF'],'_config.php')){include'_security.php';Header("Location: $redirect");Die();}
+<?php if (stristr($_SERVER['PHP_SELF'],'_config.php')){include'_security.php';Header("Location: $redirect");Die();}
 
 $codename = 'mvcms';
 $client = 'mvcms';
@@ -273,5 +273,3 @@ $getvars_pg_array = array_merge($getvars_pg_array,array("forumId", "forumStatut"
 
 if	($forum_commenting === true)	
 $getvars_pg_array = array_merge($getvars_pg_array,array("commentId", "commentStatut", "commentDate", "commentName", "commentEmail", "commentWebsite", "commentOrganization", "commentEntry", "commentResponse", "commentIp","commentorder"));
-
-?>

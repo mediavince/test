@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 if (stristr($_SERVER["PHP_SELF"],'html_index.php')) {
 	include '_security.php';
   Header("Location: $redirect");Die();
@@ -151,5 +151,3 @@ if	(!stristr($_SERVER['HTTP_HOST'], "localhost"))	$html_index .= '<img src="http
 
 return stripslashes($html_index);
 }
-
-?>

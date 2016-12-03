@@ -1,4 +1,4 @@
-<?PHP #۞ # ADMIN
+<?php #۞ # ADMIN
 if (stristr($_SERVER['PHP_SELF'],'newsletteradmin.php')) {
   include '_security.php';
   Header("Location: $redirect");Die();

@@ -1,4 +1,4 @@
-<?PHP if (stristr($_SERVER['PHP_SELF'],"_tpl_advanced_modules.php") || !isset($this_is)){include '_security.php';Header("Location: $redirect");Die();}
+<?php if (stristr($_SERVER['PHP_SELF'],"_tpl_advanced_modules.php") || !isset($this_is)){include '_security.php';Header("Location: $redirect");Die();}
 
       if ($this_is == 'event') {
         if (isset($filter_index)) {
@@ -100,4 +100,3 @@
           $array_tpl_by_id = array('<div class="centered"><div style="float:right;max-width:', "\$max_width", 'px;">', "\$show_doc", "\$show_img", '</div><h3>', "\$show_type", '</h3><h1>', "\$show_title", "\$show_titre", "\$show_nom", "\$show_name", "\$show_util", '</h1><b>', "\$fromString", ' ', "\$show_from", ' ', "\$untilString", ' ', "\$show_until", '</b><br /><div class="centered">', "\$show_entry", "\$show_desc", "\$show_marketing1", '</div></div>');
         }
       }
-?>

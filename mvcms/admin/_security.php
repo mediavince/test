@@ -1,4 +1,4 @@
-<?PHP #۞ # ADMIN
+<?php #۞ # ADMIN
 
 if (!isset($urladmin))
 $urladmin = 'admin/';
@@ -6,7 +6,7 @@ if (!isset($urlintro))// needs to be a dir
 $urlintro = 'blog/';
 // File Directory where your protected files and configs shall be uploaded
 if (!isset($safedir))
-$safedir = "SQL/"	;
+$safedir = 'SQL/'	;
 
 $up = "";
 if (stristr($_SERVER['PHP_SELF'],$urladmin) || (stristr($_SERVER['PHP_SELF'],$urlintro) && is_dir($urlintro))) {
@@ -24,5 +24,6 @@ if (!isset($redirect))
 $redirect = "http://".$_SERVER['HTTP_HOST']."/";
 
 if (stristr($_SERVER['PHP_SELF'],'_security.php'))
-{Header("Location: $redirect");Die();}
-
+{
+	Header("Location: $redirect");Die();
+}

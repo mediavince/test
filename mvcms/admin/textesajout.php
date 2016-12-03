@@ -1,4 +1,4 @@
-<?PHP #۞ # ADMIN
+<?php #۞ # ADMIN
 
 include '_security.php';
 
@@ -70,4 +70,3 @@ if (!isset($send)) {
 } else {
 	Header("Location: $redirect");
 }
-?>

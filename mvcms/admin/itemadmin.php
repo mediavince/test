@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 if (strstr($_SERVER["PHP_SELF"],'itemadmin.php') || !isset($this_is)) {
 	include '_security.php';
 	Header("Location: $redirect");Die();
@@ -1260,4 +1260,3 @@ $content .= '</div>';
 echo (isset($notice)&&($notice!='')?'<textarea rows="10" cols="300">'.$notice.'</textarea>':'');
 echo (isset($error)&&($error!='')?'<textarea rows="10" cols="300">'.$error.'</textarea>':'');
 */
-?>

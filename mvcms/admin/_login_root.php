@@ -1,4 +1,4 @@
-<?PHP #۞ # USER
+<?php #۞ # USER
 if (stristr($_SERVER['PHP_SELF'],'_login_root.php')) {
 	include '_security.php';
 	Header("Location: $redirect");Die();

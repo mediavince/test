@@ -1,4 +1,4 @@
-<?PHP if (stristr($_SERVER['PHP_SELF'],'_mod_inscrire.php')) {include '_security.php';Header("Location: $redirect");Die();}
+<?php if (stristr($_SERVER['PHP_SELF'],'_mod_inscrire.php')) {include '_security.php';Header("Location: $redirect");Die();}
 
 if (!stristr($_SERVER['PHP_SELF'],$urladmin)) {
 	$_mod_content = "";

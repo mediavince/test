@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 
   $form_mod = '';
 	session_start();
@@ -89,4 +89,3 @@ if ( !isset($send) ) {
 		}
 	}
 }
-?>

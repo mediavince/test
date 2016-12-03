@@ -1,4 +1,4 @@
-<?PHP if (stristr($_SERVER['PHP_SELF'],'_mod_contact.php')) {include '_security.php';Header("Location: $redirect");Die();}
+<?php if (stristr($_SERVER['PHP_SELF'],'_mod_contact.php')) {include '_security.php';Header("Location: $redirect");Die();}
 //  session_start();
 $tinyMCE = false;
   
@@ -32,7 +32,7 @@ if ( isset($send) && ( $send == $envoyerString ) && isset($_SESSION['mail_count'
       }
   		if ($this_form == 'email')
   		$email = $_REQUEST[$this_form];
-  		$gen_message .= '<tr><td align="right"><b>'.$this_form.'</b> </td><td>'.${$this_form}.' </td></tr>';
+  		$gen_message .= '<tr><td align="right"><b>'.$this_form.'</b>Â </td><td>'.${$this_form}.'Â </td></tr>';
   	}
 	}
 	$gen_message .= '</table>';
@@ -43,28 +43,28 @@ if ( isset($send) && ( $send == $envoyerString ) && isset($_SESSION['mail_count'
 	$message = nl2br(strip_tags(html_encode(stripslashes($message))));
 	$md5_post_code = md5($_POST['code']);
 	
-	if ( !$name || ($name == '') || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $name) || 
+	if ( !$name || ($name == '') || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $name) || 
     !$email || ($email == '') || !is_email($email) || !is_valid_email($email) ||
     !$subject || !in_array($subject,$array_subject) ||
-		!$message || ($message == '') || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $message) || (strlen($message) > $max_msglen) ||
+		!$message || ($message == '') || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $message) || (strlen($message) > $max_msglen) ||
 		($md5_post_code !== $_SESSION['antispam_key']) ||
 		($_SESSION['mail_count'] >= $max_session_mail_count)
 	) {
 		$error .= $listecorrectionString.'<ul>';
 		if ($md5_post_code !== $_SESSION['antispam_key'])
 		$error .= '<ul><li>Anti-Sp@m > '.$error_invmiss.'</li></ul>'	;
-		if (!$name || ($name == '') || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $name))
+		if (!$name || ($name == '') || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $name))
 		$error .= '<li>'.$nomString.' > '.$error_invmiss.$name.'</li>'	;
 		if (!$email || ($email == '') || !is_email($email) || !is_valid_email($email))
 		$error .= '<li>'.$emailString.' > '.$error_invmiss.$email.'</li>'	;
 		/*
-		preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $organisation) ||
-		if (preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $organisation))
+		preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $organisation) ||
+		if (preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $organisation))
 		$error .= '<li>'.$organisationString.' > '.$error_inv.'</li>'	;
 		*/
 		if (!$subject || !in_array($subject,$array_subject))
 		$error .= '<li>'.$sujetString.' > '.$error_invmiss.'</li>'	;
-		if (!$message || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $message))
+		if (!$message || preg_match("/^[@&!?,.:;'`~%*#Â§|}{Â°]+\$/", $message))
 		$error .= '<li>'.$messageString.' > '.$error_invmiss.'</li>'	;
 		if (strlen($message) > $max_msglen)
 		$error .= '<li>'.$messageString.' '.$troplongString.' > '.$error_inv.' :: max. '.$max_msglen.'</li>'	;
@@ -97,9 +97,9 @@ if ( isset($send) && ( $send == $envoyerString ) && isset($_SESSION['mail_count'
     else
     $mail_conf = mail($this_email, $subject, $communications_msg, "From: $name <$email>".$mail_headers);
     if ($mail_conf === true) {
-      $notice .= '<font color="Green"><b>'.$messageString.' <!--générique--> '.$class_conjugaison->plural($envoyeString,'M',1).' > </b></font><br />'.(stristr($_SERVER['HTTP_HOST'],"localhost")?"<br />$this_email, $subject, $communications_msg, \"From: $name <$email>\"" . "<br />\r\n".$mail_headers.'<hr /><br />':'');
+      $notice .= '<font color="Green"><b>'.$messageString.' <!--gÃ©nÃ©rique--> '.$class_conjugaison->plural($envoyeString,'M',1).' > </b></font><br />'.(stristr($_SERVER['HTTP_HOST'],"localhost")?"<br />$this_email, $subject, $communications_msg, \"From: $name <$email>\"" . "<br />\r\n".$mail_headers.'<hr /><br />':'');
     } else {
-      $error .= '<font color="Red"><b>'.strtoupper($erreurString).' ! : </b></font><b>'.$messageString.' <!--générique--> '.$nonString.' '.$class_conjugaison->plural($envoyeString,'M',1).' > </b></font><br />';
+      $error .= '<font color="Red"><b>'.strtoupper($erreurString).' ! : </b></font><b>'.$messageString.' <!--gÃ©nÃ©rique--> '.$nonString.' '.$class_conjugaison->plural($envoyeString,'M',1).' > </b></font><br />';
     }
            
     if ($error=='') {
@@ -123,4 +123,3 @@ if ( isset($send) && ( $send == $envoyerString ) && isset($_SESSION['mail_count'
 	.'" class="imgspam" /></div><div class="rightfields"><label for="subject"><b>> '.$sujetString.' </b></label><br /><select class="text" name="subject" width="150">'.gen_selectoption($array_subject,(isset($subject)?$subject:''),'','').'</select><p><label for="message"><b>> '.$messageString.'</b></label><br /><textarea name="message" cols="25" rows="11" maxlength="'.$max_msglen.'">'.format_edit((isset($message)?$message:''),'edit').'</textarea></p></div><div style="text-align:left"><input type="submit" name="send" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /></div></div><div class="clear"></div></form>';
 
 $_mod_contact = $_mod_content;
-?>

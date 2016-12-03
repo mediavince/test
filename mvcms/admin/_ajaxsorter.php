@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 //_ajaxsorter.php
 
 include '_incdb.php';
@@ -47,5 +47,3 @@ if ($logged_in === true) {
 } else {
 	Header("Location: $redirect");Die();
 }
-
-?>

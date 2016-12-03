@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 include '_incdb.php';
 
 if (!isset($array_img_ext))
@@ -167,4 +167,3 @@ echo '
 } else {
 	Header("Location: $redirect");Die();
 }
-?>

@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 
 if	(!$_SERVER["HTTP_REFERER"])	
 	include '../admin/_security.php';
@@ -9,5 +9,3 @@ header("Content-type: image/png");
 imagepng($caught);
 
 imagedestroy($caught);
-
-?>

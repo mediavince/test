@@ -1,4 +1,4 @@
-<?PHP #۞ #
+<?php #۞ #
 
 include '_incdb.php';
 //include '_incerror.php';// included in _incdb.php
@@ -57,5 +57,3 @@ if (($logged_in === true) && (isset($_GET["sql"]) || isset($_GET["file"]))) {
   $_SESSION['mv_error'] = $error_accesspriv.'<br /><a href="javascript:history.back()//">'.$retourString.'</a><br />';
   Header("Location: $redirect");Die();
 }
-
-?>
