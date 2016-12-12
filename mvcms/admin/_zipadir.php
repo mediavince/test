@@ -1,8 +1,6 @@
 <?php #۞ #
-if (strstr($_SERVER["PHP_SELF"],'_zipadir.php')) {
-  include '_security.php';
-	Header("Location: $redirect");Die();
-}
+if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
+
 if ($logged_in === true) {
 
 	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT\n");

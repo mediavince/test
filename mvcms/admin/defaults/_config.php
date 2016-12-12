@@ -197,31 +197,31 @@ $jquery_sort_js = '
 	</script>
 ';
 
-$javascript .= '
+$javascript = '
 <script type="text/javascript" src="'.$up.'lib/vendors/jquery/jquery.hint.min.js"></script>
 <script type="text/javascript">
 jQuery.noConflict();
 // Put all your code in your document ready area
 jQuery(document).ready(function($){
-	jQuery(\'input[title!=""]\').hint();
+	jQuery("input[title!=]").hint();
 	$.fn.captchaRefresh = function (conf) {
 		var config = $.extend({
-			src:   \'/captcha.png\', 
-			title: \'Can`t see what it says? Click me to get a new string.\'
+			src:   "/captcha.png", 
+			title: "Can`t see what it says? Click me to get a new string."
 		}, conf);
 		return this.each(function (x) {
-			$(\'img[src^="\' + config.src + \'"]\', this)
-				.attr(\'title\', config.title)
-				.attr(\'alt\', config.title);
+			$("img[src^=" + config.src + "]", this)
+				.attr("title", config.title)
+				.attr("alt", config.title);
 			// to use same image: uncomment this block and comment the following
 		//	$(this).click(function (event) {// self click image for captcha
 		//		var clicked = $(event.target);// self click image for captcha		
 			$(".refreshcaptcha").click(function (event) {// class of img containing captcha
 				var clicked = $(".imgspam");// class that gets clicked to update captcha
-				if (clicked.attr(\'src\') && clicked.attr(\'src\').indexOf(config.src) === 0) {
+				if (clicked.attr("src") && clicked.attr("src").indexOf(config.src) === 0) {
 					var now       = new Date();
-					var separator = config.src.indexOf(\'?\') == -1 ? \'?\' : \'&\';
-					clicked.attr(\'src\', config.src + separator + now.getTime());
+					var separator = config.src.indexOf("?") == -1 ? "?" : "&";
+					clicked.attr("src", config.src + separator + now.getTime());
 				}
 			});
 		});

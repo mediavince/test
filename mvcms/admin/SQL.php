@@ -1,4 +1,5 @@
 <?php #۞ #
+
 include '_incdb.php';
 //include '_incerror.php';// included in _incdb.php
 include '_strings.php';

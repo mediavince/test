@@ -1,4 +1,5 @@
 <?php #۞ #
+
 include '_incdb.php';
 
 if (!isset($array_img_ext))

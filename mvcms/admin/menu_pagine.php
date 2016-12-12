@@ -1,8 +1,5 @@
 <?php #۞ #
-
-if (stristr($_SERVER["PHP_SELF"], "menu_pagine.php")) {
-	include '_security.php';
-}
+if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
 function html_js($this_lg) {
 global $trace, $mainurl, $tblcont, $tblblog, $font_family, $font_size, $default_lg, $x1subok, $menu_id_on_li, $menu_pad_left, $menu_pad_top;

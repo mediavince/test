@@ -1,8 +1,6 @@
-<?php #۞ # ADMIN
-if (stristr($_SERVER["PHP_SELF"],'adminedit.php')) {
-  include '_security.php';
-	Header("Location: $redirect");Die();
-}
+<?php #۞ #
+if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
+
 //          $notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
 
 if (!isset($root_writable))

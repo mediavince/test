@@ -11,7 +11,7 @@ if (!isset($tpldir))
 $tpldir = "lib/templates/"	;
   
 $up = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR;
-  
+
 if (stristr($_SERVER['PHP_SELF'],$urladmin) 
 	|| (stristr($_SERVER['PHP_SELF'],$urlintro) && is_dir($urlintro))) {
     if (stristr($_SERVER['HTTP_HOST'],"mediavince.com") 
@@ -20,7 +20,7 @@ if (stristr($_SERVER['PHP_SELF'],$urladmin)
     else
     $up = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR;
 }
-  
+
 include $up.$urladmin.'_incdb.php';
 
 $default_img_captcha = "_captcha.jpg";

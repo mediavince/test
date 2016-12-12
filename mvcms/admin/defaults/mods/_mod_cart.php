@@ -1,4 +1,6 @@
-<?php
+<?php #۞ #
+if (stristr($_SERVER['PHP_SELF'], '_mod_contact.php') {include '_security.php';Header("Location: $redirect");Die();}
+
       if (!stristr($_SERVER['PHP_SELF'],$urladmin)) {
           
           if (isset($_GET['item']) && is_int($_GET['item']+0)) $cartitem = $_GET['item'];

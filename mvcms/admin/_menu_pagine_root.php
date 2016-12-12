@@ -1,8 +1,5 @@
 <?php #۞ #
-if (stristr($_SERVER['PHP_SELF'],"_menu_pagine_root.php")) {
-	include '_security.php';
-	Header("Location: $redirect");Die();
-}
+if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
 $dbtable = $tblcont;
 if	(stristr($_SERVER['PHP_SELF'],$urlintro))	$dbtable = $tblintro	;

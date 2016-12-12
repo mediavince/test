@@ -57,11 +57,8 @@ if ( isset($send) && ( $send == $envoyerString ) && isset($_SESSION['mail_count'
 		$error .= '<li>'.$nomString.' > '.$error_invmiss.$name.'</li>'	;
 		if (!$email || ($email == '') || !is_email($email) || !is_valid_email($email))
 		$error .= '<li>'.$emailString.' > '.$error_invmiss.$email.'</li>'	;
-		/*
-		preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $organisation) ||
 		if (preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $organisation))
 		$error .= '<li>'.$organisationString.' > '.$error_inv.'</li>'	;
-		*/
 		if (!$subject || !in_array($subject,$array_subject))
 		$error .= '<li>'.$sujetString.' > '.$error_invmiss.'</li>'	;
 		if (!$message || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $message))
@@ -111,14 +108,14 @@ if ( isset($send) && ( $send == $envoyerString ) && isset($_SESSION['mail_count'
 } else {
 }
 
-  session_unregister('antispam_key');
+//  session_unregister('antispam_key'); // bugs in new php versions
 /*
   $md5 = md5(microtime() * mktime());
   $string = substr($md5,0,rand(5,8));
   $_SESSION['antispam_key'] = md5($string);
 */
   if (!isset($_SESSION['mail_count'])) $_SESSION['mail_count'] = 0;
-  $_mod_content .= gen_form($lg,$x).'<div class="contactform"><div class="leftfields"><label for="name"><b>> '.$nomString.'</b></label><br /><input class="text" name="name" type="text" value="'.(isset($name)?$name:'').'" /><br /><label for="fname"><b>> '.$prenomString.'</b></label><br /><input class="text" name="fname" type="text" value="'.(isset($fname)?$fname:'').'" /><br /><!--<label for="organisation"><b>> '.$organisationString.'</b></label><br /><input class="text" name="organisation" type="text" value="'.(isset($organisation)?$organisation:'').'" /><br />--><label for="email"><b>> '.$emailString.' </b></label><br /><input class="text" name="email" type="text" value="'.(isset($email)?$email:'').'" /><br /><label for="code"><b>> anti-spam </b></label><br /><input class="text" name="code" type="text" /><br /><img src="'.$mainurl.'images/_captcha.php'
+  $_mod_content .= gen_form($lg,$x).'<div class="contactform"><div class="leftfields"><label for="name"><b>> '.$nomString.'</b></label><br /><input class="text" name="name" type="text" value="'.(isset($name)?$name:'').'" /><br /><label for="fname"><b>> '.$prenomString.'</b></label><br /><input class="text" name="fname" type="text" value="'.(isset($fname)?$fname:'').'" /><br /><label for="organisation"><b>> '.$organisationString.'</b></label><br /><input class="text" name="organisation" type="text" value="'.(isset($organisation)?$organisation:'').'" /><br /><label for="email"><b>> '.$emailString.' </b></label><br /><input class="text" name="email" type="text" value="'.(isset($email)?$email:'').'" /><br /><label for="code"><b>> anti-spam </b></label><br /><input class="text" name="code" type="text" /><br /><img src="'.$mainurl.'images/_captcha.php'
 	//	.'?string='.base64_encode($string)
 	.'" class="imgspam" /></div><div class="rightfields"><label for="subject"><b>> '.$sujetString.' </b></label><br /><select class="text" name="subject" width="150">'.gen_selectoption($array_subject,(isset($subject)?$subject:''),'','').'</select><p><label for="message"><b>> '.$messageString.'</b></label><br /><textarea name="message" cols="25" rows="11" maxlength="'.$max_msglen.'">'.format_edit((isset($message)?$message:''),'edit').'</textarea></p></div><div style="text-align:left"><input type="submit" name="send" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /></div></div><div class="clear"></div></form>';
 

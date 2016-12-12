@@ -11,13 +11,10 @@ function html_index($this_lg) {
 //ok for 1 digit//	$contEntry = ereg_replace('\?lg=([^]]*)&amp;x=([0-9]]*)\"',substr(sql_getone($tblcont," WHERE contpg='\\2' AND contlang='$this_lg' ","conturl"),0,-4).'.htm?hello"',$contEntry);//\?lg=([^]]*)\&
 	$contEntry = ereg_replace('\?lg=([^]]*)&amp;x=([0-9]]*)\"',substr(sql_getone($tblcont," WHERE contpg='\\2' AND contlang='$this_lg' ","conturl"),0,-4).'.htm"',$contEntry);
 	$html_index = '
-<!DOCTYPE html>
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="'.$this_lg.'"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="'.$this_lg.'"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9" lang="'.$this_lg.'"> <![endif]-->
-<!--[if IE 9]>    <html class="no-js lt-ie10" lang="'.$this_lg.'"> <![endif]-->
-<!--[if gt IE 9]><!--> <html class="no-js ie" lang="'.$this_lg.'"> <!--<![endif]-->
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="'.$this_lg.'" lang="'.$this_lg.'">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset='.$charset_iso.'" />
 	<meta name="author" content="Media Vince :: Your content &#064; the front row !" />
@@ -26,9 +23,6 @@ function html_index($this_lg) {
 	<meta name="description" content="'.$meta_desc.'" />
 	<meta name="keywords" content="'.$meta_keyw.'" />
 	<meta name="ROBOTS" content="ALL" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   <script type="text/javascript" src="'.$mainurl.'-menu_pagine_'.$this_lg.'.js"></script>
   <script type="text/javascript" src="'.$mainurl.'-scroller_'.$this_lg.'.js"></script>
   '.$stylesheet.'
@@ -62,7 +56,6 @@ document.write(toplinks);
 </script>
 </div>
 <div id="main">
-  <header>
 	<div id="header">
 		<div id="toplogo">
       <div id="diaporama">
@@ -83,8 +76,6 @@ document.write(toplinks);
     </div>
 		<h1>'.$contTitle.'</h1>
 	</div>
-  </header>
-  <nav>
 	<div id="navcontainer">
 		<div class="lang">
 			'.gen_lang().'
@@ -93,8 +84,6 @@ document.write(toplinks);
 document.write(menuhori);
 </script>
 	</div>
-  </nav>
-  <section>
 	<div id="baseone">
 	<div id="bgleft">
   	<div id="secondnav">
@@ -130,32 +119,28 @@ document.write(leftlinks);
   		</div>
   	</div>
   	<div id="content">
-  		<h2 class="title">'.$contTitle.'<div>
+  		<h2 class="title">'.$contTitle.'<div style="float:right;margin-top:-33px;font-size:60%">
 <script type="text/javascript">
 document.write(wherearewe);
-</script>&nbsp;
-    </div></h2>';
+</script>&nbsp;</div></h2>';
   $html_index .= $contEntry.'
   	</div>
 	</div>
 	</div>
 	<div class="clear"></div>
-  </section>
 ';
-  if	(isset($trace))	
+if	(isset($trace))	
   $html_index .= "<br />Trace debugger<br />$trace"	;
   $html_index .= '
-  <footer>
 	<div id="footer">
 		<!-- webdeveloper credit -->
 	  	'.$copyrightnoticeString.'
 		<!-- Webdevelopment developed by <a href="http://www.mediavince.com" target="_blank">www.mediavince.com</a> - &copy; '.date('Y').' -->';
-  if	(!stristr($_SERVER['HTTP_HOST'], "localhost"))	
+  if  (!stristr($_SERVER['HTTP_HOST'], "localhost"))  
   $html_index .= '<img src="http://www.mediavince.com/clients/'.$client.'.gif" width="1" height="1" hspace="0" vspace="0" border="0" '
       . 'title="www.mediavince.com :: Your content &#064; the front row !" alt="www.mediavince.com :: Your content &#064; the front row !" />';
   $html_index .= '
 	</div>
-  <footer>
 </div>
 </body>
 </html>

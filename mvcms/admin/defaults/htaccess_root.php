@@ -9,10 +9,10 @@ RewriteEngine On
 ############### localhost
 RewriteBase / 
 
-## ENABLE ONE OR DISABLE TWO OR ALL ACCORDING TO SERVER SETTINGS, PHP5 HAS TO BE INSTALLED TO WORK
+## ENABLE ONE OR DISABLE TWO OR ALL ACCORDING TO SERVER SETTINGS, PHP5 HAS TO BE INSTALLED TO WORK, obsolete in 2016
 # AddHandler php5-script .php
 # AddHandler application/x-httpd-php5 .php
-AddType x-mapp-php5 .php
+# AddType x-mapp-php5 .php
 
 ############### prevents recursive access to .svn folders,, 
 ############### replacing "index.php" with "- [F]" will act as forbidden

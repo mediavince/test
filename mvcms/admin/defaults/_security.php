@@ -8,5 +8,5 @@ if (stristr($_SERVER["HTTP_HOST"], "localhost")) {
 	$redirect = "http://".$_SERVER["HTTP_HOST"]."/";
 }
 
-if (stristr($_SERVER['PHP_SELF'],'_security.php'))
+if (stristr($_SERVER['PHP_SELF'], '_security.php'))
 {Header("Location: $redirect");Die();}

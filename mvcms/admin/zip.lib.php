@@ -1,4 +1,6 @@
 <?php #۞ #
+if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
+
 /* $Id: zip.lib.php 6461 2004-11-03 13:56:52Z garvinhicking $ */
 // vim: expandtab sw=4 ts=4 sts=4:
 

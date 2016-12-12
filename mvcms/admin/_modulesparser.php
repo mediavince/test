@@ -1,8 +1,6 @@
-<?php #۞ # ADMIN
-if (stristr($_SERVER['PHP_SELF'],'_modulesparser.php')) {
-	include '_security.php';
-	Header("Location: $redirect");Die();
-}
+<?php #۞ #
+if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
+
 $admin_viewing = false;
 if (stristr($_SERVER['PHP_SELF'],$urladmin) && ($logged_in === true) && isset($admin_name))
 $admin_viewing = true;
@@ -31,7 +29,8 @@ foreach($mod_array as $key_mod_array => $value_mod_array) {
 				include $getcwd.$up.$safedir.'_tpl_basic_modules.php';
 				else
 				include $getcwd.$up.$urladmin.'defaults/_tpl_basic_modules.php';
-				$mod_url = $getcwd.$up.(in_array($this_is,$array_fixed_modules)?'lib/mods/_mod_'.$value_mod_array:$urladmin.'_mod_'.'generic').'.php';
+				$mod_dir = (@file_exists($getcwd.$up.$safedir.'mods/_mod_'.$value_mod_array.'.php')?$safedir:$defaultsdir).'mods/';
+				$mod_url = $getcwd.$up.(in_array($this_is,$array_fixed_modules)?$mod_dir.'_mod_'.$value_mod_array:$urladmin.'_mod_'.'generic').'.php';
 				if (@file_exists($mod_url)) {
 					if (($this_content == 'content') && (($protected_show === true) && ($logged_in === false) && (!in_array($this_priv,array("","1")) || (($this_priv != '') && (!in_array("1",explode("|",$this_priv)))))))
 					${$this_content} = str_replace("[".$value_mod_array."]",${$this_is."String"}.' > '.$error_accesspriv,${$this_content});
@@ -89,7 +88,8 @@ foreach($mod_array as $key_mod_array => $value_mod_array) {
 					include $getcwd.$up.$safedir.'_tpl_advanced_modules.php';
 					else
 					include $getcwd.$up.$urladmin.'defaults/_tpl_advanced_modules.php';
-					$mod_url = $getcwd.$up.(in_array($this_is,$array_fixed_modules)?'lib/mods/_mod_'.$value_mod_array:$urladmin.'_mod_'.'generic').'.php';
+					$mod_dir = (@file_exists($getcwd.$up.$safedir.'mods/_mod_'.$value_mod_array.'.php')?$safedir:$defaultsdir).'mods/';
+					$mod_url = $getcwd.$up.(in_array($this_is,$array_fixed_modules)?$mod_dir.'_mod_'.$value_mod_array:$urladmin.'_mod_'.'generic').'.php';
 					if (isset($array_passed_tables[1])) {
 						require($mod_url);
 						$_mod_array_passed_tables = (isset($_mod_array_passed_tables)?$_mod_array_passed_tables:'').(${"_mod_".$this_is}!=''?"<br /><h2>".${$this_is."String"}."</h2>".${"_mod_".$this_is}:'');

@@ -1,7 +1,7 @@
 <?php #۞ #
 if (stristr($_SERVER["PHP_SELF"],'_strings.php')) {
-	include '_security.php';
-	Header("Location: $redirect");Die();
+  include '_security.php';
+  Header("Location: $redirect");Die();
 }
 
 $banned_ips = sql_array($tblbannedips,"","ip");

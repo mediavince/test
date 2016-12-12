@@ -1,8 +1,6 @@
 <?php #۞ #
-if (strstr($_SERVER["PHP_SELF"],'itemadmin.php') || !isset($this_is)) {
-	include '_security.php';
-	Header("Location: $redirect");Die();
-}
+if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
+
 //	$notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
 
 if (stristr($_SERVER['PHP_SELF'],$urladmin))

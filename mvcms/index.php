@@ -1,2 +1,3 @@
-<?php
+<?php #۞ #
+
 require('admin/index.php');

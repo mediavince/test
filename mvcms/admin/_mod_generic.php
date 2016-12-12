@@ -1,8 +1,6 @@
 <?php #۞ #
-if (stristr($_SERVER["PHP_SELF"],"_mod_generic.php")) {
-	include '_security.php';
-	Header("Location: $redirect");Die();
-}
+if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
+
 //          $notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
 
 if (isset(${$this_is."Id"}) && !preg_match("/^[0-9]+\$/",${$this_is."Id"}))

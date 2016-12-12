@@ -8,7 +8,7 @@ if (!isset($urlintro))// needs to be a dir
 if (!isset($safedir))
 	$safedir = 'SQL/';
 
-$up = '../../';
+$up = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR;
 
 if (@file_exists($up.$safedir.'_security.php')) {
   	include $up.$safedir.'_security.php';

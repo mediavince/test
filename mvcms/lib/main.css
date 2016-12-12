@@ -248,3 +248,4 @@ body{background:url('../images/gray_bg.png') #DDD repeat;}
 .form_image_half{float:left;width:48%;text-align:center;}
 .nobr br{display:none;}
 input.blur{color:#C0C0C0;}
+h2 > div{float:right;margin-top:-33px;font-size:60%;}

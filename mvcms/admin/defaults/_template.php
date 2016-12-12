@@ -6,7 +6,7 @@ $div_alogin
   $toplinksentry
 </div>
 
-  <div id='main'>
+<div id='main'>
 
   <div class='contour'>
   	<div class='top-left'><em></em></div>
@@ -16,7 +16,6 @@ $div_alogin
     <div class='contour-body'>
       <div class='contour-body-left'>
       <div class='contour-body-middle'>
-
 
   	<div id='header'>
   		$cologo
@@ -57,7 +56,7 @@ $div_alogin
   			<div class='wherearewe'>
   				<script type='text/javascript'>document.write(wherearewe);</script>
   			</div>
-  			<h2 class='title'>$title</h2>
+  			<h1 class='title'>$title</h1>
   			$content
   		</div>
   	</div>
@@ -79,4 +78,4 @@ $div_alogin
 	$footer
 </div>
 
-";
+"; ?>

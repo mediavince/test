@@ -1,9 +1,6 @@
-<?php #۞ # VISITORS
+<?php #۞ #
+if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
-if (stristr($_SERVER['PHP_SELF'],'_query_root.php')) {
-  include '_security.php';
-  Header("Location: $redirect");Die();
-}
 		$nRowsUser = sql_nrows($tbluser,"");
 		$nRowsUsery = sql_nrows($tbluser," WHERE userstatut='Y' ");
 		$nRowsUsern = sql_nrows($tbluser," WHERE userstatut='N' ");

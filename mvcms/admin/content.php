@@ -1,4 +1,5 @@
 <?php #۞ #
+
 include '_incdb.php';
 //include '_incerror.php';// included in _incdb.php
 include '_strings.php';
@@ -9,13 +10,13 @@ include '_strings.php';
 		$admin_name = $read_cookie[0];
 		$passWord = $read_cookie[1];
 		if (sql_nrows($tbladmin," WHERE adminutil='$admin_name' AND adminpass='$passWord' AND adminstatut='Y' ") == 1) {
-  		$logged_in = true;
+  			$logged_in = true;
 		} else {
 			$logged_in = false;
 		}
 	} else {
-    Header("Location: $redirect");Die();
-  }
+    	Header("Location: $redirect");Die();
+  	}
 
 if ($logged_in === true) {
 
@@ -27,7 +28,7 @@ if ($logged_in === true) {
   // get the filename of this php file without extension.
   // that is also the directory to zip and the name of the
   // zip file to deliver
-  $filename_no_ext_nodir = basename($_SERVER['SCRIPT_FILENAME'], ".php");
+  	$filename_no_ext_nodir = basename($_SERVER['SCRIPT_FILENAME'], ".php");
 	/* exposes root path, not so good...
 	// double dirname is like cd ../ (going in parent directory)
 	$filename_no_ext = dirname(dirname($_SERVER['SCRIPT_FILENAME']))."/"

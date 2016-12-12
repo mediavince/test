@@ -30,6 +30,8 @@ $default_lg = "en";
 
 if (!isset($urladmin))
 $urladmin = "admin/";
+if (!isset($defaultsdir))
+$defaultsdir = $urladmin."defaults/";
 if (!isset($urlintro))// needs to be a dir
 $urlintro = "blog/";
 // File Directory where your files shall be uploaded

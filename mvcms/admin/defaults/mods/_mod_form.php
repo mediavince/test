@@ -1,4 +1,4 @@
-<?php #۞ #
+<?php if (stristr($_SERVER['PHP_SELF'],'_mod_form.php') {include '_security.php';Header("Location: $redirect");Die();}
 
   $form_mod = '';
 	session_start();

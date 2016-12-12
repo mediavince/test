@@ -1,8 +1,6 @@
-<?php #۞ #VISITORS
-if (stristr($_SERVER['PHP_SELF'],"_menu_root.php")) {
-	include '_security.php';
-	Header("Location: $redirect");Die();
-}
+<?php #۞ #
+if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
+
 //	$notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
 //(!stristr($_SERVER['PHP_SELF'],$urladmin) || (stristr($_SERVER['PHP_SELF'],$urladmin)
 // && ($logged_in === false)))

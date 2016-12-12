@@ -1,8 +1,5 @@
-<?php #۞ # ADMIN
-if (stristr($_SERVER['PHP_SELF'],'communicationsadmin.php')) {
-  include '_security.php';
-  Header("Location: $redirect");Die();
-}
+<?php #۞ #
+if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
 if (!isset($priv_for_admin))
 $priv_for_admin = '4';

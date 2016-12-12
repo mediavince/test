@@ -1,8 +1,4 @@
-<?php #۞ #
-if (stristr($_SERVER['PHP_SELF'],'_mod_newsletter.php')) {
-  include '_security.php';
-  Header("Location: $redirect");Die();
-}
+<?php if (stristr($_SERVER['PHP_SELF'],'_mod_newsletter.php')) {include '_security.php';Header("Location: $redirect");Die();}
 
 $dbtable = $tblnewsletter;
 $type_page = sql_getone($tblcont,"WHERE $where_statut_lang conttype='$this_is' ","contpg");

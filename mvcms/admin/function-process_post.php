@@ -1,8 +1,6 @@
 <?php #۞ #
-if (stristr($_SERVER['PHP_SELF'],'_function-process_post.php')) {
-	include '_security.php';
-	Header("Location: $redirect");Die();
-}
+if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
+
 //	$notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
 
 if (!isset($array_modules_as_form)) $array_modules_as_form = array();

@@ -1,8 +1,5 @@
-<?php #۞ # ADMIN
-if (stristr($_SERVER['PHP_SELF'],'newsletteradmin.php')) {
-  include '_security.php';
-  Header("Location: $redirect");Die();
-}
+<?php #۞ #
+if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
 $content .= $admin_menu;
 $local_url = $local.'?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y;
