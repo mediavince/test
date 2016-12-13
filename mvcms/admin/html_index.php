@@ -1,6 +1,8 @@
 <?php #۞ #
 if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
+// @see _view.php index_generate()
+
 function html_index($this_lg) {
   global $trace, $mainurl, $x, $tblcont, $tblstring, $slogan, $client, $charset_iso, $default_lg_pg_htm, $contTitle, $contEntry, $copyrightnoticeString, $menu_pagine, $rootwindowmenu, $meta_desc, $meta_keyw, $urladmin, $stylesheet, $javascript, $rootwindowmenu, $cologo, $topicslist;
   $lg = $this_lg;

@@ -50,18 +50,28 @@ Event.observe(window,'load',function(){Lightbox.initialize({"
 	$javascript .= $jquery_sort_js;
 	if ($jquery_captcha_included === true)
 	$javascript .= $jquery_captcha_js;
-
-	$html_view =  '<!DOCTYPE html
-	 PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="'.$lg.'" lang="'.$lg.'">
+// <!DOCTYPE html
+//	 PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+//	 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+//<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="'.$lg.'" lang="'.$lg.'">
+	$html_view =  '<!DOCTYPE html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="'.$lg.'"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="'.$lg.'"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="'.$lg.'"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js lt-ie10" lang="'.$lg.'"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js ie" lang="'.$lg.'"> <!--<![endif]-->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset='.$charset_iso.'" />
 <meta name="author" content="Media Vince :: Your content &#064; the front row !" />
 <meta name="copyright" content="www.mediavince.com, '.$this_annee.'" />
 	'.$extra_meta.'
 <meta name="description" content="'.$desc.'" />
-<meta name="keywords" content="'.$keyw.'" />';
+<meta name="keywords" content="'.$keyw.'" />
+<meta name="ROBOTS" content="ALL" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->';
 	if (isset($rssdir))
 	$html_view .= '
 <link rel="alternate" type="application/rss+xml" title="RSS '
@@ -169,10 +179,9 @@ Event.observe(window,'load',function(){Lightbox.initialize({"
 <script type="text/javascript" src="'.$mainurl.'lib/vendors/tiny_mce/tiny_mce_gzip.js"></script>
 <script type="text/javascript">
 tinyMCE_GZ.init({
-	language : "'.$lg.'",
-	//	language : "en",
-	disk_cache : true,
-	debug : false,
+	language: "'.$lg.'",
+	disk_cache: true,
+	debug: false,
 	'.$themes_plugin.'
 	'.(isset($add_tmce_settings)&&$add_tmce_settings!=''?','.$add_tmce_settings:'').'
 });
@@ -187,8 +196,7 @@ tinyMCE_GZ.init({
 	$html_view .=  '
 <script type="text/javascript">
 tinyMCE.init({
-	language : "'.$lg.'",
-	//	language : "en",
+	language: "'.$lg.'",
 	'.$themes_plugin.'
 	'.(isset($add_tmce_settings)&&$add_tmce_settings!=''?','.$add_tmce_settings:'').'
 });
