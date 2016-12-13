@@ -1,6 +1,8 @@
 <?php #۞ #
 if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
+// note to self, this is a major headache source!! even back in the days, i dreaded editing this!
+
 //          $notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
 
 if (!isset($root_writable))

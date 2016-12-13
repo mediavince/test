@@ -2,7 +2,7 @@
 SQL/
 content/*
 *.php
-*.js
+-*.js
 !index.php
 !*/*.php
 !*/*.js
