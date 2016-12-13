@@ -33,6 +33,7 @@ if (!$sql) {
   	if ($row['stringtype'] == 'sujet') $array_subject[$row['stringtitle']] = $row['stringentry'];
   	if ($row['stringtype'] == 'jour') $array_days[($row['stringtitle']-1)] = $row['stringentry'];//$row['stringtitle']."=>".$row['stringentry'];
   	if ($row['stringtype'] == 'mois') $array_months[($row['stringtitle']-1)] = $row['stringentry'];//$row['stringtitle']."=>".$row['stringentry'];
+    if ($row['stringtype'] == 'lang') $array_langs[$row['stringtitle']] = $row['stringentry'];
   }
 }
 
@@ -54,7 +55,7 @@ if (($lg == $default_lg) || in_array($lg,$array_lang)) {
     if (!$array_days) $array_days = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
     $meta_desc = "Media Vince brings your content to the frontrow in a multilingual style using web development, imaging and audio video editing with flexibility and proven standard of quality.";
     $meta_keyw = "media, web, design, development, webdesigner, developer, flash, php, ruby, rails, ror, imaging, multimedia, publishing, quality, service, traduction, translation, multilingual, english, french, italian, audio, video, picture";
-  	$lang = "English";
+  	$lang = sql_stringit('lang', $lg);
   	if (!isset($array_subject))
   	$array_subject = array("My Next Project","WebDev","Web Marketing","Translation","Other"); // !!do not htmlencode will be done upon call
   	$pgver = 'This page is in '.$lang.$n;

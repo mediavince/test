@@ -1,4 +1,4 @@
-<?php if (stristr($_SERVER['PHP_SELF'],'_full_strings.php')){include'_security.php';Header("Location: $redirect");Die();}
+<?php if (stristr($_SERVER['PHP_SELF'],basename(__FILE__))){include'_security.php';Header("Location: $redirect");Die();}
       $accederString = 'Accessing';
       $accesString = 'Access';
       $accordusageString = 'By clicking you accept to receive the newsletter (Email addresses submitted will neither be published nor sold!)';
