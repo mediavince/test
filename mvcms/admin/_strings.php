@@ -49,7 +49,7 @@ if (!$sql) {
   
 if (($lg == $default_lg) || in_array($lg,$array_lang)) {
 // insert if needed ($lg == "ar") || ($lg == "es") || ($lg == "fr") || ($lg == "it")
-	if (in_array($lg,array('en','de','jp','zh'))) {
+//	if (in_array($lg,array('en','de','jp','zh'))) {
     if (!$array_months) $array_months = array('January','February','March','April','May','June','July','August','September','October','November','December');
     if (!$array_days) $array_days = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
     $meta_desc = "Media Vince brings your content to the frontrow in a multilingual style using web development, imaging and audio video editing with flexibility and proven standard of quality.";
@@ -68,7 +68,7 @@ if (($lg == $default_lg) || in_array($lg,$array_lang)) {
     $text_style = 'Text Styles:<br /> ';
     $max_filesizeString = 'size max. '.$max_filesize_str.'B';
     $max_filesideString = ', the image will be resized by ratio to '.$max_width.'px.';
-	}
+//	}
 	if ($lg == 'ar') {
     if (!$array_months) $array_months = array('January','February','March','April','May','June','July','August','September','October','November','December');
     if (!$array_days) $array_days = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
