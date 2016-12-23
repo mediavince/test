@@ -39,7 +39,7 @@ function index_generate()
 			$stylesheet .= $lightbox_css;
 			$javascript .= $lightbox_js."
 <script type=\"text/javascript\">
-if (typeof(Event.observe) != undefined)
+if (typeof(Event.observe) !== undefined)
 Event.observe(window,'load',function(){Lightbox.initialize({"
 			.($lightbox_initialize==''?'':$lightbox_initialize.",")
 			.($lg&&$lg!='en'?"strings:lbStrings".strtoupper($lg):'')
@@ -62,15 +62,15 @@ Event.observe(window,'load',function(){Lightbox.initialize({"
 <!--[if IE 9]>    <html class="no-js lt-ie10" lang="'.$lg.'"> <![endif]-->
 <!--[if gt IE 9]><!--> <html class="no-js ie" lang="'.$lg.'"> <!--<![endif]-->
 <head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta http-equiv="Content-Type" content="text/html; charset='.$charset_iso.'" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 <meta name="author" content="Media Vince :: Your content &#064; the front row !" />
 <meta name="copyright" content="www.mediavince.com, '.$this_annee.'" />
 	'.$extra_meta.'
 <meta name="description" content="'.$desc.'" />
 <meta name="keywords" content="'.$keyw.'" />
 <meta name="ROBOTS" content="ALL" />
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->';
 	if (isset($rssdir))
 	$html_view .= '
@@ -98,6 +98,161 @@ Event.observe(window,'load',function(){Lightbox.initialize({"
 
 	$html_view .= $stylesheet;
 
+// following needs to be in body otherwise breaks IE6
+// 
+//$html_view .= $stylesheet.'
+//	<style>
+//	body,body#tinymce.mceContentBody{font-family:'.$font_family.';font-size:'.$font_size.'px;}'
+//	.($x==1?$index_style:'').'
+//	</style>
+//</head>
+//<body>';// id="main_body"
+
+	// flash array ['attributes.name','swf','swf.width','swf.height','swf.ver']
+	if (isset($flash_array)) {
+		$html_view .= '
+<script type="text/javascript">
+var flashvars = {};
+//	flashvars.l = "k.jpg|z.jpg"; // var generated randomly or inside flash directly??
+var params = {};
+params.loop = "true";
+params.menu = "false";
+params.scale = "noborder";
+params.salign = "tl";
+params.allowscriptaccess = "sameDomain";
+var attributes = {};
+attributes.id = "d27cdb6e-ae6d-11cf-96b8-444553540000";
+attributes.name = "'.$flash_array['attributes.name'].'";
+swfobject.embedSWF("'.$mainurl.'images/'.$flash_array['swf'].'", "flash", "'
+.$flash_array['swf.width'].'", "'.$flash_array['swf.height'].'", "'.$flash_array['swf.ver']
+.'.0.0", "http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version='
+.$flash_array['swf.ver'].',0,0,0", flashvars, params, attributes);
+</script>';
+	}
+
+	if ($menu_pagine === true)
+	$html_view .=  $javascript.'
+<script type="text/javascript"><!-- //
+var thispg = \''.$x.'\';
+var	wherearewe = \'\';
+if (thispg > '.((isset($x1subok)&&$x1subok===true)&&$x>10?'10':'20').') {
+	if (thispg.length == 4) {
+		wherearewe = \'&#092; [<\'+\'a h\'+\'ref="\'+eval(\'l\'+thispg.substr(0,3))
+			+\'" target="_self">\'+eval(\'m\'+thispg.substr(0,3))+\'</a>] &#092; [<\'+\'a h\'
+			+\'ref="\'+eval(\'l\'+thispg.substr(0,2))+\'" target="_self">\'
+			+eval(\'m\'+thispg.substr(0,2))+\'</a>] &#092; [<\'+\'a h\'+\'ref="\'
+			+eval(\'l\'+thispg.substr(0,1))+\'" target="_self">\'+eval(\'m\'
+			+thispg.substr(0,1))+\'</a>]\';
+	} else if (thispg.length == 3) {
+		wherearewe = \'&#092; [<\'+\'a h\'+\'ref="\'+eval(\'l\'+thispg.substr(0,2))
+			+\'" target="_self">\'+eval(\'m\'+thispg.substr(0,2))+\'</a>] &#092; [<\'+\'a h\'
+			+\'ref="\'+eval(\'l\'+thispg.substr(0,1))+\'" target="_self">\'
+			+eval(\'m\'+thispg.substr(0,1))+\'</a>]\';
+	} else if (thispg.length == 2) {
+		wherearewe = \'&#092; [<\'+\'a h\'+\'ref="\'+eval(\'l\'+thispg.substr(0,1))
+		+\'" target="_self">\'+eval(\'m\'+thispg.substr(0,1))+\'</a>]\';
+	} else {
+	}
+}
+// --></script>
+';
+
+//	following needed to be before some javascript in body otherwise breaks IE6, checking
+	$html_view .= '
+<style>
+body,body#tinymce.mceContentBody{font-family:'.$font_family.';font-size:'.$font_size.'px;}'
+.($leftlinksentry==''?'#lpane #leftbox{display:none;}':'')
+.($x==1?$index_style:'').'
+</style>';
+
+	if (isset($_google_analytics_async) && ($_google_analytics_async === true))
+	if (!stristr($_SERVER['HTTP_HOST'],"localhost") && !stristr($_SERVER['PHP_SELF'],$urladmin)) {
+		if (file_exists($getcwd.$up.$safedir.'_google_analytics.php'))
+			include($getcwd.$up.$safedir.'_google_analytics.php');
+		else
+			include($getcwd.$up.$urladmin.'defaults/_google_analytics.php');
+		$html_view .=  $_google_analytics;
+	}
+
+	$html_view .= '
+</head>
+<body>';// id="main_body"
+
+	if (($menu_pagine === true) && ($rootwindowmenu !== ''))
+	$html_view .=  '
+<script type="text/javascript"><!-- //
+mmLoadMenus(\''.$local.'\');
+// --></script>
+';
+
+	/*
+	if ($topicslist)
+	$right_content .=  '
+			    <div id="topics">
+	          '.$topicslist.'
+	        </div>';
+	if ($base_x == '1')
+	$right_content .=  '
+			    <br />
+	    		<div id="leftbox">
+	    			'.$leftlinksentry.'
+	    		</div>';
+	$right_content .=  '<div class="clear"></div>';
+	*/
+	//	?!!//$gen_lang = (!stristr($_SERVER['PHP_SELF'],$urladmin)&&($logged_in===true)?'':gen_lang());
+	$gen_lang = gen_lang();
+	if (stristr($_SERVER['PHP_SELF'],$urladmin))
+		$div_alogin =  '<div class="toploginwrapper"><div id="toplogin">'.$login.'</div></div>';
+	else
+		$div_alogin = '';
+	if (!stristr($_SERVER['PHP_SELF'],$urladmin) && ($nRowsUsery>0))
+		$div_ulogin =  '<div id="leftlogin">'.$login.'</div>';
+	else
+		$div_ulogin = '';
+	$title = ((!stristr($this_priv,"1") && ($this_priv !== ""))?
+  				'<span class="lock">'.$title.'</span>':$title);
+	if (isset($q)) {
+	//	$notice = $q.$notice;
+	//	$content = str_ireplace("$q",'\<span class=\"qhighlight\"\>'.$q.'\<\/span\>',$content);
+	}
+	$content = (!stristr($_SERVER['PHP_SELF'],$urladmin)?'<div class="content_body">':'')
+  			.($notice==''?'':'<div class="notice">'.$notice.'</div>')
+  			.($error==''?'':'<div class="error">'.$error.'</div>')
+  			.preg_replace('/(\.\.\/)+/',"$1",$content)
+  			.(!stristr($_SERVER['PHP_SELF'],$urladmin)?'</div>':'');
+	$notice = '';
+	$error = '';
+	$right_content = ''; // check below
+	$content .= $right_content.'<div class="clear"></div> <br />';
+	$footer = '<!-- webdeveloper credit -->
+	  	'.$copyrightnoticeString.' '.$this_annee.' <!-- website developed by '
+  		.'<a href="http://www.mediavince.com" target="_blank">www.mediavince.com</a> - &copy; -->';
+  
+	if (!stristr($_SERVER['PHP_SELF'],$urladmin))
+	// || (stristr($_SERVER['PHP_SELF'],$urladmin) && ($logged_in === false)))
+	$up = "";
+  
+	################################## IMPORT TEMPLATE
+	if (file_exists($getcwd.$up.$safedir.'_template.php'))
+		include($getcwd.$up.$safedir.'_template.php');
+	else
+		include($getcwd.$up.$urladmin.'defaults/_template.php');
+
+	$html_view .= $_template;
+	################################## IMPORT TEMPLATE
+
+	if (!isset($_google_analytics_async) || ($_google_analytics_async === false))
+	if (!stristr($_SERVER['HTTP_HOST'], "localhost") && !stristr($_SERVER['PHP_SELF'],$urladmin)) {
+		if (file_exists($getcwd.$up.$safedir.'_google_analytics.php'))
+			include($getcwd.$up.$safedir.'_google_analytics.php');
+		else
+			include($getcwd.$up.$urladmin.'defaults/_google_analytics.php');
+		$html_view .=  $_google_analytics;
+	}
+
+	if (!empty($javascript))
+		$html_view .= $javascript;
+	
 	if ((stristr($_SERVER['PHP_SELF'],$urladmin) || ($edit_text === true))
 	&& ($tinyMCE === true) && ($logged_in === true)
 	&& (!isset($send) || (isset($send)
@@ -223,157 +378,6 @@ function ajaxSave() {
 </script>';
 
 	} // ends if urladmin tinyMCE...
-
-// following needs to be in body otherwise breaks IE6
-// 
-//$html_view .= $stylesheet.'
-//	<style>
-//	body,body#tinymce.mceContentBody{font-family:'.$font_family.';font-size:'.$font_size.'px;}'
-//	.($x==1?$index_style:'').'
-//	</style>
-//</head>
-//<body>';// id="main_body"
-
-	// flash array ['attributes.name','swf','swf.width','swf.height','swf.ver']
-	if (isset($flash_array)) {
-		$html_view .= '
-<script type="text/javascript">
-var flashvars = {};
-//	flashvars.l = "k.jpg|z.jpg"; // var generated randomly or inside flash directly??
-var params = {};
-params.loop = "true";
-params.menu = "false";
-params.scale = "noborder";
-params.salign = "tl";
-params.allowscriptaccess = "sameDomain";
-var attributes = {};
-attributes.id = "d27cdb6e-ae6d-11cf-96b8-444553540000";
-attributes.name = "'.$flash_array['attributes.name'].'";
-swfobject.embedSWF("'.$mainurl.'images/'.$flash_array['swf'].'", "flash", "'
-.$flash_array['swf.width'].'", "'.$flash_array['swf.height'].'", "'.$flash_array['swf.ver']
-.'.0.0", "http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version='
-.$flash_array['swf.ver'].',0,0,0", flashvars, params, attributes);
-</script>';
-	}
-
-	$html_view .=  $javascript.'
-<script type="text/javascript"><!-- //
-var thispg = \''.$x.'\';
-var	wherearewe = \'\';
-if (thispg > '.((isset($x1subok)&&$x1subok===true)&&$x>10?'10':'20').') {
-	if (thispg.length == 4) {
-		wherearewe = \'&#092; [<\'+\'a h\'+\'ref="\'+eval(\'l\'+thispg.substr(0,3))
-			+\'" target="_self">\'+eval(\'m\'+thispg.substr(0,3))+\'</a>] &#092; [<\'+\'a h\'
-			+\'ref="\'+eval(\'l\'+thispg.substr(0,2))+\'" target="_self">\'
-			+eval(\'m\'+thispg.substr(0,2))+\'</a>] &#092; [<\'+\'a h\'+\'ref="\'
-			+eval(\'l\'+thispg.substr(0,1))+\'" target="_self">\'+eval(\'m\'
-			+thispg.substr(0,1))+\'</a>]\';
-	} else if (thispg.length == 3) {
-		wherearewe = \'&#092; [<\'+\'a h\'+\'ref="\'+eval(\'l\'+thispg.substr(0,2))
-			+\'" target="_self">\'+eval(\'m\'+thispg.substr(0,2))+\'</a>] &#092; [<\'+\'a h\'
-			+\'ref="\'+eval(\'l\'+thispg.substr(0,1))+\'" target="_self">\'
-			+eval(\'m\'+thispg.substr(0,1))+\'</a>]\';
-	} else if (thispg.length == 2) {
-		wherearewe = \'&#092; [<\'+\'a h\'+\'ref="\'+eval(\'l\'+thispg.substr(0,1))
-		+\'" target="_self">\'+eval(\'m\'+thispg.substr(0,1))+\'</a>]\';
-	} else {
-	}
-}
-// --></script>
-';
-
-//	following needed to be before some javascript in body otherwise breaks IE6, checking
-	$html_view .= '
-<style>
-body,body#tinymce.mceContentBody{font-family:'.$font_family.';font-size:'.$font_size.'px;}'
-.($leftlinksentry==''?'#lpane #leftbox{display:none}':'')
-.($x==1?$index_style:'').'
-</style>';
-
-	if (isset($_google_analytics_async) && ($_google_analytics_async === true))
-	if (!stristr($_SERVER['HTTP_HOST'],"localhost") && !stristr($_SERVER['PHP_SELF'],$urladmin)) {
-		if (file_exists($getcwd.$up.$safedir.'_google_analytics.php'))
-			include($getcwd.$up.$safedir.'_google_analytics.php');
-		else
-			include($getcwd.$up.$urladmin.'defaults/_google_analytics.php');
-		$html_view .=  $_google_analytics;
-	}
-
-	$html_view .= '
-</head>
-<body>';// id="main_body"
-
-	if (($menu_pagine === true) && ($rootwindowmenu !== ''))
-	$html_view .=  '
-<script type="text/javascript"><!-- //
-mmLoadMenus(\''.$local.'\');
-// --></script>
-';
-
-	/*
-	if ($topicslist)
-	$right_content .=  '
-			    <div id="topics">
-	          '.$topicslist.'
-	        </div>';
-	if ($base_x == '1')
-	$right_content .=  '
-			    <br />
-	    		<div id="leftbox">
-	    			'.$leftlinksentry.'
-	    		</div>';
-	$right_content .=  '<div class="clear"></div>';
-	*/
-	//	?!!//$gen_lang = (!stristr($_SERVER['PHP_SELF'],$urladmin)&&($logged_in===true)?'':gen_lang());
-	$gen_lang = gen_lang();
-	if (stristr($_SERVER['PHP_SELF'],$urladmin))
-		$div_alogin =  '<div class="toploginwrapper"><div id="toplogin">'.$login.'</div></div>';
-	else
-		$div_alogin = '';
-	if (!stristr($_SERVER['PHP_SELF'],$urladmin) && ($nRowsUsery>0))
-		$div_ulogin =  '<div id="leftlogin">'.$login.'</div>';
-	else
-		$div_ulogin = '';
-	$title = ((!stristr($this_priv,"1") && ($this_priv !== ""))?
-  				'<span class="lock">'.$title.'</span>':$title);
-	if (isset($q)) {
-	//	$notice = $q.$notice;
-	//	$content = str_ireplace("$q",'\<span class=\"qhighlight\"\>'.$q.'\<\/span\>',$content);
-	}
-	$content = (!stristr($_SERVER['PHP_SELF'],$urladmin)?'<div class="content_body">':'')
-  			.($notice==''?'':'<div class="notice">'.$notice.'</div>')
-  			.($error==''?'':'<div class="error">'.$error.'</div>')
-  			.preg_replace('/(\.\.\/)+/',"$1",$content)
-  			.(!stristr($_SERVER['PHP_SELF'],$urladmin)?'</div>':'');
-	$notice = '';
-	$error = '';
-	$right_content = ''; // check below
-	$content .= $right_content.'<div class="clear"></div> <br />';
-	$footer = '<!-- webdeveloper credit -->
-	  	'.$copyrightnoticeString.' '.$this_annee.' <!-- website developed by '
-  		.'<a href="http://www.mediavince.com" target="_blank">www.mediavince.com</a> - &copy; -->';
-  
-	if (!stristr($_SERVER['PHP_SELF'],$urladmin))
-	// || (stristr($_SERVER['PHP_SELF'],$urladmin) && ($logged_in === false)))
-	$up = "";
-  
-	################################## IMPORT TEMPLATE
-	if (file_exists($getcwd.$up.$safedir.'_template.php'))
-		include($getcwd.$up.$safedir.'_template.php');
-	else
-		include($getcwd.$up.$urladmin.'defaults/_template.php');
-
-	$html_view .= $_template;
-	################################## IMPORT TEMPLATE
-
-	if (!isset($_google_analytics_async) || ($_google_analytics_async === false))
-	if (!stristr($_SERVER['HTTP_HOST'], "localhost") && !stristr($_SERVER['PHP_SELF'],$urladmin)) {
-		if (file_exists($getcwd.$up.$safedir.'_google_analytics.php'))
-			include($getcwd.$up.$safedir.'_google_analytics.php');
-		else
-			include($getcwd.$up.$urladmin.'defaults/_google_analytics.php');
-		$html_view .=  $_google_analytics;
-	}
 
 	if (isset($trace))
 	$html_view .=  '<div style="background-color:#FFFFFF;"><!-- debugger --><br />Trace debugger<br />'

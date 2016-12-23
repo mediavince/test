@@ -1,6 +1,7 @@
 .*
 SQL/
 content/*
+lib/templates/*
 *.php
 -*.js
 !index.php

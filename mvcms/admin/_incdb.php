@@ -218,7 +218,7 @@ if (!isset($active_template)) {
 	$url_active_template = "$tpldir$active_template/";// ! slash is important
 }
 // call css, js and images resources from template if they exist
-if (!isset($stylesheet))
+if (!isset($overwrite_stylesheet))
 $stylesheet = '
 <link rel="stylesheet" type="text/css" media="screen" href="'
 	.$mainurl.($active_template!=''&&@file_exists($up.$url_active_template."main.css")?
@@ -252,7 +252,8 @@ $stylesheet = '
 	.$mainurl.($active_template!=''&&@file_exists($up.$url_active_template."ie5fix.css")?
 	$url_active_template:$libdir).'ie5fix.css" /><![endif]-->
 <!--[if gt IE 6]><link rel="shortcut icon" type="image/x-icon" href="'
-	.$mainurl.(@file_exists($up."favicon.ico")?'':'images/').'favicon.ico" /><![endif]-->';
+	.$mainurl.(@file_exists($up."favicon.ico")?'':'images/').'favicon.ico" /><![endif]-->'
+	.(empty($stylesheet)?'':$stylesheet);
 //<!--[if gt IE 7]><link rel="stylesheet" type="text/css" title="IE8 Fixes" href="'
 //	.$mainurl.$libdir.'ie8fix.css" /><![endif]-->
 // 1 is the latest at the top but must revalidate more often,
@@ -265,7 +266,9 @@ $google_jquery = (isset($google_jquery)&&($google_jquery===false)?
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/'
 		.$google_jquery_ver.'/jquery.min.js"></script>'
 );
-$javascript = $google_jquery.'
+$stylesheet .= $google_jquery;
+//if ($google_jquery !== '')
+$javascript = '
 <script type="text/javascript" src="'
 			.$mainurl.$libdir.'mvdyn_selectable_options.js"></script>'
 			.(isset($javascript)?$javascript:'');
