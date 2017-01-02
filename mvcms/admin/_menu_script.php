@@ -137,7 +137,7 @@ for ($i=0;$i<$nrows;$i++) {
   }
 }
 
-function parseMultiDimentionalMenuHori($menu, $options = ['class' => "",]) {
+function parseMultiDimentionalMenuHori($menu, $options = array('class' => "",)) {
   global $x;
   $output = "";
   foreach($menu as $id => $pages) {
@@ -153,7 +153,7 @@ function parseMultiDimentionalMenuHori($menu, $options = ['class' => "",]) {
         '<a class="withcaret" href="%s">%s</a><a href="#" class="dropdown-toggle withcaret" data-toggle="dropdown"><span class="caret"></span></a>'
         , $page['href'], $page['conttitle']
       );
-      $submenu = parseMultiDimentionalMenuHori($pages, ['class' => 'dropdown-menu multi-level',]);
+      $submenu = parseMultiDimentionalMenuHori($pages, array('class' => 'dropdown-menu multi-level',));
       $output .= sprintf('<li class="dropdown">%s%s</li>', $dropdown, $submenu);
     }
   }
@@ -164,7 +164,7 @@ function parseMultiDimentionalMenuHori($menu, $options = ['class' => "",]) {
 }
 
 if ($bootstrap === true)
-  $menuhori = parseMultiDimentionalMenuHori($menu, ['class' => 'nav navbar-nav',]);
+  $menuhori = parseMultiDimentionalMenuHori($menu, array('class' => 'nav navbar-nav',));
 else {
   if  ($menuhori !== '')  $menuhori = '<ul class="level1" id="root">'.$menuhori.'</ul>' ;
 }
