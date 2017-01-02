@@ -1,5 +1,9 @@
 <?php #۞ #
 if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
+/**
+ * Parse all menu pages and organize them in js hierarchy
+ * @see index.php 	parsed if menu_pagine = true
+ */
 
 $dbtable = $tblcont;
 if	(stristr($_SERVER['PHP_SELF'],$urlintro))	$dbtable = $tblintro	;

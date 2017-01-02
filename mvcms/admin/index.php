@@ -21,11 +21,10 @@ if (stristr($_SERVER['PHP_SELF'],$urladmin) && ($logged_in === true))
 else
   include '_menu_root.php';
 
-include '_menu_pagine_root.php';
-
+if ($menu_pagine)
+	include '_menu_pagine_root.php';
 
 index_generate();
-
 
 ################### GARBAGE EXTERMINATOR
 
