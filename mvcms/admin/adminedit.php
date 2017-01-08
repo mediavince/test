@@ -137,7 +137,7 @@ if ($logged_in === true) {
   $content .= '" onclick="ajaxSave();" /> | <a href="javascript:history.back()//">'.$retourString.'</a>';
 				if ($tinyMCE === false)
   $content .= ' | <a href="javascript: alert(\''.$helpEdit.'\')" title="Help" alt="Help">'.$aideString.'</a>';
-  $content .= '<br /><label for="contStatut"> <b>'.$statutString.'</b></label> <select name="contStatut">'.gen_selectoption($tblenum,$contGet["contstatut"],'','statut').'</select> | <label for="contOrient"> <b>'.$menuString.' position </b></label> <select name="contOrient">'.gen_selectoption($array_orient,'center','','').'</select><br />';
+  $content .= '<br /><label for="contStatut"> <b>'.$statutString.'</b></label> <select name="contStatut">'.gen_selectoption($tblenum,'Y','','statut').'</select> | <label for="contOrient"> <b>'.$menuString.' position </b></label> <select name="contOrient">'.gen_selectoption($array_orient,'center','','').'</select><br />';
   				if ($send == 'editemintro')
   $content .= '<label for="contType"> <b>'.$typeString.' (default replace)</b></label><select name="contType"><option value="1"> (replace) </option><option value="2"> < (before) </option><option value="3"> > (after) </option></select>';
   				else
@@ -465,7 +465,9 @@ $error .= '</ul><a href="javascript:history.back()//">'.$retourString.'</a>';
 
 						if ($lg == $keylg) {
 
-							$update_one_page = sql_update($dbtable," SET contupdate=$dbtime, contstatut='$contStatut', contupdateby='$admin_name', conttitle='$contTitle', contentry='$contEntry', contlogo='$contPriv', contmenu='$contMenu', conttype='$contType', conturl='".($htaccess4sef===true?$clean_contTitle:$conturl)."', contorient='$contOrient' ".($contMetadesc==$desc?'':", contmetadesc='$contMetadesc' ")." ".($contMetakeyw==$keyw?'':", contmetakeyw='$contMetakeyw' ")." "," WHERE contpg='$x' AND contlang='".$keylg."' ","conturl");
+							$setq = " SET contupdate=$dbtime, contstatut='$contStatut', contupdateby='$admin_name', conttitle='$contTitle', contentry='$contEntry', contlogo='$contPriv', contmenu='$contMenu', conttype='$contType', conturl='".($htaccess4sef===true?$clean_contTitle:$conturl)."', contorient='$contOrient' ".($contMetadesc==$desc?'':", contmetadesc='$contMetadesc' ")." ".($contMetakeyw==$keyw?'':", contmetakeyw='$contMetakeyw' ")." ";
+							$whereq = " WHERE contpg='$x' AND contlang='".$keylg."' ";
+							$update_one_page = sql_update($dbtable,$setq,$whereq,"conturl");
 
 							if ($send == $sauverString) {
                 				if ($root_writable === true)
