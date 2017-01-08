@@ -57,6 +57,8 @@ if ($logged_in === true) {
   	$error_img = '';
   	$notice_img = '';
 	$contGet = sql_get($dbtable," WHERE contpg='$x' AND contlang='$lg' ","conttitle,contentry,contstatut,contlogo,contmenu,conturl,conttype,contorient,contmetadesc,contmetakeyw,contupdate,contupdateby");
+	if ($contGet[0] == '.')
+		$contGet["conttitle"] = '.';
 	if	($x == '10777')	$contType = 'scroller'	;
 	if	($x == '10888')	$contType = 'leftlinks'	;
 	if	($x == '10999')	$contType = 'toplinks'	;
@@ -68,7 +70,7 @@ if ($logged_in === true) {
 	if (!in_array('1',$admin_priv))
 		$menu1 .= '<div style="float:right;text-align:right;padding-left:3px;"><a href="?x=z&amp;y=1">Extra '.$adminString.' '.$optionsString.'</a></div>';
 	if (($contGet["conttitle"] == '.') || isset($contTitle)) {
-		if	(isset($contTitle))
+		if (isset($contTitle))
 			$this_title = $contTitle;
 		else {
 			$this_title = "_NEW PAGE_";
@@ -393,6 +395,8 @@ $error .= '</ul><a href="javascript:history.back()//">'.$retourString.'</a>';
 							}
 						}
 						$other_pgs = sql_get($dbtable,"WHERE contpg='$x' AND contlang='".$keylg."' ","conttitle,contentry,contstatut,contlogo,contmenu,conturl,conttype,contorient,contmetadesc,contmetakeyw");
+						if ($other_pgs[0] == '.')
+							$other_pgs["conttitle"] = '.';
 						$sql_update = ""; // modifies changes on other than default pages if original title AND/OR entry matches
 						if (($other_pgs["conttitle"] == $contGet["conttitle"])
 						 || ($other_pgs["contentry"] == $contGet["contentry"])
