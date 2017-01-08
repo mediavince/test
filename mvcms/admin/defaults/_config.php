@@ -12,6 +12,8 @@ $root_writable = true; // enables writing of files on root, from adminedit upon 
 $CRLF = true;
 //$CRLF = false;// will become \\n :: if newsletter is not sent ok > uncomment, default is $CRLF = true or \\r\\n
 
+$charset_iso = $mail_charset_iso = 'ISO-8859-1'; // UTF-8 buggy but might work better on some env
+
 /*----JQUERY-------*/
 // jquery is unabled by default with the latest and min version from branch 1
 // 1 is the latest at the top but cache is set to revalidate more often,
