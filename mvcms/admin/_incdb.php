@@ -567,7 +567,7 @@ $mail_headers_end = $CRLF.$php_alt_random_hash;
 
 // resets charset_iso after mailer setup
 $charset_iso = "UTF-8"; // buggy
-$charset_iso = "ISO-8859-1";
+//$charset_iso = "ISO-8859-1";
 
 $n = "$CRLF";
 $n = nl2br($n);

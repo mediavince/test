@@ -900,10 +900,10 @@ function is_url($url)
 }
 
 
-function html_encode($str)
+function html_encode($_str)
 {
     global $trace;
-    stripslashes(trim($str));
+    $str = stripslashes(trim($_str));
     $table3 = get_html_translation_table(HTML_ENTITIES);
     //	$table3[" "] = '&nbsp;'; // taken out otherwise goes off the screen
     $table3["@"] = '&#064;';
@@ -919,21 +919,33 @@ function html_encode($str)
 }
 
 
-function space2underscore($str)
+function space2underscore($_str)
 {
-    global $trace,$do,$lg;
+    global $trace,$do,$lg,$charset_iso;
+    $str = strtolower(trim($_str));
     if (($do == "ru") || ($lg == "ru")) {
         //  global $cyrlat;
         require_once 'library/cyrlat.class.php';
-        $cyrlat=new CyrLat;
+        $cyrlat = new CyrLat;
         $str = $cyrlat->cyr2lat(html_entity_decode($str,ENT-QUOTES,"cp1251"));
         //  echo space2underscore($cyrlat->cyr2lat($str));
     }
-    $str = html_entity_decode(stripslashes(strtolower(trim($str))));
+    /* probe
+    if (!strstr($str, '&'))
+    if ($charset_iso == 'UTF-8') {
+      //  $str = htmlspecialchars(strtolower(trim($_str)));
+        $str = html_entity_decode_utf8(stripslashes($str));
+    } else {
+        $str = html_entity_decode(stripslashes($str));
+    }
+    */
+    $str = html_entity_decode(stripslashes($str));
     $new_str = "";
-    for ($i=0;$i<strlen($str);$i++) {
+    $str_l = strlen($str);
+    for ($i=0;$i<$str_l;$i++) {
         if (preg_match("/^[a-zA-Z0-9_ -]{1}\$/", $str[$i])) {
-            if	(in_array($str[$i],array(" ","_")))	$str[$i] = "-"	;
+            if (in_array($str[$i],array(" ","_")))
+            	$str[$i] = "-";
             $new_str .= $str[$i];
         } else {
             if (preg_match("/^[[:punct:]]{1}\$/",$str[$i])) {
@@ -942,18 +954,21 @@ function space2underscore($str)
                 $str_ncd = html_encode($str[$i]);
                 $array_codes = array("acute","grave","circ","tilde","uml","ring","elig","slash","horn","zlig","cedil","th");
                 $code = substr(substr($str_ncd,2),0,-1);
-                if	(isset($str_ncd[1]) && preg_match("/^[a-z]\$/", $str_ncd[1]) && in_array($code,$array_codes)) {
+                if (isset($str_ncd[1]) && preg_match("/^[a-z]\$/", $str_ncd[1]) && in_array($code,$array_codes)) {
                     $new_str .= $str_ncd[1];
                     if ($code == "elig") $new_str .= "e"; // e dans l`o, l`a...
                     if ($code == "zlig") $new_str .= "s"; // in german, szet is replaced by ss, not sz
-                } else $new_str .= "-"; // other punctuation codes
+                } else {
+                    $new_str .= "-"; // other punctuation codes
+                }
             }
         }
     }
     $new_str = preg_replace("/(\-)+/", "$1", $new_str);
     // next step is better than ($i+1==strlen($str)?"":"-") in case repeated punct at end of str
     if (substr(strrev($new_str),0,1) == '-')
-    $new_str = substr($new_str,0,-1);
+        $new_str = substr($new_str,0,-1);
+    
     return $new_str;
 }
 
