@@ -403,11 +403,25 @@ function sql_get($dbtable,$where,$getrow)
     $sql = @mysql_query("SELECT $getrow FROM $dbtable $where");
     $row = @mysql_fetch_array($sql);
     if (is_array($row)) {
-        foreach ($row as $sql_get) {
+        foreach($row as $sql_get) {
             $sql_get = $row;
         }
     }
-    if (!is_array($row)) $sql_get = array(".","","","","","","","","","","","","","","","","","","","","","","","") ;
+    if (!is_array($row)) {
+        $sql_get[0] = '.';
+        $array_fields = array();
+        if ($getrow !== '*') {
+            $fields = explode(",", $getrow);
+            if (!is_array($fields))
+                $fields = array($getrow);
+            foreach($fields as $field)
+            {
+                $sql_get []= "";
+                $array_fields[$field] = "";
+            }
+        } else $sql_get = array(".","","","","","","","","","","","","","","","","","","","","","","","");
+        $sql_get = array_merge($sql_get, $array_fields);
+    }
     return $sql_get;
 }
 
@@ -968,7 +982,7 @@ function space2underscore($_str)
     // next step is better than ($i+1==strlen($str)?"":"-") in case repeated punct at end of str
     if (substr(strrev($new_str),0,1) == '-')
         $new_str = substr($new_str,0,-1);
-    
+
     return $new_str;
 }
 
@@ -1970,39 +1984,44 @@ class zip
             function unzip($file,$dest=NULL)
             {
                 //  $zip=zip_open(realpath(".")."/".$file);
-                $zip=zip_open($file);
-                if(!$zip) {
-                    return("Unable to proccess file '{$file}'");
+                $zip = zip_open($file);
+                if (!$zip) {
+                    return "Unable to proccess file '{$file}'";
                 }
-                $e='';
-                while($zip_entry=zip_read($zip)) {
-                    $zdir=dirname($dest.zip_entry_name($zip_entry));
-                    $zname=$dest.zip_entry_name($zip_entry);
-                    if(!zip_entry_open($zip,$zip_entry,"r")) {
-                        $e.="Unable to proccess file '{$zname}'";continue;
+                $e = '';
+                while($zip_entry = zip_read($zip)) {
+                    $zdir = dirname($dest.zip_entry_name($zip_entry));
+                    $zname = $dest.zip_entry_name($zip_entry);
+                    if (!zip_entry_open($zip,$zip_entry,"r")) {
+                        $e .= "Unable to proccess file '{$zname}'";
+                        continue;
                     }
-                    if(!is_dir($zdir)) mkdirr($zdir,0777);
-                    $zip_fs=zip_entry_filesize($zip_entry);
-                    if(empty($zip_fs)) continue;
-                    $zz=zip_entry_read($zip_entry,$zip_fs);
-                    $z=fopen($zname,"w");
+                    if (!is_dir($zdir))
+                        mkdirr($zdir,0777);
+                    $zip_fs = zip_entry_filesize($zip_entry);
+                    if (empty($zip_fs))
+                        continue;
+                    $zz = zip_entry_read($zip_entry,$zip_fs);
+                    $z = fopen($zname,"w");
                     fwrite($z,$zz);
                     fclose($z);
                     zip_entry_close($zip_entry);
                 }
                 zip_close($zip);
-                return($e);
+                return $e;
             }
             function mkdirr($dest,$mode=null)
             {
-                if(is_dir($dest)||empty($dest)) return true;
-                $dest=str_replace(array('/', ''),DIRECTORY_SEPARATOR,$dest);
-                if(is_file($dest)) {
-                    trigger_error('mkdirr() File exists', E_USER_WARNING);return false;
+                if (is_dir($dest)||empty($dest))
+                    return true;
+                $dest = str_replace(array('/', ''),DIRECTORY_SEPARATOR,$dest);
+                if (is_file($dest)) {
+                    trigger_error('mkdirr() File exists', E_USER_WARNING);
+                    return false;
                 }
-                $next_pathname=substr($dest,0,strrpos($dest,DIRECTORY_SEPARATOR));
-                if(mkdirr($next_pathname,$mode)) {
-                    if(!file_exists($dest)) {
+                $next_pathname = substr($dest,0,strrpos($dest,DIRECTORY_SEPARATOR));
+                if (mkdirr($next_pathname,$mode)) {
+                    if (!file_exists($dest)) {
                         return mkdir($dest,$mode);
                     }
                 }
@@ -2011,8 +2030,7 @@ class zip
             unzip($src,$dest);
         } else {
             $do = "unzip $src -d $dest";
-            $notice .= exec($do,$output,$result).($result==1?'':'NOT')." extracted by exec<br />";
-            //`unzip $src -d $dest`;
+            $notice .= exec($do,$output,$result).($result==1?'':'NOT')." extracted by exec<br />"; // `unzip $src -d $dest`;
         }
         return true;
     }
