@@ -22,8 +22,8 @@ $read = @mysql_query("SELECT * FROM $tblcont $where ORDER BY CAST(contpg as CHAR
 $nrows = @mysql_num_rows($read);
 
 $base_x = $x[0];
-if  (preg_match("/^1[0-9]{1,}\$/", $x) && ($x1subok === false))
-$base_x = $x[0].$x[1] ;
+if (preg_match("/^1[0-9]{1,}\$/", $x) && ($x1subok === false))
+  $base_x = $x[0].$x[1] ;
 
 for ($i=0;$i<$nrows;$i++) {
 	$row = mysql_fetch_array($read);
@@ -84,7 +84,7 @@ for ($i=0;$i<$nrows;$i++) {
 				$is_active = $active;
 				$is_aorb = $ab;
 			}
-      $menu[$row_contpg][0] = $row;
+      $menu[$row_contpg][0] = $row;// new menu
 			if (($row["contorient"] == 'center') && (sql_nrows($tblcont,"WHERE $where_statut_lang contpg='".(($row["contpg"]*10)+1)."' ") == '1')) {
         // page has subpages
 				$menuhori .= '<li'.(isset($menu_id_on_li)?' id="im_'.$row_contpg.'" name="im_'.$row_contpg.'"':'').'><a class="main_nav'.$is_active.'item" accesskey="'.$is_aorb.'" href="'.$a_href.'"'.($menu_pagine===true?' onMouseOver="MM_showMenu(window.menu_'.$row["contpg"].','.$menu_pad_left.','.$menu_pad_top.',null,\'im_'.$row["contpg"].'\');return true;" onMouseOut="MM_startTimeout();return true;"':'').' alt=" "><span class="main_nav'.$is_active.'item_text"><span class="'.$contlogo_lock.'"><img'.(isset($menu_id_on_li)?'':' id="im_'.$row_contpg.'" name="im_'.$row_contpg.'"').' src="'.$mainurl.'images/spacer.gif" width="0" height="0" border="0" alt=" " />'.$inject_barre_verticale.$row_conttitle.'</span></span></a></li>';
@@ -101,7 +101,7 @@ for ($i=0;$i<$nrows;$i++) {
 		} else if ($row["contorient"] == 'right') {
 			$t_menuright .= '<li'.(isset($menu_id_on_li)?' id="im_'.$row_contpg.'" name="im_'.$row_contpg.'"':'').'><a href="'.$a_href.'"><img'.(isset($menu_id_on_li)?'':' id="im_'.$row_contpg.'" name="im_'.$row_contpg.'"').' src="'.$mainurl.'images/spacer.gif" width="0" height="0" border="0" alt=" " />'.$row_conttitle.'</a></li>';
 		} else {
-      $menu[substr($row_contpg, 0, 1)][$row_contpg][0] = $row;
+      $menu[substr($row_contpg, 0, 1)][$row_contpg][0] = $row; // new menu
 			$t_menuhori .= '<li'.(isset($menu_id_on_li)?' id="im_'.$row_contpg.'" name="im_'.$row_contpg.'"':'').'><a href="'.$a_href.'"><img'.(isset($menu_id_on_li)?'':' id="im_'.$row_contpg.'" name="im_'.$row_contpg.'"').' src="'.$mainurl.'images/spacer.gif" width="0" height="0" border="0" alt=" " />'.$inject_barre_verticale.$row_conttitle.'</a></li>';
 		}
 	} else {
@@ -123,9 +123,9 @@ for ($i=0;$i<$nrows;$i++) {
     }
     // define deeper pages in menu
     if (strlen($row_contpg) == strlen($base_pg)+3) {
-      $menu[substr($row_contpg, 0, 1)][substr($row_contpg, 1, 1)][substr($row_contpg, 2, 1)][$row_contpg][0] = $row;
+      $menu[substr($row_contpg, 0, 1)][substr($row_contpg, 0, -2)][substr($row_contpg, 0, -1)][$row_contpg][0] = $row;
     } elseif (strlen($row_contpg) == strlen($base_pg)+2) {
-      $menu[substr($row_contpg, 0, 1)][substr($row_contpg, 1, 1)][$row_contpg][0] = $row;
+      $menu[substr($row_contpg, 0, 1)][substr($row_contpg, 0, -1)][$row_contpg][0] = $row;
     } else {
       $menu[substr($row_contpg, 0, 1)][$row_contpg][0] = $row;
     }
@@ -137,24 +137,35 @@ for ($i=0;$i<$nrows;$i++) {
   }
 }
 
-function parseMultiDimentionalMenuHori($menu, $options = array('class' => "",)) {
+/** 
+ * @todo fix issue in responsive mode
+ */
+function parseMultiDimentionalMenuHori($menu, $options = array(), $parent = null) {
   global $x;
+  if (empty($options))
+    $options = array('class' => 'dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu',);
+  $root = $x[0];
   $output = "";
   foreach($menu as $id => $pages) {
     if (count($pages) == 1) {
       $page = current($pages);
+      $active = ($page['contpg']==$x?' class="active"':'');
       $output .= sprintf(
-        '<li><a href="%s">%s</a></li>'
-        , $page['href'], $page['conttitle']
+        '<li%s><a href="%s">%s</a></li>'
+        , $active, $page['href'], $page['conttitle']
       );
     } else {
       $page = array_shift($pages);
       $dropdown = sprintf( //  role="button" aria-haspopup="true" aria-expanded="false"
-        '<a class="withcaret" href="%s">%s</a><a href="#" class="dropdown-toggle withcaret" data-toggle="dropdown"><span class="caret"></span></a>'
+        '<a class="withcaret" href="%s">%s</a>' // <a href="#" class="dropdown-toggle withcaret" data-toggle="dropdown-menu"><span class="caret"></span></a>'
         , $page['href'], $page['conttitle']
       );
-      $submenu = parseMultiDimentionalMenuHori($pages, array('class' => 'dropdown-menu multi-level',));
-      $output .= sprintf('<li class="dropdown">%s%s</li>', $dropdown, $submenu);
+      $submenu = parseMultiDimentionalMenuHori($pages, array('class' => 'dropdown-menu',), $page['contpg']);
+      $active = (!$parent&&$page['contpg'][0]==$root?' active':'');
+      $output .= sprintf(
+        '<li class="dropdown-submenu%s">%s%s</li>'
+        , $active, $dropdown, $submenu
+      );
     }
   }
   if (!empty($output))
