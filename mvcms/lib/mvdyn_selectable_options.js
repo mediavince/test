@@ -65,3 +65,11 @@ function check_selected(el,nel){
     }
   }
 }
+
+if (typeof jQuery !== 'undefined')
+jQuery(document).ready(function($){
+  $("#metadescZone").css('display', 'none');
+  $("#metadescToggle").on('click', function(){
+    $("#metadescZone").toggle();
+  });
+});
