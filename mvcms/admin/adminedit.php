@@ -113,7 +113,7 @@ if ($logged_in === true) {
 			$y_menu .= '<a href="?lg='.$lg.'&amp;x='.$x.'&amp;y=1">'.$menu1.'</a>';
 	}
   	$content = '<!-- <p> -->'.$y_menu.'<!-- </p> -->';
-	$editInfo = '<div style="float:right;text-align:right;">'.$derniereString.' '.$modificationString.' '.$parString.' <b>'.$contGet["contupdateby"].'</b> ('.$dateString.' <b>'.$contGet["contupdateby"].'</b>) <font color="Red">|</font> <a href="?lg='.$lg.'&amp;x='.$x.'&amp;send=edit">'.$modifierString.' '.$cettepageString.'</a></div>';
+	$editInfo = '<div style="float:right;text-align:right;clear:both;">'.$derniereString.' '.$modificationString.' '.$parString.' <b>'.$contGet["contupdateby"].'</b> ('.$dateString.' <b>'.$contGet["contupdateby"].'</b>) <font color="Red">|</font> <a href="?lg='.$lg.'&amp;x='.$x.'&amp;send=edit">'.$modifierString.' '.$cettepageString.'</a></div>';
 
 	if (!isset($send)) {
 
@@ -150,7 +150,7 @@ if ($logged_in === true) {
         		if ($mod_priv === true)
   $content .= '<br /><div><div style="float:left;"><label for="contPriv"> <b> '.$privilegeString.' : </b></label> &nbsp;</div>'.gen_inputcheck($tblenum,((strlen($x)>1)&&in_array('1',explode("|",sql_getone($tblcont,"WHERE contpg='".substr($x,0,-1)."' ","contlogo")))?'1':sql_getone($tblcont,"WHERE contpg='".substr($x,0,-1)."' ","contlogo")),((strlen($x)>1)&&in_array('1',explode("|",sql_getone($tblcont,"WHERE contpg='".substr($x,0,-1)."' ","contlogo")))?'':"%' AND enumtitre!='1' AND enumtype LIKE '%"),'privilege')."</div><!--<div class='clear'></div>--> <br />";
   $content .= '<br /><label for="contTitle"> <b>'.$titreString.'</b> <!-- ('.$saufString.' '.$accueilString.')  --></label> <input type="text" name="contTitle" value="'.(isset($contType)?$contType:'').'" style="width: 97%" /><br />';
-  $content .= '<hr />META DESCRIPTION & KEYWORDS (1 line)<br /><label for="contMetadesc"> <b>'.$descriptionString.'</b> </label><br /><textarea name="contMetadesc" rows="3" cols="40" style="width: 97%; height: 50px; min-height: 50px;">'.($contGet["contmetadesc"]==""?$desc:$contGet["contmetadesc"]).'</textarea><br /><label for="contMetakeyw"> <b>keywords</b> </label><br /><textarea name="contMetakeyw" rows="3" cols="40" style="width: 97%; height: 50px; min-height: 50px;">'.($contGet["contmetakeyw"]==""?$keyw:$contGet["contmetakeyw"]).'</textarea><hr />';
+  $content .= '<br /><div id="metadescToggle">META DESCRIPTION & KEYWORDS (1 line) (click to edit)<hr /></div><div id="metadescZone"><label for="contMetadesc"> <b>'.$descriptionString.'</b> </label><br /><textarea name="contMetadesc" rows="3" cols="40" style="width: 97%; height: 50px; min-height: 50px;">'.($contGet["contmetadesc"]==""?$desc:$contGet["contmetadesc"]).'</textarea><br /><label for="contMetakeyw"> <b>keywords</b> </label><br /><textarea name="contMetakeyw" rows="3" cols="40" style="width: 97%; height: 50px; min-height: 50px;">'.($contGet["contmetakeyw"]==""?$keyw:$contGet["contmetakeyw"]).'</textarea><hr /></div>';
   $content .= '<label for="contEntry"> <b>'.$descriptionString.'</b> '.(isset($contType)&&($contType=='toplinks')?'<i> !! edit with HTML !! </i>':'').'</label><br />'.$text_style.'<textarea id="'.($tinyMCE===false?'uldescription':'elm1').'" name="contEntry" rows="20" cols="40" style="width: 97%; height: 300px; min-height: 300px;">'.(isset($contType)&&($contType=='toplinks')?'<div style="float:left;overflow:hidden;width:110px;margin-left:-25px;"><ul><li><a title="MediaVince" href="http://www.mediavince.com/" target="_blank">MediaVince</a></li></ul></div> <ul><li><a title="MediaVince" href="http://www.mediavince.com/" target="_blank">MediaVince</a> <br /></li><li><span class="current"> '.$codename.' </span> &rsaquo;</li></ul>':'').'</textarea><p>'.$text_style.'</p>';
   				if ($tinyMCE === false)
   $content .= $text_style_js;
@@ -199,7 +199,7 @@ $content .= '<label for="contType"> <b>'.$pageString.' (empty = default '.$titre
         		if ($mod_priv === true)
 $content .= '<div><div style="float:left;"><label for="contPriv"> <b> '.$privilegeString.' : </b></label> &nbsp;</div>'.gen_inputcheck($tblenum,$priv_param0,$priv_param1,'privilege')."</div><!--<div class='clear'></div>--><br /> <br />";
 $content .= '<label for="contTitle"> <b>'.$titreString.'</b> <!-- ('.$saufString.' '.$accueilString.')  --></label><input type="text" name="contTitle" value="'.$contGet["conttitle"].'" style="width:97%;" /><br />';
-$content .= '<hr />META DESCRIPTION & KEYWORDS (1 line)<br /><label for="contMetadesc"> <b>'.$descriptionString.'</b> </label><br /><textarea name="contMetadesc" rows="3" cols="40" style="width: 97%;height:50px;min-height:50px;">'.($contGet["contmetadesc"]==""?$desc:$contGet["contmetadesc"]).'</textarea><br /><label for="contMetakeyw"> <b>keywords</b> </label><br /><textarea name="contMetakeyw" rows="3" cols="40" style="width:97%;height:50px;min-height:50px;">'.($contGet["contmetakeyw"]==""?$keyw:$contGet["contmetakeyw"]).'</textarea><hr /><br />';
+$content .= '<br /><div id="metadescToggle">META DESCRIPTION & KEYWORDS (1 line) (click to edit)<hr /></div><div id="metadescZone"><label for="contMetadesc"> <b>'.$descriptionString.'</b> </label><br /><textarea name="contMetadesc" rows="3" cols="40" style="width: 97%;height:50px;min-height:50px;">'.($contGet["contmetadesc"]==""?$desc:$contGet["contmetadesc"]).'</textarea><br /><label for="contMetakeyw"> <b>keywords</b> </label><br /><textarea name="contMetakeyw" rows="3" cols="40" style="width:97%;height:50px;min-height:50px;">'.($contGet["contmetakeyw"]==""?$keyw:$contGet["contmetakeyw"]).'</textarea><hr /><br /></div>';
 
   			} // end admin can edit
 
@@ -602,7 +602,7 @@ $error .= '</ul><a href="javascript:history.back()//">'.$retourString.'</a>';
 
 			$contSaved = sql_get($dbtable," WHERE contpg='$x' AND contlang='$lg' ","conttitle,contentry,contmenu,contupdate,contupdateby");
 			$title = $contSaved["conttitle"];
-			$editInfo = '<!-- <div class="clear"></div> --><div style="float:right;text-align:right;">'.$derniereString.' '.$modificationString.' '.$parString.' <b>'.$contSaved["contentry"].'</b> ('.$dateString.' <b>'.$contSaved["conttitle"].'</b>) <font color="Red">|</font> <a href="?lg='.$lg.'&amp;x='.$x.'&amp;send=edit';
+			$editInfo = '<!-- <div class="clear"></div> --><div style="float:right;text-align:right;clear:both;">'.$derniereString.' '.$modificationString.' '.$parString.' <b>'.$contSaved["contentry"].'</b> ('.$dateString.' <b>'.$contSaved["conttitle"].'</b>) <font color="Red">|</font> <a href="?lg='.$lg.'&amp;x='.$x.'&amp;send=edit';
 			if (strstr($send, " Intro"))
 				$editInfo .= 'emintro';
 			$editInfo .= '">'.$modifierString.' '.$cettepageString.'</a></div>';
