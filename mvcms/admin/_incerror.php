@@ -146,6 +146,7 @@ function price($price)
 function check_module_content($value_mod_array,$this_content)
 {
     global $array_modules,$array_fixed_modules,$error_inv;
+    $log = '';
     $array_modules = array_unique(array_merge($array_modules,$array_fixed_modules));
     $pattern = "[[".$value_mod_array."[a-zA-Z0-9,|]{0,}[:]{0,1}[a-zA-Z0-9,\-_=|]{0,}"."]]";
     preg_match($pattern,$this_content,$matches);
