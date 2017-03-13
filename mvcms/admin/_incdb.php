@@ -24,6 +24,10 @@ if (@function_exists('date_default_timezone_set'))
 	@date_default_timezone_set(@date_default_timezone_get());
 // time set for php5
 $now_time = time();
+if (empty($now_time))
+{
+	list($usec, $now_time) = explode(" ", microtime());
+}
 
 if (!isset($default_lg))
 	$default_lg = "en";
@@ -136,11 +140,11 @@ if (!$connection) {
 session_id();// ensures we are using the right session
 session_start();
 if (isset($_SESSION['mv_error']) || isset($_SESSION['mv_notice'])) {
-	if (isset($_SESSION['mv_error']) && ($_SESSION['mv_error'] != '')) {
+	if (isset($_SESSION['mv_error']) && ($_SESSION['mv_error'] !== '')) {
 		$error = $_SESSION['mv_error'];
 		$_SESSION['mv_error'] = '';
 	}
-	if (isset($_SESSION['mv_notice']) && ($_SESSION['mv_notice'] != '')) {
+	if (isset($_SESSION['mv_notice']) && ($_SESSION['mv_notice'] !== '')) {
 		$notice = $_SESSION['mv_notice'];
 		$_SESSION['mv_notice'] = '';
 	}
@@ -398,6 +402,9 @@ foreach($getvars_pg_array as $key) {
 		${$key} = stripslashes(str_replace("'", "&acute;", ${$key}));//´
 		if ((${$key} == "<p></p>") || (${$key} == "<p>&nbsp;</p>"))
 			${$key} = "";
+	}
+	if (isset($_FILES[$key])) {
+		${$key} = $_FILES[$key];
 	}
 }
 

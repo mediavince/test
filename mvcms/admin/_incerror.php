@@ -188,7 +188,7 @@ function img_size($image,$bigori=NULL)
 
 function mvtrace($script,$line)
 {
-    return '<b><i><u>'.addslashes(substr($script,strlen($_SERVER['DOCUMENT_ROOT'])))." #".$line.':</u></i></b> ';
+    return '<b><i><u>'.addslashes(str_replace($_SERVER['DOCUMENT_ROOT'], '', $script))." #".$line.':</u></i></b> ';
 }
 
 function connect()
@@ -221,6 +221,7 @@ function delete_imgdoc($table,$imgdoc)
     $ext = explode('.',$imgdoc);
     $ext = strtolower($ext[count($ext)-1]);
     $delurl = "$up$imgdoc";
+    error_log("delete imgdoc:".$getcwd.$delurl);
     @unlink($getcwd.$delurl);
     if (in_array($ext,$array_img_ext)) {
         $bigdelurl = strrev($delurl);
@@ -918,6 +919,8 @@ function is_url($url)
 function html_encode($_str)
 {
     global $trace;
+    if (!is_string($_str))
+        error_log(print_r($_str, true));
     $str = stripslashes(trim($_str));
     $table3 = get_html_translation_table(HTML_ENTITIES);
     //	$table3[" "] = '&nbsp;'; // taken out otherwise goes off the screen

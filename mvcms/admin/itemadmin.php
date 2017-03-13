@@ -383,7 +383,6 @@ if (isset($send)) {
 	if ((($send == $envoyerString) || ($send == $sauverString))
 		&& ($_SERVER["REQUEST_METHOD"] == "POST")) {
 		include $getcwd.$up.$urladmin.'function-process_post.php';
-// 		include 'function-process_post.php';
 	}
 	$this_is = $old_this;
 	$dbtable = $old_dbtable;
@@ -637,7 +636,7 @@ if (isset($send)) {
 						if ((count($editthis[$i])==1)&&($editthis[$i][0]==''))
 						$editthis[$i] = array();
 					} else {
-						if (isset($this_id)) {
+						if (!empty($this_id)) {
 							if ($key == "img")
 							$editthis[$i] = sql_array($tblcontphoto,"WHERE contphotolang='$lg'
 											AND contphotocontid='$this_id'
@@ -650,11 +649,11 @@ if (isset($send)) {
 											AND contdoc LIKE '%".strtoupper($this_is)."%' ",
 										"contdoc");
 						} else
-						$editthis[$i] = array();
+							$editthis[$i] = array();
 					}
+					$form_content[$this_is.$key] = "";
 					if ($key == 'img') {
-						$form_content[$this_is.$key] = '<div class="form_image">';
-						$content .= $form_content[$this_is.$key];
+						$form_content[$this_is.$key] .= '<div class="form_image">';
 					}
 					$count_explode = count($editthis[$i]);
 					$this_nof = $nof;//reset nof
@@ -663,11 +662,12 @@ if (isset($send)) {
 					if ($count_explode<$nof)
 					if (!isset($editthis[$i][$nof]))
 					for($ii=$count_explode;$ii<$nof;$ii++)
-					$editthis[$i][] = '';
+						$editthis[$i][] = '';
 					for($ii=0;$ii<$this_nof;$ii++) {
+						${$this_is.$key} = array();
 						if ($key == 'img') {
 							$contphoto_img_by_id = sql_getone($tblcontphoto,
-								"WHERE contphotolang='$lg' AND  contphotorid='".$editthis[$i]
+								"WHERE contphotolang='$lg' AND contphotorid='".$editthis[$i]
 								."' ","contphotoimg");
 							if (isset($this_id) && isset($editthis[$i][$ii]))
 							$contphoto_desc_by_this_id = sql_getone($tblcontphoto,
@@ -675,7 +675,7 @@ if (isset($send)) {
 												AND contphotocontid='$this_id'
 												AND contphotoimg='".$editthis[$i][$ii]."' ",
 											"contphotodesc");
-							$form_content[$this_is.$key[$ii]] = '<div class="form_image_half">'
+							${$this_is.$key}[$ii] = '<div class="form_image_half">'
 								.(isset($editthis[$i][$ii])&&$editthis[$i][$ii]!=''?
 								'<br /><img src="'.$mainurl.(is_int($editthis[$i])?
 								$contphoto_img_by_id.'?'.$now_time.'" '.show_img_attr(
@@ -705,7 +705,7 @@ if (isset($send)) {
 								.'<input type="file" name="'.$this_is.ucfirst($key)
 								.'[]" /><br /></div>';
 						} else {
-							$form_content[$this_is.$key[$ii]] = '<label for="'.$this_is
+							${$this_is.$key}[$ii] = '<label for="'.$this_is
 								.ucfirst($key).'[]">'.ucfirst(${$key."String"}).($ii>0?$ii:'')
 								.'</label><input type="file" name="'.$this_is.ucfirst($key)
 								.'[]" />'.(isset($editthis[$i][$ii])&&$editthis[$i][$ii]!=''?
@@ -720,7 +720,7 @@ if (isset($send)) {
 								.'height="10" alt="'.$effacerString.'" title="'.$effacerString
 								.'" border="0" /></a>':'').'<br />';
 						}
-						$form_content[$this_is.$key] .= $form_content[$this_is.$key[$ii]];
+						$form_content[$this_is.$key] .= ${$this_is.$key}[$ii];
 					}
 					if ($key == 'img') {
 						$form_content[$this_is.$key] = '</div>';
@@ -868,7 +868,7 @@ if (isset($send)) {
 				/////////////
 			}
 		}
-		if ($moderate === true)
+		if (isset($moderate) && ($moderate === true))
 		include $getcwd.$up.$urladmin.'_moderator_captcha.php';
 
 		// to study because this_is is that_is if that_is is set but it works for membre...
@@ -1055,9 +1055,11 @@ if (isset($send)) {
 				if ($error == '') {
 					$_SESSION['mv_notice'] = $notice;
 					if (in_array($this_is,$editable_by_membre) && !stristr($_SERVER['PHP_SELF'],$urladmin) && ($logged_in === true) && isset(${$this_is."Id"}))
-					Header("Location: ".html_entity_decode($mainurl.lgx2readable($lg,'',$this_is,'')));
-					else
-					Header("Location: ".html_entity_decode($local_url));Die();
+					{
+						Header("Location: ".html_entity_decode($mainurl.lgx2readable($lg,'',$this_is,'')));
+					} else {
+						Header("Location: ".html_entity_decode($local_url));Die();
+					}
 				}
 			}
 		} else {

@@ -69,7 +69,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 		$loop_array_lang = array($lg);
 		else $loop_array_lang = array($lg);
 	}
-	if ($moderate === true) { // enables the moderation in mods like inscrire
+	if (isset($moderate) && ($moderate === true)) { // enables the moderation in mods like inscrire
 		$fpp = true;
 		include $getcwd.$up.$urladmin.'_moderator_captcha.php';
 		if ($error!=='') $error_report = $error;
@@ -147,6 +147,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 			if (($key == 'title') || ($key == 'titre')) {
 				${$this_is.ucfirst($key)} = strip_tags(html_encode(${$this_is.ucfirst($key)}));
 				$this_titre = ${$this_is.ucfirst($key)};
+				$countread = 0;
 				if (!in_array($key,$array_mandatory_fields))
 				if (!$this_titre || ($this_titre == '')) {
 					if ($lg == $loop_lg) {
@@ -381,8 +382,8 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 							} else { // doc
 								$userfile_name = strtoupper(space2underscore($this_is))."_".space2underscore(${$this_is."Desc"}).'.'.$ext;
 								$location = (in_array($this_is,$array_safedir)?$safedir:$filedir)."$userfile_name";
-								$movelocation = $up.$location;
-								move_uploaded_file($userfile_tmp,$getcwd.$up.$movelocation);
+								$movelocation = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.$location;
+								move_uploaded_file($userfile_tmp,$movelocation);
 							}
 							if ($location == "error-too_small") {
 		$error_img .= '<p style="text-align: center">'.$erreurString.'<br />'.$max_filesizeString.'</p>';
@@ -391,24 +392,24 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 							} else {
 								$new_upload = $location;
 								if ($array_fields_type[$this_is.$key] == 'text') { // update done after
-									$insertquery = true;
+									$insertquery = false;
 									if (isset(${$key."_passing_desc_for_insert_if_dbtable"})
 									&& is_array(${$key."_passing_desc_for_insert_if_dbtable"}))
-									${$key."_passing_desc_for_insert_if_dbtable"}[] = $new_upload;
+										${$key."_passing_desc_for_insert_if_dbtable"}[] = $new_upload;
 									else
-									${$key."_passing_desc_for_insert_if_dbtable"} = array($new_upload);
+										${$key."_passing_desc_for_insert_if_dbtable"} = array($new_upload);
 								} else { ////////////
 									if ($key == "img") {
 										$insertquery = @mysql_query("INSERT INTO $tblcontphoto
 (`contphotoid`,`contphotostatut`,`contphotodate`,`contphotolang`,`contphotorid`,`contphotoutil`,`contphotocontid`,`contphotodesc`,`contphotoimg`)
 																	VALUES
-('','Y',$dbtime,'$default_lg','','$admin_name','".(isset(${$this_is."Id"})?${$this_is."Id"}:$now_time)."','".${$this_is."Desc"}."','$new_upload')
+('','Y',$dbtime,'$default_lg','','$admin_name','".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)."','".${$this_is."Desc"}."','$new_upload')
 																	");
 									} else {
 										$insertquery = @mysql_query("INSERT INTO $tblcontdoc
 (`contdocid`,`contdocstatut`,`contdocdate`,`contdoclang`,`contdocrid`,`contdocutil`,`contdoccontid`,`contdocdesc`,`contdoc`)
 																	VALUES
-('','Y',$dbtime,'$default_lg','','$admin_name','".(isset(${$this_is."Id"})?${$this_is."Id"}:$now_time)."','".${$this_is."Desc"}."','$new_upload')
+('','Y',$dbtime,'$default_lg','','$admin_name','".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)."','".${$this_is."Desc"}."','$new_upload')
 																	");
 									}
 								}
@@ -417,7 +418,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 								} else {
 									if ($key == "img") {
 										$insertread = sql_get($tblcontphoto,
-																"WHERE contphotocontid='".(isset(${$this_is."Id"})?${$this_is."Id"}:$now_time)."'
+																"WHERE contphotocontid='".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)."'
 																	AND contphotodesc='".${$this_is."Desc"}."'
 																	AND contphotolang='$default_lg' AND contphotorid='' ",
 																"contphotoid,contphotoutil,contphotocontid,contphotoimg,contphotodesc");
@@ -429,7 +430,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 																			AND contphotolang='$default_lg' ","");
 											} else {
 												$values .= ($values==''?'':',')."(NULL,'Y',$dbtime,'$keylg','".$insertread[0]
-														."','$admin_name','".(isset(${$this_is."Id"})?${$this_is."Id"}:$now_time)
+														."','$admin_name','".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)
 														."','".${$this_is."Desc"}."','$new_upload')";
 											}
 											$notice_img .= " $keylg ";
@@ -443,7 +444,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 										}
 									} else {
 										$insertread = sql_get($tblcontdoc,
-																"WHERE contdoccontid='".(isset(${$this_is."Id"})?${$this_is."Id"}:$now_time)."'
+																"WHERE contdoccontid='".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)."'
 																	AND contdocdesc='".${$this_is."Desc"}."'
 																	AND contdoclang='$default_lg' AND contdocrid='' ",
 																"contdocid,contdocutil,contdoccontid,contdoc,contdocdesc");
@@ -454,7 +455,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 																		"WHERE contdocid='".$insertread[0]."' AND contdoclang='$default_lg' ","");
 											} else {
 												$values .= ($values==''?'':',')."(NULL,'Y',$dbtime,'$keylg','".$insertread[0]
-														."','$admin_name','".(isset(${$this_is."Id"})?${$this_is."Id"}:$now_time)
+														."','$admin_name','".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)
 														."','".${$this_is."Desc"}."','$new_upload')";
 											}
 											$notice_img .= " $keylg ";
@@ -580,12 +581,14 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 				}
 			} else { // all other cases including extra_routines overwrites
 				if (!isset(${$this_is.ucfirst($key)}))
-				${$this_is.ucfirst($key)} = '';
+					${$this_is.ucfirst($key)} = '';
 				else
-				${$this_is.ucfirst($key)} = strip_tags(html_encode(${$this_is.ucfirst($key)}));
+					${$this_is.ucfirst($key)} = (is_string(${$this_is.ucfirst($key)})
+						?strip_tags(html_encode(${$this_is.ucfirst($key)}))
+						:${$this_is.ucfirst($key)});
 				// include here extra_routines
 				if (@file_exists($getcwd.$up.$safedir.'_extra_routines.php'))
-				require $getcwd.$up.$safedir.'_extra_routines.php';
+					require $getcwd.$up.$safedir.'_extra_routines.php';
 				if (!isset($array_routines) || (isset($array_routines) && !in_array($key,$array_routines)))
 				if (($key == "nom") && ($this_is == 'membre') && isset(${$this_is."Prenom"}) && isset(${$this_is."Nom"})) {
 					if ($editthis[array_search($this_is."prenom",$array_fields)]." ".$editthis[array_search($this_is."nom",$array_fields)]
@@ -610,6 +613,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 		$dbtable = $old_dbtable;
 ///////////////////// REMISE A DEFAUT DES VARIABLES ////////////////////
 	}
+
 	if ($error_report !== '') {
 		$error .= ($lg==$loop_lg?'<b>'.$erreurString.'!</b> : '.$listecorrectionString.'<ul>'.$error_report.'</ul>':'');
 	} else {
@@ -680,7 +684,8 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 			}
 			if	(($sql_Instruction == '') && !(in_array('date',$array_mandatory_fields) && isset(${$this_is."Date"})))
 			$notice .= ($loop_lg==$lg?'<b>'.$enregistrementString.' '.$nonString.' '.$class_conjugaison->plural($modifieString,'F',1)
-					.(!in_array('1',$admin_priv)?(stristr($_SERVER['PHP_SELF'],$urladmin)?' '.$pourString.' '.$editthis[5].', '
+					.(!in_array('1',$admin_priv)?(stristr($_SERVER['PHP_SELF'],$urladmin)?
+						' '.$pourString.' '.${$this_is."String"}.', '
 					.$numidString.' : '.$this_id.', '.$statutString.' : <u>'.${$this_is."Statut"}.'</u></b><!-- <br /> <br /><a href="'
 					.$local_url.'">'.$verslisteString.' '.${$this_is."String"}.'</a> -->':'</b>').'<br />':''):'');
 			else {
@@ -912,12 +917,12 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 				}
 			}
 			if (($error=='') && ($values != ''))
-			$insertquery = @mysql_query("INSERT INTO $dbtable ".sql_fields($dbtable,'list')." VALUES ( $values ) ");
-			else $insertquery = TRUE;
+				$insertquery = @mysql_query("INSERT INTO $dbtable ".sql_fields($dbtable,'list')." VALUES ( $values ) ");
+			else $insertquery = false;
 			if (!$insertquery)
-			$error .= $error_request.' [i] '.$loop_lg.' <span style="display:none;">'.mvtrace(__FILE__,__LINE__).'</span><br />';
+				$error .= $error_request.' [i] '.$loop_lg.'<br />';
 			else {
-				$notice .= ' [i] '.$loop_lg.' <span style="display:none;">'.mvtrace(__FILE__,__LINE__).'</span><br />';
+				$notice .= ' [i] '.$loop_lg.'<br />';
 				if (!isset($newly_inserted_id))
 				if ($loop_lg == $default_lg) {
 					$new_id = mysql_insert_id();
@@ -1149,7 +1154,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 					}
 				} else {
 					if ($loop_lg == $lg)
-					$error .= $error_request.'  <span style="display:none;">'.mvtrace(__FILE__,__LINE__).'</span><br />';
+						$error .= $error_request.'  <span style="display:none;">'.mvtrace(__FILE__,__LINE__).'</span><br />';
 				}
 			}
 		}
@@ -1157,7 +1162,6 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 }
 $error .= $error_img;
 $notice .= $notice_img;
-
 if (stristr($_SERVER['PHP_SELF'],$urladmin)
 	|| (!stristr($_SERVER['PHP_SELF'],$urladmin)
 		&& (!in_array($this_is,$array_modules_as_form) && !in_array($this_is,$array_fixed_modules))))

@@ -1,6 +1,5 @@
 <?php #۞ #
 if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
-
 //          $notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
 
 if (isset(${$this_is."Id"}) && !preg_match("/^[0-9]+\$/",${$this_is."Id"}))
@@ -338,7 +337,7 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 									$ext = strrev($ext[0]);
 									$readable_name = ucwords(str_replace("_"," ",str_replace("-"," ",str_replace($filedir.(stristr($idn,$this_is)?strtoupper($this_is):''),"",$idn))));
 									$download_value = (stristr($array_imgdoc_k,$safedir)?$urlsafe.'?file='.base64_encode($array_imgdoc_k):$array_imgdoc_k);
-									${"show_".$key} .= '<a href="'.$mainurl.$download_value.'" target="_self"><img src="'.$mainurl.'images/'.$ext.'logo.gif" width="16" height="16" vspace="5" hspace="5" title="'.(isset($show_title)?$show_title:$array_imgdoc_k).'" alt="'.(isset($show_title)?$show_title:$readable_name).'" border="0" />'.(isset($show_title)?(stristr($readable_name,space2underscore($show_title))?$show_title:''):$readable_name).'</a> ';
+									${"show_".$key} .= '<a href="'.$mainurl.$download_value.'" target="_blank"><img src="'.$mainurl.'images/'.$ext.'logo.gif" width="16" height="16" vspace="5" hspace="5" title="'.(isset($show_title)?$show_title:$array_imgdoc_k).'" alt="'.(isset($show_title)?$show_title:$readable_name).'" border="0" />'.(isset($show_title)?(stristr($readable_name,space2underscore($show_title))?$show_title:''):$readable_name).'</a> ';
 								} else
 								${"show_".$key} .= '';
 							}
@@ -398,7 +397,7 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 														$ext = explode(".",strrev($array_imgdoc_k),2);
 														$ext = strrev($ext[0]);
 														$download_value = (stristr($array_imgdoc_k,$safedir)?$urlsafe.'?file='.base64_encode($array_imgdoc_k):$array_imgdoc_k);
-														${"link_".$row} .= '<a href="'.$mainurl.$download_value.'" target="_self"><img src="'.$mainurl.'images/'.$ext.'logo.gif" width="16" height="16" vspace="5" hspace="5" title="'.(isset($link_title)?$link_title:$array_imgdoc_k).'" alt="'.(isset($link_title)?$link_title:$array_imgdoc_k).'" border="0" />'.(isset($link_title)?(stristr($array_imgdoc_k,space2underscore($link_title))?$link_title:''):$array_imgdoc_k).'</a> ';
+														${"link_".$row} .= '<a href="'.$mainurl.$download_value.'" target="_blank"><img src="'.$mainurl.'images/'.$ext.'logo.gif" width="16" height="16" vspace="5" hspace="5" title="'.(isset($link_title)?$link_title:$array_imgdoc_k).'" alt="'.(isset($link_title)?$link_title:$array_imgdoc_k).'" border="0" />'.(isset($link_title)?(stristr($array_imgdoc_k,space2underscore($link_title))?$link_title:''):$array_imgdoc_k).'</a> ';
 													} else
 													${"link_".$row} .= '';
 												}
@@ -508,7 +507,7 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 												$ext = explode(".",strrev($array_imgdoc_k),2);
 												$ext = strrev($ext[0]);
 												$download_value = (stristr($array_imgdoc_k,$safedir)?$urlsafe.'?file='.base64_encode($array_imgdoc_k):$array_imgdoc_k);
-												${"link_".$that_key} .= '<a href="'.$mainurl.$download_value.'" target="_self"><img src="'.$mainurl.'images/'.$ext.'logo.gif" width="16" height="16" vspace="5" hspace="5" title="'.(isset($link_title)?$link_title:$array_imgdoc_k).'" alt="'.(isset($link_title)?$link_title:$array_imgdoc_k).'" border="0" />'.(isset($link_title)?(stristr($array_imgdoc_k,space2underscore($link_title))?$link_title:''):$array_imgdoc_k).'</a> ';
+												${"link_".$that_key} .= '<a href="'.$mainurl.$download_value.'" target="_blank"><img src="'.$mainurl.'images/'.$ext.'logo.gif" width="16" height="16" vspace="5" hspace="5" title="'.(isset($link_title)?$link_title:$array_imgdoc_k).'" alt="'.(isset($link_title)?$link_title:$array_imgdoc_k).'" border="0" />'.(isset($link_title)?(stristr($array_imgdoc_k,space2underscore($link_title))?$link_title:''):$array_imgdoc_k).'</a> ';
 											} else
 											${"link_".$that_key} .= '';
 										}
@@ -691,7 +690,7 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 												$ext = explode(".",strrev($array_imgdoc_k),2);
 												$ext = strrev($ext[0]);
 												$download_value = (stristr($array_imgdoc_k,$safedir)?$urlsafe.'?file='.base64_encode($array_imgdoc_k):$array_imgdoc_k);
-												${"show_".$key} .= '<a href="'.$mainurl.$download_value.'" target="_self"><img src="'.$mainurl.'images/'.$ext.'logo.gif" width="16" height="16" vspace="5" hspace="5" title="'.(isset($show_title)?$show_title:$array_imgdoc_k).'" alt="'.(isset($show_title)?$show_title:$array_imgdoc_k).'" border="0" />'.(isset($show_title)?(stristr($array_imgdoc_k,space2underscore($show_title))?$show_title:''):$array_imgdoc_k).'</a> ';
+												${"show_".$key} .= '<a href="'.$mainurl.$download_value.'" target="_blank"><img src="'.$mainurl.'images/'.$ext.'logo.gif" width="16" height="16" vspace="5" hspace="5" title="'.(isset($show_title)?$show_title:$array_imgdoc_k).'" alt="'.(isset($show_title)?$show_title:$array_imgdoc_k).'" border="0" />'.(isset($show_title)?(stristr($array_imgdoc_k,space2underscore($show_title))?$show_title:''):$array_imgdoc_k).'</a> ';
 											} else
 											${"show_".$key} .= '';
 										}
@@ -806,7 +805,7 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 																				$ext = explode(".",strrev($array_imgdoc_k),2);
 																				$ext = strrev($ext[0]);
 																				$download_value = (stristr($array_imgdoc_k,$safedir)?$urlsafe.'?file='.base64_encode($array_imgdoc_k):$array_imgdoc_k);
-																				${"link_".$that_key} .= '<a href="'.$mainurl.$download_value.'" target="_self"><img src="'.$mainurl.'images/'.$ext.'logo.gif" width="16" height="16" vspace="5" hspace="5" title="'.(isset($link_title)?$link_title:$array_imgdoc_k).'" alt="'.(isset($link_title)?$link_title:$array_imgdoc_k).'" border="0" />'.(isset($link_title)?(stristr($array_imgdoc_k,space2underscore($link_title))?$link_title:''):$array_imgdoc_k).'</a> ';
+																				${"link_".$that_key} .= '<a href="'.$mainurl.$download_value.'" target="_blank"><img src="'.$mainurl.'images/'.$ext.'logo.gif" width="16" height="16" vspace="5" hspace="5" title="'.(isset($link_title)?$link_title:$array_imgdoc_k).'" alt="'.(isset($link_title)?$link_title:$array_imgdoc_k).'" border="0" />'.(isset($link_title)?(stristr($array_imgdoc_k,space2underscore($link_title))?$link_title:''):$array_imgdoc_k).'</a> ';
 																			} else
 																			${"link_".$that_key} .= '';
 																		}
