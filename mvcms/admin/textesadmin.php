@@ -36,8 +36,8 @@ if (!isset($send)) {
 		$sql_q = (isset($import)&&$import===true?$sql_query_default_lg:$sql_query)."AND ".fieldis('id')."='$row_id' ";
 		$edit[$i] = sql_get($dbtable,$sql_q,$return);
 		if	(($i == '1') || ($edit[$iminus][0] != $edit[$i][0])) 
-    $content .= (($i=='1')?'':'</div>').'<br /><hr /><b style="float:left;">'.$row["".fieldis('type').""].'</b><br /><div style="text-align:right">';
-    $content .= '<label for="'.$row["".fieldis('id').""].'">> '.$row["".fieldis('title').""].' </label> <input name="'.$row["".fieldis('id').""].'" type="text" style="width: 70%" value="'.$row["".fieldis('entry').""].'" /><br />';
+    $content .= (($i=='1')?'':'</div>').'<hr /><b style="float:left;">'.$row["".fieldis('type').""].'</b><br /><div style="text-align:right">';
+    $content .= '<br /><label for="'.$row["".fieldis('id').""].'">> '.$row["".fieldis('title').""].' </label> <input name="'.$row["".fieldis('id').""].'" type="text" style="width: 70%" value="'.$row["".fieldis('entry').""].'" />';
 	}
   $content .= (($nRows>'0')?'</div>':'').'<br /> <br /><input name="send" type="submit" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /></form></div>';
 // update the strings

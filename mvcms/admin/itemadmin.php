@@ -666,9 +666,9 @@ if (isset($send)) {
 					for($ii=0;$ii<$this_nof;$ii++) {
 						${$this_is.$key} = array();
 						if ($key == 'img') {
-							$contphoto_img_by_id = sql_getone($tblcontphoto,
-								"WHERE contphotolang='$lg' AND contphotorid='".$editthis[$i]
-								."' ","contphotoimg");
+							$contphoto_img_by_id = (!empty($this_id)?sql_getone($tblcontphoto,
+								"WHERE contphotolang='$lg' AND contphotorid='".$this_id
+								."' ","contphotoimg"):null);
 							if (isset($this_id) && isset($editthis[$i][$ii]))
 							$contphoto_desc_by_this_id = sql_getone($tblcontphoto,
 											"WHERE contphotolang='$lg'
@@ -723,7 +723,7 @@ if (isset($send)) {
 						$form_content[$this_is.$key] .= ${$this_is.$key}[$ii];
 					}
 					if ($key == 'img') {
-						$form_content[$this_is.$key] = '</div>';
+						$form_content[$this_is.$key] .= '</div>';
 					}
 					$content .= $form_content[$this_is.$key];
 					//  if ($key == 'img')
@@ -1066,6 +1066,14 @@ if (isset($send)) {
 			Header("Location: $redirect");Die();
 		}
 	} else {
+		if ($error !== '')
+		{ // $_error comes from injection in mod_<object>
+			$_SESSION['mv_error'] = (!empty($_error) ? $_error : $error);
+		}
+		if ($notice !== '')
+		{ // $_notice comes from injection in mod_<object>
+			$_SESSION['mv_notice'] = (!empty($_notice) ? $_notice : $notice);
+		}
 		Header("Location: $redirect");Die();
 	}
 #######################################################show

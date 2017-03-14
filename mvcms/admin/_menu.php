@@ -125,7 +125,7 @@ if ($logged_in === true) {
 			if (in_array($ico,$array_super_admin_menu)) { // needs 2dim array
 				if (($admin_priv[0] == '0') && (sql_getone($tbladmin,
 						"WHERE adminpriv LIKE '%0%' LIMIT 1 ","adminutil") == $admin_name))
-				$loginform .= '<a style="padding:2px;" href="?lg='.$lg.'&amp;x=z&amp;y='
+				$loginform .= '<a style="padding:2px;" href="'.$local.'?lg='.$lg.'&amp;x=z&amp;y='
 							.$key.'"><img src="'.$mainurl.'images/'.$ico
 							.'" width="24" height="24" alt="'.$modificationString
 							.' template" title="'.$modificationString.' '.${$key."String"}
@@ -154,7 +154,7 @@ if ($logged_in === true) {
 			      		  $admin_menu .= '<div style="float:left;min-height:50px;width:32%;
 			      		  padding:1px;margin:2px;border:1px solid gray;"><div style="
 			      		  float:left;min-width:50px;max-width:75px;"><a style="padding:2px;"
-			      		  href="?lg='.$lg.'&amp;x=z&amp;y='.$key.'"><img src="'.$mainurl
+			      		  href="'.$local.'?lg='.$lg.'&amp;x=z&amp;y='.$key.'"><img src="'.$mainurl
 			      		  .'images/'.$ico.'" '.show_img_attr($mainurl.'images/'.$ico)
 			      		  .' alt="'.$gestionString.' '.$surString.' '.${$key."String"}
 			      		  .'" title="'.$gestionString.' '.$surString.' '.${$key."String"}
@@ -169,7 +169,7 @@ if ($logged_in === true) {
 							$admin_menu .= '<div style="float:left;min-height:150px;width:23%;
 								padding:1px;margin:2px;border:1px solid gray;text-align:left;
 								"><div style="float:left;min-width:45px;max-width:75px;
-								text-align:left;"><a style="padding:2px;" href="?lg='.$lg
+								text-align:left;"><a style="padding:2px;" href="'.$local.'?lg='.$lg
 								.'&amp;x=z&amp;y='.$key.'"><img src="'.$mainurl.'images/'.$ico
 								.'" '.show_img_attr($mainurl.'images/'.$ico).' title="'
 								.$gestionString.' '.$surString.' '.${$key."String"}.'" alt="'
@@ -180,7 +180,7 @@ if ($logged_in === true) {
 					//<hr /><br /><div style="float:left;text-align:left;padding:2px;"></div>
 						} else
 						$admin_menu .= '<div style="float:left;max-width:100px;"><a
-							style="padding:2px;" href="?lg='.$lg.'&amp;x=z&amp;y='.$key
+							style="padding:2px;" href="'.$local.'?lg='.$lg.'&amp;x=z&amp;y='.$key
 							.'"><img src="'.$mainurl.'images/'.$ico.'" '
 							.show_img_attr($mainurl.'images/'.$ico).' title="'
 							.$gestionString.' '.$surString.' '.${$key."String"}
@@ -251,11 +251,11 @@ if ($logged_in === true) {
 		if (!isset($send) || ($send != 'edit'))
 		include $getcwd.$up.$urladmin.'_modulesparser.php';
 	}
-	$scrollertitle = '<a href="?lg='.$lg.'&amp;x=10777&amp;send=edit">'.$scrollertitle
+	$scrollertitle = '<a href="'.$local.'?lg='.$lg.'&amp;x=10777&amp;send=edit">'.$scrollertitle
 					.'<br />('.$modifierString.')</a>';
-	$leftlinksentry .= '<p><a href="?lg='.$lg.'&x=10888&amp;send=edit">'.$leftlinkstitle
+	$leftlinksentry .= '<p><a href="'.$local.'?lg='.$lg.'&x=10888&amp;send=edit">'.$leftlinkstitle
 					.'<br />('.$modifierString.')</a></p>';
-	$toplinksentry .= '<ul><li><a href="?lg='.$lg.'&amp;x=10999&amp;send=edit">'
+	$toplinksentry .= '<ul><li><a href="'.$local.'?lg='.$lg.'&amp;x=10999&amp;send=edit">'
 					.$toplinkstitle.' ('.$modifierString.')</a></li></ul>';
 }
 

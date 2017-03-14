@@ -68,7 +68,7 @@ if ($logged_in === true) {
 	$y_menu = "";
 	$menu1 = "";
 	if (!in_array('1',$admin_priv))
-		$menu1 .= '<div style="float:right;text-align:right;padding-left:3px;"><a href="?x=z&amp;y=1">Extra '.$adminString.' '.$optionsString.'</a></div>';
+		$menu1 .= '<div style="float:right;text-align:right;padding-left:3px;"><a href="'.$local.'?x=z&amp;y=1">Extra '.$adminString.' '.$optionsString.'</a></div>';
 	if (($contGet["conttitle"] == '.') || isset($contTitle)) {
 		if (isset($contTitle))
 			$this_title = $contTitle;
@@ -78,9 +78,9 @@ if ($logged_in === true) {
 		}
 		if (isset($send) && (($send == 'editemintro') || strstr($send, " Intro")))// old
 			$this_title = sql_getone($tblcont," WHERE contpg='$x' AND contlang='$lg' ","conttitle");// old
-		$menu1 .= '<a href="?lg='.$lg.'&amp;x='.$x.'&amp;send=edit">'.$modificationString.' '.$detexteString.' '.$surString.' <i>'.$this_title.'</i></a>';
+		$menu1 .= '<a href="'.$local.'?lg='.$lg.'&amp;x='.$x.'&amp;send=edit">'.$modificationString.' '.$detexteString.' '.$surString.' <i>'.$this_title.'</i></a>';
 	} else {
-		$menu1 .= '<a href="?lg='.$lg.'&amp;x='.$x.'&amp;send=edit">'.$modificationString.' '.$detexteString.' '.$surString.' <i>'.$contGet["conttitle"].'</i></a>';
+		$menu1 .= '<a href="'.$local.'?lg='.$lg.'&amp;x='.$x.'&amp;send=edit">'.$modificationString.' '.$detexteString.' '.$surString.' <i>'.$contGet["conttitle"].'</i></a>';
 	}
 	if (!in_array('1',$admin_priv)) {
 	  	if (isset($send) && (stristr($send, "delete") || !stristr($send, "edit"))) {
@@ -91,16 +91,16 @@ if ($logged_in === true) {
 	  		) {
 	  			if (is_float(($x+1)/10) || (($x1subok === false) && ($x == '9')))
 	  				if (sql_nrows($dbtable,"WHERE contpg='".($x+1)."' AND contlang='$lg' ") == 0)
-	          			$menu1 .= ' > <a href="?lg='.$lg.'&amp;x='.($x+1).'">'.$ajouterString.' 1 '.$pageString.'</a>' ;
+	          			$menu1 .= ' > <a href="'.$local.'?lg='.$lg.'&amp;x='.($x+1).'">'.$ajouterString.' 1 '.$pageString.'</a>' ;
 	  		  	if ((sql_nrows($dbtable,"WHERE contpg='".(($x*10)+1)."' AND contlang='$lg' ") == 0) && ((($x1subok === false) && ($x > '1')) || ($x1subok === true)) && (strlen($x) <= 3))
-	        		$menu1 .= ' >> <a href="?lg='.$lg.'&amp;x='.(($x*10)+1).'">'.$ajouterString.' 1 '.$menuString.'</a>' ;
+	        		$menu1 .= ' >> <a href="'.$local.'?lg='.$lg.'&amp;x='.(($x*10)+1).'">'.$ajouterString.' 1 '.$menuString.'</a>' ;
 	  			if ((array_intersect($x_array,$array_linkedmenus) == $x_array) || ((sql_nrows($dbtable,"WHERE contlang='$lg' AND contpg='".($x+1)."' ") == '0') && (sql_nrows($dbtable,"WHERE contlang='$lg' AND contpg='".(($x*10)+1)."' ") == '0'))) {
 	          		if ($x > '1')
-	          			$menu1 .= ' | <font color="Red"> !! <a href="?lg='.$lg.'&amp;x='.$x.'&amp;send=deletepg" onclick="return confirm(\''.$confirmationeffacementString.'\');">'.$effacerString.' '.$cettepageString.'</a> !!<!--  (plus multilingual versions) --></font>' ;
+	          			$menu1 .= ' | <font color="Red"> !! <a href="'.$local.'?lg='.$lg.'&amp;x='.$x.'&amp;send=deletepg" onclick="return confirm(\''.$confirmationeffacementString.'\');">'.$effacerString.' '.$cettepageString.'</a> !!<!--  (plus multilingual versions) --></font>' ;
 	  			}
 	  		}
 	  		if (isset($send) && ($send == 'editemintro') && (sql_nrows($dbtable,"WHERE contpg='$x' ") > 0))
-	  			$menu1 .= ' | <font color="Red"> !! <a href="?lg='.$lg.'&amp;x='.$x.'&amp;send=deleteintro" onclick="return confirm(\''.$confirmationeffacementString.'\');">'.$effacerString.' '.$cettepageString.' Blog</a> !!<!--  (plus multilingual versions) --></font>' ;
+	  			$menu1 .= ' | <font color="Red"> !! <a href="'.$local.'?lg='.$lg.'&amp;x='.$x.'&amp;send=deleteintro" onclick="return confirm(\''.$confirmationeffacementString.'\');">'.$effacerString.' '.$cettepageString.' Blog</a> !!<!--  (plus multilingual versions) --></font>' ;
 	  	}
 	}
 	$this_contmenu = explode("|", $contGet["contmenu"]); // contmenu:4
@@ -110,10 +110,10 @@ if ($logged_in === true) {
 		if ($y == '1')
 			$y_menu .= '<b>'.$menu1.'</b>';
 		else
-			$y_menu .= '<a href="?lg='.$lg.'&amp;x='.$x.'&amp;y=1">'.$menu1.'</a>';
+			$y_menu .= '<a href="'.$local.'?lg='.$lg.'&amp;x='.$x.'&amp;y=1">'.$menu1.'</a>';
 	}
   	$content = '<!-- <p> -->'.$y_menu.'<!-- </p> -->';
-	$editInfo = '<div style="float:right;text-align:right;clear:both;">'.$derniereString.' '.$modificationString.' '.$parString.' <b>'.$contGet["contupdateby"].'</b> ('.$dateString.' <b>'.$contGet["contupdateby"].'</b>) <font color="Red">|</font> <a href="?lg='.$lg.'&amp;x='.$x.'&amp;send=edit">'.$modifierString.' '.$cettepageString.'</a></div>';
+	$editInfo = '<div style="float:right;text-align:right;clear:both;">'.$derniereString.' '.$modificationString.' '.$parString.' <b>'.$contGet["contupdateby"].'</b> ('.$dateString.' <b>'.$contGet["contupdateby"].'</b>) <font color="Red">|</font> <a href="'.$local.'?lg='.$lg.'&amp;x='.$x.'&amp;send=edit">'.$modifierString.' '.$cettepageString.'</a></div>';
 
 	if (!isset($send)) {
 
@@ -597,12 +597,9 @@ $error .= '</ul><a href="javascript:history.back()//">'.$retourString.'</a>';
 				} // end save or not
 			} // end loop
 
-			// might be good to redirect here ..
-			error_log("redirecting or what?");
-
 			$contSaved = sql_get($dbtable," WHERE contpg='$x' AND contlang='$lg' ","conttitle,contentry,contmenu,contupdate,contupdateby");
 			$title = $contSaved["conttitle"];
-			$editInfo = '<!-- <div class="clear"></div> --><div style="float:right;text-align:right;clear:both;">'.$derniereString.' '.$modificationString.' '.$parString.' <b>'.$contSaved["contentry"].'</b> ('.$dateString.' <b>'.$contSaved["conttitle"].'</b>) <font color="Red">|</font> <a href="?lg='.$lg.'&amp;x='.$x.'&amp;send=edit';
+			$editInfo = '<!-- <div class="clear"></div> --><div style="float:right;text-align:right;clear:both;">'.$derniereString.' '.$modificationString.' '.$parString.' <b>'.$contSaved["contentry"].'</b> ('.$dateString.' <b>'.$contSaved["conttitle"].'</b>) <font color="Red">|</font> <a href="'.$local.'?lg='.$lg.'&amp;x='.$x.'&amp;send=edit';
 			if (strstr($send, " Intro"))
 				$editInfo .= 'emintro';
 			$editInfo .= '">'.$modifierString.' '.$cettepageString.'</a></div>';

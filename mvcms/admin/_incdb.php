@@ -586,7 +586,7 @@ if (!is_int($max_filesize))
 if (!isset($listPerpg))
 	$listPerpg = "5";
 
-$pages = '<p style="text-align:right;">&gt;&gt; ';
+$pages = '<p class="pagination">&gt;&gt; ';
 
 if (!isset($pg) || !preg_match("/^[0-9]+\$/", $pg) || ($pg == ''))
 	$pg = "1";

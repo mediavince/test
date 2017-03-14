@@ -50,7 +50,7 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
   		  $default_metas = sql_get($tblcont,"WHERE contpg='1' AND contlang='$keylg' ","contmetadesc,contmetakeyw");
   		  $lg_desc = $default_metas[0];
   		  $lg_keyw = $default_metas[1];
-        $editrapport .= "<div style=\"float:left;border:0 1px solid gray;width:32%;\">".(@file_exists($up.'images/'.$keylg.'.gif')?'<img src="'.$mainurl.'images/'.$keylg.'.gif" title="'.sql_stringit('lang',$keylg).'" alt="'.sql_stringit('lang',$keylg).'" style="float:left;height:24px;width:24px;" /> ':'')."<h3> Cleaning metas for ".sql_stringit("lang",$keylg)." matching :</h3>".(sql_updateone($tblcont,"SET contmetadesc='' ","WHERE contpg!='1' AND contlang='$keylg' AND contmetadesc='$lg_desc' ","conttitle")=='.'?'<img src="'.$mainurl.'images/success.png" width="14" height="14" title="done" alt="done" border="0" >':$errorString)." metadesc: $lg_desc<br />".(sql_updateone($tblcont,"SET contmetakeyw='' ","WHERE contpg!='1' AND contlang='$keylg' AND contmetakeyw='$lg_keyw' ","conttitle")=='.'?'<img src="'.$mainurl.'images/success.png" width="14" height="14" title="done" alt="done" border="0" >':$errorString)." metakeyw: $lg_keyw<br />";
+        $editrapport .= "<div style=\"float:left;border:0 1px solid gray;width:32%;\">".(@file_exists($up.'images/'.$keylg.'.gif')?'<img src="'.$mainurl.'images/'.$keylg.'.gif" title="'.sql_stringit('lang',$keylg).'" alt="'.sql_stringit('lang',$keylg).'" style="float:left;height:24px;width:24px;" /> ':'')."<h3> Cleaning metas for ".sql_stringit("lang",$keylg)." matching :</h3>".(sql_updateone($tblcont,"SET contmetadesc='' ","WHERE contpg!='1' AND contlang='$keylg' AND contmetadesc='$lg_desc' ","conttitle")=='.'?'<img src="'.$mainurl.'images/success.png" width="14" height="14" title="done" alt="done" border="0" >':$errorString)." metadesc: $lg_desc<br />".(sql_updateone($tblcont,"SET contmetakeyw='' ","WHERE contpg!='1' AND contlang='$keylg' AND contmetakeyw='$lg_keyw' ","conttitle")=='.'?'<img src="'.$mainurl.'images/success.png" width="14" height="14" title="done" alt="done" border="0" >':$erreurString)." metakeyw: $lg_keyw<br />";
         $editrapport .= "</div>";
       }
       $editrapport .= '<div class="clear"></div>';
@@ -286,7 +286,7 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
 					$zipfile -> addFile(implode("",file($value)),basename($value));
 			$inF = fopen($Fnm,"w+");
 			fwrite($inF,$zipfile -> file());
-			fclose($inF);<!-- <a href="'.$Fnm.'" target="_self">'.$cliquericiString.'</a> zip containing  -->
+			fclose($inF);<!-- <a href="'.$local.$Fnm.'" target="_self">'.$cliquericiString.'</a> zip containing  -->
 ************************************************************************/
   $content .= $editrapport.'<hr />';
 /**************************************** check php.ini
@@ -298,8 +298,8 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
 #######################################################
     }
 	  $content .= '<div style="float:right;">';
-	  $content .= ' - <a href="'.substr($filedir,0,-1).'.php" target="_blank">files in '.$filedir.' directory</a><br />';
-	  $content .= ' - <a href="'.substr($safedir,0,-1).'.php" target="_blank">files in '.$safedir.' directory</a><br />';
-	  $content .= ' - <a href="'.substr(str_replace("/","-",$tpldir),0,-1).'.php" target="_blank">files in '.$tpldir.' directory</a></div>';
+	  $content .= ' - <a href="'.$local.substr($filedir,0,-1).'.php" target="_blank">files in '.$filedir.' directory</a><br />';
+	  $content .= ' - <a href="'.$local.substr($safedir,0,-1).'.php" target="_blank">files in '.$safedir.' directory</a><br />';
+	  $content .= ' - <a href="'.$local.substr(str_replace("/","-",$tpldir),0,-1).'.php" target="_blank">files in '.$tpldir.' directory</a></div>';
   }
 $content .= '</div></div>';

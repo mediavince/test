@@ -80,15 +80,14 @@ Event.observe(window,'load',function(){Lightbox.initialize({"
 	$html_view .= '
 <title>'.(in_array($page_title,array('.',''))?$title:strip_tags($page_title))
 	.(isset($array_lang[1])?'_'.$lg:'').' :: '.$slogan.'</title>
-<base href="'.$mainurl.(stristr($_SERVER['PHP_SELF'],$urladmin)&&($logged_in===true)?$urladmin:'')
-	.'" />'.((stristr($_SERVER['PHP_SELF'],$urladmin) || ($edit_text === true))
+<base href="'.$mainurl.'" />'.((stristr($_SERVER['PHP_SELF'],$urladmin) || ($edit_text === true))
 			&& ($tinyMCE === true) && ($logged_in === true)
 			&& (!isset($send) || (isset($send) 
 				&& (($send == 'new') || ($send == 'edit') || ($send == 'editemintro')))
 	)?'
 <link href="'.$mainurl.$urladmin.'css/screen.css" rel="stylesheet" type="text/css" />
 <link href="'.$mainurl.$urladmin.'css/syntax.css" rel="stylesheet" type="text/css" />':'');
-	if ($x=='z') $title = '<a href="?lg='.$lg.'&amp;x=z&amp;y=1">'.$title.'</a>';
+	if ($x=='z') $title = '<a href="'.$mainurl.$urladmin.'?lg='.$lg.'&amp;x=z&amp;y=1">'.$title.'</a>';
 	if (stristr($_SERVER['PHP_SELF'],$urladmin)
 	&& !stristr($_SERVER['HTTP_HOST'],"localhost")
 	&& ($logged_in === true)) {
@@ -266,7 +265,7 @@ mmLoadMenus(\''.$local.'\');
 			.',insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality'
 			.',fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,pagebreak'
 		:
-			'paste,style,layer,table,link,inlinepopups,safari",
+			'paste,style,layer,table,advlink,inlinepopups,safari",
 			editor_deselector : "mceNoEditor'
 		).'",';
 	$themes_plugin = '

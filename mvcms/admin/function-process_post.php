@@ -287,6 +287,8 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 				$this_nof = (count($_FILES)>$this_nof?count($_FILES):$this_nof);
 				if ($error_report == '')
 				for ($ii=0;$ii<$this_nof;$ii++) {
+					if (!isset($_FILES[$this_is.ucfirst($key)]["name"][$ii]))
+						break;
 					$userfile_name = $_FILES[$this_is.ucfirst($key)]["name"][$ii];
 					$userfile_tmp = $_FILES[$this_is.ucfirst($key)]["tmp_name"][$ii];
 					foreach($array_lang as $keylg)
@@ -363,7 +365,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 	        			|| ($userfile_size > $max_filesize)
 	        			|| ($check > 0)
 	        				) {
-		$error_img .= '<p style="text-align: center"><b>'.$erreurString.'!</b><br />'.$listecorrectionString.'</p><ul>';
+		$error_img .= '<p style="text-align:center"><b>'.$erreurString.'!</b><br />'.$listecorrectionString.'</p><ul>';
 							if (!${$this_is."Desc"}
 							|| !preg_match("/^[a-zA-Z0-9_-]+\$/",strtoupper(space2underscore($this_is))."_".space2underscore(${$this_is."Desc"}))
 							|| (${$this_is."Desc"} == ''))
@@ -378,7 +380,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 						} else {
 							if (in_array($ext,$array_img_ext)) { // img
 								$filename = $filedir.strtoupper(space2underscore($this_is))."_".space2underscore(${$this_is."Desc"});
-								$location = upload_image($userfile_tmp,$getcwd.$up.$filename,$ext);
+								$location = upload_image($userfile_tmp,$filename,$ext);
 							} else { // doc
 								$userfile_name = strtoupper(space2underscore($this_is))."_".space2underscore(${$this_is."Desc"}).'.'.$ext;
 								$location = (in_array($this_is,$array_safedir)?$safedir:$filedir)."$userfile_name";
@@ -386,13 +388,13 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 								move_uploaded_file($userfile_tmp,$movelocation);
 							}
 							if ($location == "error-too_small") {
-		$error_img .= '<p style="text-align: center">'.$erreurString.'<br />'.$max_filesizeString.'</p>';
+		$error_img .= '<p style="text-align:center">'.$erreurString.'<br />'.$max_filesizeString.'</p>';
 							} else if ($location == "error-sqrt") {
-		$error_img .= '<p style="text-align: center">'.$erreurString.'<br />'.$max_filesizeString.' (max sqrt <= '.$max_sqrt.')</p>';
+		$error_img .= '<p style="text-align:center">'.$erreurString.'<br />'.$max_filesizeString.' (max sqrt <= '.$max_sqrt.')</p>';
 							} else {
 								$new_upload = $location;
 								if ($array_fields_type[$this_is.$key] == 'text') { // update done after
-									$insertquery = false;
+									$insertquery = true;
 									if (isset(${$key."_passing_desc_for_insert_if_dbtable"})
 									&& is_array(${$key."_passing_desc_for_insert_if_dbtable"}))
 										${$key."_passing_desc_for_insert_if_dbtable"}[] = $new_upload;
@@ -414,7 +416,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 									}
 								}
 								if (!$insertquery) {
-		$error_img .= '<p style="text-align: center">'.$error_request.': '.($key=="img"?$photoString:$documentString);
+		$error_img .= '<p style="text-align:center">'.$error_request.': '.($key=="img"?$photoString:$documentString);
 								} else {
 									if ($key == "img") {
 										$insertread = sql_get($tblcontphoto,
@@ -469,7 +471,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 										}
 									}
 									${$this_is.ucfirst($key)} = $new_upload;
-									$notice_img .= '<div><p style="text-align: center"><b>'.($key=="img"?$photoString:$documentString).' '
+									$notice_img .= '<div><p style="text-align:center"><b>'.($key=="img"?$photoString:$documentString).' '
 												.$enregistreString.'</b></p>';
 									if ($key == "img") {
 										$notice_img .= '<div class="saved_img"><img '.show_img_attr($getcwd.$up.$new_upload)
