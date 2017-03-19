@@ -467,7 +467,7 @@ if (!stristr($_SERVER['PHP_SELF'],$urladmin))
 
 if (!isset($lg)) {
 	if (($htaccess4sef === true) && (!stristr($_SERVER['REQUEST_URI'],".php"))) {
-		if (stristr($_SERVER['PHP_SELF'],$urlsafe))
+		if (stristr($_SERVER['REQUEST_URI'],$urlsafe))
 		{header("Location: ".$mainurl.$urladmin.'_download.php?'.$_SERVER['QUERY_STRING']);die();}
 		if (!is_array($uri))
 			$uri = array("$uri");
