@@ -808,12 +808,20 @@ if (isset($send)) {
 						$content .= $form_content[$this_is.$key];
 					} else if (in_array("$this_is$key",$enumtype_array)) {
 						$form_content[$this_is.$key] ='<label for="'.$this_is.ucfirst($key)
-							.'">'.ucfirst(${$key."String"}).'</label> <select name="'.$this_is
-							.ucfirst($key).'">'.gen_selectoption($tblenum,$editthis[$i],'',
-							$this_is.$key).'</select>'.(!stristr($_SERVER['PHP_SELF'],
-							$urladmin)&&($user_can_add_types===false)?'':' <input name="new_'
-							.$this_is.ucfirst($key).'" value="" /> ('.$ajouterString.')')
-							.'<br />';
+							.'">'.ucfirst(${$key."String"}).'</label> ';
+						if (isset(${"filter_".$key}))
+						{
+							$form_content[$this_is.$key] .= '<span class="'.$this_is.ucfirst($key)
+							.'">'.sql_stringit($this_is.$key, ${"filter_".$key}).'</span><input type="hidden" name="'.$this_is.ucfirst($key)
+							.'" value="'.${"filter_".$key}.'" />';
+						} else {
+							$form_content[$this_is.$key] .= '<select name="'.$this_is
+								.ucfirst($key).'">'.gen_selectoption($tblenum,$editthis[$i],'',
+								$this_is.$key).'</select>'.(!stristr($_SERVER['PHP_SELF'],
+								$urladmin)&&($user_can_add_types===false)?'':' <input name="new_'
+								.$this_is.ucfirst($key).'" value="" /> ('.$ajouterString.')')
+								.'<br />';							
+						}
 						$content .= $form_content[$this_is.$key];
 					} else if (in_array("$this_is$key",$int3_array)) {
 						if (isset($this_id)) {

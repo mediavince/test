@@ -132,7 +132,7 @@ if (!isset($send)) {
     }
   }
 	if (!isset($_POST['import']) && ($update_rapport == '')) {
-    $content .= '<br /><p style="text-align: center"><font color="Green"><b>'.$enregistrementString.' '.$nonString.' '.$modifieString.'</b></font><br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
+    $content .= '<br /><p style="text-align: center"><font color="Green"><b>'.$enregistrementString.' '.$nonString.' '.$modifieString.'</b></font><br /> <br /><a href="'.$local.'?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
 	} else {
     $first_line = '<'.'?PHP if (stristr($_SERVER[\'PHP_SELF\'],\'_full_strings_'.$lg.'.php\')){include\'_security.php\';Header("Location: $redirect");Die();}';
     $last_line = '?'.'>';
@@ -143,7 +143,7 @@ if (!isset($send)) {
                 $last_line;
 		fwrite($inF,$full_strings);
 		fclose($inF);
-    $content .= (isset($_POST['import'])?'':'<br />'.$update_rapport.'<br />').'<p style="text-align: center"><font color="Green"><b>'.$enregistrementString.' '.$effectueString.'</b></font><br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
+    $content .= (isset($_POST['import'])?'':'<br />'.$update_rapport.'<br />').'<p style="text-align: center"><font color="Green"><b>'.$enregistrementString.' '.$effectueString.'</b></font><br /> <br /><a href="'.$local.'?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
 	}
 } else {
 	Header("Location: $redirect");Die();
