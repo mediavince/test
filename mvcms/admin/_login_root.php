@@ -87,12 +87,12 @@ if (!isset($login)) {
 //		$user_idurl = $read_cookie[3];
 		$user_priv = explode("|", $user_priv);
 		if (!is_array($user_priv))	{
-            $user_priv = array($user_priv);
             $sql_priv = " AND userpriv='$user_priv' ";
+            $user_priv = array($user_priv);
 		} else {
-		    $sql_priv = "AND (";
+		    $sql_priv = " AND (";
 		    foreach($user_priv as $key)
-		    $sql_priv .= " userpriv LIKE '%$key%' OR";
+		    	$sql_priv .= " userpriv LIKE '%$key%' OR";
 		    $sql_priv = substr($sql_priv,0,-2).") ";
         }
         $read = sql_get(
