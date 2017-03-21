@@ -5,6 +5,8 @@ $admin_viewing = false;
 if (stristr($_SERVER['PHP_SELF'],$urladmin) && ($logged_in === true) && isset($admin_name))
 $admin_viewing = true;
 
+$this_priv_array = (strpos($this_priv, '|')?explode('|', $this_priv):array($this_priv));
+
 foreach(array("content","leftlinksentry","toplinksentry","scrollerentry") as $this_content)
 foreach($mod_array as $key_mod_array => $value_mod_array) {
 	if (strstr(${$this_content},"[".$value_mod_array)) {
@@ -32,8 +34,15 @@ foreach($mod_array as $key_mod_array => $value_mod_array) {
 				$mod_dir = (@file_exists($getcwd.$up.$safedir.'mods/_mod_'.$value_mod_array.'.php')?$safedir:$defaultsdir).'mods/';
 				$mod_url = $getcwd.$up.(in_array($this_is,$array_fixed_modules)?$mod_dir.'_mod_'.$value_mod_array:$urladmin.'_mod_'.'generic').'.php';
 				if (@file_exists($mod_url)) {
-					if (($this_content == 'content') && (($protected_show === true) && ($logged_in === false) && (!in_array($this_priv,array("","1")) || (($this_priv != '') && (!in_array("1",explode("|",$this_priv)))))))
-					${$this_content} = str_replace("[".$value_mod_array."]",${$this_is."String"}.' > '.$error_accesspriv,${$this_content});
+					if ( (!in_array($this_is,$array_modules_as_form) && ($this_content == 'content') 
+						&& ( 
+							(($protected_show === true) && ($logged_in === false) && (!in_array($this_priv,array("","1")) || (($this_priv != '') && !in_array("1",$this_priv_array))))
+						))  OR  (
+							(($logged_in === true) && ($admin_viewing === false) && (($this_priv != '') && count(array_intersect($user_priv,$this_priv_array)) == 0))
+						)
+					) {
+						${$this_content} = str_replace("[".$match."]",${$this_is."String"}.' > '.$error_accesspriv,${$this_content});
+					}
 					else {
 						require($mod_url);
 						${$this_content} = str_replace("[".$value_mod_array."]",$admin_viewing_menu.${"_mod_".$value_mod_array},${$this_content});
@@ -96,8 +105,15 @@ foreach($mod_array as $key_mod_array => $value_mod_array) {
 					}
 				}
 				if (@file_exists($mod_url)) {
-					if (!in_array($this_is,$array_modules_as_form) && ($this_content == 'content') && (($protected_show === true) && ($logged_in === false) && (!in_array($this_priv,array("","1")) || (($this_priv != '') && (!in_array("1",explode("|",$this_priv)))))))
-					${$this_content} = str_replace("[".$match."]",${$this_is."String"}.' > '.$error_accesspriv,${$this_content});
+					if ((!in_array($this_is,$array_modules_as_form) && ($this_content == 'content') 
+						&& ( 
+							(($protected_show === true) && ($logged_in === false) && (!in_array($this_priv,array("","1")) || (($this_priv != '') && (!in_array("1",$this_priv_array)))))
+						))  OR  (
+							(($logged_in === true) && ($admin_viewing === false) && (($this_priv != '') && count(array_intersect($user_priv,$this_priv_array)) == 0))
+						)
+					) {
+						${$this_content} = str_replace("[".$match."]",${$this_is."String"}.' > '.$error_accesspriv,${$this_content});
+					}
 					else {
 						if (isset($array_passed_tables[1])) {
 							${$this_content} = str_replace("[".$match."]",$admin_viewing_menu.(isset($_mod_array_passed_tables)?$_mod_array_passed_tables:''),${$this_content});
