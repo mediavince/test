@@ -3,12 +3,12 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
 
 $dbtable = $tbladmin;
 
-$form_login = '<label for="adminName"> '.$nomutilString.' </label> <input class="inputtext" name="adminName" type="text" autocomplete="off" /><br /><label for="passWord"> '.$motdepasseString.' </label> <input class="inputtext" name="passWord" type="password" autocomplete="off" /><br /><input name="login" type="submit" value="'.$entrerString.'" /></form>';
+$form_login = '<label for="adminName"> '.$nomutilString.' </label> <input class="inputtext" name="adminName" type="text" autocomplete="off" /><br /><label for="passWord"> '.$motdepasseString.' </label> <input class="inputtext" name="passWord" type="password" autocomplete="off" /><br /><input name="login" type="submit" value="'.$entrerString.'" /></form><br />';
 
-$form_error = '<font color="Red"><b> * '.$accesString.' '.$refuseString.' * </b></font><br />';
+$form_error = '<span class="error"> * '.$accesString.' '.$refuseString.' * </span>';
 $get_profil = sql_get($tblcont,"WHERE contlang='$lg' AND conttype='profil' ","conturl,conttitle");
 $url_profil = $mainurl.$urladmin."?lg=$lg&amp;x=z&amp;y=2";//&amp;adminId=".sql_getone($tbladmin,"WHERE adminutil='$admin_name' ","admin".(in_array("adminrid",$admin_array_fields)?"r":'')."id")."&amp;adminUtil=$admin_name";
-$form_logout = '<input name="login" type="submit" value="'.$sortirString.'" /></form>';// <a href="'.$url_profil.'">'.$get_profil[1].'</a>
+$form_logout = '<input name="login" type="submit" value="'.$sortirString.'" /></form><br />';// <a href="'.$url_profil.'">'.$get_profil[1].'</a>
 
 $admin_array_fields = sql_fields($tbladmin,'array');
 

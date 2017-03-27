@@ -226,6 +226,7 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 		$show_id = ${$this_is."Id"};
 		if (($lg != $default_lg) && $this_id_rid===true)
 		$show_id = sql_getone(${"tbl".$this_is},"WHERE ".$this_is."id='$show_id' ",$this_is."rid");
+		$current = sql_get(${"tbl".$this_is},"WHERE ".$this_is.($this_id_rid===true?'r':'')."id='$show_id' ", "*");
 		$get_metas = sql_get(
 			$tblhtaccess,
 			"WHERE htaccesstype='$this_is' AND htaccessitem='$show_id' AND htaccesslang='$lg' ORDER BY htaccessdate DESC ",
@@ -239,17 +240,26 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 		foreach($show_array_by_id as $key) {
 			if (strstr($key,":")) {
 				$key = explode(":",$key);
-				if (isset(${"connected_byid_".$key[0]."_".$this_is}))
-				${"show_".$key[0]."_".$key[1]} = sql_getone(${"tbl".$key[0]},
+				if (isset(${"connected_byid_".$this_is."_".$key[0]}))
+				{
+					${"show_".$key[0]."_".$key[1]} = sql_getone(${"tbl".$key[0]},
+					" WHERE ".$key[0].(in_array($key[0]."rid",sql_fields(${"tbl".$key[0]},'array'))?"lang='$lg' AND ".$key[0]."r":'')
+						."id='".$current[$this_is.$key[0]]."' ",$key[0].$key[1]);
+				} elseif (isset(${"connected_byid_".$key[0]."_".$this_is})) {
+					${"show_".$key[0]."_".$key[1]} = sql_getone(${"tbl".$key[0]},
 					" WHERE ".$key[0].(in_array($key[0]."rid",sql_fields(${"tbl".$key[0]},'array'))?"lang='$lg' AND ".$key[0]."r":'')
 						."id='$show_id' ",$key[0].$key[1]);
-				else if ($key[1] == 'cut') {
+				} elseif ($key[1] == 'cut') {
 					${"show_".$key[0]} = substr(strip_tags(sql_getone(${"tbl".$this_is},
 						" WHERE ".$this_is.(in_array($this_is."rid",sql_fields(${"tbl".$this_is},'array'))?"lang='$lg' AND ".$this_is."r":'')
 							."id='$show_id' ",$this_is.$key[0])),0,300);
 				} else {
 					${"show_".$key[0]."_".$key[1]} = '';
+					error_log(__LINE__." : show_".$key[0]."_".$key[1]." = ".${"show_".$key[0]."_".$key[1]});
 					if (isset(${"show_".$key[0]."_".$key[1]."_array_linked_by_id"})) {
+					error_log(__LINE__." isset : show_".$key[0]."_".$key[1]."_array_linked_by_id");
+					error_log(__LINE__." q : WHERE ".$key[0].$this_is."='$show_id' AND ".$key[0].$key[1]."='Y' AND ".$key[0]."lang='$lg' "
+						." select: ".$key[0]."rid");
 						$loop = sql_array(${"tbl".$key[0]},
 							" WHERE ".$key[0].$this_is."='$show_id' AND ".$key[0].$key[1]."='Y' AND ".$key[0]."lang='$lg' "
 						,$key[0]."rid");
@@ -627,6 +637,7 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 						if (in_array($key,$basic_array)) {
 							if (in_array($key,array('id','rid'))) {
 								$show_id = $value;
+								$current = sql_get(${"tbl".$this_is}, "WHERE ".$this_is.($this_id_rid===true?'r':'')."id='$show_id' ", "*");
 								$get_metas = sql_get($tblhtaccess,"WHERE htaccesstype='$this_is' AND htaccessitem='$show_id' AND htaccesslang='$lg' ORDER BY htaccessdate DESC ","htaccessmetadesc,htaccessmetakeyw");
 								if ($get_metas[0]!='.') {
 									$show_metadesc = $get_metas[0];
@@ -641,11 +652,14 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 								foreach($show_array as $show_array_key) {
 									if (strstr($show_array_key,":")) {
 										$show_array_key = explode(":",$show_array_key);
-										if (isset(${"connected_byid_".$show_array_key[0]."_".$this_is}))
-										${"show_".$show_array_key[0]."_".$show_array_key[1]} = sql_getone(${"tbl".$show_array_key[0]}," WHERE ".$show_array_key[0]."rid='$show_id' AND ".$show_array_key[0]."lang='$lg' ",$show_array_key[0].$show_array_key[1]);
-										else if ($show_array_key[1] == 'cut')
-										${"show_".$show_array_key[0]} = substr(strip_tags(sql_getone($dbtable," WHERE ".$this_is."rid='$show_id' AND ".$this_is."lang='$lg' ",$this_is.$show_array_key[0])),0,300);
-										else {
+										if (isset(${"connected_byid_".$this_is."_".$show_array_key[0]}))
+										{
+											${"show_".$show_array_key[0]."_".$show_array_key[1]} = sql_getone(${"tbl".$show_array_key[0]}," WHERE ".$show_array_key[0]."rid='".$current[$this_is.$show_array_key[0]]."' AND ".$show_array_key[0]."lang='$lg' ",$show_array_key[0].$show_array_key[1]);
+										} elseif (isset(${"connected_byid_".$show_array_key[0]."_".$this_is})) {
+											${"show_".$show_array_key[0]."_".$show_array_key[1]} = sql_getone(${"tbl".$show_array_key[0]}," WHERE ".$show_array_key[0]."rid='$show_id' AND ".$show_array_key[0]."lang='$lg' ",$show_array_key[0].$show_array_key[1]);
+										} elseif ($show_array_key[1] == 'cut') {
+											${"show_".$show_array_key[0]} = substr(strip_tags(sql_getone($dbtable," WHERE ".$this_is."rid='$show_id' AND ".$this_is."lang='$lg' ",$this_is.$show_array_key[0])),0,300);
+										} else {
 											${"show_".$show_array_key[0]."_".$show_array_key[1]} = sql_getone(${"tbl".$show_array_key[0]}," WHERE ".$show_array_key[0].$this_is."='$show_id' AND ".$show_array_key[0]."lang='$lg' ",$show_array_key[0].$show_array_key[1]);
 										}
 										if ($show_array_key[1] == 'gendre')
@@ -864,26 +878,20 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 										$value = human_date($value);
 									}
 
-
-
-
 									if (@file_exists($getcwd.$up.$safedir.'_extra_routines.php'))
-									require $getcwd.$up.$safedir.'_extra_routines.php';
+										require $getcwd.$up.$safedir.'_extra_routines.php';
 									if (!isset($array_routines) || (isset($array_routines) && !in_array($key,$array_routines)))
-
-
-
-
-									${"show_".$key} = (isset($q)?str_ireplace($q,'\<span class=\"qhighlight\"\>'.$q.'\<\/span\>',html_entity_decode($value),${"show_".$key."_count"}):$value);
-									if (isset(${"show_".$key."_count"})) $q_count += ${"show_".$key."_count"};
+										${"show_".$key} = (isset($q)?str_ireplace($q,'\<span class=\"qhighlight\"\>'.$q.'\<\/span\>',html_entity_decode($value),${"show_".$key."_count"}):$value);
+									if (isset(${"show_".$key."_count"})) 
+										$q_count += ${"show_".$key."_count"};
 								}
 							}
 							//  $_mod_content .= $key." == ".$value."<br />";
 							if (($key == 'membre') && in_array($this_is,$editable_by_membre))
-							$membre_id = $value; // allows logged_in members to edit own content according to array $editable_by_membre in tpl
+								$membre_id = $value; // allows logged_in members to edit own content according to array $editable_by_membre in tpl
 						}
 						if (isset($select_array) && in_array($key,$select_array) && isset(${"show_".$key}))
-						${"par_".$key}[$ii] = ${"show_".$key};
+							${"par_".$key}[$ii] = ${"show_".$key};
 					}
 					if (isset($show_array)) {
 						//  $_mod_content .= '<table><tr><td>';
@@ -911,24 +919,16 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 						}
 						if (isset($ordered_by) && isset($this_index))
 						if ((isset($past_index) && ($past_index != $this_index)) || !isset($past_index))
-						$_mod_content .= '<span class="alphaorder"><a name="'.$this_index.'"></a>&nbsp;'.(sql_stringit($this_is.$ordered_by,$this_index)!=''?sql_stringit($this_is.$ordered_by,$this_index):$this_index).'&nbsp;</span><br />';
-
-
+							$_mod_content .= '<span class="alphaorder"><a name="'.$this_index.'"></a>&nbsp;'.(sql_stringit($this_is.$ordered_by,$this_index)!=''?sql_stringit($this_is.$ordered_by,$this_index):$this_index).'&nbsp;</span><br />';
 
 						if (!isset($filter_map) && (!isset($bypass_this) || (isset($bypass_this) && ($bypass_this === false))))
-						$_mod_content .= '<div class="show_array">';//width:48%;
-
-
-
+							$_mod_content .= '<div class="show_array">';//width:48%;
 
 						if (($logged_in === true) && ((!isset($filter_map) && (!isset($bypass_this) || (isset($bypass_this) && ($bypass_this === false)))) || isset($filter_index)) && ((isset($membre_id) && isset($user_name) && (sql_getone($tbluser,"WHERE userutil='$user_name' ","userid") == $membre_id)) || (($admin_viewing === true) && !in_array('1',$admin_priv))))
-						$_mod_content .= '<div style="float:right;clear:right;">'.(in_array($this_is.'publish',$array_fields)?'<a href="'.($full_url===true||$admin_viewing===true?($admin_viewing===true?$local:$mainurl).lgx2readable($lg,'',$this_is,$show_id).($admin_viewing===true?'':"?"):$local_url.'&amp;'.$this_is.'Id='.$show_id).(isset($send)?'&amp;send='.$send:'').'&amp;toggle=publish" onclick="return confirm(\''.($getitem[array_search($this_is.'publish',$array_fields)]=='Y'?$nonString.' '.$publishString.' ?\');"><img src="'.$mainurl.'images/publish_y.png" width="12" height="12" border="0" title="'.$publishedString.'" alt="'.$publishedString:$publishString.' ?\');"><img src="'.$mainurl.'images/publish_n.png" width="12" height="12" border="0" title="'.$nonString.' '.$publishedString.'" alt="'.$nonString.' '.$publishedString).'" /></a> ':'').(in_array($this_is.'archive',$array_fields)?'<a href="'.$local_url.'&amp;'.$this_is.'Id='.$show_id.(isset($send)?'&amp;send='.$send:'').'&amp;toggle=archive" onclick="return confirm(\''.($getitem[array_search($this_is.'archive',$array_fields)]=='Y'?$nonString.' '.$archiveString.' ?\');"><img src="'.$mainurl.'images/archive_y.png" width="24" height="24" border="0" title="'.$archivedString.'" alt="'.$archivedString:$archiveString.' ?\');"><img src="'.$mainurl.'images/archive_n.png" width="24" height="24" border="0" title="'.$nonString.' '.$archivedString.'" alt="'.$nonString.' '.$archivedString).'" /></a>':'').
-
-						'<a href="'.($admin_viewing===true?$local.'?lg='.$lg.'&amp;x=z&amp;y='.$this_is.'&amp;'.$this_is."Id=$show_id&amp;":$mainurl.lgx2readable($lg,'',$this_is,$show_id).($full_url===true?'?':'&amp;')).'send=edit">'.$modifierString.'</a> '.
-
-						'<a href="'.($admin_viewing===true?$local.'?lg='.$lg.'&amp;x=z&amp;y='.$this_is.'&amp;'.$this_is."Id=$show_id&amp;":$mainurl.lgx2readable($lg,'',$this_is,$show_id).($full_url===true?'?':'&amp;')).'send=delete" onclick="return confirm(\''.$confirmationeffacementString.'\');"><img src="'.$mainurl.'images/delete.gif" width="10" height="10" title="'.$effacerString.'" alt="'.$effacerString.'" border="0" /></a>'.
-
-						'</div>'; // allows logged_in members to edit own content according to array $editable_by_membre in tpl($admin_viewing===true?$local.'?lg='.$lg.'&amp;x=z&amp;y='.$this_is.'&amp;'.$this_is."Id=$show_id&amp;send=edit":($full_url===true?$mainurl.lgx2readable($lg,'',$this_is,$show_id)
+						$_mod_content .= '<div style="float:right;clear:right;">'.(in_array($this_is.'publish',$array_fields)?'<a href="'.($full_url===true||$admin_viewing===true?($admin_viewing===true?$local:$mainurl).lgx2readable($lg,'',$this_is,$show_id).($admin_viewing===true?'':"?"):$local_url.'&amp;'.$this_is.'Id='.$show_id).(isset($send)?'&amp;send='.$send:'').'&amp;toggle=publish" onclick="return confirm(\''.($getitem[array_search($this_is.'publish',$array_fields)]=='Y'?$nonString.' '.$publishString.' ?\');"><img src="'.$mainurl.'images/publish_y.png" width="12" height="12" border="0" title="'.$publishedString.'" alt="'.$publishedString:$publishString.' ?\');"><img src="'.$mainurl.'images/publish_n.png" width="12" height="12" border="0" title="'.$nonString.' '.$publishedString.'" alt="'.$nonString.' '.$publishedString).'" /></a> ':'').(in_array($this_is.'archive',$array_fields)?'<a href="'.$local_url.'&amp;'.$this_is.'Id='.$show_id.(isset($send)?'&amp;send='.$send:'').'&amp;toggle=archive" onclick="return confirm(\''.($getitem[array_search($this_is.'archive',$array_fields)]=='Y'?$nonString.' '.$archiveString.' ?\');"><img src="'.$mainurl.'images/archive_y.png" width="24" height="24" border="0" title="'.$archivedString.'" alt="'.$archivedString:$archiveString.' ?\');"><img src="'.$mainurl.'images/archive_n.png" width="24" height="24" border="0" title="'.$nonString.' '.$archivedString.'" alt="'.$nonString.' '.$archivedString).'" /></a>':'')
+							.'<a href="'.($admin_viewing===true?$local.'?lg='.$lg.'&amp;x=z&amp;y='.$this_is.'&amp;'.$this_is."Id=$show_id&amp;":$mainurl.lgx2readable($lg,'',$this_is,$show_id).($full_url===true?'?':'&amp;')).'send=edit">'.$modifierString.'</a> '
+							.'<a href="'.($admin_viewing===true?$local.'?lg='.$lg.'&amp;x=z&amp;y='.$this_is.'&amp;'.$this_is."Id=$show_id&amp;":$mainurl.lgx2readable($lg,'',$this_is,$show_id).($full_url===true?'?':'&amp;')).'send=delete" onclick="return confirm(\''.$confirmationeffacementString.'\');"><img src="'.$mainurl.'images/delete.gif" width="10" height="10" title="'.$effacerString.'" alt="'.$effacerString.'" border="0" /></a>'
+							.'</div>'; // allows logged_in members to edit own content according to array $editable_by_membre in tpl($admin_viewing===true?$local.'?lg='.$lg.'&amp;x=z&amp;y='.$this_is.'&amp;'.$this_is."Id=$show_id&amp;send=edit":($full_url===true?$mainurl.lgx2readable($lg,'',$this_is,$show_id)
 
 						//.'<a href="'.($full_url===true&&$admin_viewing===false?$mainurl.lgx2readable($lg,'',$this_is,$show_id)."?send=edit":($admin_viewing===true?$local.'?lg='.$lg.'&amp;x=z&amp;y='.$this_is.'&amp;'.$this_is.'Id='.$show_id.'&amp;send=delete" onclick="return confirm(\''.$confirmationeffacementString.'\');"><img src="'.$mainurl.'images/delete.gif" width="10" height="10" title="'.$effacerString.'" alt="'.$effacerString.'" border="0" /></a>'.'<br /><a href="'.$local.'?lg='.$lg.'&amp;x=z&amp;y='.$this_is:$local_url).'&amp;'.$this_is.'Id='.$show_id.'&amp;send=edit').'">'.$modifierString.'</a></div>';
 
@@ -942,7 +942,7 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 								if (($li>0) && (${substr($tpl,1)} == '') && (isset($array_tpl[$li+1]) && ($array_tpl[$li+1] == '<br />')))
 								$array_tpl[$li+1] = '<br />';
 							} else
-							$_mod_content .= $tpl;
+								$_mod_content .= $tpl;
 						}
 
 						if (($full_url===true)||($admin_viewing===true)) {
@@ -951,14 +951,8 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 							$_mod_content = str_replace($local_url.'&amp;'.$that_is."Id=$show_id",lgx2readable($lg,'',$that_is,$show_id),$_mod_content);
 						}
 
-
-
-
 						if (!isset($filter_map) && (!isset($bypass_this) || (isset($bypass_this) && ($bypass_this === false))))
-						$_mod_content .= '</div>';
-
-
-
+							$_mod_content .= '</div>';
 
 						//  $_mod_content .= '</td></tr></table><hr />';
 					}
@@ -985,10 +979,10 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 	$_head_mod_content = $_pre_css_bgimg.'<a href="'.$_SERVER['REQUEST_URI'].'" target="_self">'.$_head_mod_content.'</a>'.$_post_css_bgimg;
 	*/
 		if ((isset(${$this_is."Id"}) || isset(${$this_is."Type"})) && ($view_see_all_button === true))
-		$_head_mod_content .= $_pre_css_bgimg.'<a href="'.($admin_viewing===true?$local_url:lgx2readable($lg,'',$this_is)).'" target="_self">'.$voirString.' '.$toutString.'</a>'.$_post_css_bgimg;//.'<div style="float:left;">'.'</div>';
+			$_head_mod_content .= $_pre_css_bgimg.'<a href="'.($admin_viewing===true?$local_url:lgx2readable($lg,$x,$this_is)).'" target="_self">'.$voirString.' '.$toutString.'</a>'.$_post_css_bgimg;//.'<div style="float:left;">'.'</div>';
 		//  if (!isset(${$this_is."Id"}) && (!isset(${"filter_search"}) || (isset(${"filter_search"}) && ((${"filter_search"}===true) || in_array($this_is.${"filter_search"},$array_fields) || (isset($that_is) && in_array($that_is.${"filter_search"},$that_array_fields))))))
 		if (!isset(${$this_is."Id"}) && (!isset(${"filter_search"}) || (isset(${"filter_search"}) && (${"filter_search"}===true))))
-		$_head_mod_content .= ($admin_viewing===true?gen_form($lg,$x,$y):gen_form($lg,$x))
+			$_head_mod_content .= ($admin_viewing===true?gen_form($lg,$x,$y):gen_form($lg,$x))
 			.'<div style="float:right;">'.$_pre_css_bgimg.'<div class="bgimg-two-bot-search">
 			<input type="text" name="q" value="'.(isset($q)?$q:'').'" /><input type="submit" value="'.$rechercherString.'" />'
 			.(isset($q)&&($q_count>0)?'<br /> > '.$q_count.' '.$class_conjugaison->plural($confirmeString,'',$q_count):'')
@@ -996,7 +990,7 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 			?'nom':substr($array_fields[5],strlen($this_is)))."String"}).')</div>'.$_post_css_bgimg.'</div></form>';
 		$_head_mod_content .= '</div>';
 		if (in_array($this_is."coords",$array_fields)&&!isset($that_is))
-		$_ordered_mod_content = $_pre_css_bgimg.'<a href="'.($admin_viewing===true?$local.'?lg='.$lg.'&amp;x='
+			$_ordered_mod_content = $_pre_css_bgimg.'<a href="'.($admin_viewing===true?$local.'?lg='.$lg.'&amp;x='
 			.(isset($filter_mapdisplay)&&preg_match("/^[0-9]+\$/",$filter_mapdisplay)
 			?$filter_mapdisplay:$x):lgx2readable($lg,(isset($filter_mapdisplay)&&preg_match("/^[0-9]+\$/",$filter_mapdisplay)
 			?$filter_mapdisplay:''))).'">&nbsp;'.$mapString.'&nbsp;</a>'.$_post_css_bgimg.(isset($_ordered_mod_content)

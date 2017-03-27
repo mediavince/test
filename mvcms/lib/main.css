@@ -70,7 +70,7 @@ li .current{color:#FF9;}
 #baseone{}
 #bgleft{min-height:480px;height:100%;}
 #lpane{margin-right:0px;width:155px;}
-#leftlogin{margin-top:0em;padding:4px;border-top:1px solid #fc0;border-right:1px solid #fc0;border-bottom:1px solid #FC0;background:#EEE;font-size:90%;}
+#leftlogin{margin-top:0em;padding:4px;border-bottom:1px solid #FC0;background:#EEE;font-size:90%;}
 #leftlogin h4{margin:0;}
 #leftlogin form{margin:0px;}
 #leftlogin input,#toplogin input{font-size:100%;margin:0;}
@@ -305,12 +305,18 @@ h2 > div{float:right;margin-top:-33px;font-size:60%;}
 .pagination{
 	text-align:right;display:inline-block;float:right;margin:2px !important;
 }
-.pagination a{
+.pagination a,.pagination b{
 	padding:4px 8px;
 	border-radius:3px;
 	border:1px solid lightgrey;
 	background:#EEE;
 }
+.pagination b{
+	padding:4px 4px 4px 8px;
+}
+.backdrop{
+	position: absolute;top: 0;left: 0;z-index: 1;width:100%;height:100%;background:grey;opacity:.5;
+}
 .absolute-form{
-	position:absolute;left:23%;right:23%;background:white;width:50%;min-width:650px;border:15px solid grey;border-radius:15px;padding:5px;
+	position:absolute;left:23%;right:23%;z-index: 2;background:white;width:50%;min-width:650px;border:15px solid grey;border-radius:15px;padding:5px;
 }

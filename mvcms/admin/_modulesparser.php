@@ -3,7 +3,7 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
 
 $admin_viewing = false;
 if (stristr($_SERVER['PHP_SELF'],$urladmin) && ($logged_in === true) && isset($admin_name))
-$admin_viewing = true;
+	$admin_viewing = true;
 
 $this_priv_array = (strpos($this_priv, '|')?explode('|', $this_priv):array($this_priv));
 

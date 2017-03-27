@@ -179,7 +179,10 @@ $error_invmiss = '<font color="Red"> * '.$enregistrementString.' '.$invalideStri
 $error_inv = '<font color="Red"> * '.$enregistrementString.' '.$invalideString.' ! * </font>';
 $error_request = '<font color="Red"> * '.$erreurString.' '.$derequeteString.' ! * </font>';
 $error_update = '<font color="Red"> * '.$enregistrementString.' '.$nonString.' '.$modifieString.' ! * </font>';
-$error_accesspriv = '<font color="Red"> * '.ucfirst($pleaseString).' '.$entrerString.' '.$pouraccesprivString.' ! * </font>';
+
+if (!isset($erroraccesprivString))
+  $erroraccesprivString = ucfirst($pleaseString).' '.$entrerString.' '.$pouraccesprivString;
+$error_accesspriv = '<font color="Red"> * '.$erroraccesprivString.' ! * </font>';
 
 if (!isset($copyrightnoticeString))
 $copyrightnoticeString = 'Webdevelopment by <a href="http://www.mediavince.com" target="_blank">www.mediavince.com</a>';

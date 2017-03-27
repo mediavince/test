@@ -1952,8 +1952,8 @@ class zip
     function extractZip($src,$dest)
     {
         global $trace,$notice,$error,$getcwd,$up,$filedir,$urladmin;
-        if (mkdir($getcwd.$dest, 0777)) $notice .= "et voila!<br />";
-        else $notice .= "buh<br />";
+        if (mkdir($getcwd.$dest)) $notice .= "et voila!<br />";
+        else $notice .= "dir not created<br />";
         if (function_exists('zip_open')) {
             $zip_open = zip_open($src);
             if ($zip_open) {
@@ -2001,7 +2001,7 @@ class zip
                         continue;
                     }
                     if (!is_dir($zdir))
-                        mkdirr($zdir,0777);
+                        mkdirr($zdir);
                     $zip_fs = zip_entry_filesize($zip_entry);
                     if (empty($zip_fs))
                         continue;
