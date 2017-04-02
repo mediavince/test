@@ -368,7 +368,7 @@ if (!isset($array_swf_ext))
 	$array_swf_ext = array("swf", "flv", "wmv", "avi", "mp3", "mov", "rm", "mpeg", "mpg", "asf",);
 $array_media_ext = array_unique(array_merge($array_img_ext,$array_swf_ext));
 if (!isset($array_doc_ext))
-	$array_doc_ext = array("doc", "xls", "ppt", "pps", "pdf", "xml",);
+	$array_doc_ext = array('doc', 'xls', 'ppt', 'pps', 'pdf', 'xml', 'docx', 'xlsx', 'pptx', 'ppsx',);
 if (!isset($invisibleFileNames))
 	$invisibleFileNames = array(
 		".", "..", ".htaccess", ".htpasswd", ".svn", "dir-prop-base", "entries", "format",

@@ -1,4 +1,5 @@
-<?php if (stristr($_SERVER['PHP_SELF'],basename(__FILE__))){include'_security.php';Header("Location: $redirect");Die();}
+<?php if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
+
       $accederString = 'Accessing';
       $accesString = 'Access';
       $accordusageString = 'By clicking you accept to receive the newsletter (Email addresses submitted will neither be published nor sold!)';
@@ -194,3 +195,5 @@
       $newsletterHelpString = 'Send a newsletter to the members and manage sent ones. You may also forward it to additional emails.';
       $stringHelpString = 'Edit all the strings that appear on the site either in admin or not. Caution, some changes might produce undesirable results especially submit buttons.';
       $userHelpString = 'Create new users or modify and delete existing ones through this panel. Members have access to similar forms through their own account. You can also connect them with other modules as well as insert pictures and documents.';
+
+?>

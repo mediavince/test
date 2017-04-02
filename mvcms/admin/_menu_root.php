@@ -1,10 +1,6 @@
 <?php #۞ #
 if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
-//	$notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
-//(!stristr($_SERVER['PHP_SELF'],$urladmin) || (stristr($_SERVER['PHP_SELF'],$urladmin)
-// && ($logged_in === false)))
-
 if (!isset($protected_show))
 $protected_show = false;
 /*
@@ -73,11 +69,7 @@ if ($htaccess4sef === false) {
 		}
 	}
 }
-/*
-if (!strstr(sql_getone($tblcont," WHERE $where_statut_lang AND contpg='$x' ",
-  					"contentry"),"[".$get_x[1]))
-	$notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
-*/
+
 if (($htaccess4sef === true) && ($_SERVER['REQUEST_URI'] != $url_mirror)) {
 	$lastpg = array_reverse($array_uri);
 	if (count($lastpg)>1) {

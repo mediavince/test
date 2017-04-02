@@ -1,8 +1,6 @@
 <?php #۞ #
 if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
-//	$notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
-
 $where_statut_lang = " contlang='$lg' AND ";
 
 if ($logged_in === false) {
@@ -241,7 +239,7 @@ if ($logged_in === true) {
 			else
 			include $getcwd.$up.$urladmin.'itemadmin.php';
 		}
-
+		// @todo now calling one page with $y except params since it is essentially doing the same thing...
 		if (($y == '10') || ($y == 'template')) include $getcwd.$up.$urladmin.'templateadmin.php';
 		if (($y == '11') || ($y == 'analytics')) include $getcwd.$up.$urladmin.'google_analyticsadmin.php';
 		if (($y == '12') || ($y == 'params')) include $getcwd.$up.$urladmin.'paramsadmin.php';

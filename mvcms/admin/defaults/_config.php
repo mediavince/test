@@ -1,4 +1,4 @@
-<?php if (stristr($_SERVER['PHP_SELF'],'_config.php')){include'_security.php';Header("Location: $redirect");Die();}
+<?php if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include'_security.php';Header("Location: $redirect");Die();}
 
 $codename = 'mvcms';
 $client = 'mvcms';
@@ -6,6 +6,9 @@ $client = 'mvcms';
 
 $default_lg = 'en';
 $array_lang = array($default_lg);//,'fr','it' etc... overwritten by actual statut in enum for each lang
+
+// array_doc_ext defaults to ['doc', 'xls', 'ppt', 'pps', 'pdf', 'xml', 'docx', 'xlsx', 'pptx', 'ppsx',]
+$array_doc_ext = array('doc', 'xls', 'ppt', 'pps', 'pdf', 'xml', 'docx', 'xlsx', 'pptx', 'ppsx',);
 
 $root_writable = true; // enables writing of files on root, from adminedit upon creation of new pages... if not able to write on root > false otherwise > true // overwritten by check in incdb if set to true depending on check...
 

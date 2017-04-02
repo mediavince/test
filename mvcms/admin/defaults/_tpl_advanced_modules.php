@@ -1,4 +1,4 @@
-<?php if (stristr($_SERVER['PHP_SELF'],"_tpl_advanced_modules.php") || !isset($this_is)){include '_security.php';Header("Location: $redirect");Die();}
+<?php if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
       if ($this_is == 'event') {
         if (isset($filter_index)) {

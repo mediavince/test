@@ -4,8 +4,10 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
 if (!stristr($_SERVER['PHP_SELF'],'_install.php'))
 $content .= $admin_menu;
 
-$first_line = '<'.'?PHP if (stristr($_SERVER[\'PHP_SELF\'],\'_params.php\')){include\'_security.php\';Header("Location: $redirect");Die();}';
-$last_line = '?'.'>';
+$first_line_old = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'],\'_params.php\')){include\'_security.php\';Header("Location: $redirect");Die();}';
+$first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))){include\'_security.php\';Header("Location: $redirect");Die();}'
+	.PHP_EOL.PHP_EOL;
+$last_line = PHP_EOL.'?'.'>';
 
 $update_rapport = '';
 
@@ -67,26 +69,27 @@ if (!isset($send)) {
   $content .= '<label for="params">> '.$paramsString.' </label><br />'; 
 
 	if (isset($array_params_form)) {
-  	foreach($array_params_form as $apf) {
-  		if (isset($_POST[$apf["name"]]))
-  			${$apf["name"]} = $_POST[$apf["name"]];
-    	if (isset(${$apf["name"]}) && ($apf["name"] == 'now_time')) {
-        $this_value = ceil(${$apf["name"]}-time());
-        ${$apf["name"]} = "time()";
-        if ($this_value <= -360)
-        ${$apf["name"]} .= $this_value;
-        else if ($this_value >= 360)
-        ${$apf["name"]} .= "+".$this_value;
-      }
-    	$content .= '<div class="box">'.$apf["help"].'<br /><input style="width:90%;min-width:180px;" type="text" name="'.$apf["name"].'" value="'.(isset(${$apf["name"]})?${$apf["name"]}:$apf["value"]).'" /><br /></div>';
-    }
+	  	foreach($array_params_form as $apf) {
+	  		if (isset($_POST[$apf["name"]]))
+	  			${$apf["name"]} = $_POST[$apf["name"]];
+	    	if (isset(${$apf["name"]}) && ($apf["name"] == 'now_time')) {
+		        $this_value = ceil(${$apf["name"]}-time());
+		        ${$apf["name"]} = "time()";
+		        if ($this_value <= -360)
+		        	${$apf["name"]} .= $this_value;
+		        else if ($this_value >= 360)
+		        	${$apf["name"]} .= "+".$this_value;
+	      	}
+	    	$content .= '<div class="box">'.$apf["help"].'<br /><input style="width:90%;min-width:180px;" type="text" name="'.$apf["name"].'" value="'.(isset(${$apf["name"]})?${$apf["name"]}:$apf["value"]).'" /><br /></div>';
+	    }
 	} else {
-    $content .= '<textarea name="params" rows="30" cols="30" style="width:98%;height:100%;">'.(@file_exists($getcwd.$up.$safedir.'_params.php')?substr(str_replace($last_line,"",@file_get_contents($getcwd.$up.$safedir.'_params.php')),strlen($first_line)):substr(str_replace($last_line,"",@file_get_contents($getcwd.$up.$urladmin.'defaults/_params.php')),strlen($first_line))).'</textarea><br />';
-  }
-  if (!stristr($_SERVER['PHP_SELF'],'_install.php'))
-  $content .= '<input name="send" type="submit" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /></form></div>';
-  else
-  $content .= '<div style="clear:both;"><br /></div>'; 
+    	$content .= '<textarea name="params" rows="30" cols="30" style="width:98%;height:100%;">'.(@file_exists($getcwd.$up.$safedir.'_params.php')?substr(str_replace($last_line,"",@file_get_contents($getcwd.$up.$safedir.'_params.php')),strlen($first_line)):substr(str_replace($last_line,"",@file_get_contents($getcwd.$up.$urladmin.'defaults/_params.php')),strlen($first_line))).'</textarea><br />';
+  	}
+
+  	if (!stristr($_SERVER['PHP_SELF'],'_install.php'))
+	  	$content .= '<input name="send" type="submit" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /></form></div>';
+  	else
+	  	$content .= '<div style="clear:both;"><br /></div>'; 
 
 // update the strings
 } else if ($send == $envoyerString) {
@@ -98,29 +101,27 @@ if (!isset($send)) {
 	  else
 	    $update_rapport = '';
 	} else {
-		$params = "\r\n\t";
 		if (isset($array_params_form))
 		foreach($array_params_form as $apf)
 		if ($apf["name"]=="now_time")
-		$params .= "$".$apf["name"].' = '.(stristr(addslashes($_POST[$apf["name"]]),'time()')?'':'time()').addslashes($_POST[$apf["name"]]).";\r\n\t";
+			$params .= "$".$apf["name"].' = '.(stristr(addslashes($_POST[$apf["name"]]),'time()')?'':'time()').addslashes($_POST[$apf["name"]]).";".PHP_EOL;
 		else
-		$params .= "$".$apf["name"].' = \"'.addslashes($_POST[$apf["name"]])."\";\r\n\t";
-		$params .= "\r\n";
+			$params .= "$".$apf["name"].' = \"'.addslashes($_POST[$apf["name"]])."\";".PHP_EOL;
 	}
 	if ($update_rapport != '') {
-  if (!stristr($_SERVER['PHP_SELF'],'_install.php'))
-  $content .= '<br /><p style="text-align:center"><font color="green"><b>'.$enregistrementString.' '.$nonString.' '.$modifieString.'</b></font><br /> <br />'.$update_rapport.'<br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
+  		if (!stristr($_SERVER['PHP_SELF'],'_install.php'))
+  		$content .= '<br /><p style="text-align:center"><font color="green"><b>'.$enregistrementString.' '.$nonString.' '.$modifieString.'</b></font><br /> <br />'.$update_rapport.'<br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
 	} else {
 		if (!is_dir($getcwd.$up.$safedir))
-		mkdir($getcwd.$up.$safedir);
-	  $Fnm = $getcwd.$up.$safedir.'_params.php';
+			mkdir($getcwd.$up.$safedir);
+	  	$Fnm = $getcwd.$up.$safedir.'_params.php';
 		$inF = fopen($Fnm,"w+");
 		$params = $first_line.
                 stripslashes($params).
                 $last_line;
 		fwrite($inF,$params);
 		fclose($inF);
-  $content .= '<br /><p style="text-align: center"><font color="Green"><b>params : '.$enregistrementString.' '.$effectueString.'</b></font></p>';
+  		$content .= '<br /><p style="text-align: center"><font color="Green"><b>params : '.$enregistrementString.' '.$effectueString.'</b></font></p>';
 	}
 } else {
 	Header("Location: $redirect");Die();

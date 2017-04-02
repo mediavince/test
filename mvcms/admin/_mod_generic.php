@@ -1,6 +1,5 @@
 <?php #۞ #
 if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
-//          $notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
 
 if (isset(${$this_is."Id"}) && !preg_match("/^[0-9]+\$/",${$this_is."Id"}))
 {Header("Location: $redirect");die();}
@@ -1010,5 +1009,5 @@ foreach(array($this_is."Id",$this_is."Type","protected_show","view_see_all_butto
 		"ordered_by","this_index","past_index","show_array","array_tpl","show_array_by_id","array_tpl_by_id",
 		"show_array_linked","array_tpl_linked","linked_content","bypass_this","select_array","filter_mapdisplay"
 ) as $reset_k) {
-	${$reset_k} = NULL;
+	${$reset_k} = null;
 }

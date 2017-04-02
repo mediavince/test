@@ -1,8 +1,6 @@
 <?php #۞ #
 if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
-//          $notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
-
   if (isset($forumId)) $show_id = $forumId;
   if (isset($show_id)) $forumId = $show_id;
   if (!isset($show_id) && !isset($forumId))

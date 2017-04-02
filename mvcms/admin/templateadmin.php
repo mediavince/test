@@ -4,29 +4,33 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
 $content .= $admin_menu;
 
 if (!isset($array_templates_parsed))
-$array_templates_parsed = array("basic_modules","advanced_modules");
+  $array_templates_parsed = array("basic_modules","advanced_modules");
 else
-$array_templates_parsed = array_unique(array_merge(array("basic_modules","advanced_modules"),$array_templates_parsed));
+  $array_templates_parsed = array_unique(array_merge(array("basic_modules","advanced_modules"),$array_templates_parsed));
 
 if (!isset($array_templates_notparsed))
-$array_templates_notparsed = array("mail_newsletter","mail_communications","mail_credentials");
+  $array_templates_notparsed = array("mail_newsletter","mail_communications","mail_credentials");
 else
-$array_templates_notparsed = array_unique(array_merge(array("mail_newsletter","mail_communications","mail_credentials"),$array_templates_notparsed));
+  $array_templates_notparsed = array_unique(array_merge(array("mail_newsletter","mail_communications","mail_credentials"),$array_templates_notparsed));
 
 $array_templates = array_unique(array_merge($array_templates_parsed,$array_templates_notparsed));
 
 $content .= '<div class="selectHead">'.gen_form($lg,$x,$y).'<input type="submit" name="" value="site_template" />'.(isset($array_templates[1])?' | <input type="submit" name="tpl" value="'.implode($array_templates,'" /> | <input type="submit" name="tpl" value="').'" />':'').'</form></div>';
 
-if (isset($_POST['tpl'])) $tpl = stripslashes($_POST['tpl']);
+if (isset($_POST['tpl'])) 
+  $tpl = stripslashes($_POST['tpl']);
 
 if (isset($_POST['tpl']) && in_array($tpl,$array_templates_parsed)) { // vars are represented as \$var
-  $first_line = '<'.'?PHP if (stristr($_SERVER[\'PHP_SELF\'],\'_tpl_'.$tpl.'.php\') || !isset($this_is)) {include\'_security.php\';Header("Location: $redirect");Die();}';
+  $first_line_old = '<'.'?PHP if (stristr($_SERVER[\'PHP_SELF\'],\'_tpl_'.$tpl.'.php\') || !isset($this_is)) {include\'_security.php\';Header("Location: $redirect");Die();}';
+  $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))) {include\'_security.php\';Header("Location: $redirect");Die();}'.PHP_EOL;
   $file_check = "_tpl_$tpl.php";
-  $last_line = '?'.'>';
+  $last_line = PHP_EOL.'?'.'>';
 } else { // vars are normal $var
-  $first_line = '<'.'?PHP if (stristr($_SERVER[\'PHP_SELF\'],\''.(isset($tpl) && in_array($tpl,$array_templates_notparsed)?'_tpl_'.$tpl.'.php':'_template.php').'\')){include\'_security.php\';Header("Location: $redirect");Die();}'.(isset($tpl) && in_array($tpl,$array_templates_notparsed)?'$_tpl_'.$tpl:'$_template').' = "';
+  $first_line_old = '<'.'?PHP if (stristr($_SERVER[\'PHP_SELF\'],\''.(isset($tpl) && in_array($tpl,$array_templates_notparsed)?'_tpl_'.$tpl.'.php':'_template.php').'\')){include\'_security.php\';Header("Location: $redirect");Die();}'.(isset($tpl) && in_array($tpl,$array_templates_notparsed)?'$_tpl_'.$tpl:'$_template').' = "";'.PHP_EOL;
+  $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))){include\'_security.php\';Header("Location: $redirect");Die();}'
+    .PHP_EOL.(isset($tpl) && in_array($tpl,$array_templates_notparsed)?'$_tpl_'.$tpl:'$_template').' = "";'.PHP_EOL;
   $file_check = (isset($tpl) && in_array($tpl,$array_templates_notparsed)?"_tpl_$tpl.php":"_template.php");
-  $last_line = '"; ?'.'>';
+  $last_line = PHP_EOL.'?'.'>';
 }
 
 // lists all the texts strings appearing on site
@@ -52,13 +56,13 @@ if (!isset($send)) {
 // update the strings
 } else if ($send == $envoyerString) {
   if (!$_POST){Header("Location: $redirect");Die();}
-  $template = $_POST['template'];
+    $template = $_POST['template'];
   if (strstr($template,"<?") || strstr($template,"<?"))
     $update_rapport = 'no php tags allowed!';
   else
     $update_rapport = '';
 	if ($update_rapport != '') {
-  $content .= '<br /><p style="text-align: center"><font color="Green"><b>'.$enregistrementString.' '.$nonString.' '.$modifieString.'</b></font><br /> <br />'.$update_rapport.'<br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
+    $content .= '<br /><p style="text-align: center"><font color="Green"><b>'.$enregistrementString.' '.$nonString.' '.$modifieString.'</b></font><br /> <br />'.$update_rapport.'<br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
 	} else {
 	  $Fnm = $getcwd.$up.$safedir.$file_check;
 		$inF = fopen($Fnm,"w+");
@@ -72,7 +76,8 @@ if (!isset($send)) {
                 $last_line;
 		fwrite($inF,$template);
 		fclose($inF);
-  $content .= '<br /><p style="text-align: center"><font color="Green"><b>'.$enregistrementString.' '.$effectueString.' '.(isset($tpl)?$pourString.' '.$tpl:'').'</b></font></p>';//<br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a>';
+  $content .= '<br /><p style="text-align:center;color:green;font-weight:bold;">'.$enregistrementString.' '.$effectueString.' '.(isset($tpl)?$pourString.' '.$tpl:'').'</p>';
+  //<br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a>';
 	}
 } else {
 	Header("Location: $redirect");Die();

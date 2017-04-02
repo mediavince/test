@@ -1,8 +1,6 @@
 <?php #۞ #
 if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
-//          $notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
-
   //  include'galleryadd.php';
   if (!isset($user_name)) $user_name = $admin_name;
   if (!isset($helpUploadimg)) $helpUploadimg = "Help upload image";

@@ -1,8 +1,6 @@
 <?php #۞ #
 if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
-//          $notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
-
 $zip = new ZipArchive();
 
 if ($zip->open($tmp_zip,ZIPARCHIVE::CREATE)!==TRUE) {

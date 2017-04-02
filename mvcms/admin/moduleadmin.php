@@ -14,15 +14,18 @@ $content .= '<div class="selectHead">'.gen_form($lg,$x,$y).gen_fullselectoption(
 
 if (isset($_POST['newmod']) && ($_POST['newmod'] != '')) {
   $mod = stripslashes($_POST['newmod']);
-  $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'],\'_mod_'.$mod.'.php\')) {include \'_security.php\';Header("Location: $redirect");Die();}';//$getcwd.\'..\/\'.$safedir.
+  $first_line_old = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'],\'_mod_'.$mod.'.php\')) {include \'_security.php\';Header("Location: $redirect");Die();}';//$getcwd.\'..\/\'.$safedir.
+  $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))){include \'_security.php\';Header("Location: $redirect");Die();}'.PHP_EOL;
+
   $file_check = "mods/_mod_$mod.php";
-  $last_line = '?'.'>';
+  $last_line = PHP_EOL.'?'.'>';
 }
 
 if (isset($_POST['mod'])) {
-  $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'],\'_mod_'.$mod.'.php\')) {include \'_security.php\';Header("Location: $redirect");Die();}';//$getcwd.\'..\/\'.$safedir.
+  $first_line_old = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'],\'_mod_'.$mod.'.php\')) {include \'_security.php\';Header("Location: $redirect");Die();}';//$getcwd.\'..\/\'.$safedir.
+  $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))){include \'_security.php\';Header("Location: $redirect");Die();}'.PHP_EOL;
   $file_check = "mods/_mod_$mod.php";
-  $last_line = '?'.'>';
+  $last_line = PHP_EOL.'?'.'>';
 }
 if (!isset($send)) {
   $content .= '<div class="selectHead">'.gen_form($lg,$x,$y).'<input name="send" type="submit" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /><br /> <br />';

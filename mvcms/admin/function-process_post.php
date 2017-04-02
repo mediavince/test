@@ -1,8 +1,6 @@
 <?php #۞ #
 if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
-//	$notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
-
 if (!isset($array_modules_as_form)) $array_modules_as_form = array();
 if (!isset($old_this)) $old_this = $this_is;
 if (isset($that_is))
@@ -365,7 +363,6 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 	        			|| ($userfile_size > $max_filesize)
 	        			|| ($check > 0)
 	        				) {
-		$error_img .= '<p style="text-align:center"><b>'.$erreurString.'!</b><br />'.$listecorrectionString.'</p><ul>';
 							if (!${$this_is."Desc"}
 							|| !preg_match("/^[a-zA-Z0-9_-]+\$/",strtoupper(space2underscore($this_is))."_".space2underscore(${$this_is."Desc"}))
 							|| (${$this_is."Desc"} == ''))
@@ -376,7 +373,6 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 		$error_img .= '<li>'.$fichierString.' > '.$error_inv.' ('.$max_filesizeString.')</li>';
 							if ($check > 0)
 		$error_img .= '<li>'.($key=="img"?$photoString:$documentString).' '.$error_exists.'</li>';
-		$error_img .= '</ul>';
 						} else {
 							if (in_array($ext,$array_img_ext)) { // img
 								$filename = $filedir.strtoupper(space2underscore($this_is))."_".space2underscore(${$this_is."Desc"});
@@ -435,7 +431,6 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 														."','$admin_name','".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)
 														."','".${$this_is."Desc"}."','$new_upload')";
 											}
-											$notice_img .= " $keylg ";
 										}
 										if ($values!='') {
 											$insertquery = @mysql_query("INSERT INTO $tblcontphoto
@@ -460,7 +455,6 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 														."','$admin_name','".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)
 														."','".${$this_is."Desc"}."','$new_upload')";
 											}
-											$notice_img .= " $keylg ";
 										}
 										if ($values!='') {
 											$insertquery = @mysql_query("INSERT INTO $tblcontdoc
@@ -468,6 +462,8 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 																		VALUES
 																		$values
 																		");
+											if (!$insertquery)
+												mvtrace(__FILE__, __LINE__, "insert query not caught !!");
 										}
 									}
 									${$this_is.ucfirst($key)} = $new_upload;
@@ -492,6 +488,11 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 							}
 						}
 					}
+				}
+				if ($lg == $loop_lg && $error_img !== '') {
+					$errors[$this_is.$key] = $error_invmiss;
+					$errors_invmiss[] = $this_is.$key;
+					$error_report .= $error_img;
 				}
 				if (!isset(${$this_is.ucfirst($key)}))
 				${$this_is.ucfirst($key)} = '';
@@ -545,11 +546,12 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 						} else {
 							if (sql_nrows($tblstring,"WHERE stringtype='$this_is$key' AND stringentry='$newtype' ") == 0) {
 								$uniqueidentifier = time();
-								$insertquery = @mysql_query("INSERT INTO $tblenum
-															VALUES
-('','Y','$this_is$key','$uniqueidentifier','".(sql_nrows($tblenum,"WHERE enumwhat='$this_is$key' ")+1)."') ");
+								$insertq = "INSERT INTO $tblenum
+												VALUES
+									('','Y','$this_is$key','$uniqueidentifier','".(sql_nrows($tblenum,"WHERE enumwhat='$this_is$key' ")+1)."') ";
+								$insertquery = @mysql_query($insertq);
 								if (!$insertquery) {
-									$error .= $error_request.' '.$typeString.'<br />';
+									$error .= $error_request.' '.$typeString.'<br />'.mvtrace(__FILE__, __LINE__,$insertq);
 									$valid_type = false;
 								} else {
 									$newlycreatedtitre = sql_getone($tblenum,"WHERE enumwhat='$this_is$key'
@@ -557,11 +559,12 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 									$valid_type = true;
 									$array_lang = sql_array($tblenum,"WHERE enumstatut='Y' AND enumwhat='lang' ","enumtype");
 									foreach($array_lang as $key_lg) {
-										$insertquery = @mysql_query("INSERT INTO $tblstring
-																	VALUES
-																	('','','$key_lg','$this_is$key','$newlycreatedtitre','$newtype') ");
+										$insertq = "INSERT INTO $tblstring
+														VALUES
+											('','','$key_lg','$this_is$key','$newlycreatedtitre','$newtype') ";
+										$insertquery = @mysql_query($insertq);
 										if (!$insertquery) {
-											$error .= $error_request.' '.$typeString.' ('.$key_lg.')<br />';
+											$error .= $error_request.' '.$typeString.' ('.$key_lg.')<br />'.mvtrace(__FILE__, __LINE__,$insertq);
 											$valid_type = false;
 										}
 									}
@@ -617,7 +620,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 	}
 
 	if ($error_report !== '') {
-		$error .= ($lg==$loop_lg?'<b>'.$erreurString.'!</b> : '.$listecorrectionString.'<ul>'.$error_report.'</ul>':'');
+		$error .= ($lg==$loop_lg?'<b>'.$erreurString.'!</b> : '.$listecorrectionString.'<br />'.$error_report:'');
 	} else {
 		if ($send == $sauverString) {
 			$update_dbtable = $dbtable;
@@ -663,7 +666,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 					} else if (($key == 'doc') || ($key == 'img')) {
 						if ($lg == $loop_lg) {
 							if (isset(${$key."_passing_desc_for_insert_if_dbtable"}) && is_array(${$key."_passing_desc_for_insert_if_dbtable"}))
-							${$key."_passing_desc_for_insert_if_dbtable"} = implode("|",${$key."_passing_desc_for_insert_if_dbtable"});
+								${$key."_passing_desc_for_insert_if_dbtable"} = implode("|",${$key."_passing_desc_for_insert_if_dbtable"});
 							if (isset(${$key."_passing_desc_for_insert_if_dbtable"}) && (${$key."_passing_desc_for_insert_if_dbtable"} != '')
 							&& (${$key."_passing_desc_for_insert_if_dbtable"} != $editthis[$i])) {
 								$notice .= sql_updateone($update_dbtable,"SET ".$this_is.$key."='".${$key."_passing_desc_for_insert_if_dbtable"}."'",
@@ -693,8 +696,10 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 			else {
 				$updatequery = sql_update($update_dbtable,"SET $sql_Instruction $setdate ",
 														" WHERE ".(count($array_lang)>1?$docimg_where:$where)." ",$list_array_fields);
-				if ($updatequery[0] == '.')
-				$error .= $error_request.' [u] '.$loop_lg.' <span style="display:none;">'.mvtrace(__FILE__,__LINE__).'</span><br />';
+				if ($updatequery[0] == '.') {
+					if ($loop_lg == $lg)
+						$error .= $error_request.mvtrace(__FILE__, __LINE__, 'bad [u] '.$loop_lg);
+				}
 				else {
 					if (!isset($sent_email)) // so it send only one email
 					if (in_array($this_is,$array_email_conf) && (isset($_POST["email"]) && ($_POST["email"]=='on'))) {
@@ -801,13 +806,13 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 									"htaccessid,htaccessstatut,htaccesstitle,htaccessentry,htaccessurl,htaccessmetadesc,htaccessmetakeyw");
 				if ($getthis[0] == '.') {
 					$insertq = "INSERT INTO $tblhtaccess ".sql_fields($tblhtaccess,'list')."
-								VALUES
-('',$row_date,'$row_statut','$row_lang','$row_item','$row_title','$row_entry','$row_url','$row_type','$row_metadesc','$row_metakeyw') ";
+									VALUES
+						('',$row_date,'$row_statut','$row_lang','$row_item','$row_title','$row_entry','$row_url','$row_type','$row_metadesc','$row_metakeyw') ";
 					$insertquery = @mysql_query($insertq);
 					if (!$insertquery)
-					$error .= $error_request." [i] ".$loop_lg." htaccess > <b>$row_type</b> : <i>$row_title</i><br />";
+						$error .= $error_request." [i] ".$loop_lg." htaccess > <b>$row_type</b> : <i>$row_title</i><br />".mvtrace(__FILE__, __LINE__,$insertq);
 					else
-					$notice .= $effectueString." [i] ".$loop_lg." htaccess > <b>$row_type</b> : <i>$row_title</i><br />";
+						$notice .= $effectueString." [i] ".$loop_lg." htaccess > <b>$row_type</b> : <i>$row_title</i><br />";
 				} else {
 					$setq = "";
 					if ($row_statut != $getthis[1]) $setq .= "htaccessstatut='$row_statut', ";
@@ -836,22 +841,26 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 			$dbtable = $old_dbtable;
 			for($i=0;$i<count($array_fields);$i++) {
 				if (substr($array_fields[$i],0,strlen($dbtable)-1) != $this_is) {
-					$insertquery = @mysql_query("INSERT INTO $dbtable ".sql_fields($dbtable,'list')." VALUES ( $values ) ");
+					$insertq = "INSERT INTO $dbtable ".sql_fields($dbtable,'list')." VALUES ( $values ) ";
+					$insertquery = @mysql_query($insertq);
 					if (!$insertquery) {
-						$error .= $error_request.' [i] '.$loop_lg.' <span style="display:none;">'.mvtrace(__FILE__,__LINE__).'</span><br />';
+						if ($loop_lg == $lg)
+							$error .= $error_request.mvtrace(__FILE__, __LINE__, $insertq.' bad [i] '.$loop_lg);
 						break;
 					} else {
 						if (!isset($newly_inserted_id))
 						if ($loop_lg == $default_lg) {
 							$new_id = mysql_insert_id();
 							if (!preg_match("/^[0-9]+\$/",$new_id)) {
-								$error .= $error_request.' [i] '.$loop_lg.' table 2-1<br />';
+								if ($loop_lg == $lg)
+									$error .= $error_request.mvtrace(__FILE__, __LINE__, ' bad [i] '.$loop_lg."not an id");
 								break;
 							} else {
 								$update_rid = sql_updateone($dbtable,"SET ".$this_is.($this_id_rid===true?"lang='$default_lg', ".$this_is."r":'')
 											."id='$new_id' ","WHERE ".$this_is."id='$new_id' ",$this_is.($this_id_rid===true?'r':'')."id");
 								if ($update_rid != $new_id) {
-									$error .= $error_request.' [i] '.$loop_lg.' table 3-1<br />';
+									if ($loop_lg == $lg)
+										$error .= $error_request.mvtrace(__FILE__, __LINE__, ' bad [i] '.$loop_lg."update id != new id");
 									break;
 								} else
 								$newly_inserted_id = $new_id;
@@ -918,24 +927,31 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 					}
 				}
 			}
+			$insertq = '';
 			if (($error=='') && ($values != ''))
-				$insertquery = @mysql_query("INSERT INTO $dbtable ".sql_fields($dbtable,'list')." VALUES ( $values ) ");
-			else $insertquery = false;
-			if (!$insertquery)
-				$error .= $error_request.' [i] '.$loop_lg.'<br />';
+			{
+				$insertq = "INSERT INTO $dbtable ".sql_fields($dbtable,'list')." VALUES ( $values ) ";
+				$insertquery = @mysql_query($insertq);
+			} else $insertquery = false;
+			if (!$insertquery) {
+				if ($loop_lg == $lg)
+					$error .= $error_request.mvtrace(__FILE__, __LINE__, $insertq.' bad [i] '.$loop_lg);
+			}
 			else {
 				$notice .= ' [i] '.$loop_lg.'<br />';
 				if (!isset($newly_inserted_id))
 				if ($loop_lg == $default_lg) {
 					$new_id = mysql_insert_id();
 					if (!preg_match("/^[0-9]+\$/",$new_id)) {
-						$error .= $error_request.' [i] '.$loop_lg.' table 2-2<br />';
+						if ($loop_lg == $lg)
+							$error .= $error_request.mvtrace(__FILE__, __LINE__, ' bad [i] '.$loop_lg."new_id not valid");
 						break;
 					} else {
 						$update_rid = sql_updateone($dbtable,"SET ".$this_is.($this_id_rid===true?'r':'')."id='$new_id' ",
 											"WHERE ".$this_is."id='$new_id' ",$this_is.($this_id_rid===true?'r':'')."id");
 						if ($update_rid != $new_id) {
-							$error .= $error_request.' [i] '.$loop_lg.' table 3-2<br />';
+							if ($loop_lg == $lg)
+								$error .= $error_request.mvtrace(__FILE__, __LINE__, ' bad [i] '.$loop_lg."bad update_rid");
 							break;
 						} else
 						$newly_inserted_id = $new_id;
@@ -989,10 +1005,12 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 							}
 							$insertq = " INSERT INTO $tblhtaccess ".sql_fields($tblhtaccess,'list')." VALUES ($htaccess_values) ";
 							$insertquery = @mysql_query($insertq); // no comma after lg!!!
-							if (!$insertquery)
-							$error .= $error_request." [i] ".$loop_lg." > <b>$that_is</b> : <i>$htaccesstitle</i><br />";
+							if (!$insertquery) {
+								if ($loop_lg == $lg)
+									$error .= $error_request." [i] ".$loop_lg." > <b>$that_is</b> : <i>$htaccesstitle</i><br />".mvtrace(__FILE__, __LINE__,$insertq);
+							}
 							else
-							$notice .= $effectueString." [i] ".$loop_lg." > <b>$that_is</b> : <i>$htaccesstitle</i><br />";
+								$notice .= $effectueString." [i] ".$loop_lg." > <b>$that_is</b> : <i>$htaccesstitle</i><br />";
 						}
 						if (!isset($sent_email)) // so it sends only one email
 						if (in_array($that_is,$array_email_conf)
@@ -1104,12 +1122,15 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 							}
 							$insertq = " INSERT INTO $tblhtaccess ".sql_fields($tblhtaccess,'list')." VALUES ($htaccess_values) ";
 							$insertquery = @mysql_query($insertq); // no comma after lg!!!
-							if (!$insertquery)
-							$error .= $error_request.(stristr($_SERVER['PHP_SELF'],$urladmin)?
-														" [i] ".$loop_lg." htaccess > <b>$this_is</b> : <i>$htaccesstitle</i><br />":'');
-							else {
-								$notice .= (stristr($_SERVER['PHP_SELF'],$urladmin)?
-											"$effectueString [i] ".$loop_lg." htaccess > <b>$this_is</b> : <i>$htaccesstitle</i><br />":'');
+							if (!$insertquery) {
+								if ($loop_lg == $lg)
+									$error .= $error_request.(stristr($_SERVER['PHP_SELF'],$urladmin)
+										? " [i] ".$loop_lg." htaccess > <b>$this_is</b> : <i>$htaccesstitle</i><br />"
+										: '').mvtrace(__FILE__, __LINE__,$insertq);
+							} else {
+								$notice .= (stristr($_SERVER['PHP_SELF'],$urladmin)
+									? "$effectueString [i] ".$loop_lg." htaccess > <b>$this_is</b> : <i>$htaccesstitle</i><br />"
+									: '');
 								if ($loop_lg == $lg)
 								if ((!stristr($_SERVER['PHP_SELF'],$urladmin) && (isset(${"moderate_".$this_is})
 								&& (${"moderate_".$this_is} === true))) || (isset($moderate) && ($moderate === true))) {
@@ -1148,21 +1169,20 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 						}
 //////////////////////////////
 						if ($loop_lg == $lg)
-						$notice = '<b>'.$enregistrementString.' '.$class_conjugaison->plural($effectueString,'M',1)
-							.(stristr($_SERVER['PHP_SELF'],$urladmin)?' '.$pourString.' '.$readinsert[3].' , '.$numidString.' : '
-							.$readinsert[0].', '.$statutString.' : '.$readinsert[1].' [i] '.$loop_lg.'</b><!-- <br /> <br /><a href="'
-							.$local_url.'">'.$verslisteString.' '.${$this_is."String"}.'</a> -->':'</b>').'<br />'
-						.$notice;
+							$notice = '<b>'.$enregistrementString.' '.$class_conjugaison->plural($effectueString,'M',1)
+								.(stristr($_SERVER['PHP_SELF'],$urladmin)?' '.$pourString.' '.$readinsert[3].' , '.$numidString.' : '
+								.$readinsert[0].', '.$statutString.' : '.$readinsert[1].' [i] '.$loop_lg.'</b><!-- <br /> <br /><a href="'
+								.$local_url.'">'.$verslisteString.' '.${$this_is."String"}.'</a> -->':'</b>').'<br />'
+							.$notice;
 					}
 				} else {
 					if ($loop_lg == $lg)
-						$error .= $error_request.'  <span style="display:none;">'.mvtrace(__FILE__,__LINE__).'</span><br />';
+						$error .= $error_request.'<br />'.mvtrace(__FILE__, __LINE__, "bad readinsert");
 				}
 			}
 		}
 	}
 }
-$error .= $error_img;
 $notice .= $notice_img;
 if (stristr($_SERVER['PHP_SELF'],$urladmin)
 	|| (!stristr($_SERVER['PHP_SELF'],$urladmin)

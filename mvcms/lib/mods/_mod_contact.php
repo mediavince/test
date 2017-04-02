@@ -1,4 +1,5 @@
-<?PHP if (stristr($_SERVER['PHP_SELF'],'_mod_contact.php')) {include '_security.php';Header("Location: $redirect");Die();}//  session_start();
+<?php if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
+
 $tinyMCE = false;
   
 $_mod_content = "";

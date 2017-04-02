@@ -3,8 +3,6 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
 
 // note to self, this is a major headache source!! even back in the days, i dreaded editing this!
 
-//          $notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
-
 if (!isset($root_writable))
 	$root_writable = false;
 if (!isset($htaccess4sef))

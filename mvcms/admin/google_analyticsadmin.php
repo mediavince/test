@@ -3,8 +3,10 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
 
 $content .= $admin_menu;
 
-$first_line = '<'.'?PHP if (stristr($_SERVER[\'PHP_SELF\'],\'_google_analytics.php\')){include\'_security.php\';Header("Location: $redirect");Die();}$_google_analytics = "';
-$last_line = '"; ?'.'>';
+$first_line_old = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'],\'_google_analytics.php\')){include\'_security.php\';Header("Location: $redirect");Die();}$_google_analytics = "';
+$first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))){include\'_security.php\';Header("Location: $redirect");Die();}'
+  .PHP_EOL.'$_google_analytics = "";';
+$last_line = PHP_EOL.'?'.'>';
 
 // lists all the texts strings appearing on site
 if (!isset($send)) {
@@ -20,7 +22,7 @@ if (!isset($send)) {
   else
     $update_rapport = '';
 	if ($update_rapport != '') {
-  $content .= '<br /><p style="text-align: center"><font color="Green"><b>'.$enregistrementString.' '.$nonString.' '.$modifieString.'</b></font><br /> <br />'.$update_rapport.'<br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
+    $content .= '<br /><p style="text-align: center"><font color="Green"><b>'.$enregistrementString.' '.$nonString.' '.$modifieString.'</b></font><br /> <br />'.$update_rapport.'<br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
 	} else {
 	  $Fnm = $getcwd.$up.$safedir.'_google_analytics.php';
 		$inF = fopen($Fnm,"w+");

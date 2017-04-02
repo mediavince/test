@@ -1,8 +1,6 @@
 <?php #۞ #
 if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
-//	$notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
-
 if (stristr($_SERVER['PHP_SELF'],$urladmin))
 $content .= $admin_menu.'<div style="float:left;width:99%;">';
 
@@ -1042,7 +1040,7 @@ if (isset($send)) {
 				Die();
 			} else {
 				if (sql_del($dbtable,"WHERE ".$old_this.(in_array($old_this."rid",$array_fields)?"r":'')."id='".${$this_is."Id"}."' ") > 0)
-				$error .= $error_request.' 1'.'<span style="display:none;"><br />'.mvtrace(__FILE__,__LINE__).'</span>';//.'<p><a href="javascript:history.back()//">'.$retourString.'</a></p>'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
+					$error .= $error_request.mvtrace(__FILE__, __LINE__,"old_this:$old_this not deleted");//.'<p><a href="javascript:history.back()//">'.$retourString.'</a></p>'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
 				else {
 					$notice .= '<b>'.${$old_this."String"}.': '.$enregistrementString.' '.$effaceString.'</b>';//<br /><a href="'.$local_url.'">'.$verslisteString.' '.${$this_is."String"}.'</a><br />'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
 					if (isset($tblhtaccess) && in_array($this_is,$array_modules))
@@ -1050,7 +1048,7 @@ if (isset($send)) {
 					$notice .= ' | <b>htaccess: '.$enregistrementString.' '.$effaceString.'</b>';
 					if (isset($that_is)) {
 						if (sql_del($that_dbtable,"WHERE ".$that_is.($that_id_rid===true?"r":'')."id='".${$this_is."Id"}."' ") > 0)
-						$error .= $error_request.' 2';//.'<p><a href="javascript:history.back()//">'.$retourString.'</a></p>'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
+							$error .= $error_request.mvtrace(__FILE__, __LINE__,"that_is:$that_is not deleted");//.'<p><a href="javascript:history.back()//">'.$retourString.'</a></p>'; // uncomment if form is not included afterwards and redirect is fixed so you can see the fields
 						else {
 							if (isset($tblhtaccess) && in_array($that_is,$array_modules))
 							if (sql_del($tblhtaccess,"WHERE htaccessitem='".${$that_is."Id"}."' AND htaccesstype='$that_is'  ")==0)

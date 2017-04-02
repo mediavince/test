@@ -1,7 +1,5 @@
 <?php #۞ #
-//if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
-
-//          $notice .= mvtrace(__FILE__,__LINE__)." $x<br />";
+if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
 // BACKWARD COMPATIBILITY
 
@@ -108,7 +106,7 @@ function memdiff()
 
 //CART
 
-function calc_comm($this_facturevaleur,$minus=NULL)
+function calc_comm($this_facturevaleur,$minus=null)
 {
     global $paypal_commission_percent,$paypalcommissionString;
     if ($paypal_commission_percent === true) {
@@ -120,7 +118,7 @@ function calc_comm($this_facturevaleur,$minus=NULL)
     $this_commission = $paypalcommissionString;
     /*
      {
-    if ($minus != NULL)
+    if ($minus != null)
     $this_commission = $paypalcommissionString;
     else
     $this_commission = $this_facturevaleur;
@@ -173,8 +171,7 @@ function check_module_content($value_mod_array,$this_content)
     }
 }
 
-
-function img_size($image,$bigori=NULL)
+function img_size($image,$bigori=null)
 {
     $img = explode(".",strrev($image),2);
     $imgname = strrev($img[1]);
@@ -185,10 +182,10 @@ function img_size($image,$bigori=NULL)
     return $image;
 }
 
-
-function mvtrace($script,$line)
+function mvtrace($script,$line, $message = "")
 {
-    return '<b><i><u>'.addslashes(str_replace($_SERVER['DOCUMENT_ROOT'], '', $script))." #".$line.':</u></i></b> ';
+    \error_log(\sprintf("%s#%d: %s", basename($script), $line, $message));
+    return "";
 }
 
 function connect()
@@ -199,7 +196,7 @@ function connect()
     return $connection;
 }
 
-function gen_form($lg,$x=NULL,$y=NULL)
+function gen_form($lg,$x=null,$y=null)
 {
     global $postgetmethod,$mainurl,$local,$urladmin,$indexdotphpfroform,$htaccess4sef,$full_url;
     if (isset($x)&&!isset($y))
@@ -236,7 +233,7 @@ function delete_imgdoc($table,$imgdoc)
     return (@file_exists($getcwd.$delurl)?false:true);
 }
 
-function human_date($this,$hour=NULL,$class=NULL)
+function human_date($this,$hour=null,$class=null)
 {
     global $trace, $notice, $lg, $array_months, $array_days, $mainurl;
     $output = $this;
@@ -248,7 +245,7 @@ function human_date($this,$hour=NULL,$class=NULL)
         if (('13'>$month) && ($month>'0')) {
             $weekday = date("w", mktime(0,0,0,$month,$day,$year));
             $output = ($hour===true?$time.' ':'').$array_days[$weekday].' '.$day.' '.$array_months[$month-1].' '.$year;
-            if ($class!=NULL)
+            if ($class!=null)
             $output = '<span'.($class=='nl'?
                 	'><img src="'.$mainurl.'images/cal_sml.png" align="left" width="17" height="20" alt=" " border="0" /> '
                 :
@@ -319,6 +316,13 @@ function code2utf($num)
     return '';
 }
 
+function keep_tags($text, $tags = array())
+{
+    $yield = $text;
+    if (!empty($tags))
+        $yield = preg_replace('#<(' . implode( '|', $tags) . ')>.*?<\/$1>#s', '', $text);
+    return $yield;
+}
 
 function gen_lang()
 {
@@ -435,7 +439,7 @@ function sql_getone($dbtable,$where,$getone)
     return $row[0];
 }
 
-function lgx2readable($this_lg,$this_x,$mod=NULL,$id=NULL)
+function lgx2readable($this_lg,$this_x,$mod=null,$id=null)
 {
     global $trace,$x,$notice,$admin_viewing,$array_lang,$tblcont,$x1subok,$full_url,$htaccess4sef,
         $tblhtaccess,$this_is,$filter_index,$filter_map,$filter_archive,$ordered_by,${"tbl".$this_is};
@@ -484,8 +488,8 @@ function lgx2readable($this_lg,$this_x,$mod=NULL,$id=NULL)
                 }
             }
         } else {
-            if ((($mod !== NULL) && ($id !== NULL))) {
-                //	if (($full_url === true) && (($mod !== NULL) && ($id !== NULL))) {
+            if ((($mod !== null) && ($id !== null))) {
+                //	if (($full_url === true) && (($mod !== null) && ($id !== null))) {
                 if (!isset($filter_archive) && (isset($ordered_by) && strstr($ordered_by,'type'))) {
                     $type_url = space2underscore(sql_stringit($this_is.'type',sql_getone(${
 "tbl".$this_is},"WHERE ".$this_is."rid='$id' ",$this_is."type")));
@@ -497,7 +501,7 @@ function lgx2readable($this_lg,$this_x,$mod=NULL,$id=NULL)
                 $redirtourl = $get_redirtourl[0].(isset($type_url)&&($type_url!='')?"/$type_url":'').($geturl!=''?"/$geturl":"/$id");
                 if ($full_url === false) $redirtourl .= '?'.$mod.'Id='.$id;
                 $this_x = ($this_is==$mod&&!isset($filter_index)&&!isset($filter_map)?$x:$get_redirtourl[1]);
-            } else if (isset($this_lg) && ($this_x == '') && ($mod !== NULL)) {
+            } else if (isset($this_lg) && ($this_x == '') && ($mod !== null)) {
                 // compares against type
                 $this_x = sql_getone($tblcont,"WHERE contlang='$this_lg' AND contstatut='Y' AND conttype='$mod' ","contpg");
                 $redirtourl = sql_getone($tblcont,"WHERE contlang='$this_lg' AND contstatut='Y' AND contpg='$this_x' ","conturl");
@@ -1358,12 +1362,12 @@ function insertDiv() {
 
 
 // ##########\/\/\/\/\/ NOT FULL  SEE BELOW \/\/\/\/\/######################## option select
-function gen_selectoption($table,$selected,$type,$what,$show_count=NULL)
+function gen_selectoption($table,$selected,$type,$what,$show_count=null)
 {
     global $dbtable, $trace, $lg, $optionselected, $tblenum, $tblstring, $this_is, $nRowsThis_is, $nRowsThis_isy, $nRowsThis_isn, $fieldis, $toutString, $achoisirString;
     $selectoptions = '';
     if (is_array($table)) {
-        if (in_array($selected,array('ajout','0','',NULL)))
+        if (in_array($selected,array('ajout','0','',null)))
         $selectoptions = '<option value=""> >> '.$achoisirString.' &nbsp;</option>';
         foreach($table as $key) {
             $key = html_encode($key);
@@ -1387,14 +1391,14 @@ function gen_selectoption($table,$selected,$type,$what,$show_count=NULL)
 							AND enumtype LIKE '%$type%'
 							AND enumwhat LIKE '%$what%'
 							");
-        if (in_array($selected,array('ajout','0','',NULL))) {
+        if (in_array($selected,array('ajout','0','',null))) {
             $selectoptions = '<option value=""> >> '.$achoisirString.' &nbsp;</option>';
             for ($i=0;$i<$nRows;$i++) {
                 $row = mysql_fetch_array($read);
                 $selectoptions .= '<option value="'.$row["enumtitre"].'"> '.sql_stringit(($what==''?'general':$what),$row["enumtitre"]).' </option>';
             }
         } else {
-            if (isset($nRowsThis_is) && ($show_count!=NULL))
+            if (isset($nRowsThis_is) && ($show_count!=null))
             $selectoptions = '<option'.($selected==$toutString?$optionselected:'').' value="'.$toutString.'"> ('.$nRowsThis_is.') '.$toutString.' &nbsp;</option>';
             for ($i=0;$i<$nRows;$i++) {
                 $row = mysql_fetch_array($read);
@@ -1404,7 +1408,7 @@ function gen_selectoption($table,$selected,$type,$what,$show_count=NULL)
                 $editwhat = sql_getone($tblstring, " WHERE stringlang='$lg' AND stringtype='$what' AND stringtitle='$row_enumtitre' ", "stringentry");
                 $sql_this = " WHERE ".$fieldis.$what."='$row_enumtitre' ";
                 $countwhat = sql_nrows($dbtable,$sql_this);
-                $selectoptions .= '<option value="'.$row_enumtitre.'" '.$this_select.'>'.($show_count!=NULL?($countwhat==''?'(0)':'('.$countwhat.')'):'').' '.$editwhat.' </option>';
+                $selectoptions .= '<option value="'.$row_enumtitre.'" '.$this_select.'>'.($show_count!=null?($countwhat==''?'(0)':'('.$countwhat.')'):'').' '.$editwhat.' </option>';
             }
         }
     } else if ($table == $tblstring) {
@@ -1424,7 +1428,7 @@ function gen_selectoption($table,$selected,$type,$what,$show_count=NULL)
         }
     } else {
         $selectoptions = '';
-        if (in_array($selected,array('ajout','0','',NULL)))
+        if (in_array($selected,array('ajout','0','',null)))
         $selectoptions = '<option value=""> >> '.$achoisirString.' &nbsp;</option>'	;
         $rid = (in_array($what."rid",sql_fields($table,'array'))?'r':'')."id";
         $whereq = " WHERE ".$what."statut='Y' ".($rid=='rid'?" AND ".$what."lang='$lg' ":'')." $type ";
@@ -1462,13 +1466,13 @@ function gen_selectoption($table,$selected,$type,$what,$show_count=NULL)
 
 
 // ########## full option select
-function gen_fullselectoption($table,$selected,$type,$what,$str_type=NULL)
+function gen_fullselectoption($table,$selected,$type,$what,$str_type=null)
 {
     global $dbtable, $trace, $lg, $optionselected, $tblcont, $tblenum, $tblstring, $this_is, $nRowsThis_is, $nRowsThis_isy, $nRowsThis_isn, $fieldis, $toutString, $achoisirString;
     if (!$str_type) $str_type = 'general';
     $selectoptions = '<select class="text" name="'.$what.'">';
     if (is_array($table)) {
-        if (in_array($selected,array('ajout','0','',NULL)))
+        if (in_array($selected,array('ajout','0','',null)))
         $selectoptions .= '<option value=""> >> '.$achoisirString.' &nbsp;</option>';
         foreach($table as $key) {
             $key = html_encode($key);
@@ -1488,7 +1492,7 @@ function gen_fullselectoption($table,$selected,$type,$what,$str_type=NULL)
 							AND enumtype LIKE '%$type%'
 							AND enumwhat LIKE '%$what%'
 							");
-        if (in_array($selected,array('ajout','0','',NULL))) {
+        if (in_array($selected,array('ajout','0','',null))) {
             $selectoptions .= '<option value=""> >> '.$achoisirString.' &nbsp;</option>';
             for ($i=0;$i<$nRows;$i++) {
                 $row = mysql_fetch_array($read);
@@ -1522,7 +1526,7 @@ function gen_fullselectoption($table,$selected,$type,$what,$str_type=NULL)
         }
     } else if ($table == $tblcont) {
         $selectoptions .= '';
-        if (in_array($selected,array('ajout','0','',NULL)))
+        if (in_array($selected,array('ajout','0','',null)))
         $selectoptions .= '<option value=""> >> '.$achoisirString.' &nbsp;</option>'	;
         $whereq = " WHERE ".$what."statut='Y' $type ";
         $read = @mysql_query(" SELECT * FROM $table "); // $whereq
@@ -1555,7 +1559,7 @@ function gen_fullselectoption($table,$selected,$type,$what,$str_type=NULL)
         }
     } else {
         $selectoptions .= '';
-        if (in_array($selected,array('ajout','0','',NULL)))
+        if (in_array($selected,array('ajout','0','',null)))
         $selectoptions .= '<option value=""> >> '.$achoisirString.' &nbsp;</option>'	;
         $rid = (in_array($what."rid",sql_fields($table,'array'))?'r':'')."id";
         $whereq = " WHERE ".$what."statut='Y' ".($rid=='rid'?" AND ".$what."lang='$lg' ":'')." $type ";
@@ -1594,7 +1598,7 @@ function gen_fullselectoption($table,$selected,$type,$what,$str_type=NULL)
 
 
 // ########## option check
-function gen_inputcheck($table,$checked,$type,$what,$hide_first=NULL)
+function gen_inputcheck($table,$checked,$type,$what,$hide_first=null)
 {
     global $dbtable, $trace, $lg, $inputchecked, $tblenum, $tblstring, $this_is, $nRowsThis_is, $nRowsThis_isy, $nRowsThis_isn, $fieldis, $toutString, $achoisirString;
     if (($checked !== 'ajout') || ($checked !== '')) {
@@ -1985,7 +1989,7 @@ class zip
     {
         global $trace,$notice,$error,$getcwd,$up,$filedir,$urladmin;
         if (function_exists('zip_open')) {
-            function unzip($file,$dest=NULL)
+            function unzip($file,$dest=null)
             {
                 //  $zip=zip_open(realpath(".")."/".$file);
                 $zip = zip_open($file);
