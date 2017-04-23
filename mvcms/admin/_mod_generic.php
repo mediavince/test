@@ -978,22 +978,22 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 	$_head_mod_content = $_pre_css_bgimg.'<a href="'.$_SERVER['REQUEST_URI'].'" target="_self">'.$_head_mod_content.'</a>'.$_post_css_bgimg;
 	*/
 		if ((isset(${$this_is."Id"}) || isset(${$this_is."Type"})) && ($view_see_all_button === true))
-			$_head_mod_content .= $_pre_css_bgimg.'<a href="'.($admin_viewing===true?$local_url:lgx2readable($lg,$x,$this_is)).'" target="_self">'.$voirString.' '.$toutString.'</a>'.$_post_css_bgimg;//.'<div style="float:left;">'.'</div>';
+			$_head_mod_content .= '<div class="see-all">'.$_pre_css_bgimg.'<a href="'.($admin_viewing===true?$local_url:lgx2readable($lg,$x,$this_is)).'" target="_self">'.$voirString.' '.$toutString.'</a>'.$_post_css_bgimg.'</div>';//.'<div style="float:left;">'.'</div>';
 		//  if (!isset(${$this_is."Id"}) && (!isset(${"filter_search"}) || (isset(${"filter_search"}) && ((${"filter_search"}===true) || in_array($this_is.${"filter_search"},$array_fields) || (isset($that_is) && in_array($that_is.${"filter_search"},$that_array_fields))))))
 		if (!isset(${$this_is."Id"}) && (!isset(${"filter_search"}) || (isset(${"filter_search"}) && (${"filter_search"}===true))))
-			$_head_mod_content .= ($admin_viewing===true?gen_form($lg,$x,$y):gen_form($lg,$x))
-			.'<div style="float:right;">'.$_pre_css_bgimg.'<div class="bgimg-two-bot-search">
+			$_head_mod_content .= '<div class="filter-search">'.($admin_viewing===true?gen_form($lg,$x,$y):gen_form($lg,$x))
+			.'<div>'.$_pre_css_bgimg.'<div class="bgimg-two-bot-search">
 			<input type="text" name="q" value="'.(isset($q)?$q:'').'" /><input type="submit" value="'.$rechercherString.'" />'
 			.(isset($q)&&($q_count>0)?'<br /> > '.$q_count.' '.$class_conjugaison->plural($confirmeString,'',$q_count):'')
 			.' ('.(isset($filter_searchfield)?${$filter_searchfield."String"}:${(substr($array_fields[5],strlen($this_is))=='gendre'
-			?'nom':substr($array_fields[5],strlen($this_is)))."String"}).')</div>'.$_post_css_bgimg.'</div></form>';
+			?'nom':substr($array_fields[5],strlen($this_is)))."String"}).')</div>'.$_post_css_bgimg.'</div></form></div>';
 		$_head_mod_content .= '</div>';
 		if (in_array($this_is."coords",$array_fields)&&!isset($that_is))
-			$_ordered_mod_content = $_pre_css_bgimg.'<a href="'.($admin_viewing===true?$local.'?lg='.$lg.'&amp;x='
+			$_ordered_mod_content = '<div class="see-all">'.$_pre_css_bgimg.'<a href="'.($admin_viewing===true?$local.'?lg='.$lg.'&amp;x='
 			.(isset($filter_mapdisplay)&&preg_match("/^[0-9]+\$/",$filter_mapdisplay)
 			?$filter_mapdisplay:$x):lgx2readable($lg,(isset($filter_mapdisplay)&&preg_match("/^[0-9]+\$/",$filter_mapdisplay)
 			?$filter_mapdisplay:''))).'">&nbsp;'.$mapString.'&nbsp;</a>'.$_post_css_bgimg.(isset($_ordered_mod_content)
-			?$_ordered_mod_content:'');
+			?$_ordered_mod_content:'').'</div>';
 		if (isset($_ordered_mod_content) && ($_ordered_mod_content != '')) {
 			$_head_mod_content .= $_ordered_mod_content;
 		}

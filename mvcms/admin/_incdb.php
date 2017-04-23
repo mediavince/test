@@ -280,10 +280,9 @@ $javascript = '
 			.(isset($javascript)?$javascript:'');
 
 $_pre_css_bgimg = '
-<div tabindex="0" act="0" role="button" class="bgimg-one">
+<div role="button" class="bgimg-one">
 	<div class="bgimg-two">
-		<div class="bgimg-two-top">
-		</div>
+		<div class="bgimg-two-top"></div>
 		<div class="bgimg-two-bot">';
 $_post_css_bgimg = '
 		</div>

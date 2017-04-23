@@ -795,7 +795,7 @@ if (isset($send)) {
 							$text_style_js:'').'<br /><textarea id="elm'
 							.($i_elm>=-1?$i_elm+=1:'').'" name="'.$this_is.ucfirst($key)
 							.'" rows="20" cols="40" '
-							.'style="width:97%;height:300px;min-height:300px;">'
+							.'style="width:97%;height:200px;min-height:200px;">'
 							.format_edit($editthis[$i],'edit').'</textarea><br />';
 						$content .= $form_content[$this_is.$key];
 					} else if (in_array("$this_is$key",$enumYN_array)) {

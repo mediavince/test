@@ -16,7 +16,7 @@ dd{margin-bottom:1em;}
 .trmenu{float:right;margin:0 auto;}
 .trmenu ul{list-style-type:none;margin-top:0px;}
 .trmenu ul li{font-size:80%;float:right;margin-top:0px;padding:0 5px;}
-form{float:left;width:99%;}
+form{width:99%;}
 form label{display:inline;float:none;text-align:left;vertical-align:top;width:inherit;font-weight:bold;}
 form input,form select,form textarea{border:1px solid #CCC;margin:2px 0pt 0pt 10px;width:auto;font-size:13px;padding:1px;}
 form input[type=text],form input[type=password],form input.text{width:97%;min-width:250px;}
@@ -175,7 +175,7 @@ table td{border:1px inset gray;border-right:0px;border-bottom:0px;vertical-align
 .bgimg-two-top{background:#F9F9F9 none repeat scroll 0 0;border-bottom:0.2em solid #EEEEEE;height:0.9em;position:absolute;overflow:hidden;top:0;right:0;left:0;}
 .bgimg-two-bot{line-height:1.8em;position:relative;padding:0 8px;vertical-align:middle;cursor:default;}
 .show_array{float:left;border:1px solid gray;padding:2px;margin:2px;width:99%;margin:2px 2px 2px 3px;width:94%;}
-.disp_inline{display:inline;}
+.disp_inline{display:inline;width: 99%;}
 .bgimg-one form{height:13px;}
 .right_floating_box{float:right;border:1px solid gray;padding:2px;}
 .imagehighnof{float:right;height:0px;position:relative;top:30px;width:500px;}
@@ -319,4 +319,7 @@ h2 > div{float:right;margin-top:-33px;font-size:60%;}
 }
 .absolute-form{
 	position:absolute;left:23%;right:23%;z-index: 2;background:white;width:50%;min-width:650px;border:15px solid grey;border-radius:15px;padding:5px;
+}
+.filter-search form > div {
+	float:right;
 }
