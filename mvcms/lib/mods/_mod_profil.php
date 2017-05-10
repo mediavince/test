@@ -300,12 +300,16 @@ if ($admin_viewing === true) {
   							} else {
                   $_SESSION['pwdtochange'] = true;
   	              $loginform = "";
-  	              $notice = $identifierencoreString.'<div style="width:40%;text-align:right;">'.gen_form($lg,$x).$form_login.'</div>';
+                  $notice =  '<font color="Green"><b>'.$modificationString.' '.$class_conjugaison->plural($effectueString,'F','1').'!</b></font>'."<br />"
+                    .$identifierencoreString."<br />"
+                    // .'<div style="margin:0 auto;width:40%;text-align:right;">'.gen_form($lg,$x).$form_login.'</div>'
+                  ;
                   $_SESSION['mail_count'] = 0;
                   $_SESSION['mv_notice'] = $notice;
-  	              user_logout();
-  	            }
-  				    $notice .= '<font color="Green"><b>'.$emailString.', '.$motdepasseString.': '.$modificationString.' '.$class_conjugaison->plural($effectueString,'F','1').'!</b></font>';
+                  $logged_in = false;
+                //  user_logout();
+                }
+            //  $notice .= '<font color="Green"><b>'.$modificationString.' '.$class_conjugaison->plural($effectueString,'F','1').'!</b></font>';
             }
             $_SESSION['mv_error'] = $error;
             $_SESSION['mv_notice'] = $notice;
@@ -523,5 +527,5 @@ if ($admin_viewing === true) {
   	}
   }
 ####################################### CREATE NEW ENTRY WITH VALIDATION
-$_mod_profil = ($logged_in===true?$_mod_content:'');
+$_mod_profil = ($logged_in===true?$_mod_content:'<div style="margin:0 auto;width:40%;text-align:right;">'.gen_form($lg).$form_login.'</div>');
 ?>
