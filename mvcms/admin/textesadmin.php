@@ -57,7 +57,8 @@ if (!isset($send)) {
 		$row_title = $row["".fieldis('title').""];
 		$row_entry = $row["".fieldis('entry').""];
 		if (isset($_POST[$row_id])) {
-			$_POST[$row_id] = html_encode(strip_tags(stripslashes(str_replace("'","&acute;",$_POST[$row_id])),"<a><i><b><u><br><h2><span>"));//´
+      $_POST[$row_id] = strip_tags(stripslashes(str_replace("'","&acute;",html_encode($_POST[$row_id]))),"<a><i><b><u><br><h2><span>");//´
+			// $_POST[$row_id] = html_encode(strip_tags(stripslashes(str_replace("'","&acute;",$_POST[$row_id])),"<a><i><b><u><br><h2><span>"));//´
 		//	if (in_array($row_type,array("general","jour","mois")))
 			if ($row_type == "general")
 			if (isset($_POST['import'])) {
@@ -109,7 +110,8 @@ if (!isset($send)) {
       $stringTitle = strip_tags(html_encode($_POST['new'.fieldis('title')]));
       $stringType = strip_tags($_POST[fieldis('type')]);
       if (sql_nrows($dbtable,"WHERE ".fieldis('title')."='$stringTitle' AND ".fieldis('type')."='$stringType' ")==0) {
-        $stringDesc = html_encode(strip_tags(stripslashes(str_replace("'","&acute;",$_POST['new'.fieldis('entry')])),"<a><i><b><u><br><h2><span>"));//´
+        $stringDesc = strip_tags(stripslashes(str_replace("'","&acute;",html_encode($_POST['new'.fieldis('entry')]))),"<a><i><b><u><br><h2><span>");//´
+        // $stringDesc = html_encode(strip_tags(stripslashes(str_replace("'","&acute;",$_POST['new'.fieldis('entry')])),"<a><i><b><u><br><h2><span>"));//´
         foreach($array_lang as $k) {
           $insertquery = @mysql_query("
   									INSERT INTO $dbtable 
@@ -134,8 +136,8 @@ if (!isset($send)) {
 	if (!isset($_POST['import']) && ($update_rapport == '')) {
     $content .= '<br /><p style="text-align: center"><font color="Green"><b>'.$enregistrementString.' '.$nonString.' '.$modifieString.'</b></font><br /> <br /><a href="'.$local.'?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
 	} else {
-    $first_line = '<'.'?PHP if (stristr($_SERVER[\'PHP_SELF\'],\'_full_strings_'.$lg.'.php\')){include\'_security.php\';Header("Location: $redirect");Die();}';
-    $last_line = '?'.'>';
+    $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'],\'_full_strings_'.$lg.'.php\')){include\'_security.php\';Header("Location: $redirect");Die();}';
+    $last_line = PHP_EOL;//'?'.'>';
 	  $Fnm = $getcwd.$up.$safedir.'_full_strings_'.$lg.'.php';
 		$inF = fopen($Fnm,"w+");
 		$full_strings = $first_line.
