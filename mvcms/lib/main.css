@@ -189,7 +189,8 @@ table td{border:1px inset gray;border-right:0px;border-bottom:0px;vertical-align
 .cpCurrentDate{color:#F50;}
 td.cpCurrentDate{border: thin solid #000;}
 .generic_wrapper{width:99%;float:left;}
-.generic_wrapper .centered{min-width:645px;max-width:845px;margin:0 auto;}
+.generic_wrapper .centered{margin:0 auto;}
+.generic_wrapper > .centered{min-width:645px;max-width:845px;}
 .centered h3{min-width:145px;max-width:205px;overflow:hidden;}/*float:right;min-width:145px;max-width:205px;margin:2px auto;*/
 #leftbox{padding:4px 4px 14px 4px;}/*float:left;min-width:145px;max-width:205px;*//*margin-right:10px;border-top:0px;border-right:1px solid gray;border-bottom:1px solid gray;border-left:0px;max-width:155px;*/
 #leftbox .centered{min-width:145px;max-width:205px;overflow:hidden;float:left;}/*margin-left:10px;float:right;min-width:145px;max-width:205px;margin:2px auto;*/
