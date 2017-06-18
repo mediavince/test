@@ -1060,9 +1060,10 @@ if (isset($send)) {
 				$notice .= $notice_img;
 				if ($error == '') {
 					$_SESSION['mv_notice'] = $notice;
-					if (in_array($this_is,$editable_by_membre) && !stristr($_SERVER['PHP_SELF'],$urladmin) && ($logged_in === true) && isset(${$this_is."Id"}))
-					{
-						Header("Location: ".html_entity_decode($mainurl.lgx2readable($lg,'',$this_is,'')));
+					if ((in_array($this_is,$editable_by_membre) || in_array($this_is,$deletable_by_membre))
+					 && !stristr($_SERVER['PHP_SELF'],$urladmin) && ($logged_in === true) && isset(${$this_is."Id"})
+					) {
+						Header("Location: ".html_entity_decode($mainurl.lgx2readable($lg,'',$this_is,'')));Die();
 					} else {
 						Header("Location: ".html_entity_decode($local_url));Die();
 					}

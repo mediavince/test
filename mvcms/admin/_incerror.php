@@ -218,7 +218,6 @@ function delete_imgdoc($table,$imgdoc)
     $ext = explode('.',$imgdoc);
     $ext = strtolower($ext[count($ext)-1]);
     $delurl = "$up$imgdoc";
-    error_log("delete imgdoc:".$getcwd.$delurl);
     @unlink($getcwd.$delurl);
     if (in_array($ext,$array_img_ext)) {
         $bigdelurl = strrev($delurl);
