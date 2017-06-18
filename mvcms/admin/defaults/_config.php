@@ -102,6 +102,7 @@ $rss_cont = true; // default:none, shows or not the pages
 $tabbing = true;// shows tabs on profile page with tabs form array_tabs, below
 $array_tabs = array("user", "membre", "event", "forum"); // default
 $editable_by_membre = array("event", "forum");//$editable_by_membre = array("<module>");// for mod_profil but it is still not generic, has to be in array_tabs
+$deletable_by_membre = array("event", "forum");//$deletable_by_membre = array("<module>");
 $editable_by_membre_needed_params = array("membre");// fields that are in $editable_by_membre and are needed to submit content when logged in
 $protected_show = true;// shows or not protected pages in the menus
 //$map_image = 'content/europe-map_ori.gif'; // for map if coords field exists and a map has been uploaded

@@ -704,7 +704,7 @@ if (isset($send)) {
 								.'[]" /><br /></div>';
 						} else {
 							${$this_is.$key}[$ii] = '<label for="'.$this_is
-								.ucfirst($key).'[]">'.ucfirst(${$key."String"}).($ii>0?$ii:'')
+								.ucfirst($key).'[]" title="'.\join(', ',$array_doc_ext).'">'.ucfirst(${$key."String"}).($ii>0?$ii:'')
 								.'</label><input type="file" name="'.$this_is.ucfirst($key)
 								.'[]" />'.(isset($editthis[$i][$ii])&&$editthis[$i][$ii]!=''?
 								'<a href="'.$mainurl.(stristr($editthis[$i][$ii],$safedir)?

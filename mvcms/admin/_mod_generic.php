@@ -645,14 +645,14 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 									$show_metadesc = '';
 									$show_metakeyw = '';
 								}
-								/* 20090526 placed below in key=array_modules, to confirm (need for inputing content of resp where yinvs was fetched)
-				*/
+								// 20090526 placed below in key=array_modules, to confirm (needed for inputing content of resp where yinvs was fetched)
 								if (isset($show_array))
 								foreach($show_array as $show_array_key) {
 									if (strstr($show_array_key,":")) {
 										$show_array_key = explode(":",$show_array_key);
 										if (isset(${"connected_byid_".$this_is."_".$show_array_key[0]}))
 										{
+											if (isset($current[$this_is.$show_array_key[0]]))
 											${"show_".$show_array_key[0]."_".$show_array_key[1]} = sql_getone(${"tbl".$show_array_key[0]}," WHERE ".$show_array_key[0]."rid='".$current[$this_is.$show_array_key[0]]."' AND ".$show_array_key[0]."lang='$lg' ",$show_array_key[0].$show_array_key[1]);
 										} elseif (isset(${"connected_byid_".$show_array_key[0]."_".$this_is})) {
 											${"show_".$show_array_key[0]."_".$show_array_key[1]} = sql_getone(${"tbl".$show_array_key[0]}," WHERE ".$show_array_key[0]."rid='$show_id' AND ".$show_array_key[0]."lang='$lg' ",$show_array_key[0].$show_array_key[1]);
@@ -886,7 +886,7 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 								}
 							}
 							//  $_mod_content .= $key." == ".$value."<br />";
-							if (($key == 'membre') && in_array($this_is,$editable_by_membre))
+							if (($key == 'membre') && (in_array($this_is,$editable_by_membre) || in_array($this_is,$deletable_by_membre)))
 								$membre_id = $value; // allows logged_in members to edit own content according to array $editable_by_membre in tpl
 						}
 						if (isset($select_array) && in_array($key,$select_array) && isset(${"show_".$key}))
@@ -923,10 +923,16 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 						if (!isset($filter_map) && (!isset($bypass_this) || (isset($bypass_this) && ($bypass_this === false))))
 							$_mod_content .= '<div class="show_array">';//width:48%;
 
-						if (($logged_in === true) && ((!isset($filter_map) && (!isset($bypass_this) || (isset($bypass_this) && ($bypass_this === false)))) || isset($filter_index)) && ((isset($membre_id) && isset($user_name) && (sql_getone($tbluser,"WHERE userutil='$user_name' ","userid") == $membre_id)) || (($admin_viewing === true) && !in_array('1',$admin_priv))))
+						$_membre_owned = (isset($membre_id) && isset($user_name) && (sql_getone($tbluser,"WHERE userutil='$user_name' ","userid") == $membre_id));
+						if (($logged_in === true)
+						 && ((!isset($filter_map) && (!isset($bypass_this) || (isset($bypass_this) && ($bypass_this === false)))) || isset($filter_index))
+						 && ($_membre_owned || (($admin_viewing === true) && !in_array('1',$admin_priv))
+						))
 						$_mod_content .= '<div style="float:right;clear:right;">'.(in_array($this_is.'publish',$array_fields)?'<a href="'.($full_url===true||$admin_viewing===true?($admin_viewing===true?$local:$mainurl).lgx2readable($lg,'',$this_is,$show_id).($admin_viewing===true?'':"?"):$local_url.'&amp;'.$this_is.'Id='.$show_id).(isset($send)?'&amp;send='.$send:'').'&amp;toggle=publish" onclick="return confirm(\''.($getitem[array_search($this_is.'publish',$array_fields)]=='Y'?$nonString.' '.$publishString.' ?\');"><img src="'.$mainurl.'images/publish_y.png" width="12" height="12" border="0" title="'.$publishedString.'" alt="'.$publishedString:$publishString.' ?\');"><img src="'.$mainurl.'images/publish_n.png" width="12" height="12" border="0" title="'.$nonString.' '.$publishedString.'" alt="'.$nonString.' '.$publishedString).'" /></a> ':'').(in_array($this_is.'archive',$array_fields)?'<a href="'.$local_url.'&amp;'.$this_is.'Id='.$show_id.(isset($send)?'&amp;send='.$send:'').'&amp;toggle=archive" onclick="return confirm(\''.($getitem[array_search($this_is.'archive',$array_fields)]=='Y'?$nonString.' '.$archiveString.' ?\');"><img src="'.$mainurl.'images/archive_y.png" width="24" height="24" border="0" title="'.$archivedString.'" alt="'.$archivedString:$archiveString.' ?\');"><img src="'.$mainurl.'images/archive_n.png" width="24" height="24" border="0" title="'.$nonString.' '.$archivedString.'" alt="'.$nonString.' '.$archivedString).'" /></a>':'')
-							.'<a href="'.($admin_viewing===true?$local.'?lg='.$lg.'&amp;x=z&amp;y='.$this_is.'&amp;'.$this_is."Id=$show_id&amp;":$mainurl.lgx2readable($lg,'',$this_is,$show_id).($full_url===true?'?':'&amp;')).'send=edit">'.$modifierString.'</a> '
-							.'<a href="'.($admin_viewing===true?$local.'?lg='.$lg.'&amp;x=z&amp;y='.$this_is.'&amp;'.$this_is."Id=$show_id&amp;":$mainurl.lgx2readable($lg,'',$this_is,$show_id).($full_url===true?'?':'&amp;')).'send=delete" onclick="return confirm(\''.$confirmationeffacementString.'\');"><img src="'.$mainurl.'images/delete.gif" width="10" height="10" title="'.$effacerString.'" alt="'.$effacerString.'" border="0" /></a>'
+							.($admin_viewing||(in_array($this_is,$editable_by_membre)&&$_membre_owned)
+								?'<a href="'.($admin_viewing===true?$local.'?lg='.$lg.'&amp;x=z&amp;y='.$this_is.'&amp;'.$this_is."Id=$show_id&amp;":$mainurl.lgx2readable($lg,'',$this_is,$show_id).($full_url===true?'?':'&amp;')).'send=edit">'.$modifierString.'</a> ':'')
+							.($admin_viewing||(in_array($this_is,$deletable_by_membre)&&$_membre_owned)
+								?'<a href="'.($admin_viewing===true?$local.'?lg='.$lg.'&amp;x=z&amp;y='.$this_is.'&amp;'.$this_is."Id=$show_id&amp;":$mainurl.lgx2readable($lg,'',$this_is,$show_id).($full_url===true?'?':'&amp;')).'send=delete" onclick="return confirm(\''.$confirmationeffacementString.'\');"><img src="'.$mainurl.'images/delete.gif" width="10" height="10" title="'.$effacerString.'" alt="'.$effacerString.'" border="0" /></a>':'')
 							.'</div>'; // allows logged_in members to edit own content according to array $editable_by_membre in tpl($admin_viewing===true?$local.'?lg='.$lg.'&amp;x=z&amp;y='.$this_is.'&amp;'.$this_is."Id=$show_id&amp;send=edit":($full_url===true?$mainurl.lgx2readable($lg,'',$this_is,$show_id)
 
 						//.'<a href="'.($full_url===true&&$admin_viewing===false?$mainurl.lgx2readable($lg,'',$this_is,$show_id)."?send=edit":($admin_viewing===true?$local.'?lg='.$lg.'&amp;x=z&amp;y='.$this_is.'&amp;'.$this_is.'Id='.$show_id.'&amp;send=delete" onclick="return confirm(\''.$confirmationeffacementString.'\');"><img src="'.$mainurl.'images/delete.gif" width="10" height="10" title="'.$effacerString.'" alt="'.$effacerString.'" border="0" /></a>'.'<br /><a href="'.$local.'?lg='.$lg.'&amp;x=z&amp;y='.$this_is:$local_url).'&amp;'.$this_is.'Id='.$show_id.'&amp;send=edit').'">'.$modifierString.'</a></div>';
