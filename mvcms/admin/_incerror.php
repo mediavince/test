@@ -232,12 +232,12 @@ function delete_imgdoc($table,$imgdoc)
     return (@file_exists($getcwd.$delurl)?false:true);
 }
 
-function human_date($this,$hour=null,$class=null)
+function human_date($_this,$hour=null,$class=null)
 {
     global $trace, $notice, $lg, $array_months, $array_days, $mainurl;
-    $output = $this;
-    if (strstr($this,"-")) {
-        if (preg_match("/^[0a-zA-Z]\$/",$this[0]))
+    $output = $_this;
+    if (strstr($_this,"-")) {
+        if (preg_match("/^[0a-zA-Z]\$/",$_this[0]))
         $output = date('Y-m-d h:i:s');
         $time = substr($output,-9);
         list($year,$month,$day) = explode('-',substr($output,0,-9));
@@ -254,11 +254,11 @@ function human_date($this,$hour=null,$class=null)
     return $output;
 }
 
-function edit_date($this)
+function edit_date($_this)
 {
     global $trace, $lg, $array_months, $array_days, $notice, $null_time;
-    $output = $this;
-    $date = explode(" ",$this);
+    $output = $_this;
+    $date = explode(" ",$_this);
     $time = (isset($date[1])&&($date[1]!='')?$date[1]:$null_time);
     $time = (strlen($time)<strlen($null_time)?$time.substr($null_time,strlen($time)):$time);
     $date = $date[0];
@@ -274,10 +274,10 @@ function edit_date($this)
     return $output;
 }
 
-function db_date($this)
+function db_date($_this)
 {
     global $trace, $lg, $notice, $null_time;
-    $date = explode(" ",$this);
+    $date = explode(" ",$_this);
     $time = (isset($date[1])&&($date[1]!='')?$date[1]:$null_time);
     $time = (strlen($time)<strlen($null_time)?$time.substr($null_time,strlen($time)):$time);
     $date = $date[0];
@@ -395,10 +395,10 @@ function gen_lang()
 }
 
 
-function fieldis($this)
+function fieldis($_this)
 {
     global $this_is;
-    $fieldisthat = $this_is.$this;
+    $fieldisthat = $this_is.$_this;
     return $fieldisthat;
 }
 
@@ -639,15 +639,15 @@ function sql_fields($dbtable,$output)
     }
 }
 
-function get_types($this)
+function get_types($_this)
 {
     global $trace,$notice,$redirect,${
-"tbl".$this},$dbtime,$curdate,$array_compare_by_exacttime,$this_is,$that_is,$lg;
+"tbl".$_this},$dbtime,$curdate,$array_compare_by_exacttime,$this_is,$that_is,$lg;
         if (!isset($array_compare_by_exacttime)) $array_compare_by_exacttime = array();
         global $array_fields,$that_array_fields;
         global $array_fields_type,$mediumtext_array,$longtext_array,$enumYN_array,$enumtype_array,$int3_array,$datetime_array;
         $dbtable = ${
-"tbl".$this};
+"tbl".$_this};
             $this_array_fields = sql_fields($dbtable,'array');
             if (!isset($array_fields_type))
             $array_fields_type = array();//lists all types for a given table
@@ -692,18 +692,18 @@ function get_types($this)
             $datetime_array = array_unique($datetime_array);
 }
 
-function filter_sql_q($this)
+function filter_sql_q($_this)
 {
     global $trace,$notice,$redirect,${
-"tbl".$this},$dbtime,$curdate,$array_compare_by_exacttime,$this_is,$that_is,$lg;
+"tbl".$_this},$dbtime,$curdate,$array_compare_by_exacttime,$this_is,$that_is,$lg;
         if (!isset($array_compare_by_exacttime)) $array_compare_by_exacttime = array();
         global $array_fields,$that_array_fields;
         global $filter_future,$filter_past,$filter_archive,$filter_search,$filter_searchfield,$q;
         if (!isset($sql_q)) $sql_q = '';
         $dbtable = ${
-"tbl".$this};
+"tbl".$_this};
             /*
-             if (($this == $this_is) || (isset($that_is) && ($this == $that_is))) {
+             if (($_this == $this_is) || (isset($that_is) && ($_this == $that_is))) {
             $this_array_fields = sql_fields($dbtable,'array');
             $array_fields_type = array();//lists all types for a given table
             $mediumtext_array = array(); // textarea no formatting: eg meta desc & keyw
@@ -733,7 +733,7 @@ function filter_sql_q($this)
             } else
             global $array_fields_type,$mediumtext_array,$longtext_array,$enumYN_array,$enumtype_array,$int3_array,$datetime_array;
             */
-            if (($this == $this_is) || (isset($that_is) && ($this == $that_is))) {
+            if (($_this == $this_is) || (isset($that_is) && ($_this == $that_is))) {
             global $array_fields_type,$mediumtext_array,$longtext_array,$enumYN_array,$enumtype_array,$int3_array,$datetime_array;
         } else {
             $this_array_fields = sql_fields($dbtable,'array');
@@ -765,12 +765,12 @@ function filter_sql_q($this)
             }
             @mysql_free_result($result);
         }
-        if (isset($this_array_fields) && in_array($this."lang",$this_array_fields))
-        $sql_q .= " AND ".$this."lang='$lg' ";
+        if (isset($this_array_fields) && in_array($_this."lang",$this_array_fields))
+        $sql_q .= " AND ".$_this."lang='$lg' ";
         if (isset($q) && ($q != ''))
         if (isset($filter_search) && isset($filter_searchfield) && (in_array($this_is.$filter_searchfield,$array_fields) || (isset($that_is) && in_array($that_is.$filter_searchfield,$that_array_fields)))) {
             if (isset($that_is) && in_array($that_is.$filter_searchfield,$that_array_fields)) {
-                // && ($this == $that_is)
+                // && ($_this == $that_is)
                 $sql_q .= " AND ".$that_is.$filter_searchfield." LIKE '%$q%' ";
             } else {
                 if (in_array($this_is.$filter_searchfield,$array_fields))
@@ -818,31 +818,31 @@ function filter_sql_q($this)
         $curdate = str_replace("NOW()","CURDATE()",$dbtime);
 
         foreach(sql_fields($dbtable,'array') as $key_filter) {
-            $key_filter = substr($key_filter,strlen($this));
+            $key_filter = substr($key_filter,strlen($_this));
             global ${
 "filter_".$key_filter};
                 if (isset(${
-"filter_".$key_filter}) && !in_array($this.$key_filter,$datetime_array)) {
+"filter_".$key_filter}) && !in_array($_this.$key_filter,$datetime_array)) {
                     if (is_bool(${
-"filter_".$key_filter}) && in_array($this.$key_filter,$enumYN_array))
-                        $sql_q .= " AND $this$key_filter='".(${
+"filter_".$key_filter}) && in_array($_this.$key_filter,$enumYN_array))
+                        $sql_q .= " AND $_this$key_filter='".(${
 "filter_".$key_filter}===true?'Y':'N')."' ";
                         else
-                        $sql_q .= " AND $this$key_filter='".${
+                        $sql_q .= " AND $_this$key_filter='".${
 "filter_".$key_filter}."' ";
                 } else {
                     if (isset($filter_archive))
                     if (is_bool($filter_archive))
-                    $check = " AND ".$this."date".($filter_archive===true?' <':' >=').(in_array($this.'date',$array_compare_by_exacttime)?" $dbtime ":" $curdate ");
+                    $check = " AND ".$_this."date".($filter_archive===true?' <':' >=').(in_array($_this.'date',$array_compare_by_exacttime)?" $dbtime ":" $curdate ");
                     else {
                         if (in_array($filter_archive,array($key_filter,"-$key_filter")))
-                        $check = " AND ".$this.($key_filter==$filter_archive?$filter_archive.' <':substr($filter_archive,1).' >=').(in_array($this.($key_filter==$filter_archive?$filter_archive:substr($filter_archive,1)),$array_compare_by_exacttime)?" $dbtime ":" $curdate ");
+                        $check = " AND ".$_this.($key_filter==$filter_archive?$filter_archive.' <':substr($filter_archive,1).' >=').(in_array($_this.($key_filter==$filter_archive?$filter_archive:substr($filter_archive,1)),$array_compare_by_exacttime)?" $dbtime ":" $curdate ");
                     }
                     else {
-                        if (isset($filter_future) && ($filter_future == $key_filter) && in_array($this.$filter_future,$datetime_array))
-                        $check = " AND ".$this.$key_filter." >= ".(in_array($this.$key_filter,$array_compare_by_exacttime)?" $dbtime ":"$curdate ");
-                        if (isset($filter_past) && ($filter_past == $key_filter) && in_array($this.$filter_past,$datetime_array))
-                        $check = " AND ".$this.$key_filter." < ".(in_array($this.$key_filter,$array_compare_by_exacttime)?" $dbtime ":"$curdate ");
+                        if (isset($filter_future) && ($filter_future == $key_filter) && in_array($_this.$filter_future,$datetime_array))
+                        $check = " AND ".$_this.$key_filter." >= ".(in_array($_this.$key_filter,$array_compare_by_exacttime)?" $dbtime ":"$curdate ");
+                        if (isset($filter_past) && ($filter_past == $key_filter) && in_array($_this.$filter_past,$datetime_array))
+                        $check = " AND ".$_this.$key_filter." < ".(in_array($_this.$key_filter,$array_compare_by_exacttime)?" $dbtime ":"$curdate ");
                     }
                     if (isset($check)&&!strstr($sql_q,$check)) $sql_q .= $check;
                 }
@@ -1805,7 +1805,7 @@ class Conjugaison
                 if	($genre == 'F')	$fem = "e"	;
                 if	($genre == 'M')	$fem = ""	;
                 if ($genre == '') {
-                    $this->plural = $text;
+                    $_this->plural = $text;
                 } else {
                     if (strstr($text, ' ')) {
                         $text = explode(' ', $text);
@@ -1831,7 +1831,7 @@ class Conjugaison
                                 $newtext .= $text[$i].$s.' ';
                             }
                         }
-                        $this->plural = $newtext;
+                        $_this->plural = $newtext;
                     } else {
                         $revtext = strrev($text);
                         if	((count($text) > '2') && (($revtext[2] == 'e') && ($revtext[1] == 'a') && ($revtext[0] == 'u')))	$s = "x"	;
@@ -1840,7 +1840,7 @@ class Conjugaison
                             $text = substr($text, 0, -2);
                         }
                         if	(($genre == 'F') && ($revtext[0] !== 'e') && ($revtext[0] !== 'n'))	$text .= $fem	;
-                        $this->plural = $text.$s;
+                        $_this->plural = $text.$s;
                     }
                 }
             } else if ($lg == 'en') {
@@ -1856,7 +1856,7 @@ class Conjugaison
                         $text[0] = substr($revtext,1);
                         $s = "ies"	;
                     }
-                    $this->plural = strrev($text[1]).' '.strrev($text[0]).$s;
+                    $_this->plural = strrev($text[1]).' '.strrev($text[0]).$s;
                 } else {
                     $revtext = strrev($text);
                     if ((($revtext[1] == 'e') && ($revtext[0] == 'd')) || ($revtext[0] == 's')) {
@@ -1866,7 +1866,7 @@ class Conjugaison
                         $s = "ies"	;
                     }
                     $array_inv = array('Dear');
-                    $this->plural = $text.(in_array($text,$array_inv)?'':$s);
+                    $_this->plural = $text.(in_array($text,$array_inv)?'':$s);
                 }
             } else if (($lg == 'it') || ($lg == 'es')) {
                 // puts i or e at every words end according to genre M or F
@@ -1897,7 +1897,7 @@ class Conjugaison
                             $newtext .= $text[$i].$s.' ';
                         }
                     }
-                    $this->plural = $newtext;
+                    $_this->plural = $newtext;
                 } else {
                     $chop = "-1";
                     $revtext = strrev($text);
@@ -1908,15 +1908,15 @@ class Conjugaison
                         $s = 'e';
                     }
                     if (($revtext[0] == ';') || !in_array($revtext[0],array('a','e','o'))) {
-                        $this->plural = $text;
+                        $_this->plural = $text;
                     } else {
                         if	(($revtext[1] == $s) && ($revtext[0] == 'o'))	$chop = "-2"	;
                         $text = substr($text, 0, $chop);
-                        $this->plural = $text.$s;
+                        $_this->plural = $text.$s;
                     }
                 }
             } else {
-                $this->plural = $text;
+                $_this->plural = $text;
             }
         } else {
             if ($lg == 'fr') {
@@ -1924,17 +1924,17 @@ class Conjugaison
                 if	($genre == 'F')	$fem = "e"	;
                 if	($genre == 'M')	$fem = ""	;
                 if ($genre == '') {
-                    $this->plural = $text;
+                    $_this->plural = $text;
                 } else {
                     $revtext = strrev($text);
                     if	(($genre == 'F') && ($revtext[0] !== 'e') && ($revtext[0] !== 'n'))	$text .= $fem	;
-                    $this->plural = $text;
+                    $_this->plural = $text;
                 }
             } else {
-                $this->plural = $text;
+                $_this->plural = $text;
             }
         }
-        return $this->plural;
+        return $_this->plural;
     }
 }
 
