@@ -325,6 +325,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 						$userfile_size = $_FILES[$this_is.ucfirst($key)]["size"][$ii];
 						$userfile_type = $_FILES[$this_is.ucfirst($key)]["type"][$ii];
 						$ext = explode('.',strrev($userfile_name),2);
+						$file_name = strrev($ext[1]);
 						$ext = strtolower(strrev($ext[0]));
 						if ($key == "img") {
 							if (in_array($ext,array_merge($array_img_ext,$array_swf_ext)))
@@ -375,11 +376,16 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 		$error_img .= '<li>'.($key=="img"?$photoString:$documentString).' '.$error_exists.'</li>';
 						} else {
 							if (in_array($ext,$array_img_ext)) { // img
-								$filename = $filedir.strtoupper(space2underscore($this_is))."_".space2underscore(${$this_is."Desc"});
+								$filename = $filedir.strtoupper(space2underscore($this_is))
+									."_".space2underscore(${$this_is."Desc"})
+									."_".space2underscore($file_name);
 								$location = upload_image($userfile_tmp,$filename,$ext);
 							} else { // doc
-								$userfile_name = strtoupper(space2underscore($this_is))."_".space2underscore(${$this_is."Desc"}).'.'.$ext;
-								$location = (in_array($this_is,$array_safedir)?$safedir:$filedir)."$userfile_name";
+								$filename = strtoupper(space2underscore($this_is))
+									."_".space2underscore(${$this_is."Desc"})
+									."_".space2underscore($file_name)
+									.'.'.$ext;
+								$location = (in_array($this_is,$array_safedir)?$safedir:$filedir)."$filename";
 								$movelocation = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.$location;
 								move_uploaded_file($userfile_tmp,$movelocation);
 							}
@@ -401,13 +407,13 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 										$insertquery = @mysql_query("INSERT INTO $tblcontphoto
 (`contphotoid`,`contphotostatut`,`contphotodate`,`contphotolang`,`contphotorid`,`contphotoutil`,`contphotocontid`,`contphotodesc`,`contphotoimg`)
 																	VALUES
-('','Y',$dbtime,'$default_lg','','$admin_name','".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)."','".${$this_is."Desc"}."','$new_upload')
+('','Y',$dbtime,'$default_lg','','$admin_name','".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)."','".${$this_is."Desc"}."_".$file_name."','$new_upload')
 																	");
 									} else {
 										$insertquery = @mysql_query("INSERT INTO $tblcontdoc
 (`contdocid`,`contdocstatut`,`contdocdate`,`contdoclang`,`contdocrid`,`contdocutil`,`contdoccontid`,`contdocdesc`,`contdoc`)
 																	VALUES
-('','Y',$dbtime,'$default_lg','','$admin_name','".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)."','".${$this_is."Desc"}."','$new_upload')
+('','Y',$dbtime,'$default_lg','','$admin_name','".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)."','".${$this_is."Desc"}."_".$file_name."','$new_upload')
 																	");
 									}
 								}
@@ -417,7 +423,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 									if ($key == "img") {
 										$insertread = sql_get($tblcontphoto,
 																"WHERE contphotocontid='".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)."'
-																	AND contphotodesc='".${$this_is."Desc"}."'
+																	AND contphotodesc='".${$this_is."Desc"}."_".$file_name."'
 																	AND contphotolang='$default_lg' AND contphotorid='' ",
 																"contphotoid,contphotoutil,contphotocontid,contphotoimg,contphotodesc");
 										$values = "";
@@ -429,7 +435,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 											} else {
 												$values .= ($values==''?'':',')."(NULL,'Y',$dbtime,'$keylg','".$insertread[0]
 														."','$admin_name','".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)
-														."','".${$this_is."Desc"}."','$new_upload')";
+														."','".${$this_is."Desc"}."_".$file_name."','$new_upload')";
 											}
 										}
 										if ($values!='') {
@@ -442,7 +448,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 									} else {
 										$insertread = sql_get($tblcontdoc,
 																"WHERE contdoccontid='".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)."'
-																	AND contdocdesc='".${$this_is."Desc"}."'
+																	AND contdocdesc='".${$this_is."Desc"}."_".$file_name."'
 																	AND contdoclang='$default_lg' AND contdocrid='' ",
 																"contdocid,contdocutil,contdoccontid,contdoc,contdocdesc");
 										$values = "";
@@ -453,7 +459,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 											} else {
 												$values .= ($values==''?'':',')."(NULL,'Y',$dbtime,'$keylg','".$insertread[0]
 														."','$admin_name','".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)
-														."','".${$this_is."Desc"}."','$new_upload')";
+														."','".${$this_is."Desc"}."_".$file_name."','$new_upload')";
 											}
 										}
 										if ($values!='') {

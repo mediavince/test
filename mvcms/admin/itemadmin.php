@@ -703,7 +703,7 @@ if (isset($send)) {
 								.'<input type="file" name="'.$this_is.ucfirst($key)
 								.'[]" /><br /></div>';
 						} else {
-							${$this_is.$key}[$ii] = '<label for="'.$this_is
+							${$this_is.$key}[$ii] = '<div><label for="'.$this_is
 								.ucfirst($key).'[]" title="'.\join(', ',$array_doc_ext).'">'.ucfirst(${$key."String"}).($ii>0?$ii:'')
 								.'</label><input type="file" name="'.$this_is.ucfirst($key)
 								.'[]" />'.(isset($editthis[$i][$ii])&&$editthis[$i][$ii]!=''?
@@ -716,7 +716,7 @@ if (isset($send)) {
 								.'" onclick="return confirm(\''.$confirmationeffacementString
 								.'\');"><img src="'.$mainurl.'images/delete.gif" width="10" '
 								.'height="10" alt="'.$effacerString.'" title="'.$effacerString
-								.'" border="0" /></a>':'').'<br />';
+								.'" border="0" /></a>':'').'</div><br />';
 						}
 						$form_content[$this_is.$key] .= ${$this_is.$key}[$ii];
 					}

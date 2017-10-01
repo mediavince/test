@@ -304,6 +304,7 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 		if (($logged_in === true) && (!isset($filter_map) || isset($filter_index)) && ((isset($membre_id) && isset($user_name) && (sql_getone($tbluser,"WHERE userutil='$user_name' ","userid") == $membre_id)) || (($admin_viewing === true) && !in_array('1',$admin_priv))))
 		$_mod_content .= '<div style="float:right;">'.(in_array($this_is.'publish',$array_fields)?'<a href="'.$local_url.(isset($send)?'&amp;send='.$send:'').'&amp;'.$this_is.'Id='.$show_id.'&amp;toggle=publish" onclick="return confirm(\''.($getitem[array_search($this_is.'publish',$array_fields)]=='Y'?$nonString.' '.$publishString.' ?\');"><img src="'.$mainurl.'images/publish_y.png" width="12" height="12" border="0" title="'.$publishedString.'" alt="'.$publishedString:$publishString.' ?\');"><img src="'.$mainurl.'images/publish_n.png" width="12" height="12" border="0" title="'.$nonString.' '.$publishedString.'" alt="'.$nonString.' '.$publishedString).'" /></a>':'').(in_array($this_is.'archive',$array_fields)?'<a href="'.$local_url.(isset($send)?'&amp;send='.$send:'').'&amp;'.$this_is.'Id='.$show_id.'&amp;toggle=archive" onclick="return confirm(\''.($getitem[array_search($this_is.'archive',$array_fields)]=='Y'?$nonString.' '.$archiveString.' ?\');"><img src="'.$mainurl.'images/archive_y.png" width="24" height="24" border="0" title="'.$archivedString.'" alt="'.$archivedString:$archiveString.' ?\');"><img src="'.$mainurl.'images/archive_n.png" width="24" height="24" border="0" title="'.$nonString.' '.$archivedString.'" alt="'.$nonString.' '.$archivedString).'" /></a>':'').'</div>';
 		$show_mod_content = "";
+		$_connected_title = $getitem[array_search($this_is.'title',$array_fields)];
 		for($i=0;$i<count($array_fields);$i++) {
 			$key = substr($array_fields[$i],strlen($dbtable)-1);
 			$value = $getitem[$i];
@@ -330,27 +331,32 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 							if ($key == 'img') ${"show_".$key} .= '<div id="ajax_response"></div><div id="sortable"><ul>';
 							$array_imgdoc = explode("|",$value);
 							foreach($array_imgdoc as $array_imgdoc_k)
-							if ($key == "img") {
-								if ($array_imgdoc_k != '') {
-									$ext = explode(".",strrev($array_imgdoc_k),2);
-									$idn = strrev($ext[1]);
-									$ext = strrev($ext[0]);
-									$readable_name = ucwords(str_replace("_"," ",str_replace("-"," ",str_replace($filedir.(stristr($idn,$this_is)?strtoupper($this_is):''),"",$idn))));
+							if ($array_imgdoc_k != '') {
+								$ext = explode(".",strrev($array_imgdoc_k),2);
+								$idn = strrev($ext[1]);
+								$ext = strrev($ext[0]);
+								$readable_name = trim(str_replace(
+									str_replace(array(" - ","  ","-", "_",), " ", ucwords(strtolower($_connected_title))),"",
+										ucwords(strtolower(
+											str_replace(array(" - ","  ","-", "_",)," ",
+											str_ireplace(array($this_is, $filedir, $safedir,),"",
+									$idn
+								))))));
+								if ($key == "img") {
 									${"show_".$key} .= (in_array($ext,$array_img_ext)?'<li id="recordsArray_'.sql_getone($tblcontphoto,"WHERE contphotolang='$lg' AND contphotocontid='$show_id' AND contphotoimg='$array_imgdoc_k' ","contphotorid").'" class="ui-state-default"><div class="image"><a href="'.$mainurl.$idn.'_big.'.$ext.'" rel="lightbox['.$this_is.$key.']" target="_blank" title="&lt;a href=\''.$mainurl.$idn.'_ori.'.$ext.'\'&gt;&lt;img src=\''.$mainurl.'images/downloads_f2.png\' style=\'border:none;float:left;\' /&gt;&lt;/a&gt;'.$readable_name.'"><img src="'.$mainurl.$array_imgdoc_k.'" '.show_img_attr($mainurl.$array_imgdoc_k).' style="padding:2px;" align="left" title="'.$readable_name.'" alt="'.$readable_name.'" border="0" /></a></div></li> ':'<a href="'.$mainurl.$array_imgdoc_k.'" target="_new"><img src="'.$mainurl.'images/'.$ext.'logo.gif" width="16" height="16" vspace="5" hspace="5" title="'.$readable_name.'" alt="'.$readable_name.'" border="0" />'.str_replace($filedir,"",substr($array_imgdoc_k,0,-(strlen($ext)+1))).'</a> ');
-								} else
-								${"show_".$key} .= '';
-							} else if ($key == "doc") {
-								if ($array_imgdoc_k != '') {
-									$ext = explode(".",strrev($array_imgdoc_k),2);
-									$idn = strrev($ext[1]);
-									$ext = strrev($ext[0]);
-									$readable_name = ucwords(str_replace("_"," ",str_replace("-"," ",str_replace($filedir.(stristr($idn,$this_is)?strtoupper($this_is):''),"",$idn))));
+								}
+								else if ($key == "doc") {
 									$download_value = (stristr($array_imgdoc_k,$safedir)?$urlsafe.'?file='.base64_encode($array_imgdoc_k):$array_imgdoc_k);
-									${"show_".$key} .= '<a href="'.$mainurl.$download_value.'" target="_blank"><img src="'.$mainurl.'images/'.$ext.'logo.gif" width="16" height="16" vspace="5" hspace="5" title="'.(isset($show_title)?$show_title:$array_imgdoc_k).'" alt="'.(isset($show_title)?$show_title:$readable_name).'" border="0" />'.(isset($show_title)?(stristr($readable_name,space2underscore($show_title))?$show_title:''):$readable_name).'</a> ';
-								} else
-								${"show_".$key} .= '';
-							}
-							if ($key == 'img') ${"show_".$key} .= '</ul></div>';
+									$_img_title = (isset($show_title)
+										?(empty($readable_name)||stristr($readable_name,space2underscore($show_title))
+											?$show_title
+											:$readable_name)
+										:$readable_name)
+									;
+									${"show_".$key} .= '<a href="'.$mainurl.$download_value.'" target="_blank"><img src="'.$mainurl.'images/'.$ext.'logo.gif" width="16" height="16" vspace="5" hspace="5" title="'.$_img_title.'" alt="'.$_img_title.'" border="0" /><span>'.$_img_title.'</span></a>';
+								}
+							} 
+							else ${"show_".$key} .= ($key == 'img'?'</ul></div>':'');
 						}
 					} else if (($key == "type") || in_array($this_is.$key,$enumtype_array)) {
 						${"show_".$key} = sql_stringit($this_is.$key,$value);
