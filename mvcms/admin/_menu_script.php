@@ -18,8 +18,8 @@ $t_menuright = '';
 $menuhori = '';
 $t_menuhori = '';
 $where = "WHERE $where_statut_lang conttype!='toplinks' AND conttype!='scroller' AND conttype!='leftlinks' ";// conturl LIKE '%_".$lg.".php%'
-$read = @mysqli_query("SELECT * FROM $tblcont $where ORDER BY CAST(contpg as CHAR) ");
-$nrows = @mysqli_num_rows($read);
+$read = mysqli_query($connection, "SELECT * FROM $tblcont $where ORDER BY CAST(contpg as CHAR) ");
+$nrows = mysqli_num_rows($read);
 
 $base_x = $x[0];
 if (preg_match("/^1[0-9]{1,}\$/", $x) && ($x1subok === false))

@@ -47,7 +47,7 @@ if (!isset($send)) {
 
 	} else {
 
-			$insertquery = @mysqli_query("
+			$insertquery = mysqli_query($connection, "
 									INSERT INTO $dbtable 
 									(`stringid`, `stringpg`, `stringlang`, `stringtype`, `stringtitle`, `stringentry`)
 									VALUES 

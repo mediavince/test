@@ -41,9 +41,9 @@ $int3_array = array(); // int(3) unsigned, flag for fetching items from referenc
 $datetime_array = array(); // datetime, flag for showing calendar
 $array_fields_type = array();//lists all types for a given table
 
-$result = @mysqli_query("SHOW FIELDS FROM $dbtable");
+$result = mysqli_query($connection, "SHOW FIELDS FROM $dbtable");
 if (!$result) {Header("Location: $redirect");Die();} // no table or no connection...
-while($row=@mysqli_fetch_array($result)) {
+while($row=mysqli_fetch_array($result)) {
 	$array_fields_type[$row['Field']] = $row['Type'];
 	if ($row['Type'] == 'mediumtext')
 	$mediumtext_array[] = $row['Field'];
@@ -58,7 +58,7 @@ while($row=@mysqli_fetch_array($result)) {
 	if ($row['Type'] == 'datetime')
 	$datetime_array[] = $row['Field'];
 }
-@mysqli_free_result($result);
+mysqli_free_result($result);
 
 if (!isset($array_mandatory_fields))
 $array_mandatory_fields = array();
@@ -146,8 +146,8 @@ if (isset($that_is)) {
 		$that_list_array_fields = isset($that_list_array_fields)?
 		$that_list_array_fields.','.$key:$key;
 	}
-	$result = @mysqli_query("SHOW FIELDS FROM $that_dbtable");
-	while($row=@mysqli_fetch_array($result)) {
+	$result = mysqli_query($connection, "SHOW FIELDS FROM $that_dbtable");
+	while($row=mysqli_fetch_array($result)) {
 		$array_fields_type[$row['Field']] = $row['Type'];
 		if ($row['Type'] == 'mediumtext')
 		$mediumtext_array[] = $row['Field'];
@@ -162,7 +162,7 @@ if (isset($that_is)) {
 		if ($row['Type'] == 'datetime')
 		$datetime_array[] = $row['Field'];
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 	${"nRows".ucfirst($that_is)} = sql_nrows($that_dbtable,
 											(in_array($that_is."lang",$that_array_fields)?
 											"WHERE ".$that_is."lang='$lg' ":''));
@@ -283,10 +283,10 @@ foreach($array_int3_have_to_match as $key) {
 	if (in_array($this_is.$element,$array_fields))
 	$int3_interdependant[] = $this_is.$element;
 	$javascript_for_dependancy_head .= $key[0]."Array = [];\n";
-	$sql = @mysqli_query("SELECT * FROM ".${"tbl".$key[0]}
+	$sql = mysqli_query($connection, "SELECT * FROM ".${"tbl".$key[0]}
 						." WHERE ".$key[0]."lg='$lg' ORDER BY ".$key[0].(isset($row[$key[0]
 						."rid"])?'r':'')."id ASC ");
-	while($row = @mysqli_fetch_array($sql)) {
+	while($row = mysqli_fetch_array($sql)) {
 		if (!isset($current_element_id))
 		$current_element_id = $row[$key[0].(isset($row[$key[0]."rid"])?'r':'')."id"];
 		else {
@@ -307,10 +307,10 @@ foreach($array_int3_have_to_match as $key) {
 		for($i=1;$i<count($key);$i++) {
 			$element = $key[$i];
 			$javascript_for_dependancy .= "Array_$current_element_id = [];\n";
-			$key_sql = @mysqli_query("SELECT * FROM ".${"tbl".$element}." ORDER BY "
+			$key_sql = mysqli_query($connection, "SELECT * FROM ".${"tbl".$element}." ORDER BY "
 									.$element.(in_array($element."rid",sql_fields(${"tbl"
 									.$element},'array'))?'r':'')."id ASC ");
-			while($row_key = @mysqli_fetch_array($key_sql))
+			while($row_key = mysqli_fetch_array($key_sql))
 			if ($row_key[$element.$key[$i-1]] == $current_element_id)
 			$javascript_for_dependancy .= "Array_".$current_element_id."[".$row_key[$element
 										.(isset($row[$element."rid"])?'r':'')."id"]."] = \'"
@@ -824,12 +824,12 @@ if (isset($send)) {
 					} else if (in_array("$this_is$key",$int3_array)) {
 						if (isset($this_id)) {
 							$whereq = "WHERE $key$this_is='$this_id' AND ".$key."lang='$lg' ";
-							$sql = @mysqli_query("SELECT * FROM ".${"tbl".$key}." $whereq ");
+							$sql = mysqli_query($connection, "SELECT * FROM ".${"tbl".$key}." $whereq ");
 							$form_content[$this_is.$key] = '<label>'.ucfirst(${$key."String"})
-								.'</label>: '.@mysqli_num_rows($sql).' '.$class_conjugaison->
-								plural($enregistrementString,'',@mysqli_num_rows($sql))
+								.'</label>: '.mysqli_num_rows($sql).' '.$class_conjugaison->
+								plural($enregistrementString,'',mysqli_num_rows($sql))
 								.'<br />';
-							while($row = @mysqli_fetch_array($sql)) {
+							while($row = mysqli_fetch_array($sql)) {
 								$form_content[$this_is.$key] .= $row[$key."title"]
 									.' <a href="'.$mainurl.(stristr($_SERVER['PHP_SELF'],
 									$urladmin)?"$urladmin?lg=$lg&amp;send=edit&amp;x=z&amp;'
@@ -1147,19 +1147,19 @@ if (isset($send)) {
 		$statutList .= (in_array($this_is."lang",$array_fields)?($statutList==''?"WHERE ":" AND ")." ".$this_is."lang='$lg' ":'');
 		if (isset($that_is))
 		$statutList .= ($statutList==''?"WHERE ":" AND ").(in_array($that_is."lang",$that_array_fields)?$this_is.($this_id_rid===true?'r':'')."id=".$that_is.($that_id_rid===true?'r':'')."id AND ".$that_is."lang='$lg' ":$this_is."id=".$that_is."id ")." ";
-		$fullread = @mysqli_query("
+		$fullread = mysqli_query($connection, "
 						SELECT * FROM $dbtable
 						$statutList
 						ORDER BY ".(isset($that_is)?$that_is:$this_is)."$par $ordre
 						");
-		$fullnRows = @mysqli_num_rows($fullread);
-		$read = @mysqli_query("
+		$fullnRows = mysqli_num_rows($fullread);
+		$read = mysqli_query($connection, "
 					SELECT * FROM $dbtable
 					$statutList
 					ORDER BY ".(isset($that_is)?$that_is:$this_is)."$par $ordre
 					$queryLimit
 					");
-		$nRows = @mysqli_num_rows($read);
+		$nRows = mysqli_num_rows($read);
 		$totalpg = ceil( $fullnRows / $listPerpg );
 		for ($i=1;$i<=$totalpg;$i++) {
 			if ($i == $pg) {

@@ -18,7 +18,7 @@ $sql_membre = " WHERE userstatut='Y' "; // not working with cotisation on this o
 
 // THIS IS FOR ONLY CONFIRMED
 /****************************************************************************
-$membreread = @mysqli_query("
+$membreread = mysqli_query($connection, "
 						  SELECT * FROM $tblmembre
 						  WHERE membrestatut='Y'
 						  AND membredate!='0000-00-00 00:00'
@@ -27,12 +27,12 @@ $membreread = @mysqli_query("
 						 ");
 ****************************************************************************/
 
-$membreread = @mysqli_query("
+$membreread = mysqli_query($connection, "
 						  SELECT * FROM $tbluser
 						  $sql_membre
 						 ");
 
-$nRowsUser = @mysqli_num_rows($membreread);
+$nRowsUser = mysqli_num_rows($membreread);
 
 if ($nRowsUser == '0') {
 //  $content .= 'Aucun membre n&#039;est actif, pas de newsletter &agrave; envoyer !<br />';
@@ -110,7 +110,7 @@ if ($nRowsUser == '0') {
                                           .gen_docpdfdl($nlid)
                                           .gen_activite($nlid)
                                           .gen_galerie($nlid);
-			$insertquery = @mysqli_query("
+			$insertquery = mysqli_query($connection, "
 										 INSERT INTO $tblnewsletter
 										 (`newsletterid`, `newsletterstatut`, `newsletterdate`, `newslettersujet`, `newslettercontent`, `newslettersent`, `newslettererror`, `newsletterread`)
 										 VALUES

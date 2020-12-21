@@ -30,8 +30,8 @@ $sql_user = " (userstatut='Y'
 						  AND userdate!='0000-00-00 00:00'
 						  AND (useremail!='$default_email' OR useremail!='')) ";
 
-$read = @mysqli_query("SELECT * FROM $dbtable ");// $sql_admin $sql_user
-$nRows = @mysqli_num_rows($read);
+$read = mysqli_query($connection, "SELECT * FROM $dbtable ");// $sql_admin $sql_user
+$nRows = mysqli_num_rows($read);
 
 if ($nRows == '0') {
   $communications_content = $nRows.' '.$membreString.' '.$enregistreString.': '.$pasdeString.' '.$communicationsString.' '.$aenvoyerString.' !<br />';

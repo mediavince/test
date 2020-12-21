@@ -88,7 +88,7 @@ $enumtype_array = array();  // int(11) unsigned, produces selectable code for al
 							// then allows creation of new type, further options apply like - for deleting the selected item
 $int3_array = array(); // int(3) unsigned, flag for fetching items from referenced table
 $datetime_array = array(); // datetime, flag for showing calendar
-$result = @mysqli_query("SHOW FIELDS FROM $dbtable");
+$result = mysqli_query($connection, "SHOW FIELDS FROM $dbtable");
 if (!$result) {
 	if ($admin_viewing === true) {
 		$_SESSION['mv_error'] = $error_inv." module ".$this_is;
@@ -97,7 +97,7 @@ if (!$result) {
 		Header("Location: $redirect");Die();
 	}
 } // no table or no connection...
-while($row=@mysqli_fetch_array($result)) {
+while($row=mysqli_fetch_array($result)) {
 	$array_fields_type[$row['Field']] = $row['Type'];
 	if ($row['Type'] == 'mediumtext')
 	$mediumtext_array[] = $row['Field'];
@@ -112,10 +112,10 @@ while($row=@mysqli_fetch_array($result)) {
 	if ($row['Type'] == 'datetime')
 	$datetime_array[] = $row['Field'];
 }
-@mysqli_free_result($result);
+mysqli_free_result($result);
 if (isset($that_is)) {
-	$result = @mysqli_query("SHOW FIELDS FROM $that_dbtable");
-	while($row=@mysqli_fetch_array($result)) {
+	$result = mysqli_query($connection, "SHOW FIELDS FROM $that_dbtable");
+	while($row=mysqli_fetch_array($result)) {
 		$array_fields_type[$row['Field']] = $row['Type'];
 		if ($row['Type'] == 'mediumtext')
 		$mediumtext_array[] = $row['Field'];
@@ -130,7 +130,7 @@ if (isset($that_is)) {
 		if ($row['Type'] == 'datetime')
 		$datetime_array[] = $row['Field'];
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 }
 //}// see above
 

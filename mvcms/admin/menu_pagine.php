@@ -2,7 +2,7 @@
 if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';Header("Location: $redirect");Die();}
 
 function html_js($this_lg) {
-global $trace, $mainurl, $tblcont, $tblblog, $font_family, $font_size, $default_lg, $x1subok, $menu_id_on_li, $menu_pad_left, $menu_pad_top;
+    global $connection, $trace, $mainurl, $tblcont, $tblblog, $font_family, $font_size, $default_lg, $x1subok, $menu_id_on_li, $menu_pad_left, $menu_pad_top;
 
 $html_js = '
 /*
@@ -47,8 +47,8 @@ $jsvar_2 = '';
 $jsvar_3 = '';
 
 $wherejs = "WHERE contlang='$this_lg' AND conturl LIKE '%.php%' AND conttype!='scroller' AND conttype!='leftlinks' ";// AND contorient!='center' contstatut='Y' AND 
-$readjs = @mysqli_query("SELECT * FROM $tblcont $wherejs ORDER BY contpg DESC ");
-$nrowsjs = @mysqli_num_rows($readjs);
+$readjs = mysqli_query($connection, "SELECT * FROM $tblcont $wherejs ORDER BY contpg DESC ");
+$nrowsjs = mysqli_num_rows($readjs);
 $html_js .= "//$nrowsjs\n";
 for ($ijs=0;$ijs<$nrowsjs;$ijs++) {
 	$rowjs = mysqli_fetch_array($readjs);

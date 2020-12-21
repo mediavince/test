@@ -15,8 +15,8 @@ if (!stristr($javascript,'jquery.cycle.all.2.73.js'))
 $javascript .= "<script type='text/javascript' src='http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.73.js'>/*lib/jquery_cycle.js http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.73.js*/</script>";
 
 if (sql_fields($dbtable,'count')==0) {
-  $create_slider = @mysqli_query("DROP TABLE IF EXISTS `_slider`;");
-  $create_slider = @mysqli_query("CREATE TABLE `_slider` (
+  $create_slider = mysqli_query($connection, "DROP TABLE IF EXISTS `_slider`;");
+  $create_slider = mysqli_query($connection, "CREATE TABLE `_slider` (
                   `sliderid` int(10) unsigned NOT NULL AUTO_INCREMENT,
                   `sliderstatut` enum('N','Y') NOT NULL DEFAULT 'N',
                   `sliderdate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -38,9 +38,9 @@ if (sql_fields($dbtable,'count')==0) {
 //if ($y!=='slider') {
   $jq_additional_instructions = '';
 
-  $slider_sql = @mysqli_query("SELECT * FROM $dbtable WHERE sliderstatut='Y' AND sliderlang='$lg' ORDER BY slidersort,sliderrid ");// LIMIT 1
+  $slider_sql = mysqli_query($connection, "SELECT * FROM $dbtable WHERE sliderstatut='Y' AND sliderlang='$lg' ORDER BY slidersort,sliderrid ");// LIMIT 1
   if ($slider_sql)
-  while($row=@mysqli_fetch_array($slider_sql)) {
+  while($row=mysqli_fetch_array($slider_sql)) {
     $slider_title = ($row['slidertitle']==$codename?'':preg_replace('/ /',"<br />",ucwords($row['slidertitle']),1));
     $_mod_slider .= ''.(!stristr($_SERVER['PHP_SELF'],$urladmin)?'<div id="feature':'<div id="recordsArray').'_'.$row['sliderrid'].'" class="campaign" style="background:url(\''.$up.img_size($row['sliderimg'],"ori").'\') no-repeat scroll center top transparent;" title="'.$clickformoreinfoString.'">
         <div id="feature_title'.'_'.$row['sliderrid'].'" class="campaign_content"><div class="campaign_title">'.$slider_title.'</div></div>

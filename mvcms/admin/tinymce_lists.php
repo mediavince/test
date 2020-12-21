@@ -33,11 +33,11 @@ if (($tmcels == "img") || ($tmcels == "swf")) {
 	$tinyMCE_flashs = 'var tinyMCEMediaList = new Array(';
 //	$tinyMCE_flashs = 'var tinyMCEFlashList = new Array(';
 		// Name, URL	["Logo 1", "example_data/logo.jpg"],["Logo 2 Over", "example_data/logo_over.jpg"]
-	$read = @mysqli_query("SELECT * FROM $tblcontphoto WHERE contphotolang='$lg' ");
+	$read = mysqli_query($connection, "SELECT * FROM $tblcontphoto WHERE contphotolang='$lg' ");
 	$loop_tinyMCE_photos = "";
 	$loop_tinyMCE_flashs = "";
 	for ($i=0;$i<$contPhotocount;$i++) {
-		$row = @mysqli_fetch_array($read);
+		$row = mysqli_fetch_array($read);
 		$bigori = strrev($row["contphotoimg"]);
 		$bigori = explode('.', $bigori, 2);
 		$ext = strrev($bigori[0]);
@@ -139,11 +139,11 @@ echo '
   if (!isset($lg)) $lg = $default_lg;// || !in_array($lg,$array_lang)
 	$where = "WHERE contstatut='Y' AND contlang='$lg' ";
 	// Name, URL	["Logo 1", "example_data/logo.jpg"],["Logo 2 Over", "example_data/logo_over.jpg"]
-	$read = @mysqli_query("SELECT * FROM $tblcont $where ");
+	$read = mysqli_query($connection, "SELECT * FROM $tblcont $where ");
 	$contPgcount = mysqli_num_rows($read);
 	$tinyMCE_pgs = '';
 	for ($i=0;$i<$contPgcount;$i++) {
-		$row = @mysqli_fetch_array($read);
+		$row = mysqli_fetch_array($read);
 		if	($tinyMCE_pgs !== "")	$tinyMCE_pgs .= ","	;
 		$tinyMCE_pgs .= '["'.str_replace("_", " ", $row["conttitle"]).'", "?lg='.$lg.'&amp;x='.$row["contpg"].'"]';
 	//	$tinyMCE_pgs .= '["'.str_replace("_", " ", $row["conttitle"]).'", "'.$row["conturl"].'"]';
@@ -152,9 +152,9 @@ echo '
 	$loop_tinyMCE_docs = "";
 	$tinyMCE_docs = 'var tinyMCELinkList = new Array(';
 		// Name, URL	["Logo 1", "example_data/logo.jpg"],["Logo 2 Over", "example_data/logo_over.jpg"]
-	$read = @mysqli_query("SELECT * FROM $tblcontdoc WHERE contdoclang='$lg' ");
+	$read = mysqli_query($connection, "SELECT * FROM $tblcontdoc WHERE contdoclang='$lg' ");
 	for ($i=0;$i<$contDoccount;$i++) {
-		$row = @mysqli_fetch_array($read);
+		$row = mysqli_fetch_array($read);
 		$ext = strrev($row["contdoc"]);
 		$ext = explode('.', $ext, 2);
 		$ext = strrev($ext[0]);

@@ -43,17 +43,17 @@ if (!isset($send) || (isset($send) && ($send == 'delnl'))) {
 	  $voirvar = '&nbsp;';
   	$selectHead = '<div class="selectHead">'.gen_form($lg,$x,$y).'<!-- <label for="statut">'.$statutString.' : </label><select name="statut"><option value="'.$statut.'"> >> '.$statutstr.' </option><option value="'.$toutString.'"> '.$toutString.' </option><option value="Y"> '.$confirmeString.' </option><option value="N"> '.$enattenteString.' </option></select> | --><label for="par">'.$parString.' : </label><select name="par"><option value="'.$par.'"> >> '.$parstr.' </option><option value="newsletterid"> '.$numidString.' </option><option value="newsletterdate"> '.$dateString.' </option></select> | <label for="ordre">'.$ordreString.' : </label><select name="ordre"><option value="'.$ordre.'"> >> '.$ordrestr.' </option><option value="ASC"> '.$ASCString.' </option><option value="DESC"> '.$DESCString.' </option></select> || <input type="submit" value="'.$voirString.'" /></form></div>';
 		$tableHead = '<table align="center" style="width:95%" border="1" cellspacing="2" cellpadding="2"><tr><th>'.$infodbString.'</th><th>'.$paramsString.' '.$newsletterString.'</th></tr><tr><td><a href="'.$local_url.'&amp;par=newsletterid&ordre='.$nextordre.'">'.$numidString.'</a><br /><a href="'.$local_url.'&amp;par=newsletterstatut&ordre='.$nextordre.'">'.$statutString.'</a><br /><a href="'.$local_url.'&amp;par=newsletterdate&ordre='.$nextordre.'">'.$dateString.'</a></td><td>'.$sujetString.' ('.$ouvrirString.')<br />'.$messageString.'<br />'.$rapportString.'<br />'.$voirvar.'</td></tr>';
-		$fullread = @mysqli_query("
+		$fullread = mysqli_query($connection, "
 							select * FROM $tblnewsletter
 							ORDER BY $par $ordre
 							");
-		$fullnRows = @mysqli_num_rows($fullread);
-		$read = @mysqli_query("
+		$fullnRows = mysqli_num_rows($fullread);
+		$read = mysqli_query($connection, "
 						select * FROM $tblnewsletter
 						ORDER BY $par $ordre
 						$queryLimit
 						");
-		$nRows = @mysqli_num_rows($read);
+		$nRows = mysqli_num_rows($read);
 		$totalpg = ceil( $fullnRows / $listPerpg );
 		if  ($pg > $totalpg)  $pg = '1'  ;
 		for ($i=1; $i<=$totalpg; $i++) {

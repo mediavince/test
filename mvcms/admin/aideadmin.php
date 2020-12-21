@@ -40,18 +40,18 @@ if (!isset($send)) {
 
 		$tableHead = '<table align="center" style="width:95%" border="1" cellspacing="2" cellpadding="2"><tr><th>'.$infodbString.'<br />'.$langueString.'</th><th>'.$paramsString.' '.$aideString.'</th><th>'.$optionsString.'</th></tr><tr><td><a href="?lg='.$lg.'&x='.$x.'&y='.$y.'&par=helpid&ordre='.$nextordre.'">'.$numidString.'</a><br /><a href="?lg='.$lg.'&x='.$x.'&y='.$y.'&par=helplang&ordre='.$nextordre.'">'.$langueString.'</a></td><td><a href="?lg='.$lg.'&x='.$x.'&y='.$y.'&par=helppg&ordre='.$nextordre.'">'.$pageString.'</a><br /><a href="?lg='.$lg.'&x='.$x.'&y='.$y.'&par=helptitle&ordre='.$nextordre.'">'.$titreString.'</a><br /><a href="?lg='.$lg.'&x='.$x.'&y='.$y.'&par=helpentry&ordre='.$nextordre.'">'.$descriptionString.'</a></td><td>&nbsp;<!-- a etudier --></td></tr>';
 
-		$fullread = @mysqli_query("
+		$fullread = mysqli_query($connection, "
 							SELECT * FROM $tblhelp
 							ORDER BY $par $ordre
 							");
-		$fullnRows = @mysqli_num_rows($fullread);
+		$fullnRows = mysqli_num_rows($fullread);
 
-		$read = @mysqli_query("
+		$read = mysqli_query($connection, "
 						SELECT * FROM $tblhelp
 						ORDER BY $par $ordre
 						$queryLimit
 						");
-		$nRows = @mysqli_num_rows($read);
+		$nRows = mysqli_num_rows($read);
 
 		$totalpg = ceil( $fullnRows / $listPerpg );
 		for ($i=1;$i<=$totalpg;$i++) {
@@ -127,7 +127,7 @@ if (!isset($send)) {
 
 	} else {
 
-		$insertquery = @mysqli_query("
+		$insertquery = mysqli_query($connection, "
 								INSERT INTO $dbtable 
 								(`helpid`, `helppg`, `helplang`, `helptitle`, `helpentry`)
 								VALUES 

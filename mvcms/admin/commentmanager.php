@@ -80,7 +80,7 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
 										VALUES
 										(NULL, '".($moderate_forum===true?'N':'Y')."', $dbtime, '$default_lg', '', '$forumId', '$commentMembre', '$commentEntry', '','$commentip')
 										";
-				$addquery = @mysqli_query("$sqlq");
+				$addquery = mysqli_query($connection, "$sqlq");
 				if (!$addquery) 
   $error .= $error_request.'<br />';//<a href="javascript:history.back()//">'.$retourString.'</a><br />';
 				else {
@@ -88,7 +88,7 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
 					$comment_id = sql_updateone($tblcomment,"SET commentrid=commentid ","WHERE commentmembre='$commentMembre' AND commententry='$commentEntry' AND commentlang='$default_lg' ","commentid");
 					foreach($array_lang as $loop_lg)
   					if ($loop_lg != $default_lg)
-  					$addquery = @mysqli_query("
+  					$addquery = mysqli_query($connection, "
 										INSERT INTO $tblcomment
 										(`commentid`, `commentstatut`, `commentdate`, `commentlang`, `commentrid`, `commentforum`, `commentmembre`, `commententry`, `commentresponse`,`commentip`)
 										VALUES
