@@ -53,10 +53,10 @@ $regex_top = 2;
 if ($x1subok === true) $regex_top -= 1;
 
 $where = "WHERE $where_statut_lang conttype!='toplinks' AND conttype!='scroller' AND conttype!='leftlinks' ";// conturl LIKE '%.php%' ";// AND contorient!='center'
-$read = @mysql_query("SELECT * FROM $dbtable $where ORDER BY contpg DESC ");
-$nrows = @mysql_num_rows($read);
+$read = @mysqli_query("SELECT * FROM $dbtable $where ORDER BY contpg DESC ");
+$nrows = @mysqli_num_rows($read);
 for ($i=0;$i<$nrows;$i++) {
-	$row = mysql_fetch_array($read);
+	$row = mysqli_fetch_array($read);
 	$row_conturl = $row["conturl"];
 	$row_conttitle = $row["conttitle"];
   $row_contpg = $row["contpg"];

@@ -48,8 +48,8 @@ if ($admin_viewing === true) {
   $array_fields_type = array();//lists all types for a given table
 
   $dbtable = ${"tbl".$this_is};
-  $result = @mysql_query("SHOW FIELDS FROM $dbtable");
-  while($row=@mysql_fetch_array($result)) {
+  $result = @mysqli_query("SHOW FIELDS FROM $dbtable");
+  while($row=@mysqli_fetch_array($result)) {
     $array_fields_type[$row['Field']] = $row['Type'];
     if ($row['Type'] == 'mediumtext')
     $mediumtext_array[] = $row['Field'];
@@ -64,7 +64,7 @@ if ($admin_viewing === true) {
     if ($row['Type'] == 'datetime')
     $datetime_array[] = $row['Field'];
   }
-  mysql_free_result($result);
+  mysqli_free_result($result);
   $array_fields = sql_fields($dbtable,'array');
 	$this_id_rid = (in_array( $this_is."rid" , $array_fields ));
   foreach($array_fields as $key) {
@@ -89,8 +89,8 @@ if ($admin_viewing === true) {
       $that_empty_array_fields[] = ($key=='statut'?'Y':'');
       $that_list_array_fields = isset($that_list_array_fields)?$that_list_array_fields.','.$key:$key;
     }
-    $result = @mysql_query("SHOW FIELDS FROM $that_dbtable");
-    while($row=@mysql_fetch_array($result)) {
+    $result = @mysqli_query("SHOW FIELDS FROM $that_dbtable");
+    while($row=@mysqli_fetch_array($result)) {
       $array_fields_type[$row['Field']] = $row['Type'];
       if ($row['Type'] == 'mediumtext')
       $mediumtext_array[] = $row['Field'];
@@ -105,7 +105,7 @@ if ($admin_viewing === true) {
       if ($row['Type'] == 'datetime')
       $datetime_array[] = $row['Field'];
     }
-    mysql_free_result($result);
+    mysqli_free_result($result);
   }
   if (isset($longtext_array[0]))
   $edit_text = true;

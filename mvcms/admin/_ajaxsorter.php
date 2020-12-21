@@ -33,7 +33,7 @@ if ($logged_in === true) {
   	$listingCounter = 1;
   	foreach($updateRecordsArray as $recordIDValue) {
   		$query = "UPDATE ".${"tbl".$what}." SET {$what}sort = '$listingCounter' WHERE {$what}rid = '$recordIDValue' ".($mod=='gallery'?"AND {$what}img LIKE '%".$filedir.$mod."%' ":'');
-  		mysql_query($query) or die('Error, insert query failed<br />'.$query);
+  		mysqli_query($query) or die('Error, insert query failed<br />'.$query);
   		$listingCounter++;
   	}
 
@@ -43,8 +43,8 @@ if ($logged_in === true) {
   	echo '<div class="notice">If you refresh the page, you will see that records will stay just as you modified.<br />New order = '.implode(",",$updateRecordsArray).'</div>';
   }
 
-  @mysql_free_results();
-  @mysql_close($connection);
+  @mysqli_free_results();
+  @mysqli_close($connection);
 
 } else {
 	Header("Location: $redirect");Die();

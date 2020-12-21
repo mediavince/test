@@ -34,7 +34,7 @@ $sql = "SELECT DISTINCT htaccessdate,htaccessurl,htaccesstitle,htaccessitem,htac
 		.(isset($rss_limit)&&($rss_limit>0)?$rss_limit:'100')
 ;
 
-$get_rss = @mysql_query($sql);
+$get_rss = @mysqli_query($sql);
 
 header("Content-Type: application/xml");
 
@@ -47,7 +47,7 @@ echo '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <atom:link href="'.$mainurl.'rss/" rel="self" type="application/atom+xml" />
 ';
 
-while($get_row = @mysql_fetch_array($get_rss)) {
+while($get_row = @mysqli_fetch_array($get_rss)) {
   	$link = $mainurl.lgx2readable($lg,
 		($get_row[4]==''?$get_row[3]:''),
 		($get_row[4]!=''?$get_row[4]:NULL),

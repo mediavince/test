@@ -47,11 +47,11 @@ $jsvar_2 = '';
 $jsvar_3 = '';
 
 $wherejs = "WHERE contlang='$this_lg' AND conturl LIKE '%.php%' AND conttype!='scroller' AND conttype!='leftlinks' ";// AND contorient!='center' contstatut='Y' AND 
-$readjs = @mysql_query("SELECT * FROM $tblcont $wherejs ORDER BY contpg DESC ");
-$nrowsjs = @mysql_num_rows($readjs);
+$readjs = @mysqli_query("SELECT * FROM $tblcont $wherejs ORDER BY contpg DESC ");
+$nrowsjs = @mysqli_num_rows($readjs);
 $html_js .= "//$nrowsjs\n";
 for ($ijs=0;$ijs<$nrowsjs;$ijs++) {
-	$rowjs = mysql_fetch_array($readjs);
+	$rowjs = mysqli_fetch_array($readjs);
 	$row_conturl = substr($rowjs["conturl"],0,-3).'htm';
 	$row_conttitle = $rowjs["conttitle"];
 	if	(strlen($rowjs["contpg"]) == '3')		$jsvar_3 .= 'var m'.$rowjs["contpg"].' = "'.$row_conttitle.'";'.'var l'.$rowjs["contpg"].' = "'.$row_conturl.'";'."\n"	;

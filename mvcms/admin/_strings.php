@@ -15,7 +15,7 @@ $lg = $default_lg;
 $array_months = array();
 $array_days = array();
 
-$sql = @mysql_query("SELECT * FROM $tblstring WHERE stringlang='$lg' ORDER BY stringtype,stringtitle ASC ");// AND stringtype='general' ");//(stringtype='general' OR stringtype='jour' OR stringtype='mois')//
+$sql = @mysqli_query("SELECT * FROM $tblstring WHERE stringlang='$lg' ORDER BY stringtype,stringtitle ASC ");// AND stringtype='general' ");//(stringtype='general' OR stringtype='jour' OR stringtype='mois')//
 if (!$sql) {
   if (@file_exists($getcwd.$up.$safedir.'_full_strings_'.$lg.'.php'))
     require_once $getcwd.$up.$safedir.'_full_strings_'.$lg.'.php';
@@ -25,9 +25,9 @@ if (!$sql) {
     require_once $up.$urladmin.'defaults/_full_strings.php';
   }
 } else {
-  if ((@mysql_num_rows($sql) == 0) && ($lg != $default_lg))
-  $sql = @mysql_query("SELECT * FROM $tblstring WHERE stringlang='$default_lg' ORDER BY stringtype,stringtitle ASC ");
-  while($row = @mysql_fetch_array($sql)) {
+  if ((@mysqli_num_rows($sql) == 0) && ($lg != $default_lg))
+  $sql = @mysqli_query("SELECT * FROM $tblstring WHERE stringlang='$default_lg' ORDER BY stringtype,stringtitle ASC ");
+  while($row = @mysqli_fetch_array($sql)) {
   	if ($row['stringtype'] == 'general') ${$row['stringtitle']."String"} = $row['stringentry'];
   	if ($row['stringtype'] == 'help') ${$row['stringtitle']."HelpString"} = $row['stringentry'];
   	if ($row['stringtype'] == 'sujet') $array_subject[$row['stringtitle']] = $row['stringentry'];
