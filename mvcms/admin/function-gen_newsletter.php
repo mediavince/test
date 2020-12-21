@@ -22,7 +22,7 @@ return $content_docpdfdl;
 // ########## generate list of activities to come
 function gen_activite($nlid) {
 	global $mainurl,$dbtime,$urlclient,$tblevents,$eventsString,$tblgeneralnews,$generalnewsString;
-	$generalnewsRead = @mysql_query("
+	$generalnewsRead = @mysqli_query("
 		                           SELECT * FROM $tblgeneralnews
 		                           WHERE generalnewsstatut='Y'
 		                           AND generalnewsarchive='N'
@@ -30,13 +30,13 @@ function gen_activite($nlid) {
 		                           ORDER BY generalnewsdate DESC
 		                           LIMIT 5
 		                          ");
-	$generalnewsnRows = @mysql_num_rows($generalnewsRead);
+	$generalnewsnRows = @mysqli_num_rows($generalnewsRead);
 	if ( (!isset($generalnewsnRows)) || ($generalnewsnRows == "0") ) {
 		$content_generalnews = "";
 	} else {
 		$generalnews = '';
 		for ($i=0; $i<$generalnewsnRows; $i++) {
-			$generalnewsrow = mysql_fetch_array($generalnewsRead);
+			$generalnewsrow = mysqli_fetch_array($generalnewsRead);
 			$mini_generalnews = substr($generalnewsrow["generalnewsentry"], 0, 600);
 			if  (strlen($generalnewsrow["generalnewsentry"]) > 600)  $mini_generalnews .= "..."  ;
 			$generalnews .= '<tr><td><hr /><a href="'.$mainurl.'?generalnewsId='.$generalnewsrow["generalnewsid"].'&amp;nlid='.$nlid.'"><b>'.$generalnewsrow["generalnewstitle"].'</b></a></td></tr>';//'.$mini_generalnews.'<br />
@@ -45,19 +45,19 @@ function gen_activite($nlid) {
 	if  (!isset($content_generalnews))
 	$content_generalnews = '<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0"><h2><i>'.$generalnewsString.'</i></h2>'.$generalnews.'</table><br />'  ;
 
-	$eventsRead = @mysql_query("
+	$eventsRead = @mysqli_query("
 		                           SELECT * FROM $tblevents
 		                           WHERE eventsstatut='Y'
 		                             AND eventsfrom>=$dbtime
 		                           ORDER BY eventsfrom ASC
 		                          ");
-	$eventsnRows = @mysql_num_rows($eventsRead);
+	$eventsnRows = @mysqli_num_rows($eventsRead);
 	if ( (!isset($eventsnRows)) || ($eventsnRows == "0") ) {
 		$content_events = "";
 	} else {
 		$events = '';
 		for ($i=0; $i<$eventsnRows; $i++) {
-			$eventsrow = mysql_fetch_array($eventsRead);
+			$eventsrow = mysqli_fetch_array($eventsRead);
 			$mini_events = substr($eventsrow["eventsentry"], 0, 600);
 			if  (strlen($eventsrow["eventsentry"]) > 600)  $mini_events .= "..."  ;
 			$events .= '<tr><td><hr /><a href="'.$mainurl.'?eventsId='.$eventsrow["eventsid"].'&amp;nlid='.$nlid.'"><b>'.human_date($eventsrow["eventsfrom"],NULL,'nl').' <i>'.sql_stringit('eventslocation',$eventsrow["eventslocation"]).' </i><br />'.$eventsrow["eventstitle"].'</b></a><br /></td></tr>';//'.$mini_events.'<br />
@@ -77,19 +77,19 @@ function gen_galerie($nlid) {
 	$editnewsletter = sql_get($tblnewsletter, " ORDER BY newsletterdate DESC ", "newsletterdate");
 	$sql_galerie = " AND galeriedate>'$editnewsletter[0]' ";
 	if  ( (!isset($editnewsletter[0])) || ($editnewsletter[0] == ".") )  $sql_galerie = ""  ;
-	$galerieread = @mysql_query("
+	$galerieread = @mysqli_query("
 						  SELECT * FROM $tblgalerie
 						  WHERE galeriestatut='Y'
 						  $sql_galerie
 						  ORDER BY galeriedate ASC
 						 ");
-	$galerienRows = @mysql_num_rows($galerieread);
+	$galerienRows = @mysqli_num_rows($galerieread);
 	if ( (!isset($galerienRows)) || ($galerienRows == "0") ) {
 		$content_galerie = "";
 	} else {
 		$galerie = "";
 		for ($i=0; $i<$galerienRows; $i++) {
-			$galerierow = mysql_fetch_array($galerieread);
+			$galerierow = mysqli_fetch_array($galerieread);
 			$row_galerieid = $galerierow['galerieid'];
 			$nYphoto = sql_nrows($tblgaleriephoto, " WHERE galeriephotogalerieid='$row_galerieid' AND galeriephotostatut='Y' ");
 			if  ($nYphoto <= 1)  $s = ""  ;

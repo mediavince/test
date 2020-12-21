@@ -51,9 +51,9 @@ if (in_array($this_is,$array_modules_as_form)) {
       $datetime_array = array(); // datetime, flag for showing calendar
       $array_fields_type = array();//lists all types for a given table
       
-      $result = @mysql_query("SHOW FIELDS FROM $dbtable");
+      $result = @mysqli_query("SHOW FIELDS FROM $dbtable");
       if (!$result) {Header("Location: $redirect");Die();} // no table or no connection...
-      while($row=@mysql_fetch_array($result)) {
+      while($row=@mysqli_fetch_array($result)) {
         $array_fields_type[$row['Field']] = $row['Type'];
         if ($row['Type'] == 'mediumtext')
         $mediumtext_array[] = $row['Field'];
@@ -68,7 +68,7 @@ if (in_array($this_is,$array_modules_as_form)) {
         if ($row['Type'] == 'datetime')
         $datetime_array[] = $row['Field'];
       }
-      @mysql_free_result($result);
+      @mysqli_free_result($result);
       
       if (!isset($array_mandatory_fields))
       $array_mandatory_fields = array();

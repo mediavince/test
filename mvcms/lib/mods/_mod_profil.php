@@ -44,8 +44,8 @@ if ($admin_viewing === true) {
   $array_fields_type = array();//lists all types for a given table
 
   $dbtable = ${"tbl".$this_is};
-  $result = @mysql_query("SHOW FIELDS FROM $dbtable");
-  while($row=@mysql_fetch_array($result)) {
+  $result = @mysqli_query("SHOW FIELDS FROM $dbtable");
+  while($row=@mysqli_fetch_array($result)) {
     $array_fields_type[$row['Field']] = $row['Type'];
     if ($row['Type'] == 'mediumtext')
     $mediumtext_array[] = $row['Field'];
@@ -60,7 +60,7 @@ if ($admin_viewing === true) {
     if ($row['Type'] == 'datetime')
     $datetime_array[] = $row['Field'];
   }
-  mysql_free_result($result);
+  mysqli_free_result($result);
   $array_fields = sql_fields($dbtable,'array');
 
   if (!isset($user_id))
@@ -92,8 +92,8 @@ if ($admin_viewing === true) {
       $that_empty_array_fields[] = ($key=='statut'?'Y':'');
       $that_list_array_fields = isset($that_list_array_fields)?$that_list_array_fields.','.$key:$key;
     }
-    $result = @mysql_query("SHOW FIELDS FROM $that_dbtable");
-    while($row=@mysql_fetch_array($result)) {
+    $result = @mysqli_query("SHOW FIELDS FROM $that_dbtable");
+    while($row=@mysqli_fetch_array($result)) {
       $array_fields_type[$row['Field']] = $row['Type'];
       if ($row['Type'] == 'mediumtext')
       $mediumtext_array[] = $row['Field'];
@@ -108,7 +108,7 @@ if ($admin_viewing === true) {
       if ($row['Type'] == 'datetime')
       $datetime_array[] = $row['Field'];
     }
-    mysql_free_result($result);
+    mysqli_free_result($result);
   }
   if (isset($longtext_array[0]))
   $edit_text = true;
@@ -413,11 +413,11 @@ if ($admin_viewing === true) {
           if ($key != 'id')
           ${"show_".$key} = '<input name="'.$that_is.ucfirst($key).'" type="hidden" value="'.$value.'" />';
         } else if ($key == 'gendre')
-      	${"show_".$key} = (in_array($that_is.'nom',$that_array_fields)?'<div class="clear"> </div><div style="float:left;width:50%;">':'<div class="clear"> </div>').'<label for="gendre">'.ucfirst(${$key."String"}).'</label> <select name="'.$that_is.ucfirst($key).'">'.gen_selectoption($tblenum,$value,'','gendre').'</select><br />';
+      	${"show_".$key} = (in_array($that_is.'nom',$that_array_fields)?'<div class="clear">ï¿½</div><div style="float:left;width:50%;">':'<div class="clear">ï¿½</div>').'<label for="gendre">'.ucfirst(${$key."String"}).'</label> <select name="'.$that_is.ucfirst($key).'">'.gen_selectoption($tblenum,$value,'','gendre').'</select><br />';
       	else if (($key == 'img') || ($key == 'doc')) {
           $value = $edit_profil[$i];
           for($ii=0;$ii<$nof;$ii++) {
-            ${"show_".$key} = ($key=='img'?($value!=''?'<div style="float:right;"><img src="'.$mainurl.(is_int($value)?sql_getone($tblcontphoto,"WHERE contphotoid='".$value."' AND contphotolang='$lg' ","contphotoimg"):$value).'?'.$now_time.'" border="0" title="'.$photoString.'" alt="'.$photoString.'" /></div>':''):'').'<div class="clear"> </div><label for="'.$that_is.ucfirst($key).'[]">> '.${$key."String"}.'</label> <!--<input type="hidden" name="'.$that_is."Desc".'[]" value="'.strtoupper(${$that_is."String"}).'-'.space2underscore((isset($old_that)?(in_array($that_is.'nom',$that_array_fields)?$edit_profil[4]." ".$edit_profil[5]:$edit_profil[3]):$edit_profil[3])).'" />--><input type="file" name="'.$that_is.ucfirst($key).'[]" />'.($value!=''?'<br /><a href="'.$local_url.'&send=delete&'.$that_is.ucfirst($key).'='.$value.'&do=tabcontent2" onclick="return confirm(\''.$confirmationeffacementString.'\');" title="'.$effacerString.'" alt="'.$effacerString.'"><img src="'.$mainurl.'images/delete.gif" width="10" height="10" border="0" title="'.$effacerString.'" alt="'.$effacerString.'" /> '.$value.'</a>':'').'<br />'.($key=='img'&&$value!=''?'':'');//&'.$that_is.'Id='.$edit_profil[0]$membre_id.'
+            ${"show_".$key} = ($key=='img'?($value!=''?'<div style="float:right;"><img src="'.$mainurl.(is_int($value)?sql_getone($tblcontphoto,"WHERE contphotoid='".$value."' AND contphotolang='$lg' ","contphotoimg"):$value).'?'.$now_time.'" border="0" title="'.$photoString.'" alt="'.$photoString.'" /></div>':''):'').'<div class="clear">ï¿½</div><label for="'.$that_is.ucfirst($key).'[]">> '.${$key."String"}.'</label> <!--<input type="hidden" name="'.$that_is."Desc".'[]" value="'.strtoupper(${$that_is."String"}).'-'.space2underscore((isset($old_that)?(in_array($that_is.'nom',$that_array_fields)?$edit_profil[4]." ".$edit_profil[5]:$edit_profil[3]):$edit_profil[3])).'" />--><input type="file" name="'.$that_is.ucfirst($key).'[]" />'.($value!=''?'<br /><a href="'.$local_url.'&send=delete&'.$that_is.ucfirst($key).'='.$value.'&do=tabcontent2" onclick="return confirm(\''.$confirmationeffacementString.'\');" title="'.$effacerString.'" alt="'.$effacerString.'"><img src="'.$mainurl.'images/delete.gif" width="10" height="10" border="0" title="'.$effacerString.'" alt="'.$effacerString.'" /> '.$value.'</a>':'').'<br />'.($key=='img'&&$value!=''?'':'');//&'.$that_is.'Id='.$edit_profil[0]$membre_id.'
           }
         } else if (isset(${"tbl".$key}) && !in_array($key,$basic_array)) {
           if (in_array("$that_is$key",$int3_array)) {
@@ -430,7 +430,7 @@ if ($admin_viewing === true) {
             */
             $this_count_of_Y_items = sql_nrows(${"tbl".$key},"WHERE $key".$that_is."='".$membre_id."' AND ".$key."statut='Y' ".(in_array($key."rid",sql_fields(${"tbl$key"},'array'))?" AND ".$key."lang='$lg' ":''));
             $this_count_of_N_items = sql_nrows(${"tbl".$key},"WHERE $key".$that_is."='".$membre_id."' AND ".$key."statut='N' ".(in_array($key."rid",sql_fields(${"tbl$key"},'array'))?" AND ".$key."lang='$lg' ":''));
-            ${"tab_".$key} .= '"><img src="'.$mainurl.'images/folder_add_f2.png" align="left" border="0" title="'.$ajoutString.' '.$key.'" alt="'.$ajoutString.' '.$key.'"/>   '.$ajoutString.' '.$key.'</a> | <a href="'.($full_url===true?$mainurl.lgx2readable($lg,'',$key):$local_url).'">'.($this_count_of_Y_items>0?$this_count_of_Y_items:'').' '.$class_conjugaison->plural(${$key."String"},'',$this_count_of_Y_items).'</a>'.($this_count_of_N_items>0?" ($this_count_of_N_items $enattenteString)":'').'<hr /><br />';
+            ${"tab_".$key} .= '"><img src="'.$mainurl.'images/folder_add_f2.png" align="left" border="0" title="'.$ajoutString.' '.$key.'" alt="'.$ajoutString.' '.$key.'"/> ï¿½ '.$ajoutString.' '.$key.'</a> | <a href="'.($full_url===true?$mainurl.lgx2readable($lg,'',$key):$local_url).'">'.($this_count_of_Y_items>0?$this_count_of_Y_items:'').' '.$class_conjugaison->plural(${$key."String"},'',$this_count_of_Y_items).'</a>'.($this_count_of_N_items>0?" ($this_count_of_N_items $enattenteString)":'').'<hr /><br />';
             foreach(sql_array(${"tbl".$key},"WHERE $key".$that_is."='".$membre_id."' AND ".$key."statut='Y' ".(in_array($key."rid",sql_fields(${"tbl$key"},'array'))?" AND ".$key."lang='$lg' ":'')." ORDER BY ".$key."date ASC ",$key.(in_array($key."rid",sql_fields(${"tbl$key"},'array'))?'r':'')."id") as $keytab) {
               $get_tab = sql_get(${"tbl".$key},"WHERE ".$key.(in_array($key."rid",sql_fields(${"tbl$key"},'array'))?"lang='$lg' AND ".$key.'r':'')."id='$keytab' ","*");
               if ($get_tab[0]!='.') {
@@ -450,11 +450,11 @@ if ($admin_viewing === true) {
             if (@file_exists($getcwd.$up.$safedir.'_extra_routines.php'))
             include $getcwd.$up.$safedir.'_extra_routines.php';
             if (!isset(${"show_".$key}))
-            ${"show_".$key} = '<div class="clear"> </div><label for="'.$that_is.ucfirst($key).'">> '.${$key."String"}.'</label> <!--<br />--><select name="'.$that_is.ucfirst($key).'">'.gen_selectoption(${"tbl".$key},$value,(sql_getone(${"tbl".$key},"WHERE ".$key.(in_array($key."rid",sql_fields(${"tbl$key"},'array'))?"lang='$lg' AND ".$key.'r':'')."id='$value' ",$key."statut")=='Y'?'':" OR ".$key."statut='N' "),$key).'</select><br />';
+            ${"show_".$key} = '<div class="clear">ï¿½</div><label for="'.$that_is.ucfirst($key).'">> '.${$key."String"}.'</label> <!--<br />--><select name="'.$that_is.ucfirst($key).'">'.gen_selectoption(${"tbl".$key},$value,(sql_getone(${"tbl".$key},"WHERE ".$key.(in_array($key."rid",sql_fields(${"tbl$key"},'array'))?"lang='$lg' AND ".$key.'r':'')."id='$value' ",$key."statut")=='Y'?'':" OR ".$key."statut='N' "),$key).'</select><br />';
           }
       	} else {
           if (in_array("$that_is$key",$longtext_array)) {
-            ${"show_".$key} = '<div class="clear"> </div><label for="'.$that_is.ucfirst($key).'">> '.${$key."String"}.'</label><br />'.($tinyMCE === false?$text_style_js:'').'<br /><textarea id="elm'.($i_elm>=-1?$i_elm+=1:'').'" name="'.$that_is.ucfirst($key).'" rows="20" cols="40" style="width: 97%; height: 300px; min-height: 300px;">'.format_edit($value,'edit').'</textarea><br />';
+            ${"show_".$key} = '<div class="clear">ï¿½</div><label for="'.$that_is.ucfirst($key).'">> '.${$key."String"}.'</label><br />'.($tinyMCE === false?$text_style_js:'').'<br /><textarea id="elm'.($i_elm>=-1?$i_elm+=1:'').'" name="'.$that_is.ucfirst($key).'" rows="20" cols="40" style="width: 97%; height: 300px; min-height: 300px;">'.format_edit($value,'edit').'</textarea><br />';
           } else if (in_array("$that_is$key",$enumYN_array)) {
             ${"show_".$key} = '';//'<label for="'.$that_is.ucfirst($key).'">> '.${$key."String"}.'</label> <!--<br />--><select name="'.$that_is.ucfirst($key).'">'.gen_selectoption(array('N','Y'),$edit_profil[$i],'','').'</select><br />';
           } else if (in_array("$that_is$key",$int3_array) && !isset(${"tbl".$key})) {
@@ -463,7 +463,7 @@ if ($admin_viewing === true) {
             if (@file_exists($getcwd.$up.$safedir.'_extra_routines.php'))
             include $getcwd.$up.$safedir.'_extra_routines.php';
             if (!isset(${"show_".$key}))
-            ${"show_".$key} = (in_array($key,array('address','adresse'))?'<div class="clear"> </div><div style="float:left;width:50%;">':'').'<div style="float:left;"><label for="'.$that_is.ucfirst($key).'">'.ucfirst(${$key."String"}).'</label><br /><input class="text" name="'.$that_is.ucfirst($key).'" type="text" value="'.$value.'" /><br /></div>'.(in_array($key,array('ville'))||(($key=='nom')&&in_array($that_is.'gendre',$that_array_fields))?'</div>':'');//<div class="clear"> 
+            ${"show_".$key} = (in_array($key,array('address','adresse'))?'<div class="clear">ï¿½</div><div style="float:left;width:50%;">':'').'<div style="float:left;"><label for="'.$that_is.ucfirst($key).'">'.ucfirst(${$key."String"}).'</label><br /><input class="text" name="'.$that_is.ucfirst($key).'" type="text" value="'.$value.'" /><br /></div>'.(in_array($key,array('ville'))||(($key=='nom')&&in_array($that_is.'gendre',$that_array_fields))?'</div>':'');//<div class="clear">ï¿½
           }
         }
 

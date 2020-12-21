@@ -191,8 +191,8 @@ function mvtrace($script,$line, $message = "")
 function connect()
 {
     global $dbhost, $dbuser, $dbpass, $dbname;
-    $connection = @mysql_connect("$dbhost", "$dbuser", "$dbpass");
-    $connection .= @mysql_select_db("$dbname");
+    $connection = @mysqli_connect("$dbhost", "$dbuser", "$dbpass");
+    $connection .= @mysqli_select_db("$dbname");
     return $connection;
 }
 
@@ -405,8 +405,8 @@ function fieldis($_this)
 
 function sql_get($dbtable,$where,$getrow)
 {
-    $sql = @mysql_query("SELECT $getrow FROM $dbtable $where");
-    $row = @mysql_fetch_array($sql);
+    $sql = @mysqli_query("SELECT $getrow FROM $dbtable $where");
+    $row = @mysqli_fetch_array($sql);
     if (is_array($row)) {
         foreach($row as $sql_get) {
             $sql_get = $row;
@@ -433,8 +433,8 @@ function sql_get($dbtable,$where,$getrow)
 
 function sql_getone($dbtable,$where,$getone)
 {
-    $sql = @mysql_query("SELECT $getone FROM $dbtable $where");
-    $row = @mysql_fetch_array($sql);
+    $sql = @mysqli_query("SELECT $getone FROM $dbtable $where");
+    $row = @mysqli_fetch_array($sql);
     return $row[0];
 }
 
@@ -522,11 +522,11 @@ function lgx2readable($this_lg,$this_x,$mod=null,$id=null)
 function sql_array($dbtable,$where,$getrow)
 {
     global $trace;
-    $sql = @mysql_query("SELECT $getrow FROM $dbtable $where");
-    $nrows = @mysql_num_rows($sql);
+    $sql = @mysqli_query("SELECT $getrow FROM $dbtable $where");
+    $nrows = @mysqli_num_rows($sql);
     $sql_array = "";
     for ($i=0;$i<$nrows;$i++) {
-        $row = @mysql_fetch_array($sql);
+        $row = @mysqli_fetch_array($sql);
         $sql_array .= $row[$getrow].'|';
     }
     if	(in_array($sql_array,array("","|")))	$sql_array = array()	;//
@@ -552,9 +552,9 @@ function sql_stringit($type,$title)
 
 function sql_update($dbtable,$setq,$where,$getrow)
 {
-    $sql = @mysql_query("UPDATE $dbtable $setq $where");
-    $sql = @mysql_query("SELECT $getrow FROM $dbtable $where ");
-    $row = @mysql_fetch_array($sql);
+    $sql = @mysqli_query("UPDATE $dbtable $setq $where");
+    $sql = @mysqli_query("SELECT $getrow FROM $dbtable $where ");
+    $row = @mysqli_fetch_array($sql);
     if (is_array($row)) {
         foreach ($row as $sql_update) {
             $sql_update = $row;
@@ -566,9 +566,9 @@ function sql_update($dbtable,$setq,$where,$getrow)
 
 function sql_updateone($dbtable,$setq,$where,$getrow)
 {
-    $sql = @mysql_query("UPDATE $dbtable $setq $where");
-    $sql = @mysql_query("SELECT $getrow FROM $dbtable $where ");
-    $row = @mysql_fetch_array($sql);
+    $sql = @mysqli_query("UPDATE $dbtable $setq $where");
+    $sql = @mysqli_query("SELECT $getrow FROM $dbtable $where ");
+    $row = @mysqli_fetch_array($sql);
     if (is_array($row)) {
         foreach ($row as $sql_update) {
             $sql_update = $row;
@@ -580,17 +580,17 @@ function sql_updateone($dbtable,$setq,$where,$getrow)
 
 function sql_nrows($dbtable,$where)
 {
-    $sql = @mysql_query("SELECT * FROM $dbtable $where");
-    $row = @mysql_num_rows($sql);
+    $sql = @mysqli_query("SELECT * FROM $dbtable $where");
+    $row = @mysqli_num_rows($sql);
     return $row;
 }
 
 
 function sql_del($dbtable,$where)
 {
-    $sql = @mysql_query("DELETE FROM $dbtable $where");
-    $sql = @mysql_query("SELECT * FROM $dbtable $where");
-    $row = @mysql_num_rows($sql);
+    $sql = @mysqli_query("DELETE FROM $dbtable $where");
+    $sql = @mysqli_query("SELECT * FROM $dbtable $where");
+    $row = @mysqli_num_rows($sql);
     return $row;
 }
 
@@ -599,19 +599,19 @@ function sql_fields($dbtable,$output)
 {
     global $trace,$error,$notice;
     $sql = "SELECT * FROM $dbtable ";
-    $result = @mysql_query($sql);
+    $result = @mysqli_query($sql);
     $i = 0;
     $array_types = "";
     $array_fields = "";
     $list_all_fields = "";
     if ($result) {
-        while ($i < mysql_num_fields($result)) {
-            $meta = mysql_fetch_field($result, $i);
+        while ($i < mysqli_num_fields($result)) {
+            $meta = mysqli_fetch_field($result, $i);
             if (!$meta) {
                 $array_fields .= "";
                 $list_all_fields .= "";
             }
-            if ($i == mysql_num_fields($result)-1) {
+            if ($i == mysqli_num_fields($result)-1) {
                 $array_types .= "$meta->type";
                 $array_fields .= "$meta->name";
                 $list_all_fields .= "`$meta->name`";
@@ -622,7 +622,7 @@ function sql_fields($dbtable,$output)
             }
             $i++;
         }
-        mysql_free_result($result);
+        mysqli_free_result($result);
         if ($output == 'types') {
             $batch_array_types = explode(',', $array_types);
             return $batch_array_types;
@@ -663,11 +663,11 @@ function get_types($_this)
             $int3_array = array(); // int(3) unsigned, flag for fetching items from referenced table
             if (!isset($datetime_array))
             $datetime_array = array(); // datetime, flag for showing calendar
-            $result = @mysql_query("SHOW FIELDS FROM $dbtable");
+            $result = @mysqli_query("SHOW FIELDS FROM $dbtable");
             if (!$result) {
                 Header("Location: $redirect");Die();
             } // no table or no connection...
-            while($row=@mysql_fetch_array($result)) {
+            while($row=@mysqli_fetch_array($result)) {
                 $array_fields_type[$row['Field']] = $row['Type'];
                 if ($row['Type'] == 'mediumtext')
                 $mediumtext_array[] = $row['Field'];
@@ -682,7 +682,7 @@ function get_types($_this)
                 if ($row['Type'] == 'datetime')
                 $datetime_array[] = $row['Field'];
             }
-            @mysql_free_result($result);
+            @mysqli_free_result($result);
             $array_fields_type = array_unique($array_fields_type);
             $mediumtext_array = array_unique($mediumtext_array);
             $longtext_array = array_unique($longtext_array);
@@ -712,9 +712,9 @@ function filter_sql_q($_this)
             $enumtype_array = array(); // int(11) unsigned, produces selectable code for all possibilities taken from enum and assign string, then allows creation of new type, further options apply like - for deleting the selected item
             $int3_array = array(); // int(3) unsigned, flag for fetching items from referenced table
             $datetime_array = array(); // datetime, flag for showing calendar
-            $result = @mysql_query("SHOW FIELDS FROM $dbtable");
+            $result = @mysqli_query("SHOW FIELDS FROM $dbtable");
             if (!$result) {Header("Location: $redirect");Die();} // no table or no connection...
-            while($row=@mysql_fetch_array($result)) {
+            while($row=@mysqli_fetch_array($result)) {
             $array_fields_type[$row['Field']] = $row['Type'];
             if ($row['Type'] == 'mediumtext')
             $mediumtext_array[] = $row['Field'];
@@ -729,7 +729,7 @@ function filter_sql_q($_this)
             if ($row['Type'] == 'datetime')
             $datetime_array[] = $row['Field'];
             }
-            @mysql_free_result($result);
+            @mysqli_free_result($result);
             } else
             global $array_fields_type,$mediumtext_array,$longtext_array,$enumYN_array,$enumtype_array,$int3_array,$datetime_array;
             */
@@ -744,11 +744,11 @@ function filter_sql_q($_this)
             $enumtype_array = array(); // int(11) unsigned, produces selectable code for all possibilities taken from enum and assign string, then allows creation of new type, further options apply like - for deleting the selected item
             $int3_array = array(); // int(3) unsigned, flag for fetching items from referenced table
             $datetime_array = array(); // datetime, flag for showing calendar
-            $result = @mysql_query("SHOW FIELDS FROM $dbtable");
+            $result = @mysqli_query("SHOW FIELDS FROM $dbtable");
             if (!$result) {
                 Header("Location: $redirect");Die();
             } // no table or no connection...
-            while($row=@mysql_fetch_array($result)) {
+            while($row=@mysqli_fetch_array($result)) {
                 $array_fields_type[$row['Field']] = $row['Type'];
                 if ($row['Type'] == 'mediumtext')
                 $mediumtext_array[] = $row['Field'];
@@ -763,7 +763,7 @@ function filter_sql_q($_this)
                 if ($row['Type'] == 'datetime')
                 $datetime_array[] = $row['Field'];
             }
-            @mysql_free_result($result);
+            @mysqli_free_result($result);
         }
         if (isset($this_array_fields) && in_array($_this."lang",$this_array_fields))
         $sql_q .= " AND ".$_this."lang='$lg' ";
@@ -1019,8 +1019,8 @@ function sql_nemails($email)
             }
         }
     }
-    $sql = @mysql_query("SELECT * FROM $select WHERE $where");
-    $row = @mysql_num_rows($sql);
+    $sql = @mysqli_query("SELECT * FROM $select WHERE $where");
+    $row = @mysqli_num_rows($sql);
     return $row;
 }
 
@@ -1379,7 +1379,7 @@ function gen_selectoption($table,$selected,$type,$what,$show_count=null)
                         $key."String"})).'</option>';
         }
     } else if ($table == $tblenum) {
-        $read = @mysql_query("
+        $read = @mysqli_query("
 						SELECT * FROM $table
 						WHERE enumstatut='Y'
 						AND enumtype LIKE '%$type%'
@@ -1393,14 +1393,14 @@ function gen_selectoption($table,$selected,$type,$what,$show_count=null)
         if (in_array($selected,array('ajout','0','',null))) {
             $selectoptions = '<option value=""> >> '.$achoisirString.' &nbsp;</option>';
             for ($i=0;$i<$nRows;$i++) {
-                $row = mysql_fetch_array($read);
+                $row = mysqli_fetch_array($read);
                 $selectoptions .= '<option value="'.$row["enumtitre"].'"> '.sql_stringit(($what==''?'general':$what),$row["enumtitre"]).' </option>';
             }
         } else {
             if (isset($nRowsThis_is) && ($show_count!=null))
             $selectoptions = '<option'.($selected==$toutString?$optionselected:'').' value="'.$toutString.'"> ('.$nRowsThis_is.') '.$toutString.' &nbsp;</option>';
             for ($i=0;$i<$nRows;$i++) {
-                $row = mysql_fetch_array($read);
+                $row = mysqli_fetch_array($read);
                 $row_enumtitre = $row["enumtitre"];
                 if ($row["enumtitre"] == $selected) $this_select = $optionselected;
                 else  $this_select = '';
@@ -1414,10 +1414,10 @@ function gen_selectoption($table,$selected,$type,$what,$show_count=null)
         $selectoptions = '';
         if ($selected == '')	$selectoptions = '<option value=""> >> '.$achoisirString.' &nbsp;</option>'	;
         $whereq = " WHERE stringtype='$what' $type ";
-        $read = @mysql_query(" SELECT * FROM $table $whereq ");
+        $read = @mysqli_query(" SELECT * FROM $table $whereq ");
         $nRows = sql_nrows($table,$whereq);
         for ($i=0;$i<$nRows;$i++) {
-            $row = mysql_fetch_array($read);
+            $row = mysqli_fetch_array($read);
             if ($row["stringentry"] == $selected) {
                 $this_select = $optionselected;
             } else {
@@ -1431,10 +1431,10 @@ function gen_selectoption($table,$selected,$type,$what,$show_count=null)
         $selectoptions = '<option value=""> >> '.$achoisirString.' &nbsp;</option>'	;
         $rid = (in_array($what."rid",sql_fields($table,'array'))?'r':'')."id";
         $whereq = " WHERE ".$what."statut='Y' ".($rid=='rid'?" AND ".$what."lang='$lg' ":'')." $type ";
-        $read = @mysql_query(" SELECT * FROM $table $whereq ");
+        $read = @mysqli_query(" SELECT * FROM $table $whereq ");
         $nRows = sql_nrows($table,$whereq);
         for ($i=0;$i<$nRows;$i++) {
-            $row = mysql_fetch_array($read);
+            $row = mysqli_fetch_array($read);
             if ($row[$what.$rid] == $selected) {
                 $this_select = $optionselected;
             } else {
@@ -1480,7 +1480,7 @@ function gen_fullselectoption($table,$selected,$type,$what,$str_type=null)
             $selectoptions .= '<option value="'.$key.'"'.$this_select.'>'.(sql_stringit($str_type,$key)!=''?sql_stringit($str_type,$key):$key).'</option>';
         }
     } else if ($table == $tblenum) {
-        $read = @mysql_query("
+        $read = @mysqli_query("
 						SELECT * FROM $table
 						WHERE enumstatut='Y'
 						AND enumtype LIKE '%$type%'
@@ -1494,7 +1494,7 @@ function gen_fullselectoption($table,$selected,$type,$what,$str_type=null)
         if (in_array($selected,array('ajout','0','',null))) {
             $selectoptions .= '<option value=""> >> '.$achoisirString.' &nbsp;</option>';
             for ($i=0;$i<$nRows;$i++) {
-                $row = mysql_fetch_array($read);
+                $row = mysqli_fetch_array($read);
                 $row_enumtitre = $row["enumtitre"];
                 $editwhat = sql_get($tblstring, " WHERE stringlang='$lg' AND stringtype='$what' AND stringtitle='$row_enumtitre' ", "stringentry");
                 $selectoptions .= '<option value="'.$row_enumtitre.'"> '.$editwhat[0].' </option>';
@@ -1508,7 +1508,7 @@ function gen_fullselectoption($table,$selected,$type,$what,$str_type=null)
                 }
             }
             for ($i=0;$i<$nRows;$i++) {
-                $row = mysql_fetch_array($read);
+                $row = mysqli_fetch_array($read);
                 $row_enumtitre = $row["enumtitre"];
                 if ($row["enumtitre"] == $selected) {
                     $this_select = $optionselected;
@@ -1528,10 +1528,10 @@ function gen_fullselectoption($table,$selected,$type,$what,$str_type=null)
         if (in_array($selected,array('ajout','0','',null)))
         $selectoptions .= '<option value=""> >> '.$achoisirString.' &nbsp;</option>'	;
         $whereq = " WHERE ".$what."statut='Y' $type ";
-        $read = @mysql_query(" SELECT * FROM $table "); // $whereq
+        $read = @mysqli_query(" SELECT * FROM $table "); // $whereq
         $nRows = sql_nrows($table,$whereq);
         for ($i=0;$i<$nRows;$i++) {
-            $row = mysql_fetch_array($read);
+            $row = mysqli_fetch_array($read);
             if ($row[$what."pg"] == $selected) {
                 $this_select = $optionselected;
             } else {
@@ -1562,10 +1562,10 @@ function gen_fullselectoption($table,$selected,$type,$what,$str_type=null)
         $selectoptions .= '<option value=""> >> '.$achoisirString.' &nbsp;</option>'	;
         $rid = (in_array($what."rid",sql_fields($table,'array'))?'r':'')."id";
         $whereq = " WHERE ".$what."statut='Y' ".($rid=='rid'?" AND ".$what."lang='$lg' ":'')." $type ";
-        $read = @mysql_query(" SELECT * FROM $table $whereq ");
+        $read = @mysqli_query(" SELECT * FROM $table $whereq ");
         $nRows = sql_nrows($table,$whereq);
         for ($i=0;$i<$nRows;$i++) {
-            $row = mysql_fetch_array($read);
+            $row = mysqli_fetch_array($read);
             if ($row[$what.$rid] == $selected) {
                 $this_select = $optionselected;
             } else {
@@ -1606,7 +1606,7 @@ function gen_inputcheck($table,$checked,$type,$what,$hide_first=null)
     }
     $checkedoptions = '';
     if ($table == $tblenum) {
-        $read = @mysql_query("
+        $read = @mysqli_query("
 						SELECT * FROM $table
 						WHERE enumstatut='Y'
 						AND enumtype LIKE '%$type%'
@@ -1620,9 +1620,9 @@ function gen_inputcheck($table,$checked,$type,$what,$hide_first=null)
         if (($checked == 'ajout') || ($checked == '')) {
             //	for ($i=0;$i<$nRows;$i++) {
             $i=0;
-            while($row = mysql_fetch_array($read)) {
+            while($row = mysqli_fetch_array($read)) {
                 $iminus = $i-1;
-                //	$row = mysql_fetch_array($read);
+                //	$row = mysqli_fetch_array($read);
                 $row_enumtitre = $row["enumtitre"];
                 $editwhat = sql_get($tblstring, " WHERE stringlang='$lg' AND stringtype='$what' AND stringtitle='$row_enumtitre' ", "stringentry");
                 if (($hide_first === true) && ($i==0))
@@ -1637,9 +1637,9 @@ function gen_inputcheck($table,$checked,$type,$what,$hide_first=null)
         } else {
             //	for ($i=0;$i<$nRows;$i++) {
             $i=0;
-            while($row = mysql_fetch_array($read)) {
+            while($row = mysqli_fetch_array($read)) {
                 $iminus = $i-1;
-                //	$row = mysql_fetch_array($read);
+                //	$row = mysqli_fetch_array($read);
                 $row_enumtitre = $row["enumtitre"];
                 $row_enumtype[$i] = $row["enumtype"];
                 if	(($i > '0') && ($row_enumtype[$iminus] !== $row["enumtype"]))
@@ -1662,13 +1662,13 @@ function gen_inputcheck($table,$checked,$type,$what,$hide_first=null)
         }
     } else {
         $whereq = " WHERE ".$what."statut='Y' $type ";
-        $read = @mysql_query(" SELECT * FROM $table $whereq ");
+        $read = @mysqli_query(" SELECT * FROM $table $whereq ");
         $rid = (in_array($what."rid",sql_fields($table,'array'))?'r':'')."id";
         $nRows = sql_nrows($table,$whereq);
         //	for ($i=0;$i<$nRows;$i++) {
         $i=0;
-        while($row = mysql_fetch_array($read)) {
-            //	$row = mysql_fetch_array($read);
+        while($row = mysqli_fetch_array($read)) {
+            //	$row = mysqli_fetch_array($read);
             if (in_array($row[$what.$rid], $checked)) {
                 $this_check = $inputchecked;
             } else {
@@ -1708,7 +1708,7 @@ function gen_inputradio($table,$checked,$type,$what)
     } else {
         $radiooptions = '';
         if ($table == $tblenum) {
-            $read = @mysql_query("
+            $read = @mysqli_query("
 							SELECT * FROM $table
 							WHERE enumstatut='Y'
 							AND enumtype LIKE '%$type%'
@@ -1722,8 +1722,8 @@ function gen_inputradio($table,$checked,$type,$what)
             if (($checked == 'ajout') || ($checked == '')) {
                 //	for ($i=0;$i<$nRows;$i++) {
                 $i=0;
-                while($row = mysql_fetch_array($read)) {
-                    //	$row = mysql_fetch_array($read);
+                while($row = mysqli_fetch_array($read)) {
+                    //	$row = mysqli_fetch_array($read);
                     $row_enumtitre = $row["enumtitre"];
                     $editwhat = sql_get($tblstring, " WHERE stringlang='$lg' AND stringtype='$what' AND stringtitle='$row_enumtitre' ", "stringentry");
                     $radiooptions .= '<label for="'.$what.'"> '.$editwhat[0].' </label><input type="radio" name="'.$what.'" value="'.$row_enumtitre.'" />';//($i+1)
@@ -1732,8 +1732,8 @@ function gen_inputradio($table,$checked,$type,$what)
             } else {
                 //	for ($i=0;$i<$nRows;$i++) {
                 $i=0;
-                while($row = mysql_fetch_array($read)) {
-                    //	$row = mysql_fetch_array($read);
+                while($row = mysqli_fetch_array($read)) {
+                    //	$row = mysqli_fetch_array($read);
                     $iminus = $i-1;
                     $row_enumtitre = $row["enumtitre"];
                     $row_enumtype[$i] = $row["enumtype"];
@@ -1754,13 +1754,13 @@ function gen_inputradio($table,$checked,$type,$what)
             }
         } else {
             $whereq = " WHERE ".$what."statut='Y' $type ";
-            $read = @mysql_query(" SELECT * FROM $table $whereq ");
+            $read = @mysqli_query(" SELECT * FROM $table $whereq ");
             $rid = (in_array($what."rid",sql_fields($table,'array'))?'r':'')."id";
             $nRows = sql_nrows($table,$whereq);
             //	for ($i=0;$i<$nRows;$i++) {
             $i=0;
-            while($row = mysql_fetch_array($read)) {
-                //	$row = mysql_fetch_array($read);
+            while($row = mysqli_fetch_array($read)) {
+                //	$row = mysqli_fetch_array($read);
                 $row_enumtitre = $row["enumtitre"];
                 if (in_array($row[$what.$rid], $checked)) {
                     $this_check = $inputchecked;

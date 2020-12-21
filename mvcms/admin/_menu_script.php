@@ -18,15 +18,15 @@ $t_menuright = '';
 $menuhori = '';
 $t_menuhori = '';
 $where = "WHERE $where_statut_lang conttype!='toplinks' AND conttype!='scroller' AND conttype!='leftlinks' ";// conturl LIKE '%_".$lg.".php%'
-$read = @mysql_query("SELECT * FROM $tblcont $where ORDER BY CAST(contpg as CHAR) ");
-$nrows = @mysql_num_rows($read);
+$read = @mysqli_query("SELECT * FROM $tblcont $where ORDER BY CAST(contpg as CHAR) ");
+$nrows = @mysqli_num_rows($read);
 
 $base_x = $x[0];
 if (preg_match("/^1[0-9]{1,}\$/", $x) && ($x1subok === false))
   $base_x = $x[0].$x[1] ;
 
 for ($i=0;$i<$nrows;$i++) {
-	$row = mysql_fetch_array($read);
+	$row = mysqli_fetch_array($read);
 	$row_conturl = $row["conturl"];
 	$row_contpg = $row["contpg"];
 	$row_conttitle = $row["conttitle"];

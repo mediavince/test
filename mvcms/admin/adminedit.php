@@ -37,10 +37,10 @@ if (!isset($contmenu))
 /* seems useless check line 95 */
 $array_linkedmenus = "";
 $array_linkedmenus = array($array_linkedmenus);
-$all_contmenus = @mysql_query("SELECT `contmenu` FROM $dbtable WHERE contmenu!='' ");
-$nrows = @mysql_num_rows($all_contmenus);
+$all_contmenus = @mysqli_query("SELECT `contmenu` FROM $dbtable WHERE contmenu!='' ");
+$nrows = @mysqli_num_rows($all_contmenus);
 for ($i=0;$i<$nrows;$i++) {
-	$row = mysql_fetch_array($all_contmenus);
+	$row = mysqli_fetch_array($all_contmenus);
 	$this_contmenus = explode("|", $row["contmenu"]);
 	if	(!is_array($this_contmenus))	$this_contmenus = array($this_contmenus);
 	if	(!empty($array_linkedmenus))	$array_linkedmenus = array_merge($array_linkedmenus,$this_contmenus);
@@ -517,7 +517,7 @@ $error .= '</ul><a href="javascript:history.back()//">'.$retourString.'</a>';
 						$values = "('', 'Y', $dbtime, '$admin_name', $dbtime, '$admin_name', '$x', '".$keylg."', '$contTitle', '$contEntry', '".($htaccess4sef===true?$clean_contTitle:$conturl)."', '$contPriv', '$contmenu', '$contType', '$contOrient', '$contMetadesc', '$contMetakeyw')";
 						if (sql_nrows($dbtable,"WHERE contpg='$x' AND contlang='".$keylg."' AND conttitle='$contTitle' ") == 0) {
 							$sql = "INSERT INTO $dbtable (`contid`, `contstatut`, `contdate`, `contdateby`, `contupdate`, `contupdateby`, `contpg`, `contlang`, `conttitle`, `contentry`, `conturl`, `contlogo`, `contmenu`, `conttype`, `contorient`, `contmetadesc`, `contmetakeyw`) VALUES $values ;";
-							$addquery = @mysql_query($sql);
+							$addquery = @mysqli_query($sql);
 						}
 						if ($send == $ajouterString) {
               				if ($root_writable === true)
@@ -560,7 +560,7 @@ $error .= '</ul><a href="javascript:history.back()//">'.$retourString.'</a>';
 						$values = "('', 'Y', $dbtime, '$admin_name', $dbtime, '$admin_name', '$x', '".$keylg."', '$contTitle', '$contEntry', '".($htaccess4sef===true?$clean_contTitle:$conturl)."', '$contPriv' ,'$contmenu' ,'$contType', '$contOrient', '$contMetadesc', '$contMetakeyw')";
 						if (sql_nrows($dbtable,"WHERE contpg='$x' AND contlang='".$keylg."' AND conttitle='$contTitle' ") == 0) {
 							$sql = "INSERT INTO $dbtable (`contid`, `contstatut`, `contdate`, `contdateby`, `contupdate`, `contupdateby`, `contpg`, `contlang`, `conttitle`, `contentry`, `conturl`, `contlogo`, `contmenu`, `conttype`, `contorient`, `contmetadesc`, `contmetakeyw`) VALUES $values ";
-							$addquery = @mysql_query($sql);
+							$addquery = @mysqli_query($sql);
 						}
 						if ($send == $ajouterString) {
           					if ($root_writable === true)
@@ -617,8 +617,8 @@ $error .= '</ul><a href="javascript:history.back()//">'.$retourString.'</a>';
     		{Header("Location: $redirect");Die();}
 
 		$editrapport = "";
-		$read = @mysql_query("SELECT * FROM $dbtable WHERE contpg='$x' ");
-		$nrows = @mysql_num_rows($read);
+		$read = @mysqli_query("SELECT * FROM $dbtable WHERE contpg='$x' ");
+		$nrows = @mysqli_num_rows($read);
 		
 		include $getcwd.$up.$urladmin.'menu_pagine.php';
 		include $getcwd.$up.$urladmin.'html_index.php';
@@ -626,7 +626,7 @@ $error .= '</ul><a href="javascript:history.back()//">'.$retourString.'</a>';
   $content .= '<br />';
     	$default_url = sql_getone($tblcont,"WHERE contpg='$x' AND contlang='$default_lg' ","conturl");
 		for ($i=0;$i<$nrows;$i++) {
-			$row = mysql_fetch_array($read);
+			$row = mysqli_fetch_array($read);
 			$conturl = $default_url.($htaccess4sef===true?"_".$row["contlang"].".php":'');
 			$conturlhtm = substr($conturl,0,-4).'.htm';
 			if (strlen($x) == '1') { // delete the pages in folder and VOID the db entry

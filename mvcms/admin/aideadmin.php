@@ -40,18 +40,18 @@ if (!isset($send)) {
 
 		$tableHead = '<table align="center" style="width:95%" border="1" cellspacing="2" cellpadding="2"><tr><th>'.$infodbString.'<br />'.$langueString.'</th><th>'.$paramsString.' '.$aideString.'</th><th>'.$optionsString.'</th></tr><tr><td><a href="?lg='.$lg.'&x='.$x.'&y='.$y.'&par=helpid&ordre='.$nextordre.'">'.$numidString.'</a><br /><a href="?lg='.$lg.'&x='.$x.'&y='.$y.'&par=helplang&ordre='.$nextordre.'">'.$langueString.'</a></td><td><a href="?lg='.$lg.'&x='.$x.'&y='.$y.'&par=helppg&ordre='.$nextordre.'">'.$pageString.'</a><br /><a href="?lg='.$lg.'&x='.$x.'&y='.$y.'&par=helptitle&ordre='.$nextordre.'">'.$titreString.'</a><br /><a href="?lg='.$lg.'&x='.$x.'&y='.$y.'&par=helpentry&ordre='.$nextordre.'">'.$descriptionString.'</a></td><td>&nbsp;<!-- a etudier --></td></tr>';
 
-		$fullread = @mysql_query("
+		$fullread = @mysqli_query("
 							SELECT * FROM $tblhelp
 							ORDER BY $par $ordre
 							");
-		$fullnRows = @mysql_num_rows($fullread);
+		$fullnRows = @mysqli_num_rows($fullread);
 
-		$read = @mysql_query("
+		$read = @mysqli_query("
 						SELECT * FROM $tblhelp
 						ORDER BY $par $ordre
 						$queryLimit
 						");
-		$nRows = @mysql_num_rows($read);
+		$nRows = @mysqli_num_rows($read);
 
 		$totalpg = ceil( $fullnRows / $listPerpg );
 		for ($i=1;$i<=$totalpg;$i++) {
@@ -79,7 +79,7 @@ if (!isset($send)) {
   $content .= $tableHead;
 
 			for ($i=0;$i<$nRows;$i++) {
-				$row = mysql_fetch_array($read);
+				$row = mysqli_fetch_array($read);
   $content .= '<tr><td>'.$row["helpid"].'<br />'.$row["helplang"].'</td><td>'.$row["helppg"].'<br />'.$row["helptitle"].'<br />'.$row["helpentry"].'</td><td><a href="?lg='.$lg.'&x='.$x.'&y=4&send=delete&helpId='.$row["helpid"].'"><img src="'.$mainurl.'images/delete.gif" width="10" height="10" align="right" border="0" alt="'.$effacerString.'" /></a><br /><a href="?lg='.$lg.'&x='.$x.'&y=4&send=edit&helpId='.$row["helpid"].'">'.$modifierString.'</a></td></tr>';
 			}
 
@@ -127,7 +127,7 @@ if (!isset($send)) {
 
 	} else {
 
-		$insertquery = @mysql_query("
+		$insertquery = @mysqli_query("
 								INSERT INTO $dbtable 
 								(`helpid`, `helppg`, `helplang`, `helptitle`, `helpentry`)
 								VALUES 

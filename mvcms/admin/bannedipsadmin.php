@@ -13,13 +13,13 @@ $content .= $admin_menu;
 
 if (!isset($send)) {
   $content .= '<div class="selectHead">'.gen_form($lg,$x,$y).'<input name="send" type="submit" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /><br /> <br />';
-	$read = @mysql_query(" SELECT * FROM $dbtable $sql_query $sql_orderq ");
-	$nRows = @mysql_num_rows($read);
+	$read = @mysqli_query(" SELECT * FROM $dbtable $sql_query $sql_orderq ");
+	$nRows = @mysqli_num_rows($read);
   $content .= 'New : <input name="new" type="text" style="width: 70%" value="" /><hr />';
 	for ($i=1;$i<=$count;$i++) {
 		$iminus = $i-1;
 		if	($iminus == '0')	$iminus = '1'	;
-		$row = mysql_fetch_array($read);
+		$row = mysqli_fetch_array($read);
 		if ($row["ip"] == "") {
 			sql_del($dbtable,"WHERE id='".$row["id"]."' ");
 		} else {
@@ -33,7 +33,7 @@ if (!isset($send)) {
 		if (preg_match("/^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}\$/",$_POST["new"])) {
 			$new_ip = html_encode(strip_tags(stripslashes($_POST["new"])));
 			if	(sql_nrows($dbtable,"WHERE ip='".$_POST["new"]."' ") == 0)
-			$insertquery = @mysql_query(" INSERT INTO $dbtable	(`id`, `ip`)	VALUES	('', '$new_ip')	");
+			$insertquery = @mysqli_query(" INSERT INTO $dbtable	(`id`, `ip`)	VALUES	('', '$new_ip')	");
 			if (!$insertquery) {
   $content .= '<p style="color: red;"><b>'.$_POST["new"].'</b> : <b>'.$error_request.' '.$ouString.' '.$dejaexistantString.'</b></p>';
 			} else {
@@ -43,10 +43,10 @@ if (!isset($send)) {
   $content .= '<p style="color: red;"><b>'.$_POST["new"].'</b> : <b>'.$error_inv.'</b></p>';
 		}
 	}
-	$read = @mysql_query(" SELECT * FROM $dbtable $sql_query $sql_orderq ");
-	$nRows = @mysql_num_rows($read);
+	$read = @mysqli_query(" SELECT * FROM $dbtable $sql_query $sql_orderq ");
+	$nRows = @mysqli_num_rows($read);
 	for ($i=1;$i<=$count;$i++) {
-		$row = mysql_fetch_array($read);
+		$row = mysqli_fetch_array($read);
 		$row_id = $row["id"];
 		$row_ip = $row["ip"];
 		if (isset($_POST[$row_id])) {

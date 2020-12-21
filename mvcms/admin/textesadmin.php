@@ -20,18 +20,18 @@ if (!isset($send)) {
   $content .= '<div class="selectHead">'.gen_form($lg,$x,$y).'<input name="send" type="submit" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /><br />';
   if (sql_getone($tbladmin,"WHERE adminpriv LIKE '%0%' LIMIT 1 ","adminutil") == $admin_name)
   $content .= '<br />NEW<br /><label for="'.fieldis('type').'"> > '.$typeString.': </label>  '.gen_fullselectoption($array_stringtypes,'','',fieldis('type')).'<label for="new'.fieldis('title').'"> > '.$titleString.': </label> <input type="text" name="new'.fieldis('title').'" value="" /><br /><label for="new'.fieldis('entry').'"> > '.$entryString.': </label> <input name="new'.fieldis('entry').'" type="text" style="width: 70%" value="" /><br />';
-	$read = @mysql_query(" SELECT * FROM $dbtable $sql_query $sql_orderq ");
-  if ((@mysql_num_rows($read) == 0) && ($lg != $default_lg)) {
-  	$read = @mysql_query(" SELECT * FROM $dbtable $sql_query_default_lg $sql_orderq ");
+	$read = @mysqli_query(" SELECT * FROM $dbtable $sql_query $sql_orderq ");
+  if ((@mysqli_num_rows($read) == 0) && ($lg != $default_lg)) {
+  	$read = @mysqli_query(" SELECT * FROM $dbtable $sql_query_default_lg $sql_orderq ");
   	$content .= '<span style="font-weight:bold;color:red;">Version in '.sql_getone($tblstring,"WHERE stringlang='$default_lg' AND stringtype='lang' ","stringentry").' !!</span>';
   	$content .= '<input name="import" type="hidden" value="" />';
   	$import = true;
   }
-	$nRows = @mysql_num_rows($read);
+	$nRows = @mysqli_num_rows($read);
 	for ($i=1;$i<=$nRows;$i++) {
 		$iminus = $i-1;
 		if	($iminus == '0')	$iminus = '1'	;
-		$row = mysql_fetch_array($read);
+		$row = mysqli_fetch_array($read);
 		$row_id = $row["".fieldis('id').""];
 		$sql_q = (isset($import)&&$import===true?$sql_query_default_lg:$sql_query)."AND ".fieldis('id')."='$row_id' ";
 		$edit[$i] = sql_get($dbtable,$sql_q,$return);
@@ -44,14 +44,14 @@ if (!isset($send)) {
 } else if ($send == $envoyerString) {
 	$update_rapport = '';
 	$insertq = '';
-	$read = @mysql_query(" SELECT * FROM $dbtable $sql_query $sql_orderq ");
-  if ((@mysql_num_rows($read) == 0) && ($lg != $default_lg))
+	$read = @mysqli_query(" SELECT * FROM $dbtable $sql_query $sql_orderq ");
+  if ((@mysqli_num_rows($read) == 0) && ($lg != $default_lg))
   if (isset($_POST['import']))
-  $read = @mysql_query(" SELECT * FROM $dbtable $sql_query_default_lg $sql_orderq ");
-	$nRows = @mysql_num_rows($read);
+  $read = @mysqli_query(" SELECT * FROM $dbtable $sql_query_default_lg $sql_orderq ");
+	$nRows = @mysqli_num_rows($read);
 	$full_strings = "";
 	for ($i=1;$i<=$nRows;$i++) {
-		$row = mysql_fetch_array($read);
+		$row = mysqli_fetch_array($read);
 		$row_id = $row["".fieldis('id').""];
 		$row_type = $row["".fieldis('type').""];
 		$row_title = $row["".fieldis('title').""];
@@ -94,7 +94,7 @@ if (!isset($send)) {
 		}
 	}
 	if (isset($_POST['import']) && ($insertq != '')) {
-          $insertquery = @mysql_query("
+          $insertquery = @mysqli_query("
   									INSERT INTO $dbtable 
   									(`stringid`, `stringpg`, `stringlang`, `stringtype`, `stringtitle`, `stringentry`)
   									VALUES 
@@ -113,7 +113,7 @@ if (!isset($send)) {
         $stringDesc = strip_tags(stripslashes(str_replace("'","&acute;",html_encode($_POST['new'.fieldis('entry')]))),"<a><i><b><u><br><h2><span>");//´
         // $stringDesc = html_encode(strip_tags(stripslashes(str_replace("'","&acute;",$_POST['new'.fieldis('entry')])),"<a><i><b><u><br><h2><span>"));//´
         foreach($array_lang as $k) {
-          $insertquery = @mysql_query("
+          $insertquery = @mysqli_query("
   									INSERT INTO $dbtable 
   									(`stringid`, `stringpg`, `stringlang`, `stringtype`, `stringtitle`, `stringentry`)
   									VALUES 

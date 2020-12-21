@@ -18,7 +18,7 @@ $sql_membre = " WHERE userstatut='Y' "; // not working with cotisation on this o
 
 // THIS IS FOR ONLY CONFIRMED
 /****************************************************************************
-$membreread = @mysql_query("
+$membreread = @mysqli_query("
 						  SELECT * FROM $tblmembre
 						  WHERE membrestatut='Y'
 						  AND membredate!='0000-00-00 00:00'
@@ -27,12 +27,12 @@ $membreread = @mysql_query("
 						 ");
 ****************************************************************************/
 
-$membreread = @mysql_query("
+$membreread = @mysqli_query("
 						  SELECT * FROM $tbluser
 						  $sql_membre
 						 ");
 
-$nRowsUser = @mysql_num_rows($membreread);
+$nRowsUser = @mysqli_num_rows($membreread);
 
 if ($nRowsUser == '0') {
 //  $content .= 'Aucun membre n&#039;est actif, pas de newsletter &agrave; envoyer !<br />';
@@ -72,7 +72,7 @@ if ($nRowsUser == '0') {
   		if (isset($rev_newsletterXmails[0]))
 			if  ($rev_newsletterXmails[0] == ',')//  $checkmail .= '<font color="Red">Erreur : la liste ne peut se terminer par ,</font><br />';
         $rev_newsletterXmails[0] = substr($rev_newsletterXmails[0],0,-1);
-		  while($row = mysql_fetch_array($membreread))
+		  while($row = mysqli_fetch_array($membreread))
 		  $newsletterXmails .= ($newsletterXmails==''?'':", ").is_valid_email($row["useremail"]);
     }
 		if ($newsletterXmails != '') {
@@ -110,7 +110,7 @@ if ($nRowsUser == '0') {
                                           .gen_docpdfdl($nlid)
                                           .gen_activite($nlid)
                                           .gen_galerie($nlid);
-			$insertquery = @mysql_query("
+			$insertquery = @mysqli_query("
 										 INSERT INTO $tblnewsletter
 										 (`newsletterid`, `newsletterstatut`, `newsletterdate`, `newslettersujet`, `newslettercontent`, `newslettersent`, `newslettererror`, `newsletterread`)
 										 VALUES
@@ -218,7 +218,7 @@ if ($nRowsUser == '0') {
 
 
   if ($personalized_newsletter === true)
-				while($row = mysql_fetch_array($membreread)) {
+				while($row = mysqli_fetch_array($membreread)) {
 					$membreId = $row["userid"];
 					$get_membre = sql_get($tblmembre,"WHERE membreid='$membreId' ","membregendre,membreprenom,membrenom");
 					$membreGendre = $get_membre[0];
