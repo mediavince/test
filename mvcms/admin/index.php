@@ -29,4 +29,4 @@ index_generate();
 ################### GARBAGE EXTERMINATOR
 
 clearstatcache();
-@mysqli_close($connection);
+mysqli_close($connection);

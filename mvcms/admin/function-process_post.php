@@ -404,13 +404,13 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 										${$key."_passing_desc_for_insert_if_dbtable"} = array($new_upload);
 								} else { ////////////
 									if ($key == "img") {
-										$insertquery = @mysqli_query("INSERT INTO $tblcontphoto
+										$insertquery = mysqli_query($connection, "INSERT INTO $tblcontphoto
 (`contphotoid`,`contphotostatut`,`contphotodate`,`contphotolang`,`contphotorid`,`contphotoutil`,`contphotocontid`,`contphotodesc`,`contphotoimg`)
 																	VALUES
 ('','Y',$dbtime,'$default_lg','','$admin_name','".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)."','".${$this_is."Desc"}."_".$file_name."','$new_upload')
 																	");
 									} else {
-										$insertquery = @mysqli_query("INSERT INTO $tblcontdoc
+										$insertquery = mysqli_query($connection, "INSERT INTO $tblcontdoc
 (`contdocid`,`contdocstatut`,`contdocdate`,`contdoclang`,`contdocrid`,`contdocutil`,`contdoccontid`,`contdocdesc`,`contdoc`)
 																	VALUES
 ('','Y',$dbtime,'$default_lg','','$admin_name','".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)."','".${$this_is."Desc"}."_".$file_name."','$new_upload')
@@ -439,7 +439,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 											}
 										}
 										if ($values!='') {
-											$insertquery = @mysqli_query("INSERT INTO $tblcontphoto
+											$insertquery = mysqli_query($connection, "INSERT INTO $tblcontphoto
 (`contphotoid`,`contphotostatut`,`contphotodate`,`contphotolang`,`contphotorid`,`contphotoutil`,`contphotocontid`,`contphotodesc`,`contphotoimg`)
 																		VALUES
 																		$values
@@ -463,7 +463,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 											}
 										}
 										if ($values!='') {
-											$insertquery = @mysqli_query("INSERT INTO $tblcontdoc
+											$insertquery = mysqli_query($connection, "INSERT INTO $tblcontdoc
 (`contdocid`,`contdocstatut`,`contdocdate`,`contdoclang`,`contdocrid`,`contdocutil`,`contdoccontid`,`contdocdesc`,`contdoc`)
 																		VALUES
 																		$values
@@ -555,7 +555,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 								$insertq = "INSERT INTO $tblenum
 												VALUES
 									('','Y','$this_is$key','$uniqueidentifier','".(sql_nrows($tblenum,"WHERE enumwhat='$this_is$key' ")+1)."') ";
-								$insertquery = @mysqli_query($insertq);
+								$insertquery = mysqli_query($connection, $insertq);
 								if (!$insertquery) {
 									$error .= $error_request.' '.$typeString.'<br />'.mvtrace(__FILE__, __LINE__,$insertq);
 									$valid_type = false;
@@ -568,7 +568,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 										$insertq = "INSERT INTO $tblstring
 														VALUES
 											('','','$key_lg','$this_is$key','$newlycreatedtitre','$newtype') ";
-										$insertquery = @mysqli_query($insertq);
+										$insertquery = mysqli_query($connection, $insertq);
 										if (!$insertquery) {
 											$error .= $error_request.' '.$typeString.' ('.$key_lg.')<br />'.mvtrace(__FILE__, __LINE__,$insertq);
 											$valid_type = false;
@@ -814,7 +814,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 					$insertq = "INSERT INTO $tblhtaccess ".sql_fields($tblhtaccess,'list')."
 									VALUES
 						('',$row_date,'$row_statut','$row_lang','$row_item','$row_title','$row_entry','$row_url','$row_type','$row_metadesc','$row_metakeyw') ";
-					$insertquery = @mysqli_query($insertq);
+					$insertquery = mysqli_query($connection, $insertq);
 					if (!$insertquery)
 						$error .= $error_request." [i] ".$loop_lg." htaccess > <b>$row_type</b> : <i>$row_title</i><br />".mvtrace(__FILE__, __LINE__,$insertq);
 					else
@@ -848,7 +848,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 			for($i=0;$i<count($array_fields);$i++) {
 				if (substr($array_fields[$i],0,strlen($dbtable)-1) != $this_is) {
 					$insertq = "INSERT INTO $dbtable ".sql_fields($dbtable,'list')." VALUES ( $values ) ";
-					$insertquery = @mysqli_query($insertq);
+					$insertquery = mysqli_query($connection, $insertq);
 					if (!$insertquery) {
 						if ($loop_lg == $lg)
 							$error .= $error_request.mvtrace(__FILE__, __LINE__, $insertq.' bad [i] '.$loop_lg);
@@ -937,7 +937,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 			if (($error=='') && ($values != ''))
 			{
 				$insertq = "INSERT INTO $dbtable ".sql_fields($dbtable,'list')." VALUES ( $values ) ";
-				$insertquery = @mysqli_query($insertq);
+				$insertquery = mysqli_query($connection, $insertq);
 			} else $insertquery = false;
 			if (!$insertquery) {
 				if ($loop_lg == $lg)
@@ -1010,7 +1010,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 								}
 							}
 							$insertq = " INSERT INTO $tblhtaccess ".sql_fields($tblhtaccess,'list')." VALUES ($htaccess_values) ";
-							$insertquery = @mysqli_query($insertq); // no comma after lg!!!
+							$insertquery = mysqli_query($connection, $insertq); // no comma after lg!!!
 							if (!$insertquery) {
 								if ($loop_lg == $lg)
 									$error .= $error_request." [i] ".$loop_lg." > <b>$that_is</b> : <i>$htaccesstitle</i><br />".mvtrace(__FILE__, __LINE__,$insertq);
@@ -1127,7 +1127,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 								}
 							}
 							$insertq = " INSERT INTO $tblhtaccess ".sql_fields($tblhtaccess,'list')." VALUES ($htaccess_values) ";
-							$insertquery = @mysqli_query($insertq); // no comma after lg!!!
+							$insertquery = mysqli_query($connection, $insertq); // no comma after lg!!!
 							if (!$insertquery) {
 								if ($loop_lg == $lg)
 									$error .= $error_request.(stristr($_SERVER['PHP_SELF'],$urladmin)

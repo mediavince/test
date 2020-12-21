@@ -32,12 +32,12 @@ if ($logged_in === true) {
 				$photoListe .= $contPhotocount.' '
 							.$class_conjugaison->plural($photodispoString,'F',$contPhotocount)
 							.'.<br />';
-				$read = @mysqli_query("SELECT * FROM $tblcontphoto ".(in_array("contphotolang",
+				$read = mysqli_query($connection, "SELECT * FROM $tblcontphoto ".(in_array("contphotolang",
 											$photo_fields)?" WHERE contphotolang='$lg' ":''));
 				if ($contPhotocount > 3) $photoListe .= '
 									<div style="overflow:auto;height:170px;width:100px;">';
 				for ($i=0;$i<$contPhotocount;$i++) {
-					$row = @mysqli_fetch_array($read);
+					$row = mysqli_fetch_array($read);
 					$ext = explode('.',strrev($row["contphotoimg"]));
 					$ext = strtolower(strrev($ext[0]));
 					if (in_array($ext,$array_swf_ext)) {
@@ -92,12 +92,12 @@ if ($logged_in === true) {
 							// '<div style="float:right;text-align:center;">';
 			$tinyMCE_flashs = '<div style="float:left;overflow:auto;height:100px;width:49%;
 								padding-left:30px;">'.$nonString.' '.$photoString.'<br />';
-			$read = @mysqli_query("SELECT * FROM $tblcontphoto ".(in_array("contphotolang",
+			$read = mysqli_query($connection, "SELECT * FROM $tblcontphoto ".(in_array("contphotolang",
 											$photo_fields)?" WHERE contphotolang='$lg' ":''));
 			$loop_tinyMCE_photos = "";
 			$loop_tinyMCE_flashs = "";
 			for ($i=0;$i<$contPhotocount;$i++) {
-				$row = @mysqli_fetch_array($read);
+				$row = mysqli_fetch_array($read);
 				$ext = explode('.',strrev($row["contphotoimg"]));
 				$ext = strtolower(strrev($ext[0]));
 				if (in_array($ext,$array_swf_ext)) {
@@ -166,10 +166,10 @@ if ($logged_in === true) {
 				$docListe .= '<hr />'.$contDoccount.' '
 							.$class_conjugaison->plural($docdispoString,'M',$contDoccount)
 							.'.<br />';
-				$read = @mysqli_query("SELECT * FROM $tblcontdoc ".(in_array("contdoclang",
+				$read = mysqli_query($connection, "SELECT * FROM $tblcontdoc ".(in_array("contdoclang",
 											$doc_fields)?" WHERE contdoclang='$lg' ":''));
 				for ($i=0;$i<$contDoccount;$i++) {
-					$row = @mysqli_fetch_array($read);
+					$row = mysqli_fetch_array($read);
 					$ext = explode('.',strrev($row["contdoc"]),2);
 					$ext = strtolower(strrev($ext[0]));
 					$docListe .= '<a href="'.$mainurl.$row["contdoc"].'" target="_blank">
@@ -200,10 +200,10 @@ if ($logged_in === true) {
 			else
 			$tinyMCE_docs = '<div style="float:right;overflow:auto;height:300px;width:49%;
 							min-width:300px;text-align:left;">';
-			$read = @mysqli_query("SELECT * FROM $tblcontdoc ".(in_array("contdoclang",
+			$read = mysqli_query($connection, "SELECT * FROM $tblcontdoc ".(in_array("contdoclang",
 											$doc_fields)?" WHERE contdoclang='$lg' ":''));
 			for ($i=0;$i<$contDoccount;$i++) {
-				$row = @mysqli_fetch_array($read);
+				$row = mysqli_fetch_array($read);
 				$ext = explode('.',strrev($row["contdoc"]),2);
 				$ext = strtolower(strrev($ext[0]));
 				if ($tinyMCE_docs !== "") $tinyMCE_docs .= "<br />";
@@ -322,7 +322,7 @@ if ($logged_in === true) {
 						$error_img .= $erreurString.' > '.$error_inv.'<br />';
 					} else {
 						$contphotoimg = $location;
-						$insertquery = @mysqli_query("INSERT INTO $tblcontphoto
+						$insertquery = mysqli_query($connection, "INSERT INTO $tblcontphoto
                   							(`contphotoid`,`contphotostatut`,`contphotodate`,
                   							`contphotolang`,`contphotorid`,`contphotoutil`,
                   							`contphotocontid`,`contphotodesc`,`contphotoimg`)
@@ -350,7 +350,7 @@ if ($logged_in === true) {
 								$notice_img .= " $keylg ";
 							}
 							if ($values!='') {
-								$insertquery = @mysqli_query("INSERT INTO $tblcontphoto
+								$insertquery = mysqli_query($connection, "INSERT INTO $tblcontphoto
 											(`contphotoid`,`contphotostatut`,`contphotodate`,
 											`contphotolang`,`contphotorid`,`contphotoutil`,
 											`contphotocontid`,`contphotodesc`,`contphotoimg`)
@@ -513,7 +513,7 @@ if ($logged_in === true) {
 					$movelocation = "../$location";
 					move_uploaded_file($userfile_tmp,$getcwd.$movelocation);
 					$contdoc = $location;
-					$insertquery = @mysqli_query("INSERT INTO $tblcontdoc
+					$insertquery = mysqli_query($connection, "INSERT INTO $tblcontdoc
 										(`contdocid`,`contdocstatut`,`contdocdate`,
 										`contdoclang`,`contdocrid`,`contdocutil`,
 										`contdoccontid`,`contdocdesc`,`contdoc`)
@@ -540,7 +540,7 @@ if ($logged_in === true) {
 							$notice_img .= " $keylg ";
 						}
 						if ($values!='') {
-							$insertquery = @mysqli_query("INSERT INTO $tblcontdoc
+							$insertquery = mysqli_query($connection, "INSERT INTO $tblcontdoc
                   						(`contdocid`,`contdocstatut`,`contdocdate`,
                   						`contdoclang`,`contdocrid`,`contdocutil`,
                   						`contdoccontid`,`contdocdesc`,`contdoc`)

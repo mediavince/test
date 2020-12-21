@@ -21,8 +21,8 @@ return $content_docpdfdl;
 
 // ########## generate list of activities to come
 function gen_activite($nlid) {
-	global $mainurl,$dbtime,$urlclient,$tblevents,$eventsString,$tblgeneralnews,$generalnewsString;
-	$generalnewsRead = @mysqli_query("
+    global $connection, $mainurl,$dbtime,$urlclient,$tblevents,$eventsString,$tblgeneralnews,$generalnewsString;
+	$generalnewsRead = mysqli_query($connection, "
 		                           SELECT * FROM $tblgeneralnews
 		                           WHERE generalnewsstatut='Y'
 		                           AND generalnewsarchive='N'
@@ -30,7 +30,7 @@ function gen_activite($nlid) {
 		                           ORDER BY generalnewsdate DESC
 		                           LIMIT 5
 		                          ");
-	$generalnewsnRows = @mysqli_num_rows($generalnewsRead);
+	$generalnewsnRows = mysqli_num_rows($generalnewsRead);
 	if ( (!isset($generalnewsnRows)) || ($generalnewsnRows == "0") ) {
 		$content_generalnews = "";
 	} else {
@@ -45,13 +45,13 @@ function gen_activite($nlid) {
 	if  (!isset($content_generalnews))
 	$content_generalnews = '<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0"><h2><i>'.$generalnewsString.'</i></h2>'.$generalnews.'</table><br />'  ;
 
-	$eventsRead = @mysqli_query("
+	$eventsRead = mysqli_query($connection, "
 		                           SELECT * FROM $tblevents
 		                           WHERE eventsstatut='Y'
 		                             AND eventsfrom>=$dbtime
 		                           ORDER BY eventsfrom ASC
 		                          ");
-	$eventsnRows = @mysqli_num_rows($eventsRead);
+	$eventsnRows = mysqli_num_rows($eventsRead);
 	if ( (!isset($eventsnRows)) || ($eventsnRows == "0") ) {
 		$content_events = "";
 	} else {
@@ -73,17 +73,17 @@ return $content_generalnews.$content_events.'<br /> <br />';
 // ########## generate list of new galeriephoto since last sent newsletter
 function gen_galerie($nlid) {
 /*
-	global $mainurl,$urlclient,$s,$tblnewsletter,$tblgalerie,$tblgaleriephoto;
+    global $connection, $mainurl,$urlclient,$s,$tblnewsletter,$tblgalerie,$tblgaleriephoto;
 	$editnewsletter = sql_get($tblnewsletter, " ORDER BY newsletterdate DESC ", "newsletterdate");
 	$sql_galerie = " AND galeriedate>'$editnewsletter[0]' ";
 	if  ( (!isset($editnewsletter[0])) || ($editnewsletter[0] == ".") )  $sql_galerie = ""  ;
-	$galerieread = @mysqli_query("
+	$galerieread = mysqli_query($connection, "
 						  SELECT * FROM $tblgalerie
 						  WHERE galeriestatut='Y'
 						  $sql_galerie
 						  ORDER BY galeriedate ASC
 						 ");
-	$galerienRows = @mysqli_num_rows($galerieread);
+	$galerienRows = mysqli_num_rows($galerieread);
 	if ( (!isset($galerienRows)) || ($galerienRows == "0") ) {
 		$content_galerie = "";
 	} else {

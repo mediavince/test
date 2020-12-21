@@ -26,12 +26,12 @@ if ($logged_in === true) {
 		    $tblcomment = $tblbibliocomment;
 		  if ($_REQUEST['action'] == "reunioncommentemail")
 		    $tblcomment = $tblreunioncomment;
-			$result=mysqli_query("SELECT * FROM $tblcomment WHERE commentstatut='Y' ORDER BY commentname ");
-			if (@mysqli_num_rows($result) == 0) {
+			$result=mysqli_query($connection, "SELECT * FROM $tblcomment WHERE commentstatut='Y' ORDER BY commentname ");
+			if (mysqli_num_rows($result) == 0) {
 				echo '0 '.$commentString.'<br />';
 			} else {
 				$commentemail = "";
-				while($row=@mysqli_fetch_array($result)) {
+				while($row=mysqli_fetch_array($result)) {
           if (($_REQUEST['action'] == "bibliocommentemail") || ($_REQUEST['action'] == "reunioncommentemail"))
 					$commentemail .= $row['commentname'].';'.html_entity_decode((sql_getone($tbluser,"WHERE userutil='".$row['commentname']."' ","useremail")))."\n";
 					else
@@ -70,14 +70,14 @@ if ($logged_in === true) {
     		    }
         }
         $sql = "SELECT * FROM $dbtable $where ";
-        $read = mysqli_query($sql);
+        $read = mysqli_query($connection, $sql);
         $fields_array = sql_fields($dbtable,'array');
         $fields_list = '"'.implode('","',$fields_array)."\"\n\r";
-  			if (@mysqli_num_rows($read) == 0) {
+  			if (mysqli_num_rows($read) == 0) {
   				echo $pasdeString.' '.${$what."String"}.'<br />';
   			} else {
           $list = '';// heading of cells added below
-          while($row=@mysqli_fetch_array($read)) {
+          while($row=mysqli_fetch_array($read)) {
             foreach($fields_array as $k) {
               if (substr($k,0,strlen($what)) == $what) {
                 $field = substr($k,strlen($what));

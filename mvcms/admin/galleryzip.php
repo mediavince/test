@@ -43,7 +43,7 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
       */
       //  processZippedItem($nowtime,$filedir,$gid); //
   function processZippedItem($dir, $newdir, $gid) {
-    global $notice,$error,$dbtime,$nowtime,$getcwd,$up,$filedir,$urladmin,$user_name,$array_media_ext,$array_img_ext,$this_is,$dbtable,$array_lang,$default_lg;
+    global $connection, $notice,$error,$dbtime,$nowtime,$getcwd,$up,$filedir,$urladmin,$user_name,$array_media_ext,$array_img_ext,$this_is,$dbtable,$array_lang,$default_lg;
     $invisibleFile_names = array(".", "..", ".htaccess", ".htpasswd");
     $dir = $getcwd.$dir;
     if (is_dir($dir)) {
@@ -56,12 +56,12 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
             if (unlink($file_temp))
             $notice .= $file_temp." -> deleted<hr />";
           } else $description = 'no description';
-          $notice .= @mysqli_query("INSERT INTO `$dbtable` (galleryid,gallerystatut,gallerydate,gallerylang,galleryrid,gallerytitle,galleryentry) VALUES (NULL,'Y',$dbtime,'$default_lg','','$nowtime','$description');");
+          $notice .= mysqli_query($connection, "INSERT INTO `$dbtable` (galleryid,gallerystatut,gallerydate,gallerylang,galleryrid,gallerytitle,galleryentry) VALUES (NULL,'Y',$dbtime,'$default_lg','','$nowtime','$description');");
           $this_galleryid = sql_updateone($dbtable,"SET galleryrid=galleryid ","WHERE gallerytitle='$nowtime' ","galleryrid");
           $notice .= "<hr />::::$ $this_galleryid -> galleryrid ,,, <br />";
           foreach($array_lang as $keylg)
             if ($keylg != $default_lg)
-            $notice .= @mysqli_query("INSERT INTO `_gallery` (galleryid,gallerystatut,gallerydate,gallerylang,galleryrid,gallerytitle,galleryentry) VALUES (NULL,'Y',$dbtime,'$keylg','$this_galleryid','$nowtime','$description');")." $keylg ";
+            $notice .= mysqli_query($connection, "INSERT INTO `_gallery` (galleryid,gallerystatut,gallerydate,gallerylang,galleryrid,gallerytitle,galleryentry) VALUES (NULL,'Y',$dbtime,'$keylg','$this_galleryid','$nowtime','$description');")." $keylg ";
         } else {
           $this_galleryid = $gid;
           $notice .= "assigned existing galleryrid<br />";
@@ -89,12 +89,12 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
         				rename($file_temp,$movelocation);
         			}
         			$contphoto_desc = str_replace("-"," ",substr(ucfirst($item),0,-(strlen($ext)+1)));
-              $notice .= @mysqli_query("INSERT INTO `_contphoto` (contphotoid,contphotostatut,contphotodate,contphotolang,contphotorid,contphotoutil,contphotocontid,contphotodesc,contphotoimg) VALUES (NULL,'Y',$dbtime,'$default_lg','','$user_name','$this_galleryid','$contphoto_desc','".$file_name.'.'.$ext."');").' == photo<br />';
+              $notice .= mysqli_query($connection, "INSERT INTO `_contphoto` (contphotoid,contphotostatut,contphotodate,contphotolang,contphotorid,contphotoutil,contphotocontid,contphotodesc,contphotoimg) VALUES (NULL,'Y',$dbtime,'$default_lg','','$user_name','$this_galleryid','$contphoto_desc','".$file_name.'.'.$ext."');").' == photo<br />';
               $this_photoid = sql_updateone("_contphoto","SET contphotorid=contphotoid ","WHERE contphotocontid='$this_galleryid' AND contphotodesc='$contphoto_desc' AND contphotoimg='".$file_name.'.'.$ext."' ","contphotorid");
               foreach($array_lang as $keylg)
                 if ($keylg != $default_lg)
-                $notice .= @mysqli_query("INSERT INTO `_contphoto` (contphotoid,contphotostatut,contphotodate,contphotolang,contphotorid,contphotoutil,contphotocontid,contphotodesc,contphotoimg)  VALUES (NULL,'Y',$dbtime,'$keylg','$this_photoid','$user_name','$this_galleryid','$contphoto_desc','".$file_name.'.'.$ext."');")." $keylg ";
-           //   $notice .= @mysqli_query("INSERT INTO `_galleryphoto` VALUES ('','Y',$dbtime,'$user_name','$this_galleryid','".str_replace("_"," ",substr(ucfirst($item),0,-(strlen($ext)+1)))."','".$file_name.'.'.$ext."');").' == photo<br />';
+                $notice .= mysqli_query($connection, "INSERT INTO `_contphoto` (contphotoid,contphotostatut,contphotodate,contphotolang,contphotorid,contphotoutil,contphotocontid,contphotodesc,contphotoimg)  VALUES (NULL,'Y',$dbtime,'$keylg','$this_photoid','$user_name','$this_galleryid','$contphoto_desc','".$file_name.'.'.$ext."');")." $keylg ";
+           //   $notice .= mysqli_query($connection, "INSERT INTO `_galleryphoto` VALUES ('','Y',$dbtime,'$user_name','$this_galleryid','".str_replace("_"," ",substr(ucfirst($item),0,-(strlen($ext)+1)))."','".$file_name.'.'.$ext."');").' == photo<br />';
             }
           }
         }
@@ -144,7 +144,7 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
             $getthis = sql_get($tblhtaccess,"WHERE htaccesslang='$keylg' AND htaccessitem='$row_item' AND htaccesstype='$row_type' ORDER BY htaccessdate DESC ","htaccessid,htaccessstatut,htaccesstitle,htaccessentry,htaccessurl,htaccessmetadesc,htaccessmetakeyw");
   				  if ($getthis[0] == '.') {
   				    $insertq = "INSERT INTO $tblhtaccess ".sql_fields($tblhtaccess,'list')." VALUES ('',$row_date,'$row_statut','$keylg','$row_item','$row_title','$row_entry','$row_url','$row_type','$row_metadesc','$row_metakeyw') ";
-  				    $insertquery = @mysqli_query($insertq);
+  				    $insertquery = mysqli_query($connection, $insertq);
   						if (!$insertquery)
               $error .= $error_request." [i] > <b>$row_type</b> : <i>$row_title</i><br />";
               else

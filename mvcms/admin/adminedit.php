@@ -37,8 +37,8 @@ if (!isset($contmenu))
 /* seems useless check line 95 */
 $array_linkedmenus = "";
 $array_linkedmenus = array($array_linkedmenus);
-$all_contmenus = @mysqli_query("SELECT `contmenu` FROM $dbtable WHERE contmenu!='' ");
-$nrows = @mysqli_num_rows($all_contmenus);
+$all_contmenus = mysqli_query($connection, "SELECT `contmenu` FROM $dbtable WHERE contmenu!='' ");
+$nrows = mysqli_num_rows($all_contmenus);
 for ($i=0;$i<$nrows;$i++) {
 	$row = mysqli_fetch_array($all_contmenus);
 	$this_contmenus = explode("|", $row["contmenu"]);
@@ -517,7 +517,7 @@ $error .= '</ul><a href="javascript:history.back()//">'.$retourString.'</a>';
 						$values = "('', 'Y', $dbtime, '$admin_name', $dbtime, '$admin_name', '$x', '".$keylg."', '$contTitle', '$contEntry', '".($htaccess4sef===true?$clean_contTitle:$conturl)."', '$contPriv', '$contmenu', '$contType', '$contOrient', '$contMetadesc', '$contMetakeyw')";
 						if (sql_nrows($dbtable,"WHERE contpg='$x' AND contlang='".$keylg."' AND conttitle='$contTitle' ") == 0) {
 							$sql = "INSERT INTO $dbtable (`contid`, `contstatut`, `contdate`, `contdateby`, `contupdate`, `contupdateby`, `contpg`, `contlang`, `conttitle`, `contentry`, `conturl`, `contlogo`, `contmenu`, `conttype`, `contorient`, `contmetadesc`, `contmetakeyw`) VALUES $values ;";
-							$addquery = @mysqli_query($sql);
+							$addquery = mysqli_query($connection, $sql);
 						}
 						if ($send == $ajouterString) {
               				if ($root_writable === true)
@@ -560,7 +560,7 @@ $error .= '</ul><a href="javascript:history.back()//">'.$retourString.'</a>';
 						$values = "('', 'Y', $dbtime, '$admin_name', $dbtime, '$admin_name', '$x', '".$keylg."', '$contTitle', '$contEntry', '".($htaccess4sef===true?$clean_contTitle:$conturl)."', '$contPriv' ,'$contmenu' ,'$contType', '$contOrient', '$contMetadesc', '$contMetakeyw')";
 						if (sql_nrows($dbtable,"WHERE contpg='$x' AND contlang='".$keylg."' AND conttitle='$contTitle' ") == 0) {
 							$sql = "INSERT INTO $dbtable (`contid`, `contstatut`, `contdate`, `contdateby`, `contupdate`, `contupdateby`, `contpg`, `contlang`, `conttitle`, `contentry`, `conturl`, `contlogo`, `contmenu`, `conttype`, `contorient`, `contmetadesc`, `contmetakeyw`) VALUES $values ";
-							$addquery = @mysqli_query($sql);
+							$addquery = mysqli_query($connection, $sql);
 						}
 						if ($send == $ajouterString) {
           					if ($root_writable === true)
@@ -617,8 +617,8 @@ $error .= '</ul><a href="javascript:history.back()//">'.$retourString.'</a>';
     		{Header("Location: $redirect");Die();}
 
 		$editrapport = "";
-		$read = @mysqli_query("SELECT * FROM $dbtable WHERE contpg='$x' ");
-		$nrows = @mysqli_num_rows($read);
+		$read = mysqli_query($connection, "SELECT * FROM $dbtable WHERE contpg='$x' ");
+		$nrows = mysqli_num_rows($read);
 		
 		include $getcwd.$up.$urladmin.'menu_pagine.php';
 		include $getcwd.$up.$urladmin.'html_index.php';

@@ -388,7 +388,15 @@ function ajaxSave() {
 
 	if (!stristr($_SERVER['PHP_SELF'],$urladmin)
 	|| (stristr($_SERVER['PHP_SELF'],$urladmin) && ($logged_in === false)))
-	$html_view = preg_replace('/\?lg=(\w+)\&amp;x=(\d+)/e','lgx2readable("$1","$2")',$html_view);
+//	$html_view = preg_replace('/\?lg=(\w+)\&amp;x=(\d+)/e','lgx2readable("$1","$2")',$html_view);
+	$html_view = preg_replace_callback(
+	    '/\?lg=(\w+)\&amp;x=(\d+)/'
+//        ,'lgx2readable("$1","$2")' // with '/\?lg=(\w+)\&amp;x=(\d+)/e'
+        , function ($matches) {
+            return lgx2readable($matches[0], $matches[1]);
+        }
+        , $html_view
+    );
 /*
 	$html_view = preg_replace(
 		'/\?lg=(\w+)\&amp;x=(\d+)/e',

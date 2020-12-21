@@ -62,8 +62,8 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
         $pgext = ($html_site === true?'.htm':'.php');
         $editrapport .= '<h1 class="clear">'.strtoupper($pgext).'</h1>';
     		$zipfiles = $getcwd.$up."index$pgext|";
-  			$read = @mysqli_query("SELECT * FROM $tblcont ORDER BY contpg ASC ");
-  			while($row = @mysqli_fetch_array($read)) {
+  			$read = mysqli_query($connection, "SELECT * FROM $tblcont ORDER BY contpg ASC ");
+  			while($row = mysqli_fetch_array($read)) {
   				$contPg = $row["contpg"];
 					$contTitle = $row["conttitle"];
   				//		$clean_contTitle = ($htaccess4sef===true?space2underscore($contTitle):space2underscore(sql_getone($tblcont,"WHERE contpg='$contPg' AND contlang='$default_lg' ","conttitle")));
@@ -151,10 +151,10 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
     		fclose($inF);
     	} ################################################### END IF NOT WRITABLE ROOT
   		$zipuplds = "";
-			$read = @mysqli_query("SELECT * FROM $tblcontphoto WHERE contphotolang='$lg' ORDER BY contphotocontid ASC ");
-			$nrows = @mysqli_num_rows($read);
+			$read = mysqli_query($connection, "SELECT * FROM $tblcontphoto WHERE contphotolang='$lg' ORDER BY contphotocontid ASC ");
+			$nrows = mysqli_num_rows($read);
 			$editrapport .= '<div class="clear">&nbsp;</div><h1>MEDIA</h1>';
-			while($row = @mysqli_fetch_array($read)) {
+			while($row = mysqli_fetch_array($read)) {
 			  $row_contphotoid = $row["contphotoid"];
         $row_contphotodesc = space2underscore($row["contphotodesc"]);
 				$inst_row_contphotoimg = $row["contphotoimg"];
@@ -185,8 +185,8 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
 				}
 			}
 			$editrapport .= '<div class="clear">&nbsp;</div><h1>DOC</h1>';
-			$read = @mysqli_query("SELECT * FROM $tblcontdoc WHERE contdoclang='$lg' ORDER BY contdoccontid ASC ");
-			while($row = @mysqli_fetch_array($read)) {
+			$read = mysqli_query($connection, "SELECT * FROM $tblcontdoc WHERE contdoclang='$lg' ORDER BY contdoccontid ASC ");
+			while($row = mysqli_fetch_array($read)) {
 			/*
 			  $row_contdocid = $row["contdocid"];
         $row_contdocdesc = space2underscore($row["contdocdesc"]);
@@ -222,8 +222,8 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
           if (in_array($key,$array_modules_as_form))
           continue;
           $dbtable = ${"tbl".$key};
-					$read = @mysqli_query("SELECT * FROM $dbtable ORDER BY ".$key."date DESC ");
-					while($row = @mysqli_fetch_array($read)) {
+					$read = mysqli_query($connection, "SELECT * FROM $dbtable ORDER BY ".$key."date DESC ");
+					while($row = mysqli_fetch_array($read)) {
           //  foreach($array_lang as $keylg) {
 						  $row_date = $row[$key."date"];
 						  $row_statut = $row[$key."statut"];
@@ -247,7 +247,7 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
               $getthis = sql_get($tblhtaccess,"WHERE htaccesslang='$row_lang' AND htaccessitem='$row_item' AND htaccesstype='$row_type' ORDER BY htaccessdate DESC ","htaccessid,htaccessstatut,htaccesstitle,htaccessentry,htaccessurl,htaccessmetadesc,htaccessmetakeyw");
 						  if ($getthis[0] == '.') {
 						    $insertq = "INSERT INTO $tblhtaccess ".sql_fields($tblhtaccess,'list')." VALUES ('','$row_date','$row_statut','$row_lang','$row_item','$row_title','$row_entry','$row_url','$row_type','$row_metadesc','$row_metakeyw') ";
-						    $insertquery = @mysqli_query($insertq);
+						    $insertquery = mysqli_query($connection, $insertq);
   							$editrapport .= (!$insertquery?$error_request."<br />$insertq<br />":$effectueString." [i]")." > <b>$row_type</b> : <i>$row_title</i> $row_lang <br />";
   						} else {
       					if (sql_nrows($tblhtaccess,"WHERE htaccesslang='$row_lang' AND htaccessurl='$row_url' AND htaccesstype='$row_type' ")>1)

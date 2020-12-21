@@ -44,8 +44,8 @@ if ($admin_viewing === true) {
   $array_fields_type = array();//lists all types for a given table
 
   $dbtable = ${"tbl".$this_is};
-  $result = @mysqli_query("SHOW FIELDS FROM $dbtable");
-  while($row=@mysqli_fetch_array($result)) {
+  $result = mysqli_query($connection, "SHOW FIELDS FROM $dbtable");
+  while($row=mysqli_fetch_array($result)) {
     $array_fields_type[$row['Field']] = $row['Type'];
     if ($row['Type'] == 'mediumtext')
     $mediumtext_array[] = $row['Field'];
@@ -92,8 +92,8 @@ if ($admin_viewing === true) {
       $that_empty_array_fields[] = ($key=='statut'?'Y':'');
       $that_list_array_fields = isset($that_list_array_fields)?$that_list_array_fields.','.$key:$key;
     }
-    $result = @mysqli_query("SHOW FIELDS FROM $that_dbtable");
-    while($row=@mysqli_fetch_array($result)) {
+    $result = mysqli_query($connection, "SHOW FIELDS FROM $that_dbtable");
+    while($row=mysqli_fetch_array($result)) {
       $array_fields_type[$row['Field']] = $row['Type'];
       if ($row['Type'] == 'mediumtext')
       $mediumtext_array[] = $row['Field'];

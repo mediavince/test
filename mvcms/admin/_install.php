@@ -100,9 +100,9 @@ if (!isset($_POST['send'])
 				include $getcwd.$up.$safedir.'_params.php';
 			else die('params not written');
         
-			@mysqli_close($connection);
+			mysqli_close($connection);
 			$connection = connect();
-			$db_exists = @mysqli_query("USE $dbname;");
+			$db_exists = mysqli_query($connection, "USE $dbname;");
 
 			if ($connection && $db_exists) {
 				$content .= "<h1>connected</h1>";
@@ -137,9 +137,9 @@ if (!isset($_POST['send'])
 				'<div class="error"> '.$error_inv.' full install<br />'.$do.'</div>');
 			//.' copier et envoyer au webmaster ce qui suit :<br />=> '.$result.' == '.$do.'</div>');
 
-			@mysqli_close($connection);
+			mysqli_close($connection);
 			$connection = connect();
-			$tbls_exist = @mysqli_query("DESCRIBE _admin;");
+			$tbls_exist = mysqli_query($connection, "DESCRIBE _admin;");
 			if (!$tbls_exist) {
 				$content .=  "error fullinstall : tables not installed<br />";
 				if (@unlink($up.$safedir.'_params.php'))
@@ -202,7 +202,7 @@ if (!isset($_POST['send'])
 				if (count($chosen_lang)>0) {
 					connect();// needs to connect again after using the command line
 					foreach($chosen_lang as $keylg) {
-						$insert_cont = @mysqli_query("INSERT INTO `_cont` VALUES 
+						$insert_cont = mysqli_query($connection, "INSERT INTO `_cont` VALUES 
 							(NULL,'Y',NOW(),'admin',NOW(),'admin',1,'$keylg','MVCMS',"
 							."'<p>The website is ready to be used. Go to the admin directory.</p>',"
 							."'mvcms','1','','','center','','')");
@@ -213,7 +213,7 @@ if (!isset($_POST['send'])
 					/*
             $sql = "UPDATE $tblenum SET enumstatut='Y' 
             		WHERE enumwhat='lang' AND enumtype IN ('".implode("','",$chosen_lang)."')";
-            $update_langs = @mysqli_query($sql);
+            $update_langs = mysqli_query($connection, $sql);
             $content .= "<br />".$sql;
 					*/
 					foreach($sql_updates as $s) {
