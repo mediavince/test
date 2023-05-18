@@ -24,6 +24,34 @@ if (!isset($enregistrementString)) $enregistrementString = "record";
 if (!isset($effectueString)) $effectueString = "done";
 if (!isset($error_inv)) $error_inv = "error";
 
+$content .= '
+<h1>
+	1. Select a new SQL file if you wish to add new tables directly to the template<br />
+	2. Fill in the information<br />
+	3. Click the install button...
+</h1>
+<form method="POST" action="" enctype="multipart/form-data">
+	<input type="hidden" name="'.$upldbString.'" value="'.$upldbString.'" />
+	<input type="file" name="sqlupload" /><br />';
+    // lang manager
+$content .= '
+<br />Select the languages you wish to have available in the system,
+make sure to enable the array_lang accordingly...<br />';
+foreach($array_supported_lg as $keylg => $lgname)
+//	if (@file_exists('../images/tab_inverted_'.$k.'.gif'))
+if (@file_exists($up.'images/'.$keylg.'.gif'))
+$content .= ($keylg==$default_lg?'':' | ')
+        .' <strong>'.$lgname.'</strong> <input type="checkbox" name="lang_'.$keylg.'" '
+        .($keylg==$default_lg?$inputchecked:'').' /> <img src="'.$up.'images/'
+        .$keylg.'.gif" title="'.$lgname.'" alt="'.$lgname
+        .'" style="height:24px;width:24px;" /> ';//tab_inverted_'.$k.'.gif" />'
+$content .= '<br /> <br />';
+
+include 'paramsadmin.php';
+include 'configadmin.php';
+
+$content .= '<br /><input type="submit" name="send" value="install" /><br /></form>';
+
 $update_rapport = '';
 
 // http_host + rqsturi = www + /client/admin/script.php
@@ -49,34 +77,6 @@ if (!isset($_POST['send'])
 	if ($_SERVER['REQUEST_METHOD'] == "POST") {
 		Die("Unauthorized attempt to access page.");
 	}
-    $content .= '
-<h1>
-	1. Select a new SQL file if you wish to add new tables directly to the template<br />
-	2. Fill in the information<br />
-	3. Click the install button...
-</h1>
-<form method="POST" action="" enctype="multipart/form-data">
-	<input type="hidden" name="'.$upldbString.'" value="'.$upldbString.'" />
-	<input type="file" name="sqlupload" /><br />';
-    // lang manager
-	$content .= '
-<br />Select the languages you wish to have available in the system,
- make sure to enable the array_lang accordingly...<br />';
-	foreach($array_supported_lg as $keylg => $lgname)
-	//	if (@file_exists('../images/tab_inverted_'.$k.'.gif'))
-	if (@file_exists($up.'images/'.$keylg.'.gif'))
-	$content .= ($keylg==$default_lg?'':' | ')
-			.' <strong>'.$lgname.'</strong> <input type="checkbox" name="lang_'.$keylg.'" '
-			.($keylg==$default_lg?$inputchecked:'').' /> <img src="'.$up.'images/'
-			.$keylg.'.gif" title="'.$lgname.'" alt="'.$lgname
-			.'" style="height:24px;width:24px;" /> ';//tab_inverted_'.$k.'.gif" />'
-	$content .= '<br /> <br />';
-    
-	include 'paramsadmin.php';
-	include 'configadmin.php';
-    
-	$content .= '<br /><input type="submit" name="send" value="install" /><br /></form>';
-    
 } else {
 	/*
           foreach($GLOBALS as $k => $v)
