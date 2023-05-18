@@ -39,9 +39,6 @@ $deduced_urlclient = str_replace(
 if (isset($_POST['send']))
 $send = $envoyerString;
 
-if (!isset($array_supported_lg))
-$array_supported_lg = array('en' => 'English','ar' => 'Arabic','de' => 'German','es' => 'Spanish','fr' => 'French','it' => 'Italian','jp' => 'Japanese','ru' => 'Russian','zh' => 'Chinese',);
-
 //if (($_REQUEST['adminName'] == 'admin') 
 //&& (md5($_REQUEST['passWord']) == '21232f297a57a5a743894a0e4a801fc3')) {
 if (!isset($_POST['send']) 
@@ -68,9 +65,9 @@ if (!isset($_POST['send'])
 	foreach($array_supported_lg as $keylg => $lgname)
 	//	if (@file_exists('../images/tab_inverted_'.$k.'.gif'))
 	if (@file_exists($up.'images/'.$keylg.'.gif'))
-	$content .= ($keylg==$array_supported_lg[0]?'':' | ')
+	$content .= ($keylg==$default_lg?'':' | ')
 			.' <strong>'.$lgname.'</strong> <input type="checkbox" name="lang_'.$keylg.'" '
-			.($keylg==$array_supported_lg[0]?$inputchecked:'').' /> <img src="'.$up.'images/'
+			.($keylg==$default_lg?$inputchecked:'').' /> <img src="'.$up.'images/'
 			.$keylg.'.gif" title="'.$lgname.'" alt="'.$lgname
 			.'" style="height:24px;width:24px;" /> ';//tab_inverted_'.$k.'.gif" />'
 	$content .= '<br /> <br />';
