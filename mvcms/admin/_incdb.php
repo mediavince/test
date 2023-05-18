@@ -117,7 +117,7 @@ if (isset($annee) && array_key_exists($annee, $array_annee)) {
 }
 
 ##############################################################################################
-if (!stristr($_SERVER['PHP_SELF'], '_install.php') or @file_exists($up.$safedir.'_params.php'))
+if (@file_exists($up.$safedir.'_params.php'))
 {
     include '_incerror.php';
     $connection = connect();
