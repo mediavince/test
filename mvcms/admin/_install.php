@@ -99,7 +99,7 @@ if (!isset($_POST['send'])
 
 			$connection = connect();
 			if (!$connection) {
-			    die('connection failed')
+			    die('connection failed');
 			}
 			$db_exists = mysqli_query($connection, "USE $dbname;");
 
