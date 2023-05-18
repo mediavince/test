@@ -106,11 +106,6 @@ if (!isset($send)) {
                 $params .= "$".$apf["name"].' = '.(stristr(addslashes($_POST[$apf["name"]]),'time()')?'':'time()').addslashes($_POST[$apf["name"]]).";".PHP_EOL;
             else
                 $params .= "$".$apf["name"].' = \"'.addslashes($_POST[$apf["name"]])."\";".PHP_EOL;
-        $connection = connect();
-        if (!$connection) {
-            $update_rapport .= 'connection failed: check the credentials';
-            unset($send);
-        }
 	}
 	if ($update_rapport == '') {
 		if (!is_dir($getcwd.$up.$safedir))
