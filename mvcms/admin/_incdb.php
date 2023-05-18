@@ -2,19 +2,17 @@
 /**
  * process and sanitize all requests
  */
-if (!get_magic_quotes_gpc()) {
-	$in = array(&$_GET, &$_POST, &$_COOKIE);
-	while (list($k,$v) = each($in)) {
-		foreach ($v as $key => $val) {
-			if (!is_array($val)) {
-				$in[$k][$key] = addslashes($val);
-				continue;
-			}
-			$in[] =& $in[$k][$key];
-		}
-	}
-	unset($in);
+$in = array(&$_GET, &$_POST, &$_COOKIE);
+while (list($k,$v) = each($in)) {
+    foreach ($v as $key => $val) {
+        if (!is_array($val)) {
+            $in[$k][$key] = addslashes($val);
+            continue;
+        }
+        $in[] =& $in[$k][$key];
+    }
 }
+unset($in);
 ##############################################################################################
 
 if (!isset($_SERVER["HTTP_HOST"]))
