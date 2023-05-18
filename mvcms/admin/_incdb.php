@@ -3,7 +3,7 @@
  * process and sanitize all requests
  */
 $in = array(&$_GET, &$_POST, &$_COOKIE);
-while (list($k,$v) = each($in)) {
+foreach($in as $k => $v) {
     foreach ($v as $key => $val) {
         if (!is_array($val)) {
             $in[$k][$key] = addslashes($val);
@@ -135,8 +135,8 @@ if (!$connection) {
 ##############################################################################################
 
 #########
-session_id();// ensures we are using the right session
-session_start();
+//session_id();// ensures we are using the right session
+//session_start();
 if (isset($_SESSION['mv_error']) || isset($_SESSION['mv_notice'])) {
 	if (isset($_SESSION['mv_error']) && ($_SESSION['mv_error'] !== '')) {
 		$error = $_SESSION['mv_error'];
