@@ -53,7 +53,7 @@ INSERT INTO `_string` (`stringid`, `stringpg`, `stringlang`, `stringtype`, `stri
 (NULL, '', 'de', 'general', 'confirme', 'confirmed'),
 (NULL, '', 'de', 'general', 'confirmer', 'Confirm'),
 (NULL, '', 'de', 'general', 'coords', 'Coordinates'),
-(NULL, '', 'de', 'general', 'copyrightnotice', 'Webdevelopment by <a href=http://www.mediavince.com target=_blank>Media Vince</a> &copy; '),
+(NULL, '', 'de', 'general', 'copyrightnotice', 'Webdevelopment by <a href=https://www.mediavince.com target=_blank>Media Vince</a> &copy; '),
 (NULL, '', 'de', 'general', 'credentials', 'Credentials'),
 (NULL, '', 'de', 'general', 'date', 'Date posted'),
 (NULL, '', 'de', 'general', 'datecree', 'Date Created'),

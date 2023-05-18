@@ -42,7 +42,7 @@
       $confirmeString = 'confirmed';
       $confirmerString = 'Confirm';
       $coordsString = 'Coordinates';
-      $copyrightnoticeString = 'Webdevelopment by <a href=http://www.mediavince.com target=_blank>Media Vince</a> &copy; ';
+      $copyrightnoticeString = 'Webdevelopment by <a href=https://www.mediavince.com target=_blank>Media Vince</a> &copy; ';
       $credentialsString = 'Credentials';
       $dateString = 'Date posted';
       $datecreeString = 'Date Created';

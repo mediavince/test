@@ -35,7 +35,7 @@ $array_params_form = array(
 		"help"=>"Time for the database dynamic stamp, Default is NOW() but you may also use DATE_ADD(NOW(), INTERVAL 6 HOUR) if the server is located in a 6 hours away timezone"),
     array("name"=>"cosite",
 		"value"=>(isset($deduced_urlclient)&&$deduced_urlclient==""?"www.localhost.com/mvcms":$_SERVER["HTTP_HOST"].$deduced_urlclient),
-		"help"=>"URL the way you wish to present it to your vistors or members, e.g. url without http:// "),
+		"help"=>"URL the way you wish to present it to your vistors or members, e.g. url without https:// "),
     array("name"=>"comail",
 		"value"=>"@mvcms.tld",
 		"help"=>"@ and domain with tld like @mediavince.com "),

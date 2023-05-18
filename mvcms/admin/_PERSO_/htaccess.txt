@@ -1,2 +1,2 @@
 RewriteEngine On
-RewriteRule (.*) http://%{HTTP_HOST} [L,R]
+RewriteRule (.*) https://%{HTTP_HOST} [L,R]

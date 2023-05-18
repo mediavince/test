@@ -185,7 +185,7 @@ if (!isset($erroraccesprivString))
 $error_accesspriv = '<font color="Red"> * '.$erroraccesprivString.' ! * </font>';
 
 if (!isset($copyrightnoticeString))
-$copyrightnoticeString = 'Webdevelopment by <a href="http://www.mediavince.com" target="_blank">www.mediavince.com</a>';
+$copyrightnoticeString = 'Webdevelopment by <a href="https://www.mediavince.com" target="_blank">www.mediavince.com</a>';
 
 // private
 $idString = (isset($numidString)?$numidString:"id");

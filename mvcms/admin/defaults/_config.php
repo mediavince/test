@@ -178,7 +178,7 @@ $array_sortable = array('gallery'); // default for all contphoto in a given gall
 	<script type="text/javascript" src="'.$up.'lib/vendors/jquery/jquery-ui-1.7.1.custom.min.js"></script>
 */
 $jquery_sort_js = '
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
 	<script type="text/javascript" src="'.$up.'lib/vendors/jquery/jquery.ui.core.js"></script>
 	<script type="text/javascript" src="'.$up.'lib/vendors/jquery/jquery.ui.widget.js"></script>
 	<script type="text/javascript" src="'.$up.'lib/vendors/jquery/jquery.ui.mouse.js"></script>

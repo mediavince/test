@@ -214,7 +214,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 					}
 				}
 			} else if ($key == 'website') {
-				${$this_is.ucfirst($key)} = (!stristr(${$this_is.ucfirst($key)},"http://")?"http://":'')
+				${$this_is.ucfirst($key)} = (!stristr(${$this_is.ucfirst($key)},"https://")?"https://":'')
 											.strip_tags(html_encode(${$this_is.ucfirst($key)}));
 				if ((${$this_is.ucfirst($key)} != '') && !is_url(${$this_is.ucfirst($key)})) {
 					if ($lg == $loop_lg) {

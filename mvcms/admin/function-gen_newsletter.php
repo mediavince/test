@@ -95,7 +95,7 @@ function gen_galerie($nlid) {
 			if  ($nYphoto <= 1)  $s = ""  ;
 			if ($nYphoto > 0) {
 				$photo1 = sql_get($tblgaleriephoto, " WHERE galeriephotogalerieid='$row_galerieid' AND galeriephotostatut='Y' ", "galeriephotoimg");
-				$galerie .= '<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0"><tr><td><a href="http://'.$mainurl.'?x=5&y=2&galerieId='.$row_galerieid.'&nlid='.$nlid.'"><img  '.show_img_attr($mainurl.$photo1[0]).' src="'.$mainurl.$photo1[0].'" alt="'.$galerierow["galerietitre"].'" vspace="5" hspace="5" align="right" border="0" /><b>'.$galerierow["galerietitre"].' ( '.$nYphoto.' photo'.$s.' )</b></a><br />'.$galerierow["galeriedesc"].'</td></tr><tr><td><hr /></td></tr></table>';
+				$galerie .= '<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0"><tr><td><a href="https://'.$mainurl.'?x=5&y=2&galerieId='.$row_galerieid.'&nlid='.$nlid.'"><img  '.show_img_attr($mainurl.$photo1[0]).' src="'.$mainurl.$photo1[0].'" alt="'.$galerierow["galerietitre"].'" vspace="5" hspace="5" align="right" border="0" /><b>'.$galerierow["galerietitre"].' ( '.$nYphoto.' photo'.$s.' )</b></a><br />'.$galerierow["galeriedesc"].'</td></tr><tr><td><hr /></td></tr></table>';
 			}
 			$s = "s";
 		}

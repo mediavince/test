@@ -3,7 +3,7 @@
  // $deduced_urlclient = explode("/",$_SERVER['REQUEST_URI']);// http_host + rqsturi = www + /client/admin/script.php
  // $deduced_urlclient = ($deduced_urlclient[1]=='admin'?$deduced_urlclient[0]:$deduced_urlclient[1]);
 $deduced_urlclient = str_replace("/".$urladmin.(stristr($_SERVER['REQUEST_URI'],"_install.php")?"_install.php":''),"",$_SERVER['REQUEST_URI']);
-$domain = "http://".$_SERVER['HTTP_HOST'].($deduced_urlclient==''?'/':$deduced_urlclient."/");
+$domain = "https://".$_SERVER['HTTP_HOST'].($deduced_urlclient==''?'/':$deduced_urlclient."/");
 $url_mirror = ($deduced_urlclient==''?'/':$deduced_urlclient."/");
 $dbhost = "dbhost";
 $dbuser = "dbuser";
