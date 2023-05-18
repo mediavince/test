@@ -134,7 +134,7 @@ if (!isset($default_lg) || !in_array($default_lg,$array_supported_lg))
 
 ##############################################################################################
 include '_incerror.php';
-if (@file_exists($up.$safedir.'_params.php'))
+if (@file_exists($up.$safedir.'_params.php') and !stristr($_SERVER['PHP_SELF'], '_install.php'))
 {
     $connection = connect();
 } else {
