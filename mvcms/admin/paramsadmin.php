@@ -109,7 +109,7 @@ if (!isset($send)) {
         $connection = connect();
         if (!$connection) {
             $update_rapport .= 'connection failed: check the credentials';
-            unset($send)
+            unset($send);
         }
 	}
 	if ($update_rapport == '') {
