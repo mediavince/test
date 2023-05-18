@@ -117,16 +117,10 @@ if (isset($annee) && array_key_exists($annee, $array_annee)) {
 }
 
 ##############################################################################################
-if (stristr($_SERVER['PHP_SELF'], $urladmin)
-    && @file_exists('_install.php')
-    && !@file_exists($up.$safedir.'_params.php')
-) {
+if !@file_exists($up.$safedir.'_params.php')
+{
     if (!stristr($_SERVER['PHP_SELF'], '_install.php'))
     {header("Location: _install.php");die();}
-} else {
-// 		header("Location: {$urladmin}_install.php");die();
-// 		 header("Location: $redirect");
-// 		Die('<a href="'.$redirect.'">'.ucfirst($client).' -> Error: please try again...</a>');
 }
 include '_incerror.php';
 $connection = connect();
