@@ -95,7 +95,7 @@ if (!isset($_POST['send'])
 		if ($update_rapport == '') {
 			if (@file_exists($up.$safedir.'_params.php'))
 				include $getcwd.$up.$safedir.'_params.php';
-			else die('params not written');
+			else die('params could not be written');
 
 			$connection = connect();
 			if (!$connection) {

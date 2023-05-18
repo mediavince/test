@@ -141,7 +141,10 @@ if (@file_exists($up.$safedir.'_params.php'))
     $connection = connect();
 } else {
     if (!stristr($_SERVER['PHP_SELF'], '_install.php'))
-    {header("Location: /{$urladmin}_install.php");die();}
+    {
+//         header("Location: /{$urladmin}_install.php");
+        die('site not ready, proceed to install..');
+    }
 }
 ##############################################################################################
 
