@@ -96,9 +96,11 @@ if (!isset($_POST['send'])
 			if (@file_exists($up.$safedir.'_params.php'))
 				include $getcwd.$up.$safedir.'_params.php';
 			else die('params not written');
-        
-			mysqli_close($connection);
+
 			$connection = connect();
+			if (!$connection) {
+			    die('connection failed')
+			}
 			$db_exists = mysqli_query($connection, "USE $dbname;");
 
 			if ($connection && $db_exists) {
