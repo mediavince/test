@@ -137,11 +137,11 @@ include '_incerror.php';
 if (@file_exists($up.$safedir.'_params.php'))
 {
     if (stristr($_SERVER['PHP_SELF'], '_install.php'))
-    {header("Location: {$urladmin}");die();}
+    {header("Location: /{$urladmin}");die();}
     $connection = connect();
 } else {
     if (!stristr($_SERVER['PHP_SELF'], '_install.php'))
-    {header("Location: {$urladmin}_install.php");die();}
+    {header("Location: /{$urladmin}_install.php");die();}
 }
 ##############################################################################################
 
