@@ -19,13 +19,12 @@ if (!isset($send)) {
 } else if ($send == $envoyerString) {
   if (!$_POST){Header("Location: $redirect");Die();}
   $config = $_POST['config'];
+  $update_rapport = '';
   if (strstr($config,"<?") || strstr($config,"<?"))
-    $update_rapport = 'no php tags allowed!';
-  else
-    $update_rapport = '';
+      $update_rapport = 'no php tags allowed!';
 	if ($update_rapport != '') {
-  if (!stristr($_SERVER['PHP_SELF'],'_install.php'))
-  $content .= '<br /><p style="text-align: center"><font color="Green"><b>'.$enregistrementString.' '.$nonString.' '.$modifieString.'</b></font><br /> <br />'.$update_rapport.'<br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
+      if (!stristr($_SERVER['PHP_SELF'],'_install.php'))
+      $content .= '<br /><p style="text-align: center"><font color="Green"><b>'.$enregistrementString.' '.$nonString.' '.$modifieString.'</b></font><br /> <br />'.$update_rapport.'<br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
 	} else {
 	  $Fnm = $getcwd.$up.$safedir.'_config.php';
 		$inF = fopen($Fnm,"w+");

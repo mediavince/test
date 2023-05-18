@@ -93,11 +93,6 @@ if (!isset($_POST['send'])
 		if (isset($_POST['config']))
 		include 'configadmin.php';
 		if ($update_rapport == '') {
-            $connection = connect();
-            if (!$connection) {
-				$content .= 'connection failed: check the credentials<br />';
-				Die("$content</div>");
-            }
 			if (@file_exists($up.$safedir.'_params.php'))
 				include $getcwd.$up.$safedir.'_params.php';
 			else {

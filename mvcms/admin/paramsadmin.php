@@ -102,10 +102,23 @@ if (!isset($send)) {
 		if (!isset($params)) $params = "";
 		if (isset($array_params_form))
 		foreach($array_params_form as $apf)
-            if ($apf["name"]=="now_time")
+            if ($apf["name"]=="now_time") {
+		        $this_value = ceil(${$apf["name"]}-time());
+		        ${$apf["name"]} = "time()";
+		        if ($this_value <= -360)
+		        	${$apf["name"]} .= $this_value;
+		        else if ($this_value >= 360)
+		        	${$apf["name"]} .= "+".$this_value;
                 $params .= "$".$apf["name"].' = '.(stristr(addslashes($_POST[$apf["name"]]),'time()')?'':'time()').addslashes($_POST[$apf["name"]]).";".PHP_EOL;
-            else
+            } else {
+	  			${$apf["name"]} = $_POST[$apf["name"]];
                 $params .= "$".$apf["name"].' = \"'.addslashes($_POST[$apf["name"]])."\";".PHP_EOL;
+            }
+        $connection = connect();
+        if (!$connection) {
+            $content .= 'connection failed: check the credentials<br />';
+            Die("$content</div>");
+        }
 	}
 	if ($update_rapport == '') {
 		if (!is_dir($getcwd.$up.$safedir))
