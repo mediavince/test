@@ -103,6 +103,7 @@ if (!isset($send)) {
 	} else {
 		if (isset($array_params_form))
 		foreach($array_params_form as $apf)
+		if (!isset($params)) $params = ""
 		if ($apf["name"]=="now_time")
 			$params .= "$".$apf["name"].' = '.(stristr(addslashes($_POST[$apf["name"]]),'time()')?'':'time()').addslashes($_POST[$apf["name"]]).";".PHP_EOL;
 		else
