@@ -40,7 +40,7 @@ if (isset($_POST['send']))
 $send = $envoyerString;
 
 if (!isset($array_supported_lg))
-$array_supported_lg = array('en','ar','de','es','fr','it','jp','ru','zh',);
+$array_supported_lg = array('en' => 'English','ar' => 'Arabic','de' => 'German','es' => 'Spanish','fr' => 'French','it' => 'Italian','jp' => 'Japanese','ru' => 'Russian','zh' => 'Chinese',);
 
 //if (($_REQUEST['adminName'] == 'admin') 
 //&& (md5($_REQUEST['passWord']) == '21232f297a57a5a743894a0e4a801fc3')) {
@@ -65,13 +65,13 @@ if (!isset($_POST['send'])
 	$content .= '
 <br />Select the languages you wish to have available in the system,
  make sure to enable the array_lang accordingly...<br />';
-	foreach($array_supported_lg as $keylg)
+	foreach($array_supported_lg as $keylg => $lgname)
 	//	if (@file_exists('../images/tab_inverted_'.$k.'.gif'))
 	if (@file_exists($up.'images/'.$keylg.'.gif'))
 	$content .= ($keylg==$array_supported_lg[0]?'':' | ')
-			.' <strong>'.$keylg.'</strong> <input type="checkbox" name="lang_'.$keylg.'" '
+			.' <strong>'.$lgname.'</strong> <input type="checkbox" name="lang_'.$keylg.'" '
 			.($keylg==$array_supported_lg[0]?$inputchecked:'').' /> <img src="'.$up.'images/'
-			.$keylg.'.gif" title="'.sql_stringit('lang',$keylg).'" alt="'.sql_stringit('lang',$keylg)
+			.$keylg.'.gif" title="'.$lgname.'" alt="'.$lgname
 			.'" style="height:24px;width:24px;" /> ';//tab_inverted_'.$k.'.gif" />'
 	$content .= '<br /> <br />';
     
