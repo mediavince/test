@@ -20,6 +20,6 @@ if (@file_exists($up.$safedir.'_security.php')) {
 }
 
 if (!isset($redirect))
-	$redirect = "http://".$_SERVER['HTTP_HOST']."/";
+	$redirect = "https://".$_SERVER['HTTP_HOST']."/";
 
 Header("Location: $redirect");Die();

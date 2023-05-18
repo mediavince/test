@@ -30,7 +30,7 @@ function html_index($this_lg) {
 	<meta name="ROBOTS" content="ALL" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <!--[if lt IE 9]><script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   <script type="text/javascript" src="'.$mainurl.'-menu_pagine_'.$this_lg.'.js"></script>
   <script type="text/javascript" src="'.$mainurl.'-scroller_'.$this_lg.'.js"></script>
   '.$stylesheet.'
@@ -73,7 +73,7 @@ document.write(toplinks);
           <div class="gauchefoto"></div>
           <div class="diapo">
             <div id="flash">
-        			<a href="http://www.adobe.com/go/getflashplayer" target="_blank">
+        			<a href="https://www.adobe.com/go/getflashplayer" target="_blank">
         				<img src="'.$mainurl.'images/diaporama.gif" width="106" height="142" alt="Get Adobe Flash player" border="0" />
         			</a>
             </div>
@@ -151,9 +151,9 @@ document.write(wherearewe);
 	<div id="footer">
 		<!-- webdeveloper credit -->
 	  	'.$copyrightnoticeString.'
-		<!-- Webdevelopment developed by <a href="http://www.mediavince.com" target="_blank">www.mediavince.com</a> - &copy; '.date('Y').' -->';
+		<!-- Webdevelopment developed by <a href="https://www.mediavince.com" target="_blank">www.mediavince.com</a> - &copy; '.date('Y').' -->';
   if	(!stristr($_SERVER['HTTP_HOST'], "localhost"))	
-  $html_index .= '<img src="http://www.mediavince.com/clients/'.$client.'.gif" width="1" height="1" hspace="0" vspace="0" border="0" '
+  $html_index .= '<img src="https://www.mediavince.com/clients/'.$client.'.gif" width="1" height="1" hspace="0" vspace="0" border="0" '
       . 'title="www.mediavince.com :: Your content &#064; the front row !" alt="www.mediavince.com :: Your content &#064; the front row !" />';
   $html_index .= '
 	</div>

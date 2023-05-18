@@ -1,3 +1,3 @@
 <?php #۞ #
 
-Header("Location: http://".$_SERVER['HTTP_HOST']);
+Header("Location: https://".$_SERVER['HTTP_HOST']);

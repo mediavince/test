@@ -38,7 +38,7 @@ $get_rss = mysqli_query($connection, $sql);
 
 header("Content-Type: application/xml");
 
-echo '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+echo '<rss version="2.0" xmlns:atom="https://www.w3.org/2005/Atom">
 <channel>
 <title>'.$codename.'</title>
 <link>'.$mainurl.'</link>

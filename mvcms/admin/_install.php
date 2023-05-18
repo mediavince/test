@@ -227,7 +227,7 @@ if (!isset($_POST['send'])
 				$Fnm = $getcwd.$up.$safedir.'_security.php';
 				$inF = fopen($Fnm,"w+");
 				$security = '<'.'?php #۞ # ADMIN
-$redirect = \"http:\/\/\".$_SERVER[\"HTTP_HOST\"].\"'.$deduced_urlclient.'\";
+$redirect = \"https:\/\/\".$_SERVER[\"HTTP_HOST\"].\"'.$deduced_urlclient.'\";
 if (stristr($_SERVER[\'PHP_SELF\'],\'_security.php\'))
 {Header(\"Location: $redirect\");Die();}
 ?'.'>';

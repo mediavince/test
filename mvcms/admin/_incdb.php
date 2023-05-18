@@ -281,7 +281,7 @@ $google_jquery_ver = (isset($google_jquery_ver)?$google_jquery_ver:'1');
 $google_jquery = (isset($google_jquery)&&($google_jquery===false)?
 		''
 	:'
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/'
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/'
 		.$google_jquery_ver.'/jquery.min.js"></script>'
 );
 $stylesheet .= $google_jquery;
@@ -439,9 +439,9 @@ if (!isset($array_lang) || !isset($array_lang[0]) || ($array_lang[0] == "")) {
 	$array_lang = array_reverse($array_lang);// so default_lg comes in first
 }
 
-// strip http://{http_host} from rqst_uri
-if (substr($_SERVER['REQUEST_URI'],0,strlen("http://".$_SERVER['HTTP_HOST'])) == "http://".$_SERVER['HTTP_HOST']) {
-	$_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'],(strlen($_SERVER['HTTP_HOST'])+7));//	http:// = 7
+// strip https://{http_host} from rqst_uri
+if (substr($_SERVER['REQUEST_URI'],0,strlen("https://".$_SERVER['HTTP_HOST'])) == "https://".$_SERVER['HTTP_HOST']) {
+	$_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'],(strlen($_SERVER['HTTP_HOST'])+8));//	https:// = 8
 }
 
 // prevents repetition of slash in URL
@@ -625,7 +625,7 @@ $form_methody = '
 // !! // !! needed for login as admin
 $form_method_self = '
 <form enctype="multipart/form-data" action="" method="'.$postgetmethod.'">';
-//http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'
+//https://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'
 
 if (!isset($nof))
 	$nof = 1;

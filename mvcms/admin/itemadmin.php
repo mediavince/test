@@ -609,7 +609,7 @@ if (isset($send)) {
 					$form_content[$this_is.$key] = '<label for="'.$this_is.ucfirst($key)
 						.'">'.ucfirst(${$key."String"}).'</label><br /><input name="'.$this_is
 						.ucfirst($key).'" type="text" value="'
-						.(!stristr($editthis[$i],"http://")?"http://":'').$editthis[$i]
+						.(!stristr($editthis[$i],"https://")?"https://":'').$editthis[$i]
 						.'" /><br />';
 					$content .= $form_content[$this_is.$key];
 				} else if ($key == 'gendre') {

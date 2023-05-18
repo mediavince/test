@@ -1002,7 +1002,7 @@ function space2underscore($_str)
 function show_img_attr($img_url)
 {
     global $mainurl;
-    if	(!stristr($img_url, "http://"))	$img_url = $mainurl.$img_url	;
+    if	(!stristr($img_url, "https://"))	$img_url = $mainurl.$img_url	;
     list($img_width, $img_height, $img_orient, $img_attr) = @getimagesize($img_url);
     return $img_attr;
 }
@@ -1100,6 +1100,7 @@ function format_edit($text,$do)
             $text = ereg_replace('\[email=]\[/email]','',$text);
             $text = ereg_replace('\[url=doc://]\[/url]','',$text);
             $text = ereg_replace('\[url=http://]\[/url]','',$text);
+            $text = ereg_replace('\[url=https://]\[/url]','',$text);
             $text = ereg_replace('\[url=mailto:]\[/url]','',$text);
             $text = ereg_replace('\[url=]\[/url]','',$text);
             $text = ereg_replace('\[div=]','',$text);
@@ -1126,7 +1127,7 @@ function format_edit($text,$do)
             $text = ereg_replace('\[---]','<hr />',$text);
             $text = ereg_replace('\[/div]','</div>',$text);
 
-            $text = ereg_replace('\[img=http://([^]]*)]([^]]*)\[/img]','<img src="http://\1" align="right" hspace="5" vspace="5" alt="\2" border="0" \/>',$text);
+            $text = ereg_replace('\[img=https://([^]]*)]([^]]*)\[/img]','<img src="https://\1" align="right" hspace="5" vspace="5" alt="\2" border="0" \/>',$text);
             $text = ereg_replace('\[img=([^]]*)]([^]]*)\[/img]','<img src="\1" align="right" hspace="5" vspace="5" alt="\2" border="0" \/>',$text);
 
             $text = ereg_replace('\[div=([^]]*),([^]]*),([^]]*)]','<div style="width:\1;text-align:\2;float:\3;" id="div">',$text);
@@ -1342,8 +1343,8 @@ function insertTag(tag, closetag) {
  }
 }
 function insertLink() {
- var link = prompt('Insert URL:', 'http://');
- if  (link && link != null && link != 'http://')  insertTag('url=' + link, 'url')  ;
+ var link = prompt('Insert URL:', 'https://');
+ if  (link && link != null && link != 'https://')  insertTag('url=' + link, 'url')  ;
 }
 function insertEmail() {
  var link = prompt('Insert Email:', 'mailto:');

@@ -52,8 +52,8 @@ Event.observe(window,'load',function(){Lightbox.initialize({"
 	$javascript .= $jquery_captcha_js;
 // <!DOCTYPE html
 //	 PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-//	 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-//<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="'.$lg.'" lang="'.$lg.'">
+//	 "https://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+//<html xmlns="https://www.w3.org/1999/xhtml" xml:lang="'.$lg.'" lang="'.$lg.'">
 	$html_view =  '<!DOCTYPE html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="'.$lg.'"> <![endif]-->
@@ -71,7 +71,7 @@ Event.observe(window,'load',function(){Lightbox.initialize({"
 <meta name="description" content="'.$desc.'" />
 <meta name="keywords" content="'.$keyw.'" />
 <meta name="ROBOTS" content="ALL" />
-<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->';
+<!--[if lt IE 9]><script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->';
 	if (isset($rssdir))
 	$html_view .= '
 <link rel="alternate" type="application/rss+xml" title="RSS '
@@ -124,7 +124,7 @@ attributes.id = "d27cdb6e-ae6d-11cf-96b8-444553540000";
 attributes.name = "'.$flash_array['attributes.name'].'";
 swfobject.embedSWF("'.$mainurl.'images/'.$flash_array['swf'].'", "flash", "'
 .$flash_array['swf.width'].'", "'.$flash_array['swf.height'].'", "'.$flash_array['swf.ver']
-.'.0.0", "http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version='
+.'.0.0", "https://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version='
 .$flash_array['swf.ver'].',0,0,0", flashvars, params, attributes);
 </script>';
 	}
@@ -225,7 +225,7 @@ mmLoadMenus(\''.$local.'\');
 	$content .= $right_content.'<div class="clear"></div> <br />';
 	$footer = '<!-- webdeveloper credit -->
 	  	'.$copyrightnoticeString.' '.$this_annee.' <!-- website developed by '
-  		.'<a href="http://www.mediavince.com" target="_blank">www.mediavince.com</a> - &copy; -->';
+  		.'<a href="https://www.mediavince.com" target="_blank">www.mediavince.com</a> - &copy; -->';
   
 	if (!stristr($_SERVER['PHP_SELF'],$urladmin))
 	// || (stristr($_SERVER['PHP_SELF'],$urladmin) && ($logged_in === false)))

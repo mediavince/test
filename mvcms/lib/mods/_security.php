@@ -18,7 +18,7 @@ if (@file_exists($up.$safedir.'_security.php')) {
 }
 
 if (!isset($redirect))
-	$redirect = 'http://'.$_SERVER['HTTP_HOST'].'/';
+	$redirect = 'https://'.$_SERVER['HTTP_HOST'].'/';
 
 if (stristr($_SERVER['PHP_SELF'], '_security.php'))
 {
