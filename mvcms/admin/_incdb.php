@@ -116,6 +116,22 @@ if (isset($annee) && array_key_exists($annee, $array_annee)) {
 	$annee = $this_annee;
 }
 
+if (!isset($array_supported_lg))
+    $array_supported_lg = array(
+        'en' => 'English',
+        'ar' => 'Arabic',
+        'de' => 'German',
+        'es' => 'Spanish',
+        'fr' => 'French',
+        'it' => 'Italian',
+        'jp' => 'Japanese',
+        'ru' => 'Russian',
+        'zh' => 'Chinese',
+    );
+
+if (!isset($default_lg) || !in_array($default_lg,$array_supported_lg))
+	$default_lg = "en";
+
 ##############################################################################################
 if (@file_exists($up.$safedir.'_params.php'))
 {
@@ -402,22 +418,6 @@ if (!isset($s))
 	$s = "s"; // used for plurals on condition of quantity > 1
 if (!isset($y_menu))
 	$y_menu = ""; // to avoid redundant lines
-
-if (!isset($array_supported_lg))
-    $array_supported_lg = array(
-        'en' => 'English',
-        'ar' => 'Arabic',
-        'de' => 'German',
-        'es' => 'Spanish',
-        'fr' => 'French',
-        'it' => 'Italian',
-        'jp' => 'Japanese',
-        'ru' => 'Russian',
-        'zh' => 'Chinese',
-    );
-
-if (!isset($default_lg) || !in_array($default_lg,$array_supported_lg))
-	$default_lg = "en";
 
 if (isset($connection)) {
     $array_lang = sql_array(
