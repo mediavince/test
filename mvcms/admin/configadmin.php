@@ -4,7 +4,7 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
 if (!stristr($_SERVER['PHP_SELF'],'_install.php'))
 $content .= $admin_menu;
 
-$first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'],\'_config.php\')){include\'_security.php\';Header("Location: $redirect");Die();}';
+$first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))){include\'_security.php\';Header("Location: $redirect");Die();}';
 $last_line = '?'.'>';
 
 // lists all the texts strings appearing on site
