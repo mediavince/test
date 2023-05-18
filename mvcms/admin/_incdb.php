@@ -409,12 +409,14 @@ if (!isset($array_supported_lg))
 if (!isset($default_lg) || !in_array($default_lg,$array_supported_lg))
 	$default_lg = "en";
 
-$array_lang = sql_array(
-	$tblenum,
-	"WHERE enumstatut='Y' AND enumwhat='lang' AND enumtype!='$default_lg' ",
-	"enumtype"
-);
-if (!isset($array_lang[0]) || ($array_lang[0] == "")) {
+if (isset($connection)) {
+    $array_lang = sql_array(
+        $tblenum,
+        "WHERE enumstatut='Y' AND enumwhat='lang' AND enumtype!='$default_lg' ",
+        "enumtype"
+    );
+}
+if (!isset($array_lang) || !isset($array_lang[0]) || ($array_lang[0] == "")) {
 	$array_lang = array($default_lg);
 } else {
 	$array_lang = array_reverse($array_lang);
