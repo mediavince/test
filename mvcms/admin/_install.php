@@ -97,10 +97,7 @@ if (!isset($_POST['send'])
 				include $getcwd.$up.$safedir.'_params.php';
 			else die('params could not be written');
 
-			$connection = connect();
-			if (!$connection) {
-			    die('connection failed');
-			}
+			mysqli_close($connection);
 			$db_exists = mysqli_query($connection, "USE $dbname;");
 
 			if ($connection && $db_exists) {
