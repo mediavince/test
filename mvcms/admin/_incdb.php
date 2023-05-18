@@ -133,9 +133,9 @@ if (!isset($default_lg) || !in_array($default_lg,$array_supported_lg))
 	$default_lg = "en";
 
 ##############################################################################################
+include '_incerror.php';
 if (@file_exists($up.$safedir.'_params.php'))
 {
-    include '_incerror.php';
     $connection = connect();
 } else {
     if (!stristr($_SERVER['PHP_SELF'], '_install.php'))
