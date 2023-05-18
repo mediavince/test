@@ -117,14 +117,13 @@ if (isset($annee) && array_key_exists($annee, $array_annee)) {
 }
 
 ##############################################################################################
-if (!@file_exists($up.$safedir.'_params.php'))
-{
-    header("Location: {$urladmin}_install.php");die();
-}
 if (!stristr($_SERVER['PHP_SELF'], '_install.php'))
 {
     include '_incerror.php';
     $connection = connect();
+} else {
+    if (!@file_exists($up.$safedir.'_params.php'))
+    {header("Location: {$urladmin}_install.php");die();}
 }
 ##############################################################################################
 
