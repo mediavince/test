@@ -436,7 +436,7 @@ function sql_getone($dbtable,$where,$getone)
     global $connection;
     $sql = mysqli_query($connection, "SELECT $getone FROM $dbtable $where");
     $row = mysqli_fetch_array($sql);
-    return $row[0];
+    return is_array($row) ? $row[0] : "";
 }
 
 function lgx2readable($this_lg,$this_x,$mod=null,$id=null)
