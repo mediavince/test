@@ -59,6 +59,18 @@ $array_params_form = array(
 		"help"=>"On some server, this might be needed, it is the absolute path of the root of the website, Default however is void")
 );
 
+if (isset($_POST['dbhost'])) {
+        if (isset($array_params_form))
+                foreach($array_params_form as $apf)
+                        if (isset($_POST[$apf["name"]]) and strstr($apf["name"], 'db'))
+                                ${$apf["name"]} = $_POST[$apf["name"]];
+        $connection = connect();
+        if (!$connection) {
+            $content .= 'connection failed: check the credentials<br />';
+            Die("$content</div>");
+        }
+}
+
 // lists all the texts strings appearing on site
 if (!isset($send)) {
   if (!stristr($_SERVER['PHP_SELF'],'_install.php'))
@@ -102,23 +114,10 @@ if (!isset($send)) {
 		if (!isset($params)) $params = "";
 		if (isset($array_params_form))
 		foreach($array_params_form as $apf)
-            if ($apf["name"]=="now_time") {
-		        $this_value = ceil(${$apf["name"]}-time());
-		        ${$apf["name"]} = "time()";
-		        if ($this_value <= -360)
-		        	${$apf["name"]} .= $this_value;
-		        else if ($this_value >= 360)
-		        	${$apf["name"]} .= "+".$this_value;
+            if ($apf["name"]=="now_time")
                 $params .= "$".$apf["name"].' = '.(stristr(addslashes($_POST[$apf["name"]]),'time()')?'':'time()').addslashes($_POST[$apf["name"]]).";".PHP_EOL;
-            } else {
-	  			${$apf["name"]} = $_POST[$apf["name"]];
+            else
                 $params .= "$".$apf["name"].' = \"'.addslashes($_POST[$apf["name"]])."\";".PHP_EOL;
-            }
-        $connection = connect();
-        if (!$connection) {
-            $content .= 'connection failed: check the credentials<br />';
-            Die("$content</div>");
-        }
 	}
 	if ($update_rapport == '') {
 		if (!is_dir($getcwd.$up.$safedir))
