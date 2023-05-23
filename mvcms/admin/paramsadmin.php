@@ -104,7 +104,7 @@ if (!isset($send)) {
 
 // update the strings
 } else if ($send == $envoyerString) {
-    if (!isset($_POST) or isset($_POST["params"])) {
+    if (!isset($_POST) or !isset($_POST["params"])) {
         Header("Location: $redirect");Die();
     } else {
         $params = $_POST["params"];
