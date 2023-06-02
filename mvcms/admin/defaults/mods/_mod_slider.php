@@ -10,9 +10,9 @@ if (!isset($clickformoreinfoString)) $clickformoreinfoString = 'Click for more i
 
 $stylesheet .= '<link rel="stylesheet" type="text/css" href="'.$mainurl.'lib/templates/ebri/slider_index.css" /><style type="text/css">.admin_menu{float:none;}#slider_index{height:100%;}</style>';
 if (!stristr($javascript,'jquery.js')&&!stristr($javascript,'jquery.min.js'))
-$javascript .= "<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>";
+$javascript .= "<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>";
 if (!stristr($javascript,'jquery.cycle.all.2.73.js'))
-$javascript .= "<script type='text/javascript' src='http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.73.js'>/*lib/jquery_cycle.js http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.73.js*/</script>";
+$javascript .= "<script type='text/javascript' src='https://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.73.js'>/*lib/jquery_cycle.js https://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.73.js*/</script>";
 
 if (sql_fields($dbtable,'count')==0) {
   $create_slider = mysqli_query($connection, "DROP TABLE IF EXISTS `_slider`;");

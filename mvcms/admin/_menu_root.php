@@ -236,7 +236,7 @@ var GOOG_FIXURL_SITE = \''.$mainurl.'\';
 			if (!stristr($_SERVER['HTTP_HOST'],"localhost"))
 			$notice .= '
 				<script type="text/javascript"
-    			src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js"></script>';
+    			src="https://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js"></script>';
 			$notice .= '</div>';
 //  Header("HTTP/1.1 404 Not Found");
 //  Header("Location: $redirect", "404 Not Found");

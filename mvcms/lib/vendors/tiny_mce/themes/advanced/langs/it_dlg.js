@@ -46,6 +46,6 @@ link_target_same:"Apri link nella stessa finestra",
 link_target_blank:"Apri link in una nuova finestra",
 link_titlefield:"Titolo",
 link_is_email:"L'URL inserito sembra essere un indirizzo email. Aggiungere il necessario prefisso mailto: ?",
-link_is_external:"L'URL inserito sembra essere un link esterno. Aggiungere il necessario prefisso http:// ?",
+link_is_external:"L'URL inserito sembra essere un link esterno. Aggiungere il necessario prefisso https:// ?",
 link_list:"Lista collegamenti"
 });

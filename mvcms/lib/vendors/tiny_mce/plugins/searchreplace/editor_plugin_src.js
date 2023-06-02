@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 686 2008-03-09 18:13:49Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function() {
@@ -42,8 +42,8 @@
 			return {
 				longname : 'Search/Replace',
 				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
-				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/searchreplace',
+				authorurl : 'https://tinymce.moxiecode.com',
+				infourl : 'https://wiki.moxiecode.com/index.php/TinyMCE:Plugins/searchreplace',
 				version : tinymce.majorVersion + "." + tinymce.minorVersion
 			};
 		}

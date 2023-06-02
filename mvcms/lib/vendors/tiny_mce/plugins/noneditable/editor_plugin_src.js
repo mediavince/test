@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 743 2008-03-23 17:47:33Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function() {
@@ -41,8 +41,8 @@
 			return {
 				longname : 'Non editable elements',
 				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
-				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/noneditable',
+				authorurl : 'https://tinymce.moxiecode.com',
+				infourl : 'https://wiki.moxiecode.com/index.php/TinyMCE:Plugins/noneditable',
 				version : tinymce.majorVersion + "." + tinymce.minorVersion
 			};
 		},

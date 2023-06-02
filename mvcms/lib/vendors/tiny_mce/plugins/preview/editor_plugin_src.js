@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 895 2008-07-10 14:34:23Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function() {
@@ -38,8 +38,8 @@
 			return {
 				longname : 'Preview',
 				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
-				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/preview',
+				authorurl : 'https://tinymce.moxiecode.com',
+				infourl : 'https://wiki.moxiecode.com/index.php/TinyMCE:Plugins/preview',
 				version : tinymce.majorVersion + "." + tinymce.minorVersion
 			};
 		}

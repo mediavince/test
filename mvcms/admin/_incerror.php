@@ -4,7 +4,7 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
 // BACKWARD COMPATIBILITY
 
 if(!function_exists('str_ireplace')){
-    // http://us.php.net/manual/en/function.str-ireplace.php#81157
+    // https://us.php.net/manual/en/function.str-ireplace.php#81157
     function str_ireplace($search,$replace,$subject,&$count)
     {
         $token = chr(1);
@@ -87,7 +87,7 @@ function scanDirectories($rootDir,$allData=array())
 }
 
 
-// http://stackoverflow.com/questions/1145775/why-does-this-simple-php-script-leak-memory
+// https://stackoverflow.com/questions/1145775/why-does-this-simple-php-script-leak-memory
 function memdiff()
 {
     global $memdiff_bm;
@@ -191,7 +191,7 @@ function mvtrace($script,$line, $message = "")
 function connect()
 {
     global $dbhost, $dbuser, $dbpass, $dbname;
-    $connection = mysqli_connect("$dbhost", "$dbuser", "$dbpass", "$dbname");
+    $connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
     return $connection;
 }
 
@@ -584,9 +584,7 @@ function sql_updateone($dbtable,$setq,$where,$getrow)
 function sql_nrows($dbtable,$where)
 {
     global $connection;
-    $sql = mysqli_query($connection, "SELECT * FROM $dbtable $where");
-    $row = mysqli_num_rows($sql);
-    return $row;
+    return mysqli_query($connection, "SELECT COUNT(*) FROM $dbtable $where")->num_rows;
 }
 
 
@@ -594,9 +592,7 @@ function sql_del($dbtable,$where)
 {
     global $connection;
     $sql = mysqli_query($connection, "DELETE FROM $dbtable $where");
-    $sql = mysqli_query($connection, "SELECT * FROM $dbtable $where");
-    $row = mysqli_num_rows($sql);
-    return $row;
+    return sql_nrows($dbtable,$where);
 }
 
 
@@ -1099,7 +1095,7 @@ function format_edit($text,$do)
             $text = ereg_replace('\[email=mailto:]\[/email]','',$text);
             $text = ereg_replace('\[email=]\[/email]','',$text);
             $text = ereg_replace('\[url=doc://]\[/url]','',$text);
-            $text = ereg_replace('\[url=http://]\[/url]','',$text);
+            $text = ereg_replace('\[url=https://]\[/url]','',$text);
             $text = ereg_replace('\[url=https://]\[/url]','',$text);
             $text = ereg_replace('\[url=mailto:]\[/url]','',$text);
             $text = ereg_replace('\[url=]\[/url]','',$text);
@@ -1212,7 +1208,7 @@ function upload_image($userfile_tmp,$filename,$ext)
                 $image = imagecreatefromgif( $userfile_tmp );
                 // big image default 640x480
                 $bigimage = imagecreatefromgif( $userfile_tmp );
-                // http://it.php.net/manual/en/function.imagecopyresized.php#76648
+                // https://it.php.net/manual/en/function.imagecopyresized.php#76648
                 // if the image has transparent color, we first extract the RGB value of it,
                 // then use this color to fill the thumbnail image as the background. This color
                 // is safe to be assigned as the new transparent color later on because it will
@@ -1385,36 +1381,19 @@ function gen_selectoption($table,$selected,$type,$what,$show_count=null)
                         $key."String"})).'</option>';
         }
     } else if ($table == $tblenum) {
-        $read = mysqli_query($connection, "
-						SELECT * FROM $table
-						WHERE enumstatut='Y'
-						AND enumtype LIKE '%$type%'
-						AND enumwhat LIKE '%$what%'
-						");
-        $nRows = sql_nrows($table, "
-							WHERE enumstatut='Y'
-							AND enumtype LIKE '%$type%'
-							AND enumwhat LIKE '%$what%'
-							");
+        $where = "WHERE enumstatut='Y' AND enumwhat = '$what'";
+        $read = mysqli_query($connection, "SELECT * FROM $table $where");
         if (in_array($selected,array('ajout','0','',null))) {
             $selectoptions = '<option value=""> >> '.$achoisirString.' &nbsp;</option>';
-            for ($i=0;$i<$nRows;$i++) {
-                $row = mysqli_fetch_array($read);
-                $selectoptions .= '<option value="'.$row["enumtitre"].'"> '.sql_stringit(($what==''?'general':$what),$row["enumtitre"]).' </option>';
-            }
-        } else {
-            if (isset($nRowsThis_is) && ($show_count!=null))
-            $selectoptions = '<option'.($selected==$toutString?$optionselected:'').' value="'.$toutString.'"> ('.$nRowsThis_is.') '.$toutString.' &nbsp;</option>';
-            for ($i=0;$i<$nRows;$i++) {
-                $row = mysqli_fetch_array($read);
-                $row_enumtitre = $row["enumtitre"];
-                if ($row["enumtitre"] == $selected) $this_select = $optionselected;
-                else  $this_select = '';
-                $editwhat = sql_getone($tblstring, " WHERE stringlang='$lg' AND stringtype='$what' AND stringtitle='$row_enumtitre' ", "stringentry");
-                $sql_this = " WHERE ".$fieldis.$what."='$row_enumtitre' ";
-                $countwhat = sql_nrows($dbtable,$sql_this);
-                $selectoptions .= '<option value="'.$row_enumtitre.'" '.$this_select.'>'.($show_count!=null?($countwhat==''?'(0)':'('.$countwhat.')'):'').' '.$editwhat.' </option>';
-            }
+        }
+        while($row = mysqli_fetch_array($read)) {
+            $row_enumtitre = $row["enumtitre"];
+            if ($row["enumtitre"] == $selected) $this_select = $optionselected;
+            else  $this_select = '';
+            $editwhat = sql_getone($tblstring, " WHERE stringlang='$lg' AND stringtype='$what' AND stringtitle='$row_enumtitre' ", "stringentry");
+            $sql_this = " WHERE ".$fieldis.$what."='$row_enumtitre' ";
+            $countwhat = sql_nrows($dbtable,$sql_this);
+            $selectoptions .= '<option value="'.$row_enumtitre.'" '.$this_select.'>'.($show_count!=null?($countwhat==''?'(0)':'('.$countwhat.')'):'').' '.$editwhat.' </option>';
         }
     } else if ($table == $tblstring) {
         $selectoptions = '';

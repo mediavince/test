@@ -306,15 +306,15 @@ function getType(v) {
 	if (v.match(/v=(.+)(.*)/)) {
 		f.width.value = '425';
 		f.height.value = '350';
-		f.src.value = 'http://www.youtube.com/v/' + v.match(/v=(.*)(.*)/)[0].split('=')[1];
+		f.src.value = 'https://www.youtube.com/v/' + v.match(/v=(.*)(.*)/)[0].split('=')[1];
 		return 'flash';
 	}
 
 	// Google video
-	if (v.indexOf('http://video.google.com/videoplay?docid=') == 0) {
+	if (v.indexOf('https://video.google.com/videoplay?docid=') == 0) {
 		f.width.value = '425';
 		f.height.value = '326';
-		f.src.value = 'http://video.google.com/googleplayer.swf?docId=' + v.substring('http://video.google.com/videoplay?docid='.length) + '&hl=en';
+		f.src.value = 'https://video.google.com/googleplayer.swf?docId=' + v.substring('https://video.google.com/videoplay?docid='.length) + '&hl=en';
 		return 'flash';
 	}
 
@@ -545,31 +545,31 @@ function generatePreview(c) {
 	switch (f.media_type.options[f.media_type.selectedIndex].value) {
 		case "flash":
 			cls = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000';
-			codebase = 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0';
+			codebase = 'https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0';
 			type = 'application/x-shockwave-flash';
 			break;
 
 		case "shockwave":
 			cls = 'clsid:166B1BCA-3F9C-11CF-8075-444553540000';
-			codebase = 'http://download.macromedia.com/pub/shockwave/cabs/director/sw.cab#version=8,5,1,0';
+			codebase = 'https://download.macromedia.com/pub/shockwave/cabs/director/sw.cab#version=8,5,1,0';
 			type = 'application/x-director';
 			break;
 
 		case "qt":
 			cls = 'clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B';
-			codebase = 'http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0';
+			codebase = 'https://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0';
 			type = 'video/quicktime';
 			break;
 
 		case "wmp":
 			cls = ed.getParam('media_wmp6_compatible') ? 'clsid:05589FA1-C356-11CE-BF01-00AA0055595A' : 'clsid:6BF52A52-394A-11D3-B153-00C04F79FAA6';
-			codebase = 'http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701';
+			codebase = 'https://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701';
 			type = 'application/x-mplayer2';
 			break;
 
 		case "rmp":
 			cls = 'clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA';
-			codebase = 'http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701';
+			codebase = 'https://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701';
 			type = 'audio/x-pn-realaudio-plugin';
 			break;
 	}

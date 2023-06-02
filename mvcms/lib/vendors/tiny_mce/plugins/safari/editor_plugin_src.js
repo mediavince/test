@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 264 2007-04-26 20:53:09Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function() {
@@ -99,7 +99,7 @@
 				}
 			});
 
-			// Workaround for FormatBlock bug, http://bugs.webkit.org/show_bug.cgi?id=16004
+			// Workaround for FormatBlock bug, https://bugs.webkit.org/show_bug.cgi?id=16004
 			ed.addCommand('FormatBlock', function(u, v) {
 				var dom = ed.dom, e = dom.getParent(ed.selection.getNode(), dom.isBlock);
 
@@ -109,7 +109,7 @@
 					ed.getDoc().execCommand("FormatBlock", false, v);
 			});
 
-			// Workaround for InsertHTML bug, http://bugs.webkit.org/show_bug.cgi?id=16382
+			// Workaround for InsertHTML bug, https://bugs.webkit.org/show_bug.cgi?id=16382
 			ed.addCommand('mceInsertContent', function(u, v) {
 				ed.getDoc().execCommand("InsertText", false, 'mce_marker');
 				ed.getBody().innerHTML = ed.getBody().innerHTML.replace(/mce_marker/g, ed.dom.processHTML(v) + '<span id="_mce_tmp">XX</span>');
@@ -124,7 +124,7 @@
 					sel = ed.selection;
 					se = sel.getNode();
 
-					// Workaround for missing shift+enter support, http://bugs.webkit.org/show_bug.cgi?id=16973
+					// Workaround for missing shift+enter support, https://bugs.webkit.org/show_bug.cgi?id=16973
 					if (e.shiftKey || ed.settings.force_br_newlines && se.nodeName != 'LI') {
 						t._insertBR(ed);
 						Event.cancel(e);
@@ -196,7 +196,7 @@
 				}
 			});
 
-			// Workaround for bug, http://bugs.webkit.org/show_bug.cgi?id=12250
+			// Workaround for bug, https://bugs.webkit.org/show_bug.cgi?id=12250
 			ed.onClick.add(function(ed, e) {
 				e = e.target;
 
@@ -323,8 +323,8 @@
 			return {
 				longname : 'Safari compatibility',
 				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
-				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/safari',
+				authorurl : 'https://tinymce.moxiecode.com',
+				infourl : 'https://wiki.moxiecode.com/index.php/TinyMCE:Plugins/safari',
 				version : tinymce.majorVersion + "." + tinymce.minorVersion
 			};
 		},
@@ -417,7 +417,7 @@
 				s.collapse(1);
 			}
 
-			// Scroll to new position, scrollIntoView can't be used due to bug: http://bugs.webkit.org/show_bug.cgi?id=16117
+			// Scroll to new position, scrollIntoView can't be used due to bug: https://bugs.webkit.org/show_bug.cgi?id=16117
 			ed.getWin().scrollTo(0, dom.getPos(s.getRng().startContainer).y);
 		}
 	});

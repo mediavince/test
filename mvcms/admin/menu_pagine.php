@@ -284,11 +284,7 @@ if	($menurighthtm !== '')	$menurighthtm = '<ul>'.$menurighthtm.'</ul>'	;
 	$html_js .= "\n\r".' var menuright = "'.addslashes($menurighthtm)."\";\n\r"; // .' var scroller = "'.addslashes($scrollerhtm)."\";\n\r"
 
 	$html_js .= "\n\r".' var leftlinks = "'.preg_replace('#\r?\n#','',addslashes(sql_getone($tblcont,"WHERE contstatut='Y' AND contlang='$this_lg' AND conturl LIKE '%.php%' AND conttype='leftlinks' ","contentry")))."\";\n\r";
-
 	$html_js .= "\n\r".' var toplinks = "'.preg_replace('#\r?\n#','',addslashes(sql_getone($tblcont,"WHERE contstatut='Y' AND contlang='$this_lg' AND conturl LIKE '%.php%' AND conttype='toplinks' ","contentry")))."\";\n\r";
-
-	$html_js .= "\n\r".' var topicslist = "'.preg_replace('#\r?\n#','',addslashes(sql_getone($tblblog,"WHERE contstatut='Y' AND contlang='$this_lg' AND conturl LIKE '%.php%' AND conttype='toplinks' ","contentry")))."\";\n\r";
-
 
 //if	($rootwindowmenuhtm == '')	$html_js = ""	;
 

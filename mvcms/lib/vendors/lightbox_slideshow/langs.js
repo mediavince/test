@@ -3,14 +3,14 @@
 //  Language pack added by MediaVince for the mvcms :: www.mediavince.com
 //
 //	Lightbox Slideshow v1.1
-//	by Justin Barkhuff - http://www.justinbarkhuff.com/lab/lightbox_slideshow/
+//	by Justin Barkhuff - https://www.justinbarkhuff.com/lab/lightbox_slideshow/
 //  Updated: 2007-08-15
 //
 //	Largely based on Lightbox v2.02
-//	by Lokesh Dhakar - http://huddletogether.com/projects/lightbox2/
+//	by Lokesh Dhakar - https://huddletogether.com/projects/lightbox2/
 //	3/31/06
 //
-//	Licensed under the Creative Commons Attribution 2.5 License - http://creativecommons.org/licenses/by/2.5/
+//	Licensed under the Creative Commons Attribution 2.5 License - https://creativecommons.org/licenses/by/2.5/
 //
 // -----------------------------------------------------------------------------------
 

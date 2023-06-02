@@ -20,7 +20,7 @@ include '_strings.php';
 
 if ($logged_in === true) {
 
-// http://www.trash.net/~ck/ontheflyzip/index.html
+// https://www.trash.net/~ck/ontheflyzip/index.html
 // this script zips up a directory (on the fly) and delivers it
 // C.Kaiser 2002
 // No Copyright, free to use.

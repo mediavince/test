@@ -1,11 +1,11 @@
 // script.aculo.us sound.js v1.8.2, Tue Nov 18 18:30:58 +0100 2008
 
-// Copyright (c) 2005-2008 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+// Copyright (c) 2005-2008 Thomas Fuchs (https://script.aculo.us, https://mir.aculo.us)
 //
-// Based on code created by Jules Gravinese (http://www.webveteran.com/)
+// Based on code created by Jules Gravinese (https://www.webveteran.com/)
 //
 // script.aculo.us is freely distributable under the terms of an MIT-style license.
-// For details, see the script.aculo.us web site: http://script.aculo.us/
+// For details, see the script.aculo.us web site: https://script.aculo.us/
 
 Sound = {
   tracks: {},

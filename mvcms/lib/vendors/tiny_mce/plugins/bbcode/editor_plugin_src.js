@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 201 2007-02-12 15:56:56Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function() {
@@ -27,8 +27,8 @@
 			return {
 				longname : 'BBCode Plugin',
 				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
-				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/bbcode',
+				authorurl : 'https://tinymce.moxiecode.com',
+				infourl : 'https://wiki.moxiecode.com/index.php/TinyMCE:Plugins/bbcode',
 				version : tinymce.majorVersion + "." + tinymce.minorVersion
 			};
 		},

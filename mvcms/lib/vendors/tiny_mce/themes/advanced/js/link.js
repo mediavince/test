@@ -94,7 +94,7 @@ var LinkDialog = {
 			n.value = 'mailto:' + n.value;
 
 		if (/^\s*www./i.test(n.value) && confirm(tinyMCEPopup.getLang('advanced_dlg.link_is_external')))
-			n.value = 'http://' + n.value;
+			n.value = 'https://' + n.value;
 	},
 
 	fillFileList : function(id, l) {

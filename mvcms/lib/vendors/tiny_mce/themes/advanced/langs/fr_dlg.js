@@ -46,6 +46,6 @@ link_target_same:"Ouvrir dans la m\u00EAme fen\u00EAtre",
 link_target_blank:"Ouvrir dans une nouvelle fen\u00EAtre",
 link_titlefield:"Titre",
 link_is_email:"L'url que vous avez entr\u00E9 semble \u00EAtre une adresse e-mail, voulez-vous ajouter le pr\u00E9fixe mailto:\u00A0?",
-link_is_external:"L'url que vous avez entr\u00E9 semble \u00EAtre une adresse web externe, voulez-vous ajouter le pr\u00E9fixe http://\u00A0?",
+link_is_external:"L'url que vous avez entr\u00E9 semble \u00EAtre une adresse web externe, voulez-vous ajouter le pr\u00E9fixe https://\u00A0?",
 link_list:"Liste de liens"
 });

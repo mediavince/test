@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 848 2008-05-15 11:54:40Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function() {
@@ -39,8 +39,8 @@
 			return {
 				longname : 'Contextmenu',
 				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
-				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/contextmenu',
+				authorurl : 'https://tinymce.moxiecode.com',
+				infourl : 'https://wiki.moxiecode.com/index.php/TinyMCE:Plugins/contextmenu',
 				version : tinymce.majorVersion + "." + tinymce.minorVersion
 			};
 		},

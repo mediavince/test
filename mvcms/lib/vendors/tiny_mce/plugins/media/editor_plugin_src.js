@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 1037 2009-03-02 16:41:15Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function() {
@@ -121,31 +121,31 @@
 						switch (n.className) {
 							case 'mceItemFlash':
 								ci = 'd27cdb6e-ae6d-11cf-96b8-444553540000';
-								cb = 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0';
+								cb = 'https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0';
 								mt = 'application/x-shockwave-flash';
 								break;
 
 							case 'mceItemShockWave':
 								ci = '166b1bca-3f9c-11cf-8075-444553540000';
-								cb = 'http://download.macromedia.com/pub/shockwave/cabs/director/sw.cab#version=8,5,1,0';
+								cb = 'https://download.macromedia.com/pub/shockwave/cabs/director/sw.cab#version=8,5,1,0';
 								mt = 'application/x-director';
 								break;
 
 							case 'mceItemWindowsMedia':
 								ci = ed.getParam('media_wmp6_compatible') ? '05589fa1-c356-11ce-bf01-00aa0055595a' : '6bf52a52-394a-11d3-b153-00c04f79faa6';
-								cb = 'http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701';
+								cb = 'https://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701';
 								mt = 'application/x-mplayer2';
 								break;
 
 							case 'mceItemQuickTime':
 								ci = '02bf25d5-8c17-4b23-bc80-d3488abddc6b';
-								cb = 'http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0';
+								cb = 'https://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0';
 								mt = 'video/quicktime';
 								break;
 
 							case 'mceItemRealMedia':
 								ci = 'cfcdaa03-8be4-11cf-b84b-0020afbbccfa';
-								cb = 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0';
+								cb = 'https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0';
 								mt = 'audio/x-pn-realaudio-plugin';
 								break;
 						}
@@ -193,8 +193,8 @@
 			return {
 				longname : 'Media',
 				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
-				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/media',
+				authorurl : 'https://tinymce.moxiecode.com',
+				infourl : 'https://wiki.moxiecode.com/index.php/TinyMCE:Plugins/media',
 				version : tinymce.majorVersion + "." + tinymce.minorVersion
 			};
 		},

@@ -1,13 +1,13 @@
 // -----------------------------------------------------------------------------------
 //
 //	Lightbox v2.04
-//	by Lokesh Dhakar - http://www.lokeshdhakar.com
+//	by Lokesh Dhakar - https://www.lokeshdhakar.com
 //	Last Modification: 2/9/08
 //
 //	For more information, visit:
-//	http://lokeshdhakar.com/projects/lightbox2/
+//	https://lokeshdhakar.com/projects/lightbox2/
 //
-//	Licensed under the Creative Commons Attribution 2.5 License - http://creativecommons.org/licenses/by/2.5/
+//	Licensed under the Creative Commons Attribution 2.5 License - https://creativecommons.org/licenses/by/2.5/
 //  	- Free for use in both personal and commercial projects
 //		- Attribution requires leaving author name, author link, and the license info intact.
 //	

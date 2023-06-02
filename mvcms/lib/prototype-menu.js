@@ -6,9 +6,9 @@
  *
  * Copyright (c) 2004 Knallgrau New Medias Solutions GmbH, Vienna - Austria
  *
- * Original written by Matthias Platzer at http://knallgrau.at
+ * Original written by Matthias Platzer at https://knallgrau.at
  *
- * Modified by Sven Wappler http://www.wappler.eu
+ * Modified by Sven Wappler https://www.wappler.eu
  *
  * Use it as you need it
  * It is distributed under a BSD style license

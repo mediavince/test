@@ -5,7 +5,7 @@
  * theme is more suitable for production use.
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function() {
@@ -75,7 +75,7 @@
 			return {
 				longname : 'Simple theme',
 				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
+				authorurl : 'https://tinymce.moxiecode.com',
 				version : tinymce.majorVersion + "." + tinymce.minorVersion
 			}
 		}

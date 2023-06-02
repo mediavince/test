@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 923 2008-09-09 16:45:29Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function() {
@@ -133,8 +133,8 @@
 			return {
 				longname : 'Fullscreen',
 				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
-				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/fullscreen',
+				authorurl : 'https://tinymce.moxiecode.com',
+				infourl : 'https://wiki.moxiecode.com/index.php/TinyMCE:Plugins/fullscreen',
 				version : tinymce.majorVersion + "." + tinymce.minorVersion
 			};
 		}

@@ -2,7 +2,7 @@
  *  (c) 2005-2008 Sam Stephenson
  *
  *  Prototype is freely distributable under the terms of an MIT-style license.
- *  For details, see the Prototype web site: http://www.prototypejs.org/
+ *  For details, see the Prototype web site: https://www.prototypejs.org/
  *
  *--------------------------------------------------------------------------*/
 
@@ -2720,7 +2720,7 @@ document.viewport = {
 };
 /* Portions of the Selector class are derived from Jack Slocum's DomQuery,
  * part of YUI-Ext version 0.40, distributed under the terms of an MIT-style
- * license.  Please see http://www.yui-ext.com/ for more information. */
+ * license.  Please see https://www.yui-ext.com/ for more information. */
 
 var Selector = Class.create({
   initialize: function(expression) {

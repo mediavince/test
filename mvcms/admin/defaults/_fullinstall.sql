@@ -1,6 +1,6 @@
 -- phpMyAdmin SQL Dump
 -- version 3.1.3.1
--- http://www.phpmyadmin.net
+-- https://www.phpmyadmin.net
 --
 -- Host: localhost
 -- Generation Time: Sep 28, 2009 at 10:06 AM

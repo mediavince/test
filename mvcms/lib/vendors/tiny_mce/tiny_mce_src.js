@@ -30,7 +30,7 @@ var tinymce = {
 		nl = d.getElementsByTagName('base');
 		for (i=0; i<nl.length; i++) {
 			if (v = nl[i].href) {
-				// Host only value like http://site.com or http://site.com:8008
+				// Host only value like https://site.com or https://site.com:8008
 				if (/^https?:\/\/[^\/]+$/.test(v))
 					v += '/';
 
@@ -497,7 +497,7 @@ tinymce.create('tinymce.util.Dispatcher', {
 			if (u.indexOf(':/') === -1 && u.indexOf('//') !== 0)
 				u = (s.base_uri.protocol || 'http') + '://mce_host' + t.toAbsPath(s.base_uri.path, u);
 
-			// Parse URL (Credits goes to Steave, http://blog.stevenlevithan.com/archives/parseuri)
+			// Parse URL (Credits goes to Steave, https://blog.stevenlevithan.com/archives/parseuri)
 			u = u.replace(/@@/g, '(mce_at)'); // Zope 3 workaround, they use @@something
 			u = /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/.exec(u);
 			each(["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"], function(v, i) {
@@ -3230,7 +3230,7 @@ tinymce.create('static tinymce.util.XHR', {
  * Sizzle CSS Selector Engine - v0.9.1
  *  Copyright 2009, The Dojo Foundation
  *  Released under the MIT, BSD, and GPL Licenses.
- *  More information: http://sizzlejs.com/
+ *  More information: https://sizzlejs.com/
  */
 
 (function(){
@@ -8597,7 +8597,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 			if (h < 100)
 				h = 100;
 
-			t.iframeHTML = s.doctype + '<html><head xmlns="http://www.w3.org/1999/xhtml"><base href="' + t.documentBaseURI.getURI() + '" />';
+			t.iframeHTML = s.doctype + '<html><head xmlns="https://www.w3.org/1999/xhtml"><base href="' + t.documentBaseURI.getURI() + '" />';
 			t.iframeHTML += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
 
 			if (tinymce.relaxedDomain)

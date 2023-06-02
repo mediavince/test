@@ -388,22 +388,13 @@ function ajaxSave() {
 
 	if (!stristr($_SERVER['PHP_SELF'],$urladmin)
 	|| (stristr($_SERVER['PHP_SELF'],$urladmin) && ($logged_in === false)))
-//	$html_view = preg_replace('/\?lg=(\w+)\&amp;x=(\d+)/e','lgx2readable("$1","$2")',$html_view);
 	$html_view = preg_replace_callback(
 	    '/\?lg=(\w+)\&amp;x=(\d+)/'
-//        ,'lgx2readable("$1","$2")' // with '/\?lg=(\w+)\&amp;x=(\d+)/e'
         , function ($matches) {
-            return lgx2readable($matches[0], $matches[1]);
+            return lgx2readable($matches[1], $matches[2]);
         }
         , $html_view
     );
-/*
-	$html_view = preg_replace(
-		'/\?lg=(\w+)\&amp;x=(\d+)/e',
-		'$lg/sql_getone($tblcont,"WHERE contlang=\'$1\' AND contpg=\'$2\' ","conturl")',
-		$html_view
-	);
-*/
 
 	if (!stristr($_SERVER['PHP_SELF'],$urladmin) && !stristr($_SERVER['PHP_SELF'],$urlintro))
 	$html_view = str_replace("mp3=../$filedir","mp3=$filedir",$html_view);

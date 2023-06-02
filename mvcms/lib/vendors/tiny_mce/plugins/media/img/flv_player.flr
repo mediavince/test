@@ -400,14 +400,14 @@ movie 'C:\xampp\htdocs\demo_lang_export\admin\jscripts\tiny_mce\plugins\media\im
       var v2 = new ContextMenu();
       var v5 = new ContextMenuItem('Toggle Fullscreen (Flash 9,0,18,60 or higher)', toggleFullscreen, true, true, true);
       var v4 = new ContextMenuItem('FlvPlayer v 1.0, by', gotoOOS, true, false, true);
-      var v3 = new ContextMenuItem('http://oos.moxiecode.com/', gotoOOS, false, true, true);
+      var v3 = new ContextMenuItem('https://oos.moxiecode.com/', gotoOOS, false, true, true);
       v2.customItems.push(v5, v4, v3);
       _root.menu = v2;
       v2.hideBuiltInItems();
     }
 
     function gotoOOS() {
-      getURL('http://oos.moxiecode.com/', '_blank');
+      getURL('https://oos.moxiecode.com/', '_blank');
     }
 
     function toggleFullscreen() {

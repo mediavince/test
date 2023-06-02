@@ -1,8 +1,8 @@
 // IE5.5+ PNG Alpha Fix v2.0 Alpha: Background Tiling Support
-// (c) 2008-2009 Angus Turnbull http://www.twinhelix.com
+// (c) 2008-2009 Angus Turnbull https://www.twinhelix.com
 
 // This is licensed under the GNU LGPL, version 2.1 or later.
-// For details, see: http://creativecommons.org/licenses/LGPL/2.1/
+// For details, see: https://creativecommons.org/licenses/LGPL/2.1/
 
 var IEPNGFix = window.IEPNGFix || {};
 
