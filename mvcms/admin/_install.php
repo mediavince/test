@@ -5,7 +5,6 @@ include '_incdb.php';
 if (isset($connection) && !(!$connection))
 {Header("Location: $redirect");Die();}
 
-//include '_strings.php';
 $content = '<html>
 <head>
 <link rel="stylesheet" type="text/css" media="screen" href="../lib/main.css" />
@@ -54,10 +53,6 @@ $content .= '<br /><input type="submit" name="send" value="install" /><br /></fo
 
 $update_rapport = '';
 
-// http_host + rqsturi = www + /client/admin/script.php
-//$deduced_urlclient = explode("/",$_SERVER['REQUEST_URI']);
-//$deduced_urlclient = ($deduced_urlclient[1]=='admin'?$deduced_urlclient[0]:$deduced_urlclient[1]);
-
 $deduced_urlclient = str_replace(
 	"/".$urladmin.(stristr($_SERVER['REQUEST_URI'],"_install.php")?"_install.php":''),
 	"",
@@ -67,8 +62,6 @@ $deduced_urlclient = str_replace(
 if (isset($_POST['send']))
 $send = $envoyerString;
 
-//if (($_REQUEST['adminName'] == 'admin') 
-//&& (md5($_REQUEST['passWord']) == '21232f297a57a5a743894a0e4a801fc3')) {
 if (!isset($_POST['send']) 
 && !isset($_POST['config']) 
 && !isset($_POST['params']) 
@@ -78,15 +71,6 @@ if (!isset($_POST['send'])
 		Die("Unauthorized attempt to access page.");
 	}
 } else {
-	/*
-          foreach($GLOBALS as $k => $v)
-          echo "$k => ".(is_array($v)?"<pre>".print_r($v)."</pre>":$v)."<br />";
-          echo $_FILES["sql"]["tmp_name"]."<br />";
-	*/
-//	die(isset($_FILES['sqlupload']['tmp_name'])?$_FILES['sqlupload']['tmp_name']:'no');
-  
-  
-//	if (isset($_POST['params']))
 	include 'paramsadmin.php';
 
 	if ($update_rapport == '') {

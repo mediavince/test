@@ -1790,7 +1790,7 @@ class Conjugaison
                 if	($genre == 'F')	$fem = "e"	;
                 if	($genre == 'M')	$fem = ""	;
                 if ($genre == '') {
-                    $_this->plural = $text;
+                    $this->plural = $text;
                 } else {
                     if (strstr($text, ' ')) {
                         $text = explode(' ', $text);
@@ -1816,7 +1816,7 @@ class Conjugaison
                                 $newtext .= $text[$i].$s.' ';
                             }
                         }
-                        $_this->plural = $newtext;
+                        $this->plural = $newtext;
                     } else {
                         $revtext = strrev($text);
                         if	((count($text) > '2') && (($revtext[2] == 'e') && ($revtext[1] == 'a') && ($revtext[0] == 'u')))	$s = "x"	;
@@ -1825,7 +1825,7 @@ class Conjugaison
                             $text = substr($text, 0, -2);
                         }
                         if	(($genre == 'F') && ($revtext[0] !== 'e') && ($revtext[0] !== 'n'))	$text .= $fem	;
-                        $_this->plural = $text.$s;
+                        $this->plural = $text.$s;
                     }
                 }
             } else if ($lg == 'en') {
@@ -1841,7 +1841,7 @@ class Conjugaison
                         $text[0] = substr($revtext,1);
                         $s = "ies"	;
                     }
-                    $_this->plural = strrev($text[1]).' '.strrev($text[0]).$s;
+                    $this->plural = strrev($text[1]).' '.strrev($text[0]).$s;
                 } else {
                     $revtext = strrev($text);
                     if ((($revtext[1] == 'e') && ($revtext[0] == 'd')) || ($revtext[0] == 's')) {
@@ -1851,7 +1851,7 @@ class Conjugaison
                         $s = "ies"	;
                     }
                     $array_inv = array('Dear');
-                    $_this->plural = $text.(in_array($text,$array_inv)?'':$s);
+                    $this->plural = $text.(in_array($text,$array_inv)?'':$s);
                 }
             } else if (($lg == 'it') || ($lg == 'es')) {
                 // puts i or e at every words end according to genre M or F
@@ -1882,7 +1882,7 @@ class Conjugaison
                             $newtext .= $text[$i].$s.' ';
                         }
                     }
-                    $_this->plural = $newtext;
+                    $this->plural = $newtext;
                 } else {
                     $chop = "-1";
                     $revtext = strrev($text);
@@ -1893,15 +1893,15 @@ class Conjugaison
                         $s = 'e';
                     }
                     if (($revtext[0] == ';') || !in_array($revtext[0],array('a','e','o'))) {
-                        $_this->plural = $text;
+                        $this->plural = $text;
                     } else {
                         if	(($revtext[1] == $s) && ($revtext[0] == 'o'))	$chop = "-2"	;
                         $text = substr($text, 0, $chop);
-                        $_this->plural = $text.$s;
+                        $this->plural = $text.$s;
                     }
                 }
             } else {
-                $_this->plural = $text;
+                $this->plural = $text;
             }
         } else {
             if ($lg == 'fr') {
@@ -1909,17 +1909,17 @@ class Conjugaison
                 if	($genre == 'F')	$fem = "e"	;
                 if	($genre == 'M')	$fem = ""	;
                 if ($genre == '') {
-                    $_this->plural = $text;
+                    $this->plural = $text;
                 } else {
                     $revtext = strrev($text);
                     if	(($genre == 'F') && ($revtext[0] !== 'e') && ($revtext[0] !== 'n'))	$text .= $fem	;
-                    $_this->plural = $text;
+                    $this->plural = $text;
                 }
             } else {
-                $_this->plural = $text;
+                $this->plural = $text;
             }
         }
-        return $_this->plural;
+        return $this->plural;
     }
 }
 
