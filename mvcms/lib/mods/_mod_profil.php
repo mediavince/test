@@ -367,7 +367,7 @@ if ($admin_viewing === true) {
     $_mod_content .= gen_form($lg,$x);
 
     $send = 'edit'; //set to enable tinyMCE
-    $md5 = md5(microtime() * mktime());
+    $md5 = md5(microtime() * mktime(0,0,0,0,0,0));
     $string = substr($md5,0,rand(5,8));
     $_SESSION['profil_key'] = md5($string);
     if (!isset($_SESSION['mail_count'])) $_SESSION['mail_count'] = 0;

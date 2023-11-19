@@ -36,7 +36,7 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
 			if ($valid_Entry === false)
   $error .= '<li>'.$commentString.' > '.$error_inv.' (<a href="'.$local_url.'&amp;forumId='.sql_getone($tblcomment,"WHERE commententry='$commentEntry' ","commentforum").'#c'.sql_getone($tblcomment,"WHERE commententry='$commentEntry' ","commentrid").'">'.$dejaString.' '.$existantString.'</a>)</li>'	;
       session_unregister('key');
-      $md5 = md5(microtime() * mktime());
+      $md5 = md5(microtime() * mktime(0,0,0,0,0,0));
       $string = substr($md5,0,rand(5,8));
       $_SESSION['antispam_key'] = md5($string);
       if (!isset($_SESSION['mail_count'])) $_SESSION['mail_count'] = 0;
@@ -64,7 +64,7 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
 					($commentMembre == "Nikolasvipam")	) { // CATCHING IPS IN BANNED ARRAY, REF EMAILS FOR INFO
 
         session_unregister('key');
-        $md5 = md5(microtime() * mktime());
+        $md5 = md5(microtime() * mktime(0,0,0,0,0,0));
         $string = substr($md5,0,rand(5,8));
         $_SESSION['antispam_key'] = md5($string);
         if (!isset($_SESSION['mail_count'])) $_SESSION['mail_count'] = 0;
@@ -240,7 +240,7 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
                 } else {
                   if (!isset($send) || (isset($send) && ($send != 'edit'))) {
                     session_unregister('key');
-                    $md5 = md5(microtime() * mktime());
+                    $md5 = md5(microtime() * mktime(0,0,0,0,0,0));
                     $string = substr($md5,0,rand(5,8));
                     $_SESSION['antispam_key'] = md5($string);
                     $comment_offer_top = '<div id="addcommenttop" style="text-align:center;display:block;"><a class="toggle" onclick="javascript:getelbyid(\'commentformtop\').style.display=\'block\';getelbyid(\'addcommenttop\').style.display=\'none\';">'.$ajouterString.' '.$commentString.'</a>'.($admin_viewing===true?' | <a href="'.lgx2readable($lg,'',$this_is,'?send=new').'">'.$ajoutString.' '.$forumString.'</a>':'').'</div><div id="commentformtop" style="display:none;"><form enctype="multipart/form-data" action="'.lgx2readable($lg,$x,$this_is,$show_id).'" method="'.$postgetmethod.'"><input type="hidden" name="'.$this_is.'Id" value="'.$show_id.'" /><label for="commentMembre"> <b>'.$nomString.'</b> *</label> <input type="hidden" name="commentMembre" value="'.(isset($user_id)&&$user_id>0?$user_id:'0').'" style="width: 97%" />'.(isset($user_name)?$user_name:(isset($admin_name)?$admin_name:$anonymeString)).'<br /><label for="commentEntry"> <b>'.$commentString.'</b> *</label><br /><textarea id="elm1" name="commentEntry" rows="30" cols="40" style="width: 97%; height: 100px; min-height: 100px;">'.(isset($commentEntry)?format_edit($commentEntry,'edit'):'').'</textarea>';

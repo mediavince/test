@@ -113,7 +113,7 @@ if ( isset($send) && ( $send == $envoyerString ) && isset($_SESSION['mail_count'
 
   session_unregister('antispam_key');
 /*
-  $md5 = md5(microtime() * mktime());
+  $md5 = md5(microtime() * mktime(0,0,0,0,0,0));
   $string = substr($md5,0,rand(5,8));
   $_SESSION['antispam_key'] = md5($string);
 */
