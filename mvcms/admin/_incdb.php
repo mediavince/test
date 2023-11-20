@@ -24,7 +24,7 @@ if (@function_exists('date_default_timezone_set'))
 $now_time = time();
 if (empty($now_time))
 {
-	list($usec, $now_time) = explode(" ", microtime());
+	list($usec, $now_time) = explode(" ", microtime(1));
 }
 
 if (!isset($default_lg))

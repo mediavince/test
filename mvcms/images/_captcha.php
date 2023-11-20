@@ -68,7 +68,7 @@ $string = " ";
 if (isset($_SESSION['antispam_key']) && isset($_GET['string'])) {
 	$string = base64_decode($_GET['string']);
 } else {
-	$md5 = md5(microtime() * mktime(0,0,0,0,0,0));
+	$md5 = md5(microtime(1) * mktime(0,0,0,0,0,0));
 	$string = substr($md5,0,rand(5,8));
 	//Encrypt and store the key inside of a session
 	$_SESSION['antispam_key'] = md5($string);

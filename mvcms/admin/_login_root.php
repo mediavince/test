@@ -125,8 +125,7 @@ if (!isset($login)) {
 	$pass_word = strip_tags(html_encode($passWord));
 	$pass_word_md5 = md5($pass_word);
 	if (($user_name != '') && isset($_POST['forgotpass']) && ($_POST['forgotpass'] == 'on')) {
-    	$this_isPass = substr(md5(substr(md5(microtime() * mktime(0,0,0,0,0,0)),0,rand(5,8))),0,rand(6,9));
-        $this_isPass = substr(base64_encode(md5(microtime() * mktime(0,0,0,0,0,0))),0,rand(6,9));
+        $this_isPass = substr(base64_encode(md5(microtime(1) * mktime(0,0,0,0,0,0))),0,rand(6,9));
 		$read = sql_update(
 			$dbtable,
 			"SET userpass='".md5($this_isPass)."' ",
