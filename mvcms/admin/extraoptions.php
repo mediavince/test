@@ -22,7 +22,7 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
       $movelocation = $getcwd.$up.$safedir.'uploaded_'.date('YmdHis')."_".$userfile_name."_.sql";
       $userfile_tmp = $_FILES["sql"]["tmp_name"];
       move_uploaded_file($userfile_tmp,$movelocation);
-      $do = "mysql ".($dbhost==''?'':"-h$dbhost")." -u$dbuser -p'$dbpass' $dbname < $movelocation";
+      $do = "mysql ".($dbhost==''?'':"-h$dbhost")." -u$dbuser -p$dbpass $dbname < $movelocation";
   $content .= "<hr />".exec(escapeshellcmd($do),$output,$result).($result=='0'?'<div class="notice" style="text-align:left;">'.$class_conjugaison->plural($effectueString,'F','1').'</div>':'<div class="error" style="text-align:left;"> '.$error_inv.'<br />=> '.$result.' == '.$do.'</div>');
     }
     if (@file_exists('.svn')||@file_exists('../.git')||@file_exists('../../.git')) {
@@ -38,7 +38,7 @@ $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/backup.png" align=
   $content .= '</div><hr /><br /><div style="min-height:50px;">';
     $content .= gen_form($lg,$x,$y).'<img src="'.$mainurl.'images/checkin.png" align="left" title="'.$optdbString.'" alt="'.$optdbString.'" width="48" height="48px" border="0" /><input type="submit" name="send" value="'.$optdbString.'" /></form>';
     if (isset($send) && ($send == $optdbString)) {
-      $do = "mysqlcheck -o --auto-repair --silent ".($dbhost==''?'':"-h$dbhost")." -u$dbuser -p'$dbpass' $dbname";
+      $do = "mysqlcheck -o --auto-repair --silent ".($dbhost==''?'':"-h$dbhost")." -u$dbuser -p$dbpass $dbname";
       $content .= "<hr />REPAIR: ".exec(escapeshellcmd($do),$output,$result).($result=='0'?'<div class="notice" style="text-align:left;">'.$class_conjugaison->plural($effectueString,'F','1').'</div>':'<div class="error" style="text-align:left;"> '.$error_inv.'<br />=> '.$result.' == '.$do.'</div>');
     }
   $content .= '</div><hr /><br /><div style="min-height:50px;">';
