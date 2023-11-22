@@ -34,7 +34,7 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
         } else $notice .= "not open...<br />";
       } else {
         $do = "unzip $src -d $dest";
-        $notice .= exec($do,$output,$result).($result==1?'':'NOT')." extracted by exec<br />";
+        $notice .= exec(escapeshellcmd($do),$output,$result).($result==1?'':'NOT')." extracted by exec<br />";
         //`unzip $src -d $dest`;
       }
     return true;

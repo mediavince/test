@@ -93,8 +93,8 @@ if (!isset($_POST['send'])
 				$do = 'mysqladmin '.($dbhost==''?'':"-h$dbhost")
 					." -u$dbuser -p$dbpass CREATE $dbname --default-character-set=utf8 ";
         	
-	        	$content .= exec($do,$output,$result);
-			//	echo "$do<br />".exec($do,$output,$result)."<br />$result = result<br /><br />";
+	        	$content .= exec(escapeshellcmd($do),$output,$result);
+			//	echo "$do<br />".exec(escapeshellcmd($do),$output,$result)."<br />$result = result<br /><br />";
 			//	die($content);
 	        	if ($result == 0) {
 	        		$content .= '<div class="notice">Database creation '
@@ -114,7 +114,7 @@ if (!isset($_POST['send'])
 			//$_SERVER['DOCUMENT_ROOT']."/".$deduced_urlclient.$urladmin.
 			$movelocation = 'defaults/_fullinstall.sql';
 			$do = 'mysql '.($dbhost==''?'':"-h$dbhost")." -u$dbuser -p$dbpass $dbname < $movelocation";
-			$content .= "<br />".exec($do,$output,$result).($result=='0'?
+			$content .= "<br />".exec(escapeshellcmd($do),$output,$result).($result=='0'?
 				'<div class="notice">'.$class_conjugaison->plural($effectueString,'F','1').'</div>'
 			:
 				'<div class="error"> '.$error_inv.' full install<br />'.$do.'</div>');
@@ -143,7 +143,7 @@ if (!isset($_POST['send'])
 					$content .= (move_uploaded_file($userfile_tmp,$movelocation)?'moved':'not moved');
 					$do = 'mysql -s '.($dbhost==''?'':"-h$dbhost")
 						." -u$dbuser -p$dbpass $dbname < $movelocation";
-					$content .= "<br />".exec($do,$output,$result).($result=='0'?
+					$content .= "<br />".exec(escapeshellcmd($do),$output,$result).($result=='0'?
 				'<div class="notice">'.$class_conjugaison->plural($effectueString,'F','1').'</div>'
 					:
 				'<div class="error">'.$error_inv.' sql upload</div>');
@@ -159,7 +159,7 @@ if (!isset($_POST['send'])
 						//$_SERVER['DOCUMENT_ROOT']."/".$deduced_urlclient.$urladmin.
 						$do = 'mysql -s '.($dbhost==''?'':"-h$dbhost")
 							." -u$dbuser -p$dbpass $dbname < $movelocation";
-						$content .= "<br />".exec($do,$output,$result).($result=='0'?
+						$content .= "<br />".exec(escapeshellcmd($do),$output,$result).($result=='0'?
 		'<div class="notice">'.$keylg.' '.$class_conjugaison->plural($effectueString,'F','1').'</div>'
 						:
 		'<div class="error">'.$keylg.' '.$error_inv.'</div>');
