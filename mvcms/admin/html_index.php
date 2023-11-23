@@ -10,8 +10,8 @@ function html_index($this_lg) {
   $copyrightnoticeString = sql_stringit('general','copyrightnotice');
 	$this_x = sql_getone($tblcont, " WHERE conttitle='$contTitle' AND contlang='$this_lg' ", "contpg");
 	$base_x = $this_x[0];
-//ok for 1 digit//	$contEntry = ereg_replace('\?lg=([^]]*)&amp;x=([0-9]]*)\"',substr(sql_getone($tblcont," WHERE contpg='\\2' AND contlang='$this_lg' ","conturl"),0,-4).'.htm?hello"',$contEntry);//\?lg=([^]]*)\&
-	$contEntry = ereg_replace('\?lg=([^]]*)&amp;x=([0-9]]*)\"',substr(sql_getone($tblcont," WHERE contpg='\\2' AND contlang='$this_lg' ","conturl"),0,-4).'.htm"',$contEntry);
+//ok for 1 digit//	$contEntry = \ereg_replace('\?lg=([^]]*)&amp;x=([0-9]]*)\"',substr(sql_getone($tblcont," WHERE contpg='\\2' AND contlang='$this_lg' ","conturl"),0,-4).'.htm?hello"',$contEntry);//\?lg=([^]]*)\&
+	$contEntry = \ereg_replace('\?lg=([^]]*)&amp;x=([0-9]]*)\"',substr(sql_getone($tblcont," WHERE contpg='\\2' AND contlang='$this_lg' ","conturl"),0,-4).'.htm"',$contEntry);
 	$html_index = '
 <!DOCTYPE html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->

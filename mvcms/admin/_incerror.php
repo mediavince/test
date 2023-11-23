@@ -1057,34 +1057,34 @@ function format_edit($text,$do)
 
             $text = stripslashes($text);
 
-            $text = ereg_replace('" border="0" \/>','[/img]',$text);
+            $text = \ereg_replace('" border="0" \/>','[/img]',$text);
 
-            $text = ereg_replace('<img width="([^]]*)" height="([^]]*)" src="([^]]*)" align="right" hspace="5" vspace="5" alt="([^]]*)','[img=\3]\4',$text);
+            $text = \ereg_replace('<img width="([^]]*)" height="([^]]*)" src="([^]]*)" align="right" hspace="5" vspace="5" alt="([^]]*)','[img=\3]\4',$text);
 
-            $text = ereg_replace('</div>','[/div]',$text);
-            $text = ereg_replace('" id="div">',']',$text);
-            $text = ereg_replace('<div style="width:([^]]*);text-align:([^]]*);float:([^]]*);','[div=\1,\2,\3',$text);
+            $text = \ereg_replace('</div>','[/div]',$text);
+            $text = \ereg_replace('" id="div">',']',$text);
+            $text = \ereg_replace('<div style="width:([^]]*);text-align:([^]]*);float:([^]]*);','[div=\1,\2,\3',$text);
 
-            $text = ereg_replace('</a>','[/url]',$text);
+            $text = \ereg_replace('</a>','[/url]',$text);
 
-            $text = ereg_replace('<a href="([^]]*)" target="_blank" name="doc">([^]]*)','[url=doc:\1]\2',$text);
-            $text = ereg_replace('<a href="'.$mainurl.'([^]]*)" target="_self">([^]]*)','[url='.$mainurl.'\1]\2',$text);
-            $text = ereg_replace('<a href="([^]]*)" target="_blank">([^]]*)','[url=\1]\2',$text);
+            $text = \ereg_replace('<a href="([^]]*)" target="_blank" name="doc">([^]]*)','[url=doc:\1]\2',$text);
+            $text = \ereg_replace('<a href="'.$mainurl.'([^]]*)" target="_self">([^]]*)','[url='.$mainurl.'\1]\2',$text);
+            $text = \ereg_replace('<a href="([^]]*)" target="_blank">([^]]*)','[url=\1]\2',$text);
 
-            $text = ereg_replace('<i>','[i]',$text);
-            $text = ereg_replace('</i>','[/i]',$text);
+            $text = \ereg_replace('<i>','[i]',$text);
+            $text = \ereg_replace('</i>','[/i]',$text);
             if (in_array($lg, array('es','fr','it'))) {
-                $text = ereg_replace('<b>','[g]',$text);
-                $text = ereg_replace('</b>','[/g]',$text);
-                $text = ereg_replace('<u>','[s]',$text);
-                $text = ereg_replace('</u>','[/s]',$text);
+                $text = \ereg_replace('<b>','[g]',$text);
+                $text = \ereg_replace('</b>','[/g]',$text);
+                $text = \ereg_replace('<u>','[s]',$text);
+                $text = \ereg_replace('</u>','[/s]',$text);
             } else {
-                $text = ereg_replace('<b>','[b]',$text);
-                $text = ereg_replace('</b>','[/b]',$text);
-                $text = ereg_replace('<u>','[u]',$text);
-                $text = ereg_replace('</u>','[/u]',$text);
+                $text = \ereg_replace('<b>','[b]',$text);
+                $text = \ereg_replace('</b>','[/b]',$text);
+                $text = \ereg_replace('<u>','[u]',$text);
+                $text = \ereg_replace('</u>','[/u]',$text);
             }
-            $text = ereg_replace('<hr />','[---]',$text);
+            $text = \ereg_replace('<hr />','[---]',$text);
 
             $formatted = stripslashes(strip_tags($text));
 
@@ -1092,55 +1092,55 @@ function format_edit($text,$do)
 
             $formatted = nl2br(strip_tags($text));
 
-            $text = ereg_replace('\[email=mailto:]\[/email]','',$text);
-            $text = ereg_replace('\[email=]\[/email]','',$text);
-            $text = ereg_replace('\[url=doc://]\[/url]','',$text);
-            $text = ereg_replace('\[url=https://]\[/url]','',$text);
-            $text = ereg_replace('\[url=https://]\[/url]','',$text);
-            $text = ereg_replace('\[url=mailto:]\[/url]','',$text);
-            $text = ereg_replace('\[url=]\[/url]','',$text);
-            $text = ereg_replace('\[div=]','',$text);
-            $text = ereg_replace('\[div=]\[/div]','',$text);
-            $text = ereg_replace('\[img=]','',$text);
-            $text = ereg_replace('\[img=][/img]','',$text);
-            $text = ereg_replace('\[flash=]','',$text);
-            $text = ereg_replace('\[i]\[/i]','',$text);
-            $text = ereg_replace('\[g]\[/g]','',$text);
-            $text = ereg_replace('\[b]\[/b]','',$text);
-            $text = ereg_replace('\[s]\[/s]','',$text);
-            $text = ereg_replace('\[u]\[/u]','',$text);
+            $text = \ereg_replace('\[email=mailto:]\[/email]','',$text);
+            $text = \ereg_replace('\[email=]\[/email]','',$text);
+            $text = \ereg_replace('\[url=doc://]\[/url]','',$text);
+            $text = \ereg_replace('\[url=https://]\[/url]','',$text);
+            $text = \ereg_replace('\[url=https://]\[/url]','',$text);
+            $text = \ereg_replace('\[url=mailto:]\[/url]','',$text);
+            $text = \ereg_replace('\[url=]\[/url]','',$text);
+            $text = \ereg_replace('\[div=]','',$text);
+            $text = \ereg_replace('\[div=]\[/div]','',$text);
+            $text = \ereg_replace('\[img=]','',$text);
+            $text = \ereg_replace('\[img=][/img]','',$text);
+            $text = \ereg_replace('\[flash=]','',$text);
+            $text = \ereg_replace('\[i]\[/i]','',$text);
+            $text = \ereg_replace('\[g]\[/g]','',$text);
+            $text = \ereg_replace('\[b]\[/b]','',$text);
+            $text = \ereg_replace('\[s]\[/s]','',$text);
+            $text = \ereg_replace('\[u]\[/u]','',$text);
 
-            $text = ereg_replace('\[i]','<i>',$text);
-            $text = ereg_replace('\[/i]','</i>',$text);
-            $text = ereg_replace('\[g]','<b>',$text);
-            $text = ereg_replace('\[/g]','</b>',$text);
-            $text = ereg_replace('\[b]','<b>',$text);
-            $text = ereg_replace('\[/b]','</b>',$text);
-            $text = ereg_replace('\[s]','<u>',$text);
-            $text = ereg_replace('\[/s]','</u>',$text);
-            $text = ereg_replace('\[u]','<u>',$text);
-            $text = ereg_replace('\[/u]','</u>',$text);
-            $text = ereg_replace('\[---]','<hr />',$text);
-            $text = ereg_replace('\[/div]','</div>',$text);
+            $text = \ereg_replace('\[i]','<i>',$text);
+            $text = \ereg_replace('\[/i]','</i>',$text);
+            $text = \ereg_replace('\[g]','<b>',$text);
+            $text = \ereg_replace('\[/g]','</b>',$text);
+            $text = \ereg_replace('\[b]','<b>',$text);
+            $text = \ereg_replace('\[/b]','</b>',$text);
+            $text = \ereg_replace('\[s]','<u>',$text);
+            $text = \ereg_replace('\[/s]','</u>',$text);
+            $text = \ereg_replace('\[u]','<u>',$text);
+            $text = \ereg_replace('\[/u]','</u>',$text);
+            $text = \ereg_replace('\[---]','<hr />',$text);
+            $text = \ereg_replace('\[/div]','</div>',$text);
 
-            $text = ereg_replace('\[img=https://([^]]*)]([^]]*)\[/img]','<img src="https://\1" align="right" hspace="5" vspace="5" alt="\2" border="0" \/>',$text);
-            $text = ereg_replace('\[img=([^]]*)]([^]]*)\[/img]','<img src="\1" align="right" hspace="5" vspace="5" alt="\2" border="0" \/>',$text);
+            $text = \ereg_replace('\[img=https://([^]]*)]([^]]*)\[/img]','<img src="https://\1" align="right" hspace="5" vspace="5" alt="\2" border="0" \/>',$text);
+            $text = \ereg_replace('\[img=([^]]*)]([^]]*)\[/img]','<img src="\1" align="right" hspace="5" vspace="5" alt="\2" border="0" \/>',$text);
 
-            $text = ereg_replace('\[div=([^]]*),([^]]*),([^]]*)]','<div style="width:\1;text-align:\2;float:\3;" id="div">',$text);
+            $text = \ereg_replace('\[div=([^]]*),([^]]*),([^]]*)]','<div style="width:\1;text-align:\2;float:\3;" id="div">',$text);
 
             /* error with $up inserted prior content/... for admin */
-            //	$text = ereg_replace('\[url=doc:([^]]*)]\[/url]','<a href="'.$mainurl.'\1" target="_blank" name="doc">'.$cliquericiString.'</a>',$text);
-            //	$text = ereg_replace('\[url=doc:([^]]*)]([^]]*)\[/url]','<a href="'.$mainurl.'\1" target="_blank" name="doc">\2</a>',$text);
-            $text = ereg_replace('\[url=doc:([^]]*)]\[/url]','<a href="\1" target="_blank" name="doc">'.$cliquericiString.'</a>',$text);
-            $text = ereg_replace('\[url=doc:([^]]*)]([^]]*)\[/url]','<a href="\1" target="_blank" name="doc">\2</a>',$text);
+            //	$text = \ereg_replace('\[url=doc:([^]]*)]\[/url]','<a href="'.$mainurl.'\1" target="_blank" name="doc">'.$cliquericiString.'</a>',$text);
+            //	$text = \ereg_replace('\[url=doc:([^]]*)]([^]]*)\[/url]','<a href="'.$mainurl.'\1" target="_blank" name="doc">\2</a>',$text);
+            $text = \ereg_replace('\[url=doc:([^]]*)]\[/url]','<a href="\1" target="_blank" name="doc">'.$cliquericiString.'</a>',$text);
+            $text = \ereg_replace('\[url=doc:([^]]*)]([^]]*)\[/url]','<a href="\1" target="_blank" name="doc">\2</a>',$text);
 
-            $text = ereg_replace('\[url=mailto:([^]]*)]([^]]*)\[/url]','<a href="mailto:\1" target="_blank">\2</a>',$text);
-            $text = ereg_replace('\[url=mailto:([^]]*)]\[/url]','<a href="mailto:\1" target="_blank">\1</a>',$text);
+            $text = \ereg_replace('\[url=mailto:([^]]*)]([^]]*)\[/url]','<a href="mailto:\1" target="_blank">\2</a>',$text);
+            $text = \ereg_replace('\[url=mailto:([^]]*)]\[/url]','<a href="mailto:\1" target="_blank">\1</a>',$text);
 
-            $text = ereg_replace('\[url='.$mainurl.'([^]]*)]([^]]*)\[/url]','<a href="'.$mainurl.'\1" target="_self">\2</a>',$text);
-            $text = ereg_replace('\[url=([^]]*)]\[/url]','<a href="\1" target="_blank">'.$cliquericiString.'</a>',$text);
+            $text = \ereg_replace('\[url='.$mainurl.'([^]]*)]([^]]*)\[/url]','<a href="'.$mainurl.'\1" target="_self">\2</a>',$text);
+            $text = \ereg_replace('\[url=([^]]*)]\[/url]','<a href="\1" target="_blank">'.$cliquericiString.'</a>',$text);
 
-            $text = ereg_replace('\[url=([^]]*)]([^]]*)\[/url]','<a href="\1" target="_blank">\2</a>',$text);
+            $text = \ereg_replace('\[url=([^]]*)]([^]]*)\[/url]','<a href="\1" target="_blank">\2</a>',$text);
 
             $formatted = stripslashes($text);
 
