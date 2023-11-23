@@ -1068,7 +1068,7 @@ function format_edit($text,$do)
             $text = \str_replace('</a>','[/url]',$text);
 
             $text = \preg_replace('/<a href="([^]]*)" target="_blank" name="doc">([^]]*)/','[url=doc:\1]\2',$text);
-            $text = \preg_replace('/<a href="'.addslashes($mainurl).'([^]]*)" target="_self">([^]]*)/','[url='.$mainurl.'\1]\2',$text);
+            $text = \preg_replace('/<a href="'.str_replace('/','\/',$mainurl).'([^]]*)" target="_self">([^]]*)/','[url='.$mainurl.'\1]\2',$text);
             $text = \preg_replace('/<a href="([^]]*)" target="_blank">([^]]*)/','[url=\1]\2',$text);
 
             $text = \str_replace('<i>','[i]',$text);
@@ -1137,7 +1137,7 @@ function format_edit($text,$do)
             $text = \preg_replace('/\[url=mailto:([^]]*)]([^]]*)\[\/url]/','<a href="mailto:\1" target="_blank">\2</a>',$text);
             $text = \preg_replace('/\[url=mailto:([^]]*)]\[\/url]/','<a href="mailto:\1" target="_blank">\1</a>',$text);
 
-            $text = \preg_replace('/\[url='.addslashes($mainurl).'([^]]*)]([^]]*)\[\/url]/','<a href="'.$mainurl.'\1" target="_self">\2</a>',$text);
+            $text = \preg_replace('/\[url='.str_replace('/','\/',$mainurl).'([^]]*)]([^]]*)\[\/url]/','<a href="'.$mainurl.'\1" target="_self">\2</a>',$text);
             $text = \preg_replace('/\[url=([^]]*)]\[\/url]/','<a href="\1" target="_blank">'.$cliquericiString.'</a>',$text);
 
             $text = \preg_replace('/\[url=([^]]*)]([^]]*)\[\/url]/','<a href="\1" target="_blank">\2</a>',$text);
