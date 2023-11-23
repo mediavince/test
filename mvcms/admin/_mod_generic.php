@@ -557,9 +557,6 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 		$_mod_content .= (isset($tpl[0])&&$tpl[0]=="$"?${substr($tpl,1)}:$tpl);
 		if (($full_url===true)||($admin_viewing===true)) {
 			$_mod_content = str_replace($local_url.'&amp;'.$this_is."Id=$show_id",lgx2readable($lg,'',$this_is,$show_id),$_mod_content);
-			//  $_mod_content = \preg_replace(addslashes($local_url).'\&amp;'.$this_is."Id=([^]]*)\"",lgx2readable($lg,'',$this_is,"\1").'"',$_mod_content);
-
-			//  $_mod_content = preg_replace($local_url.'&amp;'.$this_is."Id=(\d+)",'lgx2readable($lg,"",$this_is,"$1")',$_mod_content);
 		}
 		$_mod_content .= $show_mod_content;
 
@@ -975,8 +972,6 @@ if (($logged_in === true) && isset($send) && in_array($this_is,$editable_by_memb
 		}
 		//  $_mod_content .= '</div></div>';
 	}
-	//if (isset($q))
-	//$_mod_content = \preg_replace($q,'\<span class=\"qhighlight\"\>'.$q.'\<\/span\>',$_mod_content);
 	if (isset($filter_map) || isset($filter_index)) {
 		$admin_viewing_menu = '';
 		$_head_mod_content = '';
