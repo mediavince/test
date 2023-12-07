@@ -880,10 +880,7 @@ if (isset($send)) {
 		// to study because this_is is that_is if that_is is set but it works for membre...
 		if (isset($tblhtaccess) && in_array($this_is,$array_modules) && !in_array($this_is,$array_modules_as_form)) {
 			if ($send == 'edit')
-			$gethtaccess = sql_get($tblhtaccess,"WHERE htaccessitem='$this_id'
-													AND htaccesstype='$this_is'
-													AND htaccesslang='$lg'
-													ORDER BY htaccessdate DESC ",
+			$gethtaccess = sql_get($tblhtaccess,"WHERE htaccessitem='$this_id' AND htaccesstype='$this_is' AND htaccesslang='$lg' ORDER BY htaccessdate DESC ",
 												"htaccessmetadesc,htaccessmetakeyw");
 			else
 			$gethtaccess = array('','');

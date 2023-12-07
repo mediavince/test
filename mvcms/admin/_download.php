@@ -12,7 +12,7 @@ if (isset($_COOKIE[$cookie_codename."user"])) {
 	$user_name = $read_cookie[0];
 	$pass_word = $read_cookie[1];
 	if (sql_nrows($tbluser," WHERE userutil='$user_name' AND userpass='$pass_word' AND userstatut='Y' ") > 0) {// (in_array("userrid",sql_fields($tbluser,'array'))?count($array_lang):'1')
-  	$logged_in = true;
+  	    $logged_in = true;
 	} else {
 		$logged_in = false;
 	}
@@ -22,7 +22,7 @@ if (isset($_COOKIE[$cookie_codename."user"])) {
 	$admin_name = $read_cookie[0];
 	$pass_word = $read_cookie[1];
 	if (sql_nrows($tbladmin," WHERE adminutil='$admin_name' AND adminpass='$pass_word' AND adminstatut='Y' ") > 0) {//(in_array("adminrid",sql_fields($tbladmin,'array'))?count($array_lang):'1')
-  	$logged_in = true;
+  	    $logged_in = true;
 	} else {
 		$logged_in = false;
 	}

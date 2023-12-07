@@ -4,19 +4,19 @@ include '_incdb.php';
 //include '_incerror.php';// included in _incdb.php
 include '_strings.php';
 
-	if (isset($_COOKIE[$cookie_codename."admin"])) {
-		$cookie = $_COOKIE[$cookie_codename."admin"];
-		$read_cookie = explode("^", base64_decode($cookie));
-		$admin_name = $read_cookie[0];
-		$passWord = $read_cookie[1];
-		if (sql_nrows($tbladmin," WHERE adminutil='$admin_name' AND adminpass='$passWord' AND adminstatut='Y' ") == 1) {
-  		$logged_in = true;
-		} else {
-			$logged_in = false;
-		}
-	} else {
+if (isset($_COOKIE[$cookie_codename."admin"])) {
+    $cookie = $_COOKIE[$cookie_codename."admin"];
+    $read_cookie = explode("^", base64_decode($cookie));
+    $admin_name = $read_cookie[0];
+    $passWord = $read_cookie[1];
+    if (sql_nrows($tbladmin," WHERE adminutil='$admin_name' AND adminpass='$passWord' AND adminstatut='Y' ") == 1) {
+        $logged_in = true;
+    } else {
+        $logged_in = false;
+    }
+} else {
     Header("Location: $redirect");Die();
-  }
+}
 	
 if ($logged_in === true) {
 

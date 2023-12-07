@@ -92,8 +92,7 @@ if (($htaccess4sef === true) && ($_SERVER['REQUEST_URI'] != $url_mirror)) {
 			if (isset($tblhtaccess))
 				if (in_array($value,sql_array($tblhtaccess,
 											"WHERE htaccessstatut='Y' ","htaccessurl"))) {
-					$get_x = sql_get($tblhtaccess,"WHERE htaccessstatut='Y'
-										AND htaccesslang='$lg' AND htaccessurl='$value' "
+					$get_x = sql_get($tblhtaccess,"WHERE htaccessstatut='Y' AND htaccesslang='$lg' AND htaccessurl='$value' "
 										.(isset($potential_type)&&$value!=$potential_type?
 											" AND htaccesstype='$potential_type'":'')
 										." ORDER BY htaccessdate DESC ",
@@ -102,9 +101,7 @@ if (($htaccess4sef === true) && ($_SERVER['REQUEST_URI'] != $url_mirror)) {
 						${$get_x[1]."Id"} = $get_x[0];
 						$this_sql_fields = sql_fields(${"tbl".$get_x[1]},'array');
 						$get_info = sql_get(${"tbl".$get_x[1]},
-											"WHERE ".$get_x[1]."rid='".$get_x[0]."'
-												AND ".$get_x[1]."lang='$lg'
-												AND ".$get_x[1]."statut='Y' ",
+											"WHERE ".$get_x[1]."rid='".$get_x[0]."' AND ".$get_x[1]."lang='$lg' AND ".$get_x[1]."statut='Y' ",
 											implode(",",$this_sql_fields));
 											//$get_x[1]."type,".$get_x[1]."archive");
 						if ($get_info[0]!= '.') {
@@ -162,8 +159,7 @@ if (in_array($x,array('','.')))
 			$lastpg_arrayrev = $lastpg[0];
 		} else
 		$lastpg_arrayrev = (isset($lastpg[1])?$lastpg[1]:'');
-		$get_x = sql_get($tblcont,"WHERE $where_statut_lang LENGTH(contpg)=$count_lastpg
-									AND conturl='$lastpg_arrayrev' ",
+		$get_x = sql_get($tblcont,"WHERE $where_statut_lang LENGTH(contpg)=$count_lastpg AND conturl='$lastpg_arrayrev' ",
 								"contpg,conttype");
     	$x = (in_array($get_x[0],array("","."))
     		&&(!in_array($get_x[1],$array_modules)
@@ -180,9 +176,7 @@ if (in_array($x,array('','.')))
 			if (isset($tblhtaccess))// :: check later if relevant here
 				if (in_array($lastpg_arrayrev,sql_array($tblhtaccess,
 						"WHERE htaccessstatut='Y' AND htaccesslang='$lg' ","htaccessurl"))) {
-					$get_x = sql_get($tblhtaccess,"WHERE htaccessstatut='Y'
-													AND htaccesslang='$lg'
-													AND htaccessurl='$lastpg_arrayrev' ",
+					$get_x = sql_get($tblhtaccess,"WHERE htaccessstatut='Y' AND htaccesslang='$lg' AND htaccessurl='$lastpg_arrayrev' ",
 				"htaccessitem,htaccesslang,htaccesstype,htaccessmetadesc,htaccessmetakeyw");
 					if ($get_x[0] != '.') {
 						Header("Location: $mainurl"
@@ -367,10 +361,7 @@ foreach($array_modules as $key) {
 							.($htaccess4sef===true?
 								(isset($tblhtaccess)&&preg_match("/^[0-9]+\$/",${$key."Id"})?
 									sql_getone($tblhtaccess,
-										"WHERE htaccesslang='$lg'
-											AND htaccessitem='".${$key."Id"}."'
-											AND htaccesstype='$key'
-											ORDER BY htaccessdate DESC ",
+										"WHERE htaccesslang='$lg' AND htaccessitem='".${$key."Id"}."' AND htaccesstype='$key' ORDER BY htaccessdate DESC ",
 										"htaccessurl")
 									:((${$key."Id"}=='new')&&($logged_in===true)?'?send=':'')
 										.${$key."Id"}):'?'.$key.'Id='.${$key."Id"})

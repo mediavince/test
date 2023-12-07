@@ -11,29 +11,29 @@ $array_subject = ${"array_subject_".$lg};
 
 if ( isset($send) && ( $send == $envoyerString ) && isset($_SESSION['mail_count']) && isset($_SESSION['antispam_key']) ) {
 
-  if($_SERVER['REQUEST_METHOD'] != "POST"){
-     Header("Location: $redirect");Die();
-  }
-  
-  contains_bad_str($email);
-  contains_bad_str($subject);
-  contains_bad_str($message);
-  
-  contains_newlines($email);
-  contains_newlines($subject);
+    if($_SERVER['REQUEST_METHOD'] != "POST"){
+        Header("Location: $redirect");Die();
+    }
+
+    contains_bad_str($email);
+    contains_bad_str($subject);
+    contains_bad_str($message);
+
+    contains_newlines($email);
+    contains_newlines($subject);
 
 	$gen_message = '<table style="width:80%" align="center" border="1" cellpadding="10" cellspacing="5">';
 	for ($i=0;$i<count($array_form);$i++) {
 		$this_form = $array_form[$i];
 		if ($this_form !== 'code') {
-  		if	( isset($_REQUEST[$this_form]) ) {
-    		if	($this_form !== 'subject')	${$this_form} = html_encode($_REQUEST[$this_form])	;
-      	${$this_form} = nl2br(stripslashes($_REQUEST[$this_form]))	;
-      }
-  		if ($this_form == 'email')
-  		$email = $_REQUEST[$this_form];
-  		$gen_message .= '<tr><td align="right"><b>'.$this_form.'</b> </td><td>'.${$this_form}.' </td></tr>';
-  	}
+            if	( isset($_REQUEST[$this_form]) ) {
+                if	($this_form !== 'subject')	${$this_form} = html_encode($_REQUEST[$this_form])	;
+                ${$this_form} = nl2br(stripslashes($_REQUEST[$this_form]))	;
+            }
+            if ($this_form == 'email')
+            $email = $_REQUEST[$this_form];
+            $gen_message .= '<tr><td align="right"><b>'.$this_form.'</b> </td><td>'.${$this_form}.' </td></tr>';
+        }
 	}
 	$gen_message .= '</table>';
 	
@@ -75,50 +75,48 @@ if ( isset($send) && ( $send == $envoyerString ) && isset($_SESSION['mail_count'
 		else
 		$error .= '</ul>';//<a href="javascript:history.back()//">'.$retourString.'</a><br />';
 	} else {
-    $_SESSION['mail_count']++;
-	//	$message = '<html><body>'.$gen_message.'</body></html>';
-    // In case any of our lines are larger than 70 characters, we should use wordwrap()
-    $communicationsMessage = wordwrap($message,70,$CRLF,true);
+        $_SESSION['mail_count']++;
+        //	$message = '<html><body>'.$gen_message.'</body></html>';
+        // In case any of our lines are larger than 70 characters, we should use wordwrap()
+        $communicationsMessage = wordwrap($message,70,$CRLF,true);
 		$this_email = is_valid_email($coinfo);
-//	Email that gets sent to you.
-  	$subject = html_entity_decode($subject);
-    $nonhtml_content_generated = $communicationsMessage;
-    $html_content_generated = $communicationsMessage;
-    $footer = "$communicationsString ".$class_conjugaison->plural($envoyeString,'F',1).", $parString <a href=\"$mainurl\">$codename</a><br /><sup>$copyrightnoticeString</sup><br /> <br />";
-    ################################## IMPORT TEMPLATE
-    if (@file_exists($getcwd.$up.$safedir.'_tpl_mail_communications.php'))
-      include($getcwd.$up.$safedir.'_tpl_mail_communications.php');
-    else
-      include($getcwd.$up.$urladmin.'defaults/_tpl_mail_communications.php');
-  	$communications_msg = $_tpl_mail_communications;
-  		
-    if (stristr($_SERVER['HTTP_HOST'],"localhost"))
-    $mail_conf = true;
-    else
-    $mail_conf = mail($this_email, $subject, $communications_msg, "From: $name <$email>".$mail_headers);
-    if ($mail_conf === true) {
-      $notice .= '<font color="Green"><b>'.$messageString.' <!--générique--> '.$class_conjugaison->plural($envoyeString,'M',1).' > </b></font><br />'.(stristr($_SERVER['HTTP_HOST'],"localhost")?"<br />$this_email, $subject, $communications_msg, \"From: $name <$email>\"" . "<br />\r\n".$mail_headers.'<hr /><br />':'');
-    } else {
-      $error .= '<font color="Red"><b>'.strtoupper($erreurString).' ! : </b></font><b>'.$messageString.' <!--générique--> '.$nonString.' '.$class_conjugaison->plural($envoyeString,'M',1).' > </b></font><br />';
-    }
-           
-    if ($error=='') {
-      $_SESSION['mv_notice'] = $notice;
-      Header("Location: ".$_SERVER['REQUEST_URI']);Die();
-    } 
-            
+    //	Email that gets sent to you.
+        $subject = html_entity_decode($subject);
+        $nonhtml_content_generated = $communicationsMessage;
+        $html_content_generated = $communicationsMessage;
+        $footer = "$communicationsString ".$class_conjugaison->plural($envoyeString,'F',1).", $parString <a href=\"$mainurl\">$codename</a><br /><sup>$copyrightnoticeString</sup><br /> <br />";
+        ################################## IMPORT TEMPLATE
+        if (@file_exists($getcwd.$up.$safedir.'_tpl_mail_communications.php'))
+            include($getcwd.$up.$safedir.'_tpl_mail_communications.php');
+        else
+            include($getcwd.$up.$urladmin.'defaults/_tpl_mail_communications.php');
+        $communications_msg = $_tpl_mail_communications;
+
+        if (stristr($_SERVER['HTTP_HOST'],"localhost"))
+        $mail_conf = true;
+        else
+        $mail_conf = mail($this_email, $subject, $communications_msg, "From: $name <$email>".$mail_headers);
+        if ($mail_conf === true) {
+            $notice .= '<font color="Green"><b>'.$messageString.' <!--générique--> '.$class_conjugaison->plural($envoyeString,'M',1).' > </b></font><br />'.(stristr($_SERVER['HTTP_HOST'],"localhost")?"<br />$this_email, $subject, $communications_msg, \"From: $name <$email>\"" . "<br />\r\n".$mail_headers.'<hr /><br />':'');
+        } else {
+            $error .= '<font color="Red"><b>'.strtoupper($erreurString).' ! : </b></font><b>'.$messageString.' <!--générique--> '.$nonString.' '.$class_conjugaison->plural($envoyeString,'M',1).' > </b></font><br />';
+        }
+
+        if ($error=='') {
+            $_SESSION['mv_notice'] = $notice;
+            Header("Location: ".$_SERVER['REQUEST_URI']);Die();
+        }
 	}
-} else {
 }
 
-  session_unregister('antispam_key');
+session_unregister('antispam_key');
 /*
-  $md5 = md5(microtime(1) * mktime(0,0,0,0,0,0));
-  $string = substr($md5,0,rand(5,8));
-  $_SESSION['antispam_key'] = md5($string);
+$md5 = md5(microtime(1) * mktime(0,0,0,0,0,0));
+$string = substr($md5,0,rand(5,8));
+$_SESSION['antispam_key'] = md5($string);
 */
-  if (!isset($_SESSION['mail_count'])) $_SESSION['mail_count'] = 0;
-  $_mod_content .= gen_form($lg,$x).'<div class="contactform"><div class="leftfields"><label for="name"><b>> '.$nomString.'</b></label><br /><input class="text" name="name" type="text" value="'.(isset($name)?$name:'').'" /><br /><label for="fname"><b>> '.$prenomString.'</b></label><br /><input class="text" name="fname" type="text" value="'.(isset($fname)?$fname:'').'" /><br /><!--<label for="organisation"><b>> '.$organisationString.'</b></label><br /><input class="text" name="organisation" type="text" value="'.(isset($organisation)?$organisation:'').'" /><br />--><label for="email"><b>> '.$emailString.' </b></label><br /><input class="text" name="email" type="text" value="'.(isset($email)?$email:'').'" /><br /><label for="code"><b>> anti-spam </b></label><br /><input class="text" name="code" type="text" /><br /><img src="'.$mainurl.'images/_captcha.php'
+if (!isset($_SESSION['mail_count'])) $_SESSION['mail_count'] = 0;
+$_mod_content .= gen_form($lg,$x).'<div class="contactform"><div class="leftfields"><label for="name"><b>> '.$nomString.'</b></label><br /><input class="text" name="name" type="text" value="'.(isset($name)?$name:'').'" /><br /><label for="fname"><b>> '.$prenomString.'</b></label><br /><input class="text" name="fname" type="text" value="'.(isset($fname)?$fname:'').'" /><br /><!--<label for="organisation"><b>> '.$organisationString.'</b></label><br /><input class="text" name="organisation" type="text" value="'.(isset($organisation)?$organisation:'').'" /><br />--><label for="email"><b>> '.$emailString.' </b></label><br /><input class="text" name="email" type="text" value="'.(isset($email)?$email:'').'" /><br /><label for="code"><b>> anti-spam </b></label><br /><input class="text" name="code" type="text" /><br /><img src="'.$mainurl.'images/_captcha.php'
 	//	.'?string='.base64_encode($string)
 	.'" class="imgspam" /></div><div class="rightfields"><label for="subject"><b>> '.$sujetString.' </b></label><br /><select class="text" name="subject" width="150">'.gen_selectoption($array_subject,(isset($subject)?$subject:''),'','').'</select><p><label for="message"><b>> '.$messageString.'</b></label><br /><textarea name="message" cols="25" rows="11" maxlength="'.$max_msglen.'">'.format_edit((isset($message)?$message:''),'edit').'</textarea></p></div><div style="text-align:left"><input type="submit" name="send" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /></div></div><div class="clear"></div></form>';
 

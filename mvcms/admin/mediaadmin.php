@@ -23,8 +23,7 @@ if ($logged_in === true) {
 	if (!isset($send) || (isset($send) && ($send == 'edit') && ($y != 'media'))) {
 		$delete_media = "";
 // ########################## PICS ###############################
-		$contPhotocount = sql_nrows($tblcontphoto,(in_array("contphotolang",$photo_fields)?
-														" WHERE contphotolang='$lg' ":''));
+		$contPhotocount = sql_nrows($tblcontphoto,(in_array("contphotolang",$photo_fields)?" WHERE contphotolang='$lg' ":''));
 		if (($tinyMCE === false) && (isset($send) && ($send == 'edit') && ($y != 'media'))) {
 			if ($contPhotocount > '0') {
 				$photoListe = '<a href="'.$local_url.'&amp;send=upldphoto">'
@@ -155,13 +154,10 @@ if ($logged_in === true) {
 		}
 // end photo list
 // ########################## DOC ###############################
-		$contDoccount = sql_nrows($tblcontdoc,(in_array("contdoclang",$doc_fields)?
-													" WHERE contdoclang='$lg' ":'')); 
+		$contDoccount = sql_nrows($tblcontdoc,(in_array("contdoclang",$doc_fields)?" WHERE contdoclang='$lg' ":''));
 		if ($tinyMCE === false) {
 			$docListe = '<hr /><a href="'.$local_url.'&amp;send=uplddoc">'.$ajouterString
 						.' 1 '.$docString.'</a>';
-	// List docs from other pages only
-		//	$contDoccount = sql_nrows($tblcontdoc,"");
 			if ($contDoccount > '0') {
 				$docListe .= '<hr />'.$contDoccount.' '
 							.$class_conjugaison->plural($docdispoString,'M',$contDoccount)

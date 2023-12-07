@@ -584,7 +584,8 @@ function sql_updateone($dbtable,$setq,$where,$getrow)
 function sql_nrows($dbtable,$where)
 {
     global $connection;
-    return mysqli_query($connection, "SELECT COUNT(*) FROM $dbtable $where")->num_rows;
+    $sql = mysqli_query($connection, "SELECT * FROM $dbtable $where");
+    return mysqli_num_rows($sql);
 }
 
 

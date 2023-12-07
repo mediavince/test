@@ -517,15 +517,10 @@ if (!isset($lg)) {
 				header("Location: ".$mainurl.(count($array_lang)>1?"$lg/":'').$redir_tourl.($_SERVER['QUERY_STRING']!=""?'?'.$_SERVER['QUERY_STRING']:''));
 				die();
 			} else { // not a page but an id
-				if (isset($tblhtaccess))
-					if (sql_nrows($tblhtaccess,"WHERE htaccessstatut='Y'
-												AND htaccessurl='$url_from_php' ") > 0) {
-						$get_x = sql_get($tblhtaccess,
-										"WHERE htaccessstatut='Y'
-											AND htaccesslang='$lg'
-											AND htaccessurl='$url_from_php'
-											ORDER BY htaccessdate DESC ",
-										"htaccessitem,htaccesstype");
+				if (isset($tblhtaccess)) {
+				    $where = "WHERE htaccessstatut='Y' AND htaccessurl='$url_from_php' ";
+					if (sql_nrows($tblhtaccess,$where) > 0) {
+						$get_x = sql_get($tblhtaccess, "$where AND htaccesslang='$lg' ORDER BY htaccessdate DESC ", "htaccessitem,htaccesstype");
 						if ($get_x[0] != '.') {
 							${$get_x[1]."Id"} = $get_x[0];
 							header("Location: ".$mainurl."?".$get_x[1]."Id=".$get_x[0]
@@ -534,6 +529,7 @@ if (!isset($lg)) {
 							die();
 						}
 					}
+                }
 			}
 		}
 	}

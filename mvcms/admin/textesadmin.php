@@ -17,17 +17,18 @@ $content .= $admin_menu;
 
 // lists all the texts strings appearing on site
 if (!isset($send)) {
-  $content .= '<div class="selectHead">'.gen_form($lg,$x,$y).'<input name="send" type="submit" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /><br />';
-  if (sql_getone($tbladmin,"WHERE adminpriv LIKE '%0%' LIMIT 1 ","adminutil") == $admin_name)
-  $content .= '<br />NEW<br /><label for="'.fieldis('type').'"> > '.$typeString.': </label>  '.gen_fullselectoption($array_stringtypes,'','',fieldis('type')).'<label for="new'.fieldis('title').'"> > '.$titleString.': </label> <input type="text" name="new'.fieldis('title').'" value="" /><br /><label for="new'.fieldis('entry').'"> > '.$entryString.': </label> <input name="new'.fieldis('entry').'" type="text" style="width: 70%" value="" /><br />';
+    $content .= '<div class="selectHead">'.gen_form($lg,$x,$y).'<input name="send" type="submit" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /><br />';
+    if (sql_getone($tbladmin,"WHERE adminpriv LIKE '%0%' LIMIT 1 ","adminutil") == $admin_name)
+    $content .= '<br />NEW<br /><label for="'.fieldis('type').'"> > '.$typeString.': </label>  '.gen_fullselectoption($array_stringtypes,'','',fieldis('type')).'<label for="new'.fieldis('title').'"> > '.$titleString.': </label> <input type="text" name="new'.fieldis('title').'" value="" /><br /><label for="new'.fieldis('entry').'"> > '.$entryString.': </label> <input name="new'.fieldis('entry').'" type="text" style="width: 70%" value="" /><br />';
 	$read = mysqli_query($connection, " SELECT * FROM $dbtable $sql_query $sql_orderq ");
-  if ((mysqli_num_rows($read) == 0) && ($lg != $default_lg)) {
-  	$read = mysqli_query($connection, " SELECT * FROM $dbtable $sql_query_default_lg $sql_orderq ");
-  	$content .= '<span style="font-weight:bold;color:red;">Version in '.sql_getone($tblstring,"WHERE stringlang='$default_lg' AND stringtype='lang' ","stringentry").' !!</span>';
-  	$content .= '<input name="import" type="hidden" value="" />';
-  	$import = true;
-  }
 	$nRows = mysqli_num_rows($read);
+    if (($nRows == 0) && ($lg != $default_lg)) {
+        $read = mysqli_query($connection, " SELECT * FROM $dbtable $sql_query_default_lg $sql_orderq ");
+	    $nRows = mysqli_num_rows($read);
+        $content .= '<span style="font-weight:bold;color:red;">Version in '.sql_getone($tblstring,"WHERE stringlang='$default_lg' AND stringtype='lang' ","stringentry").' !!</span>';
+        $content .= '<input name="import" type="hidden" value="" />';
+        $import = true;
+    }
 	for ($i=1;$i<=$nRows;$i++) {
 		$iminus = $i-1;
 		if	($iminus == '0')	$iminus = '1'	;
@@ -39,7 +40,7 @@ if (!isset($send)) {
     $content .= (($i=='1')?'':'</div>').'<hr /><b style="float:left;">'.$row["".fieldis('type').""].'</b><br /><div style="text-align:right">';
     $content .= '<br /><label for="'.$row["".fieldis('id').""].'">> '.$row["".fieldis('title').""].' </label> <input name="'.$row["".fieldis('id').""].'" type="text" style="width: 70%" value="'.$row["".fieldis('entry').""].'" />';
 	}
-  $content .= (($nRows>'0')?'</div>':'').'<br /> <br /><input name="send" type="submit" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /></form></div>';
+    $content .= (($nRows>'0')?'</div>':'').'<br /> <br /><input name="send" type="submit" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /></form></div>';
 // update the strings
 } else if ($send == $envoyerString) {
 	$update_rapport = '';

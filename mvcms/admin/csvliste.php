@@ -10,7 +10,7 @@ include '_strings.php';
 		$adminName = $read_cookie[0];
 		$passWord = $read_cookie[1];
 		if (sql_nrows($tbladmin," WHERE adminutil='$adminName' AND adminpass='$passWord' AND adminstatut='Y' ") == 1) {
-  		$logged_in = true;
+  		    $logged_in = true;
 		} else {
 			$logged_in = false;
 		}
