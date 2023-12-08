@@ -116,15 +116,10 @@ foreach($array_fields as $key) {
 	&&($logged_in === true)?"'".${$key."Id"}."'":''));
 	$list_array_fields = isset($list_array_fields)?$list_array_fields.','.$key:$key;
 }
-
-${"nRows".ucfirst($this_is)} = sql_nrows($dbtable,"".(in_array($this_is."lang",$array_fields)?
-													" WHERE ".$this_is."lang='$lg' ":''));
-${"nRows".ucfirst($this_is)."y"} = sql_nrows($dbtable," WHERE ".$this_is."statut='Y' "
-													.(in_array($this_is."lang",$array_fields)?
-													" AND ".$this_is."lang='$lg' ":''));
-${"nRows".ucfirst($this_is)."n"} = sql_nrows($dbtable," WHERE ".$this_is."statut='N' "
-													.(in_array($this_is."lang",$array_fields)?
-													" AND ".$this_is."lang='$lg' ":''));
+$lang_filter = (in_array($this_is."lang",$array_fields)?$this_is."lang='$lg' ":'');
+${"nRows".ucfirst($this_is)} = sql_nrows($dbtable,($lang_filter?"WHERE $lang_filter ":''));
+${"nRows".ucfirst($this_is)."y"} = sql_nrows($dbtable,"WHERE {$this_is}statut='Y' ".($lang_filter?"AND $lang_filter ":''));
+${"nRows".ucfirst($this_is)."n"} = sql_nrows($dbtable,"WHERE {$this_is}statut='N' ".($lang_filter?"AND $lang_filter ":''));
 
 /////////////////////// ENREGISTREMENT DU DEFAUT DES VARIABLES, CF APRES LOOP ////////////////
 $old_this = $this_is;
@@ -163,15 +158,9 @@ if (isset($that_is)) {
 		$datetime_array[] = $row['Field'];
 	}
 	mysqli_free_result($result);
-	${"nRows".ucfirst($that_is)} = sql_nrows($that_dbtable,
-											(in_array($that_is."lang",$that_array_fields)?
-											"WHERE ".$that_is."lang='$lg' ":''));
-	${"nRows".ucfirst($that_is)."y"} = sql_nrows($that_dbtable,"WHERE ".$that_is."statut='Y' "
-											.(in_array($that_is."lang",$that_array_fields)?
-											" AND ".$that_is."lang='$lg' ":''));
-	${"nRows".ucfirst($that_is)."n"} = sql_nrows($that_dbtable,"WHERE ".$that_is."statut='N' "
-											.(in_array($that_is."lang",$that_array_fields)?
-											" AND ".$that_is."lang='$lg' ":''));
+	${"nRows".ucfirst($that_is)} = sql_nrows($that_dbtable, (in_array($that_is."lang",$that_array_fields)?"WHERE ".$that_is."lang='$lg' ":''));
+	${"nRows".ucfirst($that_is)."y"} = sql_nrows($that_dbtable,"WHERE ".$that_is."statut='Y' ".(in_array($that_is."lang",$that_array_fields)?" AND ".$that_is."lang='$lg' ":''));
+	${"nRows".ucfirst($that_is)."n"} = sql_nrows($that_dbtable,"WHERE ".$that_is."statut='N' ".(in_array($that_is."lang",$that_array_fields)?" AND ".$that_is."lang='$lg' ":''));
 }
 
 if (isset(${$this_is."Id"})) {
@@ -242,14 +231,9 @@ if ((isset($rqst) || isset($toggle)) && isset(${$this_is."Id"})) {
 					.$that_is.($that_id_rid===true?'r':'')."id='".${$that_is."Id"}."' ")=='Y'?
 					$confirmeString:$enattenteString),'M',1).'</b>';
 			$_SESSION['mv_notice'] = $notice;
-			${"nRows".ucfirst($this_is)} = sql_nrows($dbtable,"".(in_array($this_is."lang",
-										$array_fields)?" WHERE ".$this_is."lang='$lg' ":''));
-			${"nRows".ucfirst($this_is)."y"} = sql_nrows($dbtable," WHERE ".$this_is
-											."statut='Y' ".(in_array($this_is."lang",
-											$array_fields)?"AND ".$this_is."lang='$lg' ":''));
-			${"nRows".ucfirst($this_is)."n"} = sql_nrows($dbtable," WHERE ".$this_is
-											."statut='N' ".(in_array($this_is."lang",
-											$array_fields)?"AND ".$this_is."lang='$lg' ":''));
+			${"nRows".ucfirst($this_is)} = sql_nrows($dbtable,"".(in_array($this_is."lang",$array_fields)?" WHERE ".$this_is."lang='$lg' ":''));
+			${"nRows".ucfirst($this_is)."y"} = sql_nrows($dbtable," WHERE ".$this_is."statut='Y' ".(in_array($this_is."lang",$array_fields)?"AND ".$this_is."lang='$lg' ":''));
+			${"nRows".ucfirst($this_is)."n"} = sql_nrows($dbtable," WHERE ".$this_is."statut='N' ".(in_array($this_is."lang",$array_fields)?"AND ".$this_is."lang='$lg' ":''));
 		} else {
 			$_SESSION['mv_error'] = $error;
 		}
@@ -578,23 +562,23 @@ if (isset($send)) {
 				} else if ($key == 'priv') {
 					if (($this_is == 'admin')) {
 						if (!in_array('1',$admin_priv))
-						$form_content[$this_is.$key] = '<label for="privilege">'
-							.ucfirst($privilegeString).'</label><br /><img src="'.$mainurl
+						$form_content[$this_is.$key] = '<label for="priv">'
+							.ucfirst($privString).'</label><br /><img src="'.$mainurl
 							.'images/spacer.gif" width="30" height="0" border="0" alt="" />'
-							.'<label for="privilege">'.$pageString.'</label> > '
-							.'<input type="radio" name="privilege" value="1" '
+							.'<label for="priv">'.$pageString.'</label> > '
+							.'<input type="radio" name="priv" value="1" '
 							.($editthis[$i]==1?'checked="checked"':'').' /> '
-							.'<input type="radio" name="privilege" value="0" '
+							.'<input type="radio" name="priv" value="0" '
 							.($editthis[$i]==0?'checked="checked"':'').' /> &nbsp;&nbsp;< '
-							.'<label for="privilege">'.$toutString.'</label><br />';
+							.'<label for="priv">'.$toutString.'</label><br />';
 						$content .= $form_content[$this_is.$key];
 					} else {
 						if ($editthis[$i] == '') $editthis[$i] = '1';
 						if ($mod_priv === true)
 						$form_content[$this_is.$key] = '<br /><div><div style="float:left;">'
 							.'<label for="'.$this_is.ucfirst($key).'">'
-							.ucfirst($privilegeString).' : </label> &nbsp;</div>'
-							.gen_inputcheck($tblenum,$editthis[$i],'','privilege',true)
+							.ucfirst($privString).' :580 </label> &nbsp;</div>'
+							.gen_inputcheck($tblenum,$editthis[$i],'','priv',true)
 							."</div><br /> <br />";
 							//gen_inputcheck last param true for hiding first item
 						$content .= $form_content[$this_is.$key];
@@ -1100,7 +1084,14 @@ if (isset($send)) {
 		if	($statut == $toutString) $statutstr = $toutString	;
 		if	($statut == 'Y')	$statutstr = $confirmeString	;
 		if	($statut == 'N')	$statutstr = $enattenteString	;
-		$selectHead = '<div class="selectHead">'.(stristr($_SERVER['PHP_SELF'],$urladmin)?gen_form($lg,$x,$y):gen_form($lg)).'<label for="statut">'.$statutString.' : </label><select name="statut">'.gen_selectoption($tblenum,$statut,'','statut','count').'</select> | <label for="par">'.$parString.' : </label><select name="par">'.gen_selectoption($params_array,$par,'','').'</select> | <label for="ordre">'.$ordreString.' : </label><select name="ordre">'.gen_selectoption(array('ASC','DESC'),$ordre,'','').'</select> || <input type="submit" value="'.$voirString.'" /><br /><label for="q">'.$rechercherString.' : </label> <input type="text" name="q" value="'.stripslashes($q).'" style="width:50%"> || <input type="submit" value="'.$rechercherString.'"></form></div>';
+		$selectHead = '<div class="selectHead">'
+		    .(stristr($_SERVER['PHP_SELF'],$urladmin)?gen_form($lg,$x,$y):gen_form($lg))
+		    .'<label for="statut">'.$statutString.' : </label><select name="statut">'.gen_selectoption($tblenum,$statut,'','statut','count').'</select> | '
+		    .'<label for="par">'.$parString.' : </label><select name="par">'.gen_selectoption($params_array,$par,'','').'</select> | '
+		    .'<label for="ordre">'.$ordreString.' : </label><select name="ordre">'.gen_selectoption(array('ASC','DESC'),$ordre,'','').'</select> || '
+		    .'<input type="submit" value="'.$voirString.'" /><br />'
+		    .'<label for="q">'.$rechercherString.' : </label> <input type="text" name="q" value="'.stripslashes($q).'" style="width:50%"> || '
+		    .'<input type="submit" value="'.$rechercherString.'"></form></div>';
 		$tableHead = '<table align="center" class="tableHead" border="1" cellspacing="2" cellpadding="2"><tr><th>'.$infodbString.'</th><th>'.$paramsString.' '.${$this_is."String"}.'</th>'.(isset($that_is)?'<th>'.$paramsString.' '.${$that_is."String"}.'</th>':'').'<th>'.$optionsString.'</th></tr><tr><td>';
 		if (isset($that_is) && isset($array_mandatory_fields))
 		$params_array = array_unique(array_merge($params_array,$array_mandatory_fields));
@@ -1208,7 +1199,7 @@ if (isset($send)) {
 							} else {
 								$walk_keys = explode("|",$row[$this_is.$key]);
 								foreach($walk_keys as $key)
-								$content .= ($key!==$walk_keys[0]?", ":'').sql_stringit('privilege',$key);
+								$content .= ($key!==$walk_keys[0]?", ":'').sql_stringit('priv',$key);
 							}
 							$content .= '<br />';
 							//  } else if (($key == 'resp') && isset(${$key."_con"})) {

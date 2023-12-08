@@ -232,10 +232,10 @@ if ($nRowsUser == '0') {
           $membrePriv_astext = "";
         	if ($row["userpriv"] !== "") {
         		foreach(explode("|",$row["userpriv"]) as $k_priv)
-        		$membrePriv_astext .= ($membrePriv_astext==''?'':",").sql_stringit('privilege',$k_priv);
+        		$membrePriv_astext .= ($membrePriv_astext==''?'':",").sql_stringit('priv',$k_priv);
           } else {
             $membrePriv == "1";
-            $membrePriv_astext = sql_stringit('privilege',$membrePriv);
+            $membrePriv_astext = sql_stringit('priv',$membrePriv);
           }
 					$nlid = $newsletterid.'-'.$membreId;
 					$newsletter_msg = gen_newsletter($send,$nlid);

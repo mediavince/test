@@ -10,29 +10,29 @@ if (!stristr($_SERVER['PHP_SELF'],$urladmin)) {
 		$this_is = 'user';
 		$that_is = 'membre';
 		if (!isset($send))
-		$send = 'new';
+		    $send = 'new';
 		$suppress_metas = true;
 		if (empty($array_hidden))
-		$array_hidden = array('pass', 'img', 'profession', 'adresse', 'ville', 'ville', 'codpost',
-		'pays', 'numtel', 'skype', 'numfax', 'marketing1', 'event', 'forum');
-		if (empty($array_mandatory_fields))
-		$array_mandatory_fields = array('','util','privilege','email',
-		'gendre','nom','prenom','code');
+		    $array_hidden = array('pass', 'img', 'profession', 'adresse', 'ville', 'ville', 'codpost', 'pays', 'numtel', 'skype', 'numfax', 'marketing1', 'event', 'forum');
+		if (empty($array_mandatory_fields)) // 'profession', 'ville', 'codpost',
+		    $array_mandatory_fields = array('','util','priv','email','gendre','nom','prenom','code');
 
-		if ($error!=='') $_SESSION['inscriredone'] = NULL;
+		if ($error!=='')
+		    $_SESSION['inscriredone'] = NULL;
 
 		if (isset($send) && ($send == $envoyerString)
 			&& isset($_SESSION['mail_count']) && isset($_SESSION['antispam_key'])
-				) {
-			if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-				Header("Location: $redirect");Die();
+        ) {
+			if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+				Header("Location: $redirect");
+				Die();
 			}
 		} else {
 			/*
-		session_unregister('antispam_key');
-		$md5 = md5(microtime(1) * mktime(0,0,0,0,0,0));
-		$string = substr($md5,0,rand(5,8));
-		$_SESSION['antispam_key'] = md5($string);
+            session_unregister('antispam_key');
+            $md5 = md5(microtime(1) * mktime(0,0,0,0,0,0));
+            $string = substr($md5,0,rand(5,8));
+            $_SESSION['antispam_key'] = md5($string);
 			*/
 		}
 		
@@ -44,7 +44,7 @@ if (!stristr($_SERVER['PHP_SELF'],$urladmin)) {
 				$content = "";
 				
 				foreach($form_content as $kc=>$fc)
-				${"form_inscrire_$kc"} = $fc;
+				    ${"form_inscrire_$kc"} = $fc;
 			
 				foreach($form_array_tpl as $tpl) {
 					$content .= (isset($tpl[0])&&$tpl[0]=="$"?${substr($tpl,1)}:$tpl);
@@ -81,16 +81,15 @@ if (!stristr($_SERVER['PHP_SELF'],$urladmin)) {
 					<br /><sup>$copyrightnoticeString</sup><br /> <br />";
 			################################## IMPORT TEMPLATE
 			if (@file_exists($getcwd.$up.$safedir.'_tpl_mail_communications.php'))
-			include($getcwd.$up.$safedir.'_tpl_mail_communications.php');
+			    include($getcwd.$up.$safedir.'_tpl_mail_communications.php');
 			else
-			include($getcwd.$up.$urladmin.'defaults/_tpl_mail_communications.php');
+			    include($getcwd.$up.$urladmin.'defaults/_tpl_mail_communications.php');
 			$communications_msg = $_tpl_mail_communications;
 
 			if (stristr($_SERVER['HTTP_HOST'],"localhost"))
-			$mail_conf = true;
+			    $mail_conf = true;
 			else
-			$mail_conf = mail($this_email,$subject,$communications_msg,
-			"From: $coinfo".$mail_headers);
+			    $mail_conf = mail($this_email, $subject, $communications_msg, "From: $coinfo".$mail_headers);
 			if ($mail_conf === true) {
 				$notice .= '<font color="Green"><b>'.$messageString.' '
 						.$class_conjugaison->plural($envoyeString,'M',1).' !</b></font><br />'
@@ -103,11 +102,11 @@ if (!stristr($_SERVER['PHP_SELF'],$urladmin)) {
 
 	} else {
 		if ($logged_in === true)
-		$_mod_content .= ucfirst($dejaString).' '.$membreString.'!<br />';
+		    $_mod_content .= ucfirst($dejaString).' '.$membreString.'!<br />';
 	}
 	$_mod_inscrire = $_mod_content;
 	// module_parser routine to place module where [] really is
-	$content = str_replace("[inscrire]",$_mod_inscrire.$content,$old_content);
+	$content = str_replace("[inscrire]", $_mod_inscrire.$content, $old_content);
 	
 	$_SESSION['inscriredone'] = NULL;
 }

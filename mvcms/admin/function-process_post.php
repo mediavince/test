@@ -244,25 +244,25 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 				${$this_is.ucfirst($key)} = md5(strip_tags(html_encode(${$this_is.ucfirst($key)})));
 			} else if ($key == 'priv') {
 				if ($this_is == 'admin') {
-					if (in_array($_POST['privilege'],$array_admin_priv)) {
-						$adminPriv = strip_tags(html_encode($_POST['privilege']));
+					if (in_array($_POST['priv'],$array_admin_priv)) {
+						$adminPriv = strip_tags(html_encode($_POST['priv']));
 						$valid_adminpriv = true;
 					}
 				} else {
 					${$this_is.ucfirst($key)} = "";
 					${$this_is.ucfirst($key)."_astext"} = "";
-					$array_priv = sql_array($tblenum,"WHERE enumwhat='privilege' AND enumstatut='Y' ","enumtitre");
+					$array_priv = sql_array($tblenum,"WHERE enumwhat='priv' AND enumstatut='Y' ","enumtitre");
 					if ($array_priv[0] !== "") {
 						foreach($array_priv as $k_priv)
-						if (isset($_POST["privilege".$k_priv]) && ($_POST["privilege".$k_priv] == 'on')) {
+						if (isset($_POST["priv".$k_priv]) && ($_POST["priv".$k_priv] == 'on')) {
 							${$this_is.ucfirst($key)} .= $k_priv."|";
-							${$this_is.ucfirst($key)."_astext"} .= sql_stringit('privilege',$k_priv).",";
+							${$this_is.ucfirst($key)."_astext"} .= sql_stringit('priv',$k_priv).",";
 						}
 						${$this_is.ucfirst($key)} = substr(${$this_is.ucfirst($key)},0,-1);
 						${$this_is.ucfirst($key)."_astext"} = substr(${$this_is.ucfirst($key)."_astext"},0,-1);
 					} else {
 						${$this_is.ucfirst($key)} == "1";
-						${$this_is.ucfirst($key)."_astext"} = sql_stringit('privilege',${$this_is.ucfirst($key)});
+						${$this_is.ucfirst($key)."_astext"} = sql_stringit('priv',${$this_is.ucfirst($key)});
 					}
 				}
 			} else if (($lg == $loop_lg) && (($key == 'img') || ($key == 'doc'))) {
@@ -352,8 +352,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 								"contphotodesc");
 							sql_del(${"tbl".$media_line},"WHERE ".$media_line.($key=='img'?$key:'')."
 														LIKE '%".${$this_is."Desc"}."%' ");
-							sql_update($dbtable,"SET ".$this_is.$key."='' ",
-												"WHERE ".$this_is.$key." LIKE '%".${$this_is."Desc"}."%' ","");
+							sql_update($dbtable,"SET ".$this_is.$key."='' ","WHERE ".$this_is.$key." LIKE '%".${$this_is."Desc"}."%' ");
 							delete_imgdoc($this_is,space2underscore($to_del_file));
 							$check = sql_nrows("$dbtable,".${"tbl".$media_line},$sql);
 						}
@@ -429,9 +428,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 										$values = "";
 										foreach($array_lang as $keylg) {
 											if ($keylg == $default_lg) {
-												sql_updateone($tblcontphoto,"SET contphotorid=contphotoid ",
-																			"WHERE contphotoid='".$insertread[0]."'
-																			AND contphotolang='$default_lg' ","");
+												sql_updateone($tblcontphoto,"SET contphotorid=contphotoid ","WHERE contphotoid='".$insertread[0]."' AND contphotolang='$default_lg' ");
 											} else {
 												$values .= ($values==''?'':',')."(NULL,'Y',$dbtime,'$keylg','".$insertread[0]
 														."','$admin_name','".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)
@@ -454,8 +451,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 										$values = "";
 										foreach($array_lang as $keylg) {
 											if ($keylg == $default_lg) {
-												sql_updateone($tblcontdoc,"SET contdocrid=contdocid ",
-																		"WHERE contdocid='".$insertread[0]."' AND contdoclang='$default_lg' ","");
+												sql_updateone($tblcontdoc,"SET contdocrid=contdocid ","WHERE contdocid='".$insertread[0]."' AND contdoclang='$default_lg' ");
 											} else {
 												$values .= ($values==''?'':',')."(NULL,'Y',$dbtime,'$keylg','".$insertread[0]
 														."','$admin_name','".(!empty(${$this_is."Id"})?${$this_is."Id"}:$now_time)
@@ -856,7 +852,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 					} else {
 						if (!isset($newly_inserted_id))
 						if ($loop_lg == $default_lg) {
-							$new_id = mysqli_insert_id();
+							$new_id = mysqli_insert_id($connection);
 							if (!preg_match("/^[0-9]+\$/",$new_id)) {
 								if ($loop_lg == $lg)
 									$error .= $error_request.mvtrace(__FILE__, __LINE__, ' bad [i] '.$loop_lg."not an id");
@@ -872,7 +868,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 								$newly_inserted_id = $new_id;
 							}
 						} else {
-							$newly_inserted_id = mysqli_insert_id();
+							$newly_inserted_id = mysqli_insert_id($connection);
 						}
 					}
 					$this_is = $that_is;
@@ -947,7 +943,7 @@ if (in_array($this_is."lang",$array_fields) && ($lg == $default_lg)) {
 				$notice .= ' [i] '.$loop_lg.'<br />';
 				if (!isset($newly_inserted_id))
 				if ($loop_lg == $default_lg) {
-					$new_id = mysqli_insert_id();
+					$new_id = mysqli_insert_id($connection);
 					if (!preg_match("/^[0-9]+\$/",$new_id)) {
 						if ($loop_lg == $lg)
 							$error .= $error_request.mvtrace(__FILE__, __LINE__, ' bad [i] '.$loop_lg."new_id not valid");

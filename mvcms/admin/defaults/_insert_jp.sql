@@ -239,7 +239,7 @@ INSERT INTO `_string` (`stringid`, `stringpg`, `stringlang`, `stringtype`, `stri
 (NULL, '', 'jp', 'mois', '10', 'October'),
 (NULL, '', 'jp', 'mois', '11', 'November'),
 (NULL, '', 'jp', 'mois', '12', 'December'),
-(NULL, '', 'jp', 'privilege', '1', 'Public'),
+(NULL, '', 'jp', 'priv', '1', 'Public'),
 (NULL, '', 'jp', 'privilege', '2', 'Level 2'),
 (NULL, '', 'jp', 'privilege', '3', 'Level 3'),
 (NULL, '', 'jp', 'privilege', '4', 'Level 4'),

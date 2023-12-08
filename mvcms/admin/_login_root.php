@@ -144,7 +144,7 @@ if (!isset($login)) {
 		  	$this_isUtil = $user_name;
 		  	$read_priv = array();
 		  	foreach(explode("|",$read[2]) as $k_priv)
-		  	$read_priv[] = sql_stringit('privilege',$k_priv);
+		  	$read_priv[] = sql_stringit('priv',$k_priv);
 		  	$this_isPriv_astext = implode(", ",$read_priv);
 		  	$footer = "$messageString $envoyeString $parString $coinfo<hr /><br />$slogan";
 		  	################################## IMPORT TEMPLATE

@@ -7,7 +7,7 @@ $content .= $admin_menu;
 $first_line_old = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'],\'_params.php\')){include\'_security.php\';Header("Location: $redirect");Die();}';
 $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))){include\'_security.php\';Header("Location: $redirect");Die();}'
 	.PHP_EOL.PHP_EOL;
-$last_line = PHP_EOL.'?'.'>';
+$last_line = PHP_EOL; //.'?'.'>';
 
 $update_rapport = '';
 

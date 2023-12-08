@@ -6,7 +6,7 @@ $content .= $admin_menu;
 $first_line_old = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'],\'_google_analytics.php\')){include\'_security.php\';Header("Location: $redirect");Die();}$_google_analytics = "';
 $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))){include\'_security.php\';Header("Location: $redirect");Die();}'
   .PHP_EOL.'$_google_analytics = "";';
-$last_line = PHP_EOL.'?'.'>';
+$last_line = PHP_EOL; //.'?'.'>';
 
 // lists all the texts strings appearing on site
 if (!isset($send)) {

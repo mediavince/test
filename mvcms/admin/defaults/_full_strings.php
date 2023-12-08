@@ -149,7 +149,7 @@
       $pouraccesprivString = ' to access protected contents';
       $prenomString = 'Firstname';
       $privateString = 'private';
-      $privilegeString = 'viewing privilege';
+      $privString = 'viewing privilege';
       $professionString = 'Profession';
       $profilString = 'Profile';
       $protectedString = 'protected';

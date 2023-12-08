@@ -16,7 +16,7 @@ if (!stristr($_SERVER['PHP_SELF'],$urladmin)) {
 		$array_hidden = array('pass', 'img', 'profession', 'adresse', 'ville', 'codpost',
 							'pays', 'numtel', 'skype', 'numfax', 'marketing1', 'event', 'forum');
 		if (empty($array_mandatory_fields))
-		$array_mandatory_fields = array('','util','privilege','email',
+		$array_mandatory_fields = array('','util','priv','email',
 										'profession', 'ville', 'codpost',
 										'gendre','nom','prenom','code');
 

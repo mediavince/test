@@ -137,7 +137,8 @@ if (!isset($send)) {
 	if (!isset($_POST['import']) && ($update_rapport == '')) {
     $content .= '<br /><p style="text-align: center"><font color="Green"><b>'.$enregistrementString.' '.$nonString.' '.$modifieString.'</b></font><br /> <br /><a href="'.$local.'?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
 	} else {
-    $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'],\'_full_strings_'.$lg.'.php\')){include\'_security.php\';Header("Location: $redirect");Die();}';
+    $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'],\'_full_strings_'.$lg.'.php\')){include\'_security.php\';Header("Location: $redirect");Die();}'
+	    .PHP_EOL.PHP_EOL;
     $last_line = PHP_EOL;//'?'.'>';
 	  $Fnm = $getcwd.$up.$safedir.'_full_strings_'.$lg.'.php';
 		$inF = fopen($Fnm,"w+");

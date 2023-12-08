@@ -146,7 +146,7 @@ if ($logged_in === true) {
           				$content .= ' <a onmousedown="tinyMCE.execCommand(\'mceInsertContent\',false,\'['.$key.']\');" href="javascript:;">['.$key.']</a> ';
         		}
         		if ($mod_priv === true)
-  $content .= '<br /><div><div style="float:left;"><label for="contPriv"> <b> '.$privilegeString.' : </b></label> &nbsp;</div>'.gen_inputcheck($tblenum,((strlen($x)>1)&&in_array('1',explode("|",sql_getone($tblcont,"WHERE contpg='".substr($x,0,-1)."' ","contlogo")))?'1':sql_getone($tblcont,"WHERE contpg='".substr($x,0,-1)."' ","contlogo")),((strlen($x)>1)&&in_array('1',explode("|",sql_getone($tblcont,"WHERE contpg='".substr($x,0,-1)."' ","contlogo")))?'':"%' AND enumtitre!='1' AND enumtype LIKE '%"),'privilege')."</div><!--<div class='clear'></div>--> <br />";
+  $content .= '<br /><div><div style="float:left;"><label for="contPriv"> <b> '.$privString.' 149: </b></label> &nbsp;</div>'.gen_inputcheck($tblenum,((strlen($x)>1)&&in_array('1',explode("|",sql_getone($tblcont,"WHERE contpg='".substr($x,0,-1)."' ","contlogo")))?'1':sql_getone($tblcont,"WHERE contpg='".substr($x,0,-1)."' ","contlogo")),((strlen($x)>1)&&in_array('1',explode("|",sql_getone($tblcont,"WHERE contpg='".substr($x,0,-1)."' ","contlogo")))?'':"%' AND enumtitre!='1' AND enumtype LIKE '%"),'privilege')."</div><!--<div class='clear'></div>--> <br />";
   $content .= '<br /><label for="contTitle"> <b>'.$titreString.'</b> <!-- ('.$saufString.' '.$accueilString.')  --></label> <input type="text" name="contTitle" value="'.(isset($contType)?$contType:'').'" style="width: 97%" /><br />';
   $content .= '<br /><div id="metadescToggle">META DESCRIPTION & KEYWORDS (1 line) (click to edit)<hr /></div><div id="metadescZone"><label for="contMetadesc"> <b>'.$descriptionString.'</b> </label><br /><textarea name="contMetadesc" rows="3" cols="40" style="width: 97%; height: 50px; min-height: 50px;">'.($contGet["contmetadesc"]==""?$desc:$contGet["contmetadesc"]).'</textarea><br /><label for="contMetakeyw"> <b>keywords</b> </label><br /><textarea name="contMetakeyw" rows="3" cols="40" style="width: 97%; height: 50px; min-height: 50px;">'.($contGet["contmetakeyw"]==""?$keyw:$contGet["contmetakeyw"]).'</textarea><hr /></div>';
   $content .= '<label for="contEntry"> <b>'.$descriptionString.'</b> '.(isset($contType)&&($contType=='toplinks')?'<i> !! edit with HTML !! </i>':'').'</label><br />'.$text_style.'<textarea id="'.($tinyMCE===false?'uldescription':'elm1').'" name="contEntry" rows="20" cols="40" style="width: 97%; height: 300px; min-height: 300px;">'.(isset($contType)&&($contType=='toplinks')?'<div style="float:left;overflow:hidden;width:110px;margin-left:-25px;"><ul><li><a title="MediaVince" href="https://www.mediavince.com/" target="_blank">MediaVince</a></li></ul></div> <ul><li><a title="MediaVince" href="https://www.mediavince.com/" target="_blank">MediaVince</a> <br /></li><li><span class="current"> '.$codename.' </span> &rsaquo;</li></ul>':'').'</textarea><p>'.$text_style.'</p>';
@@ -161,7 +161,7 @@ if ($logged_in === true) {
   $content .= '<br /> <br /></form>';
 
   			} else { // adminpriv denied
-  $content = '<div style="background-color: #FA5;width: 90%;border: 1px solid red;padding: 5px;margin: 5px;text-align:center;">'.ucfirst($accesString.' '.$refuseString).' >> '.$privilegeString.' || <a href="javascript:history.back()//">'.$retourString.'</a></div>';
+  $content = '<div style="background-color: #FA5;width: 90%;border: 1px solid red;padding: 5px;margin: 5px;text-align:center;">'.ucfirst($accesString.' '.$refuseString).' >> '.$privString.' || <a href="javascript:history.back()//">'.$retourString.'</a></div>';
       		}
 
 		} else { // update
@@ -195,7 +195,7 @@ $content .= '<label for="contType"> <b>'.$pageString.' (empty = default '.$titre
         		$priv_param0 = ((strlen($x)>1)&&in_array('1',explode("|",sql_getone($tblcont,"WHERE contpg='".substr($x,0,-1)."' ","contlogo")))?$contPriv:((strlen($x)>1)&&in_array('1',explode("|",$contPriv))?sql_getone($tblcont,"WHERE contpg='".substr($x,0,-1)."' ","contlogo"):$contPriv));
         		$priv_param1 = ((strlen($x)>1)&&in_array('1',explode("|",sql_getone($tblcont,"WHERE contpg='".substr($x,0,-1)."' ","contlogo")))?'':((strlen($x)>1)&&in_array('1',explode("|",$contPriv))?'':(strlen($x)>1?"%' AND enumtitre!='1' AND enumtype LIKE '%":'')));
         		if ($mod_priv === true)
-$content .= '<div><div style="float:left;"><label for="contPriv"> <b> '.$privilegeString.' : </b></label> &nbsp;</div>'.gen_inputcheck($tblenum,$priv_param0,$priv_param1,'privilege')."</div><!--<div class='clear'></div>--><br /> <br />";
+$content .= '<div><div style="float:left;"><label for="contPriv"> <b> '.$privString.' :198 </b></label> &nbsp;</div>'.gen_inputcheck($tblenum,$priv_param0,$priv_param1,'priv')."</div><!--<div class='clear'></div>--><br /> <br />";
 $content .= '<label for="contTitle"> <b>'.$titreString.'</b> <!-- ('.$saufString.' '.$accueilString.')  --></label><input type="text" name="contTitle" value="'.$contGet["conttitle"].'" style="width:97%;" /><br />';
 $content .= '<br /><div id="metadescToggle">META DESCRIPTION & KEYWORDS (1 line) (click to edit)<hr /></div><div id="metadescZone"><label for="contMetadesc"> <b>'.$descriptionString.'</b> </label><br /><textarea name="contMetadesc" rows="3" cols="40" style="width: 97%;height:50px;min-height:50px;">'.($contGet["contmetadesc"]==""?$desc:$contGet["contmetadesc"]).'</textarea><br /><label for="contMetakeyw"> <b>keywords</b> </label><br /><textarea name="contMetakeyw" rows="3" cols="40" style="width:97%;height:50px;min-height:50px;">'.($contGet["contmetakeyw"]==""?$keyw:$contGet["contmetakeyw"]).'</textarea><hr /><br /></div>';
 
@@ -270,10 +270,10 @@ $content .= '</div></form>';
 	  		$contType = strip_tags($contType);
 	  		$contOrient = strip_tags($contOrient);
 	  		$contPriv = "";
-	  		$array_priv = sql_array($tblenum,"WHERE enumwhat='privilege' AND enumstatut='Y' ".((strlen($x)>1)&&in_array('1',explode("|",sql_getone($tblcont,"WHERE contpg='".substr($x,0,-1)."' ","contlogo")))?'':" AND enumtitre!='1' ")." ","enumtitre");
+	  		$array_priv = sql_array($tblenum,"WHERE enumwhat='priv' AND enumstatut='Y' ".((strlen($x)>1)&&in_array('1',explode("|",sql_getone($tblcont,"WHERE contpg='".substr($x,0,-1)."' ","contlogo")))?'':" AND enumtitre!='1' ")." ","enumtitre");
 	  		if ($array_priv[0] !== "") {
 	  		  	foreach($array_priv as $key)
-	  		   		if (isset($_POST["privilege".$key]) && ($_POST["privilege".$key] == 'on'))
+	  		   		if (isset($_POST["priv".$key]) && ($_POST["priv".$key] == 'on'))
 	  		      		$contPriv .= $key."|";
         		$contPriv = substr($contPriv,0,-1);
 		    } else {

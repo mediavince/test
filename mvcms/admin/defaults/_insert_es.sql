@@ -162,7 +162,7 @@ INSERT INTO `_string` (`stringid`, `stringpg`, `stringlang`, `stringtype`, `stri
 (NULL, '', 'es', 'general', 'pouraccespriv', ' to access protected contents'),
 (NULL, '', 'es', 'general', 'prenom', 'Firstname'),
 (NULL, '', 'es', 'general', 'private', 'private'),
-(NULL, '', 'es', 'general', 'privilege', 'viewing privilege'),
+(NULL, '', 'es', 'general', 'priv', 'viewing privilege'),
 (NULL, '', 'es', 'general', 'profession', 'Profession'),
 (NULL, '', 'es', 'general', 'profil', 'Profile'),
 (NULL, '', 'es', 'general', 'protected', 'protected'),

@@ -13,14 +13,15 @@ if (isset($nlid) && preg_match("/^[0-9]{0,3}-[0-9]{0,5}\$/", $nlid)) {
 	$membreUtil = $nl_membreid[1]." ".$nl_membreid[2];
 } else {
 	$nl_newsletterid = sql_get($tblnewsletter, " WHERE newsletterstatut='Y' ORDER BY newsletterdate DESC LIMIT 0, 1 ","newsletterid, newslettersujet, newslettercontent");
-  $nldata[0] = ($nl_newsletterid[0]=='.'?'':$nl_newsletterid[0]);
+    $nldata[0] = ($nl_newsletterid[0]=='.'?'':$nl_newsletterid[0]);
 }
 
 if ($nl_newsletterid[0] == $nldata[0]) {
-  $_mod_newsletter .= '<b>'.$nl_newsletterid[1].'</b><br /> <br />';
-  $_mod_newsletter .= $nl_newsletterid[2];//$chermembre.
+    $_mod_newsletter .= '<b>'.$nl_newsletterid[1].'</b><br /> <br />';
+    $_mod_newsletter .= $nl_newsletterid[2];//$chermembre.
 } else if (sql_nrows($tblnewsletter," WHERE newsletterstatut='Y' ")==0) {
-  $_mod_newsletter .= '';//'<b>0 '.$enregistrementString.'</b><br /> <br />';
+    $_mod_newsletter .= '';//'<b>0 '.$enregistrementString.'</b><br /> <br />';
 } else {
-  Header("Location: $redirect");Die();
+    Header("Location: $redirect");
+    Die();
 }

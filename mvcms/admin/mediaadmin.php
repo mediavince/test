@@ -335,9 +335,7 @@ if ($logged_in === true) {
 							$values = "";
 							foreach($array_lang as $keylg) {
 								if ($keylg == $default_lg) {
-									sql_updateone($tblcontphoto,
-						"SET contphotorid=contphotoid, contphotolang='$default_lg' ",
-						"WHERE contphotoid='".$insertread[0]."' ","");
+									sql_updateone($tblcontphoto,"SET contphotorid=contphotoid, contphotolang='$default_lg' ","WHERE contphotoid='".$insertread[0]."' ");
 								} else {
 									$values .= ($values==''?'':',')
 									."(NULL,'Y',$dbtime,'$keylg','".$insertread[0]
@@ -520,14 +518,11 @@ if ($logged_in === true) {
 					if (!$insertquery) {
 						$error_img .= $error_request.'<br />';
 					} else {
-						$insertread = sql_get($tblcontdoc,"WHERE contdoc='$contdoc' ",
-								"contdocid,contdocutil,contdoccontid,contdoc,contdocdesc");
+						$insertread = sql_get($tblcontdoc,"WHERE contdoc='$contdoc' ","contdocid,contdocutil,contdoccontid,contdoc,contdocdesc");
 						$values = "";
 						foreach($array_lang as $keylg) {
 							if ($keylg == $default_lg) {
-								sql_updateone($tblcontdoc,
-									"SET contdocrid=contdocid, contdoclang='$default_lg' ",
-									"WHERE contdocid='".$insertread[0]."' ","");
+								sql_updateone($tblcontdoc,"SET contdocrid=contdocid, contdoclang='$default_lg' ","WHERE contdocid='".$insertread[0]."' ");
 							} else {
 								$values .= ($values==''?'':',')
 										."(NULL,'Y',$dbtime,'$keylg','".$insertread[0]

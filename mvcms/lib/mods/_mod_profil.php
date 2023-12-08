@@ -380,9 +380,9 @@ if ($admin_viewing === true) {
   	$_mod_content .= gen_form($lg,$x);
 
   	if ($logged_in === true) {
-  	  $_mod_content .= $modificationString.' '.$pourString.' '.$user_name.' ('.$privilegeString.': ';
+  	  $_mod_content .= $modificationString.' '.$pourString.' '.$user_name.' ('.$privString.': ';
       foreach($user_priv as $key)
-      $_mod_content .= sql_stringit('privilege',$key)." ";
+      $_mod_content .= sql_stringit('priv',$key)." ";
       $_mod_content .= ')<br /> <br /><div style="text-align:right;width:550px;margin:0 auto;"><div style="text-align:right;">';
       if ($pwdtochange === true) {
         $_mod_content .= '<br /><label for="pass"><b>> '.ucfirst($nouveauString.' '.$motdepasseString).' ('.$obligatoireString.')</b></label> <input name="pass" type="password" value="" /><br />';

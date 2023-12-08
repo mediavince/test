@@ -82,5 +82,3 @@ $div_alogin
 </div>
 
 ";
-
-?>

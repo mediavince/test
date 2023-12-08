@@ -18,5 +18,3 @@ $max_sqrt = 2020;
 $max_session_mail_count = "3";
 $now_time = time();
 $getcwd = "";
-
-?>

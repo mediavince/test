@@ -22,15 +22,16 @@ if (isset($_POST['tpl']))
 
 if (isset($_POST['tpl']) && in_array($tpl,$array_templates_parsed)) { // vars are represented as \$var
   $first_line_old = '<'.'?PHP if (stristr($_SERVER[\'PHP_SELF\'],\'_tpl_'.$tpl.'.php\') || !isset($this_is)) {include\'_security.php\';Header("Location: $redirect");Die();}';
-  $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))) {include\'_security.php\';Header("Location: $redirect");Die();}'.PHP_EOL;
+  $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))) {include\'_security.php\';Header("Location: $redirect");Die();}'
+    .PHP_EOL.PHP_EOL;
   $file_check = "_tpl_$tpl.php";
-  $last_line = PHP_EOL.'?'.'>';
+  $last_line = PHP_EOL; //.'?'.'>';
 } else { // vars are normal $var
   $first_line_old = '<'.'?PHP if (stristr($_SERVER[\'PHP_SELF\'],\''.(isset($tpl) && in_array($tpl,$array_templates_notparsed)?'_tpl_'.$tpl.'.php':'_template.php').'\')){include\'_security.php\';Header("Location: $redirect");Die();}'.(isset($tpl) && in_array($tpl,$array_templates_notparsed)?'$_tpl_'.$tpl:'$_template').' = "";'.PHP_EOL;
   $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))){include\'_security.php\';Header("Location: $redirect");Die();}'
     .PHP_EOL.(isset($tpl) && in_array($tpl,$array_templates_notparsed)?'$_tpl_'.$tpl:'$_template').' = "";'.PHP_EOL;
   $file_check = (isset($tpl) && in_array($tpl,$array_templates_notparsed)?"_tpl_$tpl.php":"_template.php");
-  $last_line = PHP_EOL.'?'.'>';
+  $last_line = PHP_EOL; //.'?'.'>';
 }
 
 // lists all the texts strings appearing on site

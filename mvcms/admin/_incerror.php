@@ -551,7 +551,7 @@ function sql_stringit($type,$title)
 }
 
 
-function sql_update($dbtable,$setq,$where,$getrow)
+function sql_update($dbtable,$setq,$where,$getrow="*")
 {
     global $connection;
     $sql = mysqli_query($connection, "UPDATE $dbtable $setq $where");
@@ -566,7 +566,7 @@ function sql_update($dbtable,$setq,$where,$getrow)
     return $sql_update;
 }
 
-function sql_updateone($dbtable,$setq,$where,$getrow)
+function sql_updateone($dbtable,$setq,$where,$getrow="*")
 {
     global $connection;
     $sql = mysqli_query($connection, "UPDATE $dbtable $setq $where");
@@ -584,7 +584,12 @@ function sql_updateone($dbtable,$setq,$where,$getrow)
 function sql_nrows($dbtable,$where)
 {
     global $connection;
-    $sql = mysqli_query($connection, "SELECT * FROM $dbtable $where");
+    $q = "SELECT * FROM $dbtable $where";
+    $sql = mysqli_query($connection, $q);
+    if (!$sql) {
+        error_log("########### sql error with query: $q called from: ".var_dump(debug_backtrace()[1], true));
+        return 0;
+    }
     return mysqli_num_rows($sql);
 }
 
@@ -1366,7 +1371,11 @@ function insertDiv() {
 // ##########\/\/\/\/\/ NOT FULL  SEE BELOW \/\/\/\/\/######################## option select
 function gen_selectoption($table,$selected,$type,$what,$show_count=null)
 {
-    global $connection, $dbtable, $trace, $lg, $optionselected, $tblenum, $tblstring, $this_is, $nRowsThis_is, $nRowsThis_isy, $nRowsThis_isn, $fieldis, $toutString, $achoisirString;
+    global $connection, $dbtable, $trace, $lg, $optionselected, $tblenum, $tblstring, $this_is, $nRowsThis_is, $nRowsThis_isy, $nRowsThis_isn, $fieldis, $toutString, $achoisirString, $array_fields;
+    $_field = ($fieldis?$fieldis:($this_is?$this_is:substr($dbtable, 1)));
+    if (empty($array_fields))
+        $array_fields = sql_fields($dbtable,'array');
+    $lang_filter = (in_array($_field."lang",$array_fields)?$_field."lang='$lg' ":'');
     $selectoptions = '';
     if (is_array($table)) {
         if (in_array($selected,array('ajout','0','',null)))
@@ -1392,7 +1401,7 @@ function gen_selectoption($table,$selected,$type,$what,$show_count=null)
             if ($row["enumtitre"] == $selected) $this_select = $optionselected;
             else  $this_select = '';
             $editwhat = sql_getone($tblstring, " WHERE stringlang='$lg' AND stringtype='$what' AND stringtitle='$row_enumtitre' ", "stringentry");
-            $sql_this = " WHERE ".$fieldis.$what."='$row_enumtitre' ";
+            $sql_this = " WHERE ".$_field.$what."='$row_enumtitre' ".($lang_filter?" AND $lang_filter ":'');
             $countwhat = sql_nrows($dbtable,$sql_this);
             $selectoptions .= '<option value="'.$row_enumtitre.'" '.$this_select.'>'.($show_count!=null?($countwhat==''?'(0)':'('.$countwhat.')'):'').' '.$editwhat.' </option>';
         }
@@ -1453,7 +1462,11 @@ function gen_selectoption($table,$selected,$type,$what,$show_count=null)
 // ########## full option select
 function gen_fullselectoption($table,$selected,$type,$what,$str_type=null)
 {
-    global $connection, $dbtable, $trace, $lg, $optionselected, $tblcont, $tblenum, $tblstring, $this_is, $nRowsThis_is, $nRowsThis_isy, $nRowsThis_isn, $fieldis, $toutString, $achoisirString;
+    global $connection, $dbtable, $trace, $lg, $optionselected, $tblcont, $tblenum, $tblstring, $this_is, $nRowsThis_is, $nRowsThis_isy, $nRowsThis_isn, $fieldis, $toutString, $achoisirString, $array_fields;
+    $_field = ($fieldis?$fieldis:($this_is?$this_is:substr($dbtable, 1)));
+    if (empty($array_fields))
+        $array_fields = sql_fields($dbtable,'array');
+    $lang_filter = (in_array($_field."lang",$array_fields)?$_field."lang='$lg' ":'');
     if (!$str_type) $str_type = 'general';
     $selectoptions = '<select class="text" name="'.$what.'">';
     if (is_array($table)) {
@@ -1502,7 +1515,7 @@ function gen_fullselectoption($table,$selected,$type,$what,$str_type=null)
                     $this_select = '';
                 }
                 $editwhat = sql_get($tblstring, " WHERE stringlang='$lg' AND stringtype='$what' AND stringtitle='$row_enumtitre' ", "stringentry");
-                $sql_this = " WHERE ".$fieldis."statut='Y' AND ".$fieldis."type='$what' AND ".$fieldis.$what."='$row_enumtitre' ";
+                $sql_this = " WHERE ".$_field."statut='Y' AND ".$_field."type='$what' AND ".$_field.$what."='$row_enumtitre' ".($lang_filter?" AND $lang_filter ":'');
                 $countwhat = sql_nrows($dbtable,$sql_this);
                 $selectoptions .= '<option value="'.$row_enumtitre.'" '.$this_select.'>';
                 if	(!$countwhat == '')	$selectoptions .= '('.$countwhat.')'	;
@@ -1585,26 +1598,20 @@ function gen_fullselectoption($table,$selected,$type,$what,$str_type=null)
 // ########## option check
 function gen_inputcheck($table,$checked,$type,$what,$hide_first=null)
 {
-    global $connection, $dbtable, $trace, $lg, $inputchecked, $tblenum, $tblstring, $this_is, $nRowsThis_is, $nRowsThis_isy, $nRowsThis_isn, $fieldis, $toutString, $achoisirString;
+    global $connection, $dbtable, $trace, $lg, $inputchecked, $tblenum, $tblstring, $this_is, $nRowsThis_is, $nRowsThis_isy, $nRowsThis_isn, $fieldis, $toutString, $achoisirString, $array_fields;
+//    $_field = ($fieldis?$fieldis:($this_is?$this_is:substr($dbtable, 1)));
+//    if (empty($array_fields))
+//        $array_fields = sql_fields($dbtable,'array');
+//    $lang_filter = (in_array($_field."lang",$array_fields)?$_field."lang='$lg' ":'');
     if (($checked !== 'ajout') || ($checked !== '')) {
         $checked = explode("|", $checked);
         if (!is_array($checked)) $checked = array($checked);
     }
     $checkedoptions = '';
     if ($table == $tblenum) {
-        $read = mysqli_query($connection, "
-						SELECT * FROM $table
-						WHERE enumstatut='Y'
-						AND enumtype LIKE '%$type%'
-						AND enumwhat LIKE '%$what%'
-						");
-        $nRows = sql_nrows($table, "
-							WHERE enumstatut='Y'
-							AND enumtype LIKE '%$type%'
-							AND enumwhat LIKE '%$what%'
-							");
+        $read = mysqli_query($connection, "SELECT * FROM $table WHERE enumstatut='Y' AND enumtype LIKE '%$type%' AND enumwhat LIKE '%$what%' ");
+        $nRows = mysqli_num_rows($read);
         if (($checked == 'ajout') || ($checked == '')) {
-            //	for ($i=0;$i<$nRows;$i++) {
             $i=0;
             while($row = mysqli_fetch_array($read)) {
                 $iminus = $i-1;
@@ -1621,11 +1628,9 @@ function gen_inputcheck($table,$checked,$type,$what,$hide_first=null)
                 $i++;
             }
         } else {
-            //	for ($i=0;$i<$nRows;$i++) {
             $i=0;
             while($row = mysqli_fetch_array($read)) {
                 $iminus = $i-1;
-                //	$row = mysqli_fetch_array($read);
                 $row_enumtitre = $row["enumtitre"];
                 $row_enumtype[$i] = $row["enumtype"];
                 if	(($i > '0') && ($row_enumtype[$iminus] !== $row["enumtype"]))
@@ -1636,13 +1641,13 @@ function gen_inputcheck($table,$checked,$type,$what,$hide_first=null)
                     $this_check = '';
                 }
                 $editwhat = sql_get($tblstring, " WHERE stringlang='$lg' AND stringtype='$what' AND stringtitle='$row_enumtitre' ", "stringentry");
-                $sql_this = " WHERE ".$fieldis."statut='Y' AND ".$fieldis."type='$what' AND ".$fieldis.$what."='$row_enumtitre' ";
-                $countwhat = sql_nrows($dbtable,$sql_this);
+//                $sql_this = " WHERE ".$_field."statut='Y' AND ".$_field."type='$what' AND ".$_field.$what."='$row_enumtitre' ".($lang_filter?" AND $lang_filter ":'');
+//                $countwhat = sql_nrows($dbtable,$sql_this);
                 if (($hide_first === true) && ($i==0))
                 $checkedoptions .= '<input type="hidden" name="'.$what.$row_enumtitre.'" '.$inputchecked.' />';
                 else
-                $checkedoptions .= '<div class="inputcheck"><label for="'.$what.$row_enumtitre.'"> '.$editwhat[0].' </label><input type="checkbox" name="'.$what.$row_enumtitre.'" '.$this_check.' /></div>';//$what.($i+1)
-                if	(!$countwhat == '')	$checkedoptions .= '('.$countwhat.')'	;
+                $checkedoptions .= '<div class="inputcheck"><label for="'.$what.$row_enumtitre.'"> '.$editwhat[0].' </label><input type="checkbox" name="'.$what.$row_enumtitre.'" '.$this_check.' /></div>';
+//                if	(!$countwhat == '')	$checkedoptions .= '('.$countwhat.')'	;
                 $i++;
             }
         }
@@ -1650,8 +1655,6 @@ function gen_inputcheck($table,$checked,$type,$what,$hide_first=null)
         $whereq = " WHERE ".$what."statut='Y' $type ";
         $read = mysqli_query($connection, " SELECT * FROM $table $whereq ");
         $rid = (in_array($what."rid",sql_fields($table,'array'))?'r':'')."id";
-        $nRows = sql_nrows($table,$whereq);
-        //	for ($i=0;$i<$nRows;$i++) {
         $i=0;
         while($row = mysqli_fetch_array($read)) {
             //	$row = mysqli_fetch_array($read);
@@ -1677,7 +1680,7 @@ function gen_inputcheck($table,$checked,$type,$what,$hide_first=null)
             } else {
                 $row_nomoutitre = $row[$what."util"];
             }
-            $checkedoptions .= '<div class="inputcheck"><label for="'.$what.$row_enumtitre.'"> '.$row_nomoutitre.' </label><input type="checkbox" name="'.$what.$row_enumtitre.'" '.$this_check.' /></div>';//$what.($i+1)
+            $checkedoptions .= '<div class="inputcheck"><label for="'.$what.$row_enumtitre.'"> '.$row_nomoutitre.' </label><input type="checkbox" name="'.$what.$row_enumtitre.'" '.$this_check.' /></div>';
             $i++;
         }
     }
@@ -1688,7 +1691,11 @@ function gen_inputcheck($table,$checked,$type,$what,$hide_first=null)
 // ########## input radio
 function gen_inputradio($table,$checked,$type,$what)
 {
-    global $connection, $error_invmiss, $dbtable, $trace, $lg, $inputchecked, $tblenum, $tblmembre, $tblstring, $this_is, $nRowsThis_is, $nRowsThis_isy, $nRowsThis_isn, $fieldis, $toutString, $achoisirString;
+    global $connection, $error_invmiss, $dbtable, $trace, $lg, $inputchecked, $tblenum, $tblmembre, $tblstring, $this_is, $nRowsThis_is, $nRowsThis_isy, $nRowsThis_isn, $fieldis, $toutString, $achoisirString, $array_fields;
+    $_field = ($fieldis?$fieldis:($this_is?$this_is:substr($dbtable, 1)));
+    if (empty($array_fields))
+        $array_fields = sql_fields($dbtable,'array');
+    $lang_filter = (in_array($_field."lang",$array_fields)?$_field."lang='$lg' ":'');
     if (strstr($checked, "|")) {
         $radiooptions = $error_invmiss.' array passed...<br />';
     } else {
@@ -1706,7 +1713,6 @@ function gen_inputradio($table,$checked,$type,$what)
 								AND enumwhat LIKE '%$what%'
 								");
             if (($checked == 'ajout') || ($checked == '')) {
-                //	for ($i=0;$i<$nRows;$i++) {
                 $i=0;
                 while($row = mysqli_fetch_array($read)) {
                     //	$row = mysqli_fetch_array($read);
@@ -1716,7 +1722,6 @@ function gen_inputradio($table,$checked,$type,$what)
                     $i++;
                 }
             } else {
-                //	for ($i=0;$i<$nRows;$i++) {
                 $i=0;
                 while($row = mysqli_fetch_array($read)) {
                     //	$row = mysqli_fetch_array($read);
@@ -1731,7 +1736,7 @@ function gen_inputradio($table,$checked,$type,$what)
                         $this_check = '';
                     }
                     $editwhat = sql_get($tblstring, " WHERE stringlang='$lg' AND stringtype='$what' AND stringtitle='$row_enumtitre' ", "stringentry");
-                    $sql_this = " WHERE ".$fieldis."statut='Y' AND ".$fieldis."type='$what' AND ".$fieldis.$what."='$row_enumtitre' ";
+                    $sql_this = " WHERE ".$_field."statut='Y' AND ".$_field."type='$what' AND ".$_field.$what."='$row_enumtitre' ".($lang_filter?" AND $lang_filter ":'');
                     $countwhat = sql_nrows($dbtable,$sql_this);
                     $radiooptions .= '<label for="'.$what.'"> '.$editwhat[0].' </label><input type="radio" name="'.$what.'" value="'.$row_enumtitre.'" '.$this_check.' />';//($i+1)
                     if	(!$countwhat == '')	$radiooptions .= '('.$countwhat.')'	;
@@ -1743,10 +1748,8 @@ function gen_inputradio($table,$checked,$type,$what)
             $read = mysqli_query($connection, " SELECT * FROM $table $whereq ");
             $rid = (in_array($what."rid",sql_fields($table,'array'))?'r':'')."id";
             $nRows = sql_nrows($table,$whereq);
-            //	for ($i=0;$i<$nRows;$i++) {
             $i=0;
             while($row = mysqli_fetch_array($read)) {
-                //	$row = mysqli_fetch_array($read);
                 $row_enumtitre = $row["enumtitre"];
                 if (in_array($row[$what.$rid], $checked)) {
                     $this_check = $inputchecked;
@@ -1984,7 +1987,7 @@ class zip
                 $e = '';
                 while($zip_entry = zip_read($zip)) {
                     $zdir = dirname($dest.zip_entry_name($zip_entry));
-                    $zname = $dest.zip_entry_name($zip_entry);
+                    $zname = $dest.zip_entry_name($zip_entry); // @todo fix PHP Warning: zip_open(): Empty string as source
                     if (!zip_entry_open($zip,$zip_entry,"r")) {
                         $e .= "Unable to proccess file '{$zname}'";
                         continue;

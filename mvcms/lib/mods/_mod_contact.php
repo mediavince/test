@@ -36,14 +36,14 @@ if ( isset($send) && ( $send == $envoyerString ) && isset($_SESSION['mail_count'
         }
 	}
 	$gen_message .= '</table>';
-	
+
 	$name = stripslashes(strip_tags($name));
 	$email = is_valid_email(strip_tags($email));
 	$subject = strip_tags(html_encode(stripslashes($subject)));
 	$message = nl2br(strip_tags(html_encode(stripslashes($message))));
 	$md5_post_code = md5($_POST['code']);
-	
-	if ( !$name || ($name == '') || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $name) || 
+
+	if ( !$name || ($name == '') || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $name) ||
     !$email || ($email == '') || !is_email($email) || !is_valid_email($email) ||
     !$subject || !in_array($subject,$array_subject) ||
 		!$message || ($message == '') || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $message) || (strlen($message) > $max_msglen) ||
@@ -109,7 +109,9 @@ if ( isset($send) && ( $send == $envoyerString ) && isset($_SESSION['mail_count'
 	}
 }
 
-session_unregister('antispam_key');
+if (isset($_SESSION['antispam_key']))
+    session_unregister('antispam_key');
+
 /*
 $md5 = md5(microtime(1) * mktime(0,0,0,0,0,0));
 $string = substr($md5,0,rand(5,8));

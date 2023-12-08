@@ -1,7 +1,8 @@
 <?php if (stristr($_SERVER['PHP_SELF'],'_mod_form.php') {include '_security.php';Header("Location: $redirect");Die();}
 
-  $form_mod = '';
-	session_start();
+$form_mod = '';
+session_start();
+
 if ( !isset($send) ) {
   $form_mod .= gen_form($lg,$x).'<div style="width:80%;margin: 0 auto;">
 <div style="float:left;padding:15px;">
@@ -40,9 +41,10 @@ if ( !isset($send) ) {
 	$gen_message = '<table style="width:80%" align="center" border="1" cellpadding="10" cellspacing="5">';
 	for ($i=0;$i<count($array_form);$i++) {
 		$this_form = $array_form[$i];
-		if	( isset($_REQUEST[$this_form]) )	${$this_form} = nl2br(stripslashes(html_encode($_REQUEST[$this_form])))	;
+		if ( isset($_REQUEST[$this_form]) )
+			${$this_form} = nl2br(stripslashes(html_encode($_REQUEST[$this_form])))	;
 		if ($this_form !== 'code')
-		$gen_message .= '<tr><td align="right"><b>'.$this_form.'</b>&nbsp;</td><td>'.${$this_form}.'&nbsp;</td></tr>';
+		    $gen_message .= '<tr><td align="right"><b>'.$this_form.'</b>&nbsp;</td><td>'.${$this_form}.'&nbsp;</td></tr>';
 	}
 	$gen_message .= '</table>';
 //	$trace .= $gen_message;
@@ -55,35 +57,36 @@ if ( !isset($send) ) {
 		preg_match("/^[~%*#§|}{°]+\$/", $message) || !$message || ($message == '') || (strlen($message) > 500) ||
 		((md5($_POST['code']) !== $_SESSION['antispam_key']))
 	) {
-		if ($lg == 'it') $form_mod .= '<p>Per favore compila la scheda a seguire:<ul>';
-		else $form_mod .= '<p>Please check the following errors :<ul>';
+		if ($lg == 'it')
+		    $form_mod .= '<p>Per favore compila la scheda a seguire:<ul>';
+		else
+		    $form_mod .= '<p>Please check the following errors :<ul>';
 		if (!$name || ($name == '') || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $name) )
-		$form_mod .= '<li>'.$nomString.' > '.$error_invmiss.$name.'</li>'	;
+		    $form_mod .= '<li>'.$nomString.' > '.$error_invmiss.$name.'</li>'	;
     	if (!$email || ($email == '') || !is_email($email) )
-		$form_mod .= '<li>'.$emailString.' > '.$error_invmiss.$email.'</li>'	;
+		    $form_mod .= '<li>'.$emailString.' > '.$error_invmiss.$email.'</li>'	;
 		if ( preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $organisation) )
-		$form_mod .= '<li>'.$organisationString.' > '.$error_inv.'<br /> <br /></li>'	;
+		    $form_mod .= '<li>'.$organisationString.' > '.$error_inv.'<br /> <br /></li>'	;
 		if ( !$message || preg_match("/^[@&!?,.:;'`~%*#§|}{°]+\$/", $message) )
-		$form_mod .= '<li>'.$messageString.' > '.$error_invmiss.'<br /> <br /></li>'	;
+		    $form_mod .= '<li>'.$messageString.' > '.$error_invmiss.'<br /> <br /></li>'	;
 		if (  (strlen($message) > 500) )
-		$form_mod .= '<li>'.$messageString.' > '.$error_inv.' :: max. length 500 chars.<br /> <br /></li>'	;
+		    $form_mod .= '<li>'.$messageString.' > '.$error_inv.' :: max. length 500 chars.<br /> <br /></li>'	;
 		if ( (md5($_POST['code']) !== $_SESSION['antispam_key']) )
-		$form_mod .= '<li>Code > '.$error_invmiss.'<br /> <br /></li>'	;
+		    $form_mod .= '<li>Code > '.$error_invmiss.'<br /> <br /></li>'	;
 		if (preg_match("/^[~%*#§|}{°]+\$/", $message))
-		$form_mod .= '<li>'.$messageString.' > '.$error_invmiss.'</li>'	;
+		    $form_mod .= '<li>'.$messageString.' > '.$error_invmiss.'</li>'	;
 		$form_mod .= '</ul><br /> <br /><p><a href="javascript:history.back()//">'.$retourString.'</a></p>';
 	} else {
 		$message = '<html><body>'.$gen_message.'</body></html>';
 		$confirm_sub = $codename.' :: '.$subject;	// .' :: '.$messageString.' '.$envoyeString.' !';
 		$confirm_msg = '<html><body><a href='.$mainurl.'>'.$cologo.'</a>'.$name.',<!-- <br /> <br />Grazie --><br /> <br />'.$codename.' '.$repondraString.' '.$bientotString.' '.$surString.' "<i>'.$subject.'</i>"<br /> <br /><a href='.$mainurl.'>'.$cosite.'</a></body></html>';
 		$this_email = $coinfo;
-//	Email that gets sent to you.
+        //	Email that gets sent to you.
 		$sendmail = mail($this_email, $subject, $message, "From: $email <$email>".$mail_headers);
-			mail($email, $confirm_sub, $confirm_msg, "From: $coname <$coinfo>".$mail_headers);
-		if (!$sendmail) {
+        if (!$sendmail) {
 			$form_mod .= $error_request.'<p><a href="javascript:history.back()//">'.$retourString.'</a></p>';
 		} else {
-// Email that gets sent to them.
+            // Email that gets sent to them.
 			mail($email, $confirm_sub, $confirm_msg, "From: $coname <$coinfo>".$mail_headers);
 			$form_mod .= '<font color="Green"><b>'.$messageString.' '.$envoyeString.'</b></font><br /> <br />';
 		}

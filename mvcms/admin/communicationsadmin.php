@@ -18,7 +18,7 @@ if (!isset($sender)) {
   }
 }
 
-$array_communications_mail = sql_array($tblenum,"WHERE enumwhat='privilege' AND enumtitre!='1' ","enumtitre");
+$array_communications_mail = sql_array($tblenum,"WHERE enumwhat='priv' AND enumtitre!='1' ","enumtitre");
 //$dbtable = "$tbladmin,$tbluser";
 $dbtable = "$tbluser";
 /*
@@ -30,7 +30,7 @@ $sql_user = " (userstatut='Y'
 						  AND userdate!='0000-00-00 00:00'
 						  AND (useremail!='$default_email' OR useremail!='')) ";
 
-$read = mysqli_query($connection, "SELECT * FROM $dbtable ");// $sql_admin $sql_user
+$read = mysqli_query($connection, "SELECT * FROM $dbtable WHERE userlang='$lg' ");// $sql_admin $sql_user
 $nRows = mysqli_num_rows($read);
 
 if ($nRows == '0') {
@@ -46,7 +46,7 @@ if ($nRows == '0') {
     $communications2who = array();
 		if ($array_communications_mail[0] !== "") {
 		  foreach($array_communications_mail as $key)
-		    if (isset($_POST["privilege".$key]) && ($_POST["privilege".$key] == 'on'))
+		    if (isset($_POST["priv".$key]) && ($_POST["priv".$key] == 'on'))
 		      $communications2who[] = $key;
 		      /*
 		  if (isset($communications2who[0])&&($communications2who[0]!=''))
@@ -156,19 +156,17 @@ if ($nRows == '0') {
       $communicationsMessage = trim(stripslashes(str_replace("'","&acute;",$_POST['communicationsMessage'])));// same routine as what is in incdb
 			$send = 'new';// reinitializes tinymce
     }
+
+    $inputs = gen_inputcheck($tblenum,(isset($new_communications2who)?implode("|",$new_communications2who):''), "%' AND enumtitre!='1' AND enumtype LIKE '%", 'priv');
+
+    $part_comm_to_who = '<br /><div style="float:left;width:97%;"><label for="communications2who"><b> '.$typeString.' </b></label><br />'.$inputs.'</div>';
     $communications_content .= (stristr($_SERVER['PHP_SELF'],$urladmin)?gen_form($lg,$x,$y):gen_form($lg,$x).'<input type="hidden" name="do" value="tabcontent4" />').'
   <label for="communicationsSender"><b> '.$fromString.' </b></label> 
   <input type="hidden" name="communicationsSender" value="'.(isset($admin_email)?$admin_email:(isset($user_email)?$user_email:'')).'" /><u>'.$sender.' &lt;'.(isset($admin_email)?$admin_email:(isset($user_email)?$user_email:'')).'&gt;</u>
   <br />
   <label for="communicationsSujet"><b> '.$sujetString.' </b></label><br />
   <input class="text" type="text" name="communicationsSujet" size="60" maxlength="60" value="'.(isset($communicationsSujet)?$communicationsSujet:'').'" />
-  <br /><div style="float:left;width:97%;">
-  <label for="communications2who"><b> '.$typeString.' </b></label>
-  <br />
-  <!--<br />
-  <select name="communications2who">'.gen_selectoption($array_communications_mail,'','','privilege').'</select>
-  <br />-->'.gen_inputcheck($tblenum,(isset($new_communications2who)?implode("|",$new_communications2who):''),"%' AND enumtitre!='1' AND enumtype LIKE '%",'privilege').'
-  </div>
+  '.$part_comm_to_who.'
   <hr /><br />
   <label for="communicationsMessage"><b> '.$messageString.' </b></label>
   '.($tinyMCE===false?$text_style_js:'').'<br /><textarea id="elm'.($i_elm>=-1?$i_elm+=1:'').'" name="communicationsMessage" rows="20" cols="40" style="width: 97%; height: 300px; min-height: 300px;">'.(isset($communicationsMessage)?format_edit($communicationsMessage,'edit'):'').'</textarea>
