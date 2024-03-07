@@ -8,6 +8,11 @@ if (!isset($array_fixed_modules))
 else
     $array_fixed_modules = array_unique(array_merge(array("contact","profil"),$array_fixed_modules));
 
+$defaults_dir = "defaults/";
+$mods_dir = "mods/";
+if (!is_dir($getcwd.$up.$safedir.$mods_dir))
+    mkdir($getcwd.$up.$safedir.$mods_dir);
+
 if (isset($_POST['mod']))
     $mod = stripslashes($_POST['mod']);
 
@@ -16,23 +21,24 @@ $content .= '<div class="selectHead">'.gen_form($lg,$x,$y).gen_fullselectoption(
 if ((isset($_POST['newmod']) && ($_POST['newmod'] != '')) || isset($_POST['mod'])) {
     if (!isset($mod))
         $mod = stripslashes($_POST['newmod']);
-    $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))){include \'_security.php\';Header("Location: $redirect");Die();}'
-	    .PHP_EOL.PHP_EOL;
-
-    $file_check = "mods/_mod_$mod.php";
-    $last_line = PHP_EOL; //.'?'.'>';
+    $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))){include \'_security.php\';Header("Location: $redirect");Die();}';
+    $file_check = $mods_dir."_mod_$mod.php";
+    $last_line = ''; //.'?'.'>';
 }
 
 if (!isset($send)) {
     $content .= '<div class="selectHead">'.gen_form($lg,$x,$y).'<input name="send" type="submit" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /><br /> <br />';
     $module = '';
-    if (isset($file_check))
+    if (isset($file_check)) {
+        error_log("=> checking ".$getcwd.$up.$safedir.$file_check);
         if (@file_exists($getcwd.$up.$safedir.$file_check)) {
             $module = substr(str_replace($last_line,"",file_get_contents($getcwd.$up.$safedir.$file_check)),strlen($first_line));
         } else {
-            if (@file_exists($getcwd.$up.$urladmin.'defaults/mods/'.$file_check))
-                $module = substr(str_replace($last_line,"",file_get_contents($getcwd.$up.$urladmin.'defaults/mods/'.$file_check)),strlen($first_line));
+            error_log("=> checking ".$getcwd.$up.$urladmin.$defaults_dir.$file_check);
+            if (@file_exists($getcwd.$up.$urladmin.$defaults_dir.$file_check))
+                $module = substr(str_replace($last_line,"",file_get_contents($getcwd.$up.$urladmin.$defaults_dir.$file_check)),strlen($first_line));
         }
+    }
     if (isset($mod))
         $content .= '<input type="hidden" name="mod" value="'.$mod.'" />';
     else
@@ -45,17 +51,15 @@ if (!isset($send)) {
     }
     $module = $_POST['module'];
     $update_rapport = '';
-    if (strstr($module,"<?") || strstr($module,"?>"))
+    if (strstr($module,"<"."?") || strstr($module,"?".">"))
         $update_rapport .= 'no php tags allowed!';
     if ($update_rapport != '') {
         $error .= '<b>'.$enregistrementString.' '.$nonString.' '.$modifieString.'</b><br /> <br />'.$update_rapport.'<br /> <br />';
     } else {
-        if (!is_dir($getcwd.$up.$safedir.'mods'))
-            mkdir($getcwd.$up.$safedir.'mods');
         $Fnm = $getcwd.$up.$safedir.$file_check;
         $inF = fopen($Fnm,"w+");
         $module = str_replace("+$/","+\\$/",stripslashes($module));
-        $module = $first_line.$module.$last_line;
+        $module = $first_line.PHP_EOL.$module.$last_line;
         fwrite($inF,$module);
         fclose($inF);
         $notice .= '<b>'.$enregistrementString.' '.$effectueString.' '.(isset($mod)?$pourString.' '.$mod:'').'</b>';

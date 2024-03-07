@@ -18,67 +18,60 @@ $array_templates = array_unique(array_merge($array_templates_parsed,$array_templ
 $content .= '<div class="selectHead">'.gen_form($lg,$x,$y).'<input type="submit" name="" value="site_template" />'.(isset($array_templates[1])?' | <input type="submit" name="tpl" value="'.implode($array_templates,'" /> | <input type="submit" name="tpl" value="').'" />':'').'</form></div>';
 
 if (isset($_POST['tpl'])) 
-  $tpl = stripslashes($_POST['tpl']);
+    $tpl = stripslashes($_POST['tpl']);
 
 if (isset($_POST['tpl']) && in_array($tpl,$array_templates_parsed)) { // vars are represented as \$var
-  $first_line_old = '<'.'?PHP if (stristr($_SERVER[\'PHP_SELF\'],\'_tpl_'.$tpl.'.php\') || !isset($this_is)) {include\'_security.php\';Header("Location: $redirect");Die();}';
-  $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))) {include\'_security.php\';Header("Location: $redirect");Die();}'
-    .PHP_EOL.PHP_EOL;
-  $file_check = "_tpl_$tpl.php";
-  $last_line = PHP_EOL; //.'?'.'>';
+    $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))){include \'_security.php\';Header("Location: $redirect");Die();}';
+    $file_check = "_tpl_$tpl.php";
+    $last_line = ''; //.'?'.'>';
 } else { // vars are normal $var
-  $first_line_old = '<'.'?PHP if (stristr($_SERVER[\'PHP_SELF\'],\''.(isset($tpl) && in_array($tpl,$array_templates_notparsed)?'_tpl_'.$tpl.'.php':'_template.php').'\')){include\'_security.php\';Header("Location: $redirect");Die();}'.(isset($tpl) && in_array($tpl,$array_templates_notparsed)?'$_tpl_'.$tpl:'$_template').' = "";'.PHP_EOL;
-  $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))){include\'_security.php\';Header("Location: $redirect");Die();}'
-    .PHP_EOL.(isset($tpl) && in_array($tpl,$array_templates_notparsed)?'$_tpl_'.$tpl:'$_template').' = "";'.PHP_EOL;
-  $file_check = (isset($tpl) && in_array($tpl,$array_templates_notparsed)?"_tpl_$tpl.php":"_template.php");
-  $last_line = PHP_EOL; //.'?'.'>';
+    $first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))){include \'_security.php\';Header("Location: $redirect");Die();}'
+        .(isset($tpl) && in_array($tpl,$array_templates_notparsed)?'$_tpl_'.$tpl:'$_template').' = "';
+    $file_check = (isset($tpl) && in_array($tpl,$array_templates_notparsed)?"_tpl_$tpl.php":"_template.php");
+    $last_line = '";'; //.'?'.'>';
 }
 
-// lists all the texts strings appearing on site
 if (!isset($send)) {
-  $content .= '<div class="selectHead">'.gen_form($lg,$x,$y).'<input name="send" type="submit" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /><br /> <br />';
-  if (file_exists($getcwd.$up.$safedir.$file_check)) {
-  //  $template = str_replace($last_line,"",file_get_contents($getcwd.$up.$safedir.$file_check,NULL,NULL,strlen($first_line)));
-    $template = substr(str_replace($last_line,"",file_get_contents($getcwd.$up.$safedir.$file_check)),strlen($first_line));
-  } else {
-  //  $template = str_replace($last_line,"",file_get_contents($getcwd.$up.$urladmin.'defaults/'.$file_check,NULL,NULL,strlen($first_line)));
-    $template = substr(str_replace($last_line,"",file_get_contents($getcwd.$up.$urladmin.'defaults/'.$file_check)),strlen($first_line));
-  }
-	if (isset($tpl)) {
-    if (in_array($tpl,$array_templates_parsed)) {
-      $template = str_replace('"\$','"\\\\$',$template);
-      $template = str_replace('\"','\\\\"',$template);
-      $template = str_replace("\'","\\\\'",$template);
-      $template = str_replace('&','&amp;',$template);
+    $content .= '<div class="selectHead">'.gen_form($lg,$x,$y).'<input name="send" type="submit" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /><br /> <br />';
+    $filecontent = (file_exists($getcwd.$up.$safedir.$file_check)?
+                    file_get_contents($getcwd.$up.$safedir.$file_check):
+                    file_get_contents($getcwd.$up.$urladmin.'defaults/'.$file_check));
+//    $template = substr(str_replace($last_line,"",$filecontent),strlen($first_line));
+    $template = str_replace($last_line,"",str_replace($first_line,"",$filecontent));
+    if (isset($tpl)) {
+        if (in_array($tpl,$array_templates_parsed)) {
+            $template = str_replace('"\$','"\\\\$',$template);
+            $template = str_replace('\"','\\\\"',$template);
+            $template = str_replace("\'","\\\\'",$template);
+            $template = str_replace('&','&amp;',$template);
+        }
+        $content .= '<input type="hidden" name="tpl" value="'.$tpl.'" />';
     }
-    $content .= '<input type="hidden" name="tpl" value="'.$tpl.'" />';
-  }
-  $content .= '<label for="template">> template '.(isset($tpl)&&in_array($tpl,$array_templates_parsed)?$tpl.' (these regex are accepted and translated: \\\$,\\\\\',\\\",&amp; encodes as &amp;amp;)':' enclosed in double quotes, use standard html with \', escaping done automatically, use \" for conditions only !').' </label> <textarea name="template" rows="30" cols="30" style="width:98%;height:100%;">'.$template.'</textarea><br /><input name="send" type="submit" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /></form></div>';
-// update the strings
+    $content .= '<label for="template">> template '.(isset($tpl)&&in_array($tpl,$array_templates_parsed)?$tpl.' (these regex are accepted and translated: \\\$,\\\\\',\\\",&amp; encodes as &amp;amp;)':' enclosed in double quotes, use standard html with \', escaping done automatically, use \" for conditions only !').' </label> <textarea name="template" rows="30" cols="30" style="width:98%;height:100%;">'.$template.'</textarea><br /><input name="send" type="submit" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /></form></div>';
 } else if ($send == $envoyerString) {
-  if (!$_POST){Header("Location: $redirect");Die();}
-    $template = $_POST['template'];
-  if (strstr($template,"<?") || strstr($template,"<?"))
-    $update_rapport = 'no php tags allowed!';
-  else
-    $update_rapport = '';
-	if ($update_rapport != '') {
-    $content .= '<br /><p style="text-align: center"><font color="Green"><b>'.$enregistrementString.' '.$nonString.' '.$modifieString.'</b></font><br /> <br />'.$update_rapport.'<br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
-	} else {
-	  $Fnm = $getcwd.$up.$safedir.$file_check;
-		$inF = fopen($Fnm,"w+");
-		if (isset($tpl) && in_array($tpl,$array_templates_parsed)) {
-      $template = str_replace('"$','"\\$',stripslashes($template));
-    } else {
-      $template = stripslashes($template);
+    if (!$_POST) {
+        Header("Location: $redirect");Die();
     }
-		$template = $first_line.
-                $template.
-                $last_line;
-		fwrite($inF,$template);
-		fclose($inF);
-  $content .= '<br /><p style="text-align:center;color:green;font-weight:bold;">'.$enregistrementString.' '.$effectueString.' '.(isset($tpl)?$pourString.' '.$tpl:'').'</p>';
-  //<br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a>';
+    $template = $_POST['template'];
+    if (strstr($template,"<"."?") || strstr($template,"?".">"))
+        $update_rapport = 'no php tags allowed!';
+    else
+        $update_rapport = '';
+    if ($update_rapport != '') {
+        $content .= '<br /><p style="text-align: center"><font color="Green"><b>'.$enregistrementString.' '.$nonString.' '.$modifieString.'</b></font><br /> <br />'.$update_rapport.'<br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a></p>';
+    } else {
+        $Fnm = $getcwd.$up.$safedir.$file_check;
+        $inF = fopen($Fnm,"w+");
+        if (isset($tpl) && in_array($tpl,$array_templates_parsed)) {
+            $template = str_replace('"$','"\\$',stripslashes($template));
+        } else {
+            $template = stripslashes($template);
+        }
+        $template = $first_line.PHP_EOL.$template.$last_line;
+        fwrite($inF,$template);
+        fclose($inF);
+        $content .= '<br /><p style="text-align:center;color:green;font-weight:bold;">'.$enregistrementString.' '.$effectueString.' '.(isset($tpl)?$pourString.' '.$tpl:'').'</p>';
+        //<br /> <br /><a href="?lg='.$lg.'&amp;x='.$x.'&amp;y='.$y.'">'.$retourString.' '.$verslisteString.' '.$detexteString.'</a>';
 	}
 } else {
 	Header("Location: $redirect");Die();

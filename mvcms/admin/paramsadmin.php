@@ -4,9 +4,7 @@ if (stristr($_SERVER['PHP_SELF'], basename(__FILE__))){include '_security.php';H
 if (!stristr($_SERVER['PHP_SELF'],'_install.php'))
 $content .= $admin_menu;
 
-$first_line_old = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'],\'_params.php\')){include\'_security.php\';Header("Location: $redirect");Die();}';
-$first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))){include\'_security.php\';Header("Location: $redirect");Die();}'
-	.PHP_EOL.PHP_EOL;
+$first_line = '<'.'?php if (stristr($_SERVER[\'PHP_SELF\'], basename(__FILE__))){include\'_security.php\';Header("Location: $redirect");Die();}';
 $last_line = PHP_EOL; //.'?'.'>';
 
 $update_rapport = '';
@@ -124,7 +122,7 @@ if (!isset($send)) {
 			mkdir($getcwd.$up.$safedir);
 	  	$Fnm = $getcwd.$up.$safedir.'_params.php';
 		$inF = fopen($Fnm,"w+");
-		$params = $first_line.stripslashes($params).$last_line;
+		$params = $first_line.PHP_EOL.stripslashes($params).$last_line;
 		fwrite($inF,$params);
 		fclose($inF);
   		$content .= '<br /><p style="text-align: center"><font color="Green"><b>params : '.$enregistrementString.' '.$effectueString.'</b></font></p>';

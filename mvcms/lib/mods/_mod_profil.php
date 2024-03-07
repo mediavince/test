@@ -528,4 +528,3 @@ if ($admin_viewing === true) {
   }
 ####################################### CREATE NEW ENTRY WITH VALIDATION
 $_mod_profil = ($logged_in===true?$_mod_content:'<div style="margin:0 auto;width:40%;text-align:right;">'.gen_form($lg).$form_login.'</div>');
-?>

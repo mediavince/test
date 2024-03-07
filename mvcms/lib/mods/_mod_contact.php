@@ -123,4 +123,3 @@ $_mod_content .= gen_form($lg,$x).'<div class="contactform"><div class="leftfiel
 	.'" class="imgspam" /></div><div class="rightfields"><label for="subject"><b>> '.$sujetString.' </b></label><br /><select class="text" name="subject" width="150">'.gen_selectoption($array_subject,(isset($subject)?$subject:''),'','').'</select><p><label for="message"><b>> '.$messageString.'</b></label><br /><textarea name="message" cols="25" rows="11" maxlength="'.$max_msglen.'">'.format_edit((isset($message)?$message:''),'edit').'</textarea></p></div><div style="text-align:left"><input type="submit" name="send" value="'.$envoyerString.'" /> | <input type="reset" value="Reset" /></div></div><div class="clear"></div></form>';
 
 $_mod_contact = $_mod_content;
-?>
